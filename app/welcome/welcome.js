@@ -1,7 +1,6 @@
 app_welcome(pid);
 
 function app_welcome(_pid) {
-    $(".welcome-version").text(System.version);
     $("#winc" + _pid).css("width", "300px");
     $("#winc" + _pid).delegate(".welcome-detail", "click", function () {
         $("#winc" + _pid).resizable({

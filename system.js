@@ -57,6 +57,7 @@ function Load() {
     });
     //電源管理
     $(".power-button").click(function () {
+        $("#notifications").hide("drop", { direction: "right" }, 300);
         $("section, header, footer, #kit-wallpaper").css("filter", "blur(5px)");
         $("#kit-power").fadeIn(300);
     });
@@ -103,6 +104,7 @@ function Load() {
     });
     //ランチャー起動
     $("#launch").click(function () {
+        $("#notifications").hide("drop", { direction: "right" }, 300);
         if ($("#launcher").is(":visible")) {
             $("#kit-wallpaper").css("filter", "none");
             $("#desktop-" + currentDesktop).show();
@@ -149,58 +151,6 @@ function launch(str, args) {
     }
 }
 
-/*
-function appData(data) {
-    console.log(data);
-    app[data.id] = data;
-    var pid = processID;
-    $("#tasks").append("<span id='t" + pid + "'><span class='"+data.icon+"'></span>" + data.name + "</span>");
-    //タスクバーのクリック挙動
-    $("#t" + pid).addClass("task").click(function(){
-        $("#w"+pid).css("z-index", "9900");
-        min(pid);
-    });
-    $("#t" + pid).addClass("task").on("mouseenter", function () {
-        $("#task-ctx-name").text(data.name);
-        $("#task-ctx-ver").text(data.version + "/pid:" + pid);
-        $("#task-ctx-close").off().on("click", function () { close(String(pid)) });
-        $("#task-ctx-min").off().on("click", function () { min(String(pid)) });
-        $("#task-ctx-kill").off().on("click", function () { kill(this.id) });
-        var _ctxleft = $("#t" + pid).offset().left;
-        if (_ctxleft != $("#task-ctx").offset().left) {
-            $("#task-ctx").hide();
-        }
-        $("#task-ctx").css("left", _ctxleft).show();
-    });
-    $("section, #kit-tasks").on("mouseenter", function(){
-        $("#task-ctx").fadeOut(200);
-    });
-    $("#t" + pid).hover(function(){
-        prevWindowIndex = $("#w"+pid).css("z-index");
-        $("#w"+pid).addClass("win-highlight");
-        //$("#w"+pid).css("z-index", "9000");
-    },function(){
-        $("#w"+pid).removeClass("win-highlight");
-        //$("#w"+pid).css("z-index", prevWindowIndex);
-    });
-    $("#desktop-" + currentDesktop).append("<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wtitle" + pid + "'><span id='wt"+pid+"'></span>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'>" + data.view[0].default + "</div></div>");
-    var windowPos = 50 + (pid % 10) * 20;
-    $("#w" + pid).addClass("window").draggable({ cancel: ".winc", stack: ".window" }).css("left", windowPos + "px").css("top", windowPos + "px");
-    $("#wt" + pid).addClass("wt " + data.icon);
-    $("#wm" + pid).addClass("wm fa fa-window-minimize").click(function () { min(String(pid)) });
-    $("#wx" + pid).addClass("wx fa fa-times").click(function () { close(String(pid)) });
-    $("#winc" + pid).resizable({
-        minWidth: "200"
-    });
-
-    processID++;
-    localStorage.setItem("kit-pid", processID);
-
-
-    //スクリプト読み込み
-    $.getScript("./app/" + data.id + ".js");
-}
-*/
 function appData(data) {
     var pid = processID;
     process[String(pid)] = data;
@@ -318,7 +268,7 @@ function appDefine() {
 
 //システムクラス
 const System = new function () {
-    this.version = "0.0.0";
+    this.version = "0.0.1";
     this.username = localStorage.getItem("kit-username");
 
     this.appCache = {};
