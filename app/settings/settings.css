@@ -1,0 +1,68 @@
+.winc-settings{
+    padding: 8px;
+}
+
+.settings-wallpapers{
+    text-align: center;
+    display: inline-block;
+    margin : 4px;
+}
+.settings-wallpapers img{
+    display: block;
+    max-width: 150px;
+    margin: 2px;
+}
+
+.winc-settings .textbox{
+    width: 350px;
+    font-size: 14px;
+}
+
+.settings-default{
+    float: left;
+    margin-right: 10px;
+}
+
+.winc-settings h3{
+    padding: 5px 0px;
+}
+.settings-advanced-envar{
+    width: 100%;
+    max-height: 350px;
+    /*
+    overflow-y: scroll;
+    overflow-x: hidden;
+    */
+}
+.winc-settings .settings-envar1{
+    font-weight: 900;
+    display: inline;
+    background: #d0d0d0;
+    padding: 0px 4px;
+}
+.winc-settings .settings-envar2{
+    border-bottom : 2px solid #d0d0d0;
+}
+.winc-settings .settings-advanced-envar .kit-hyperlink{
+    float: right;
+    margin-right: 10px;
+}
+
+#settings-envar-key, #settings-envar-val{
+    width: 150px;
+    margin-bottom: 10px;
+}
+.winc-settings textarea{
+    background: white;
+    height: 120px;
+}
+.settings-open-userpage .fa-user{
+    color: dodgerblue;
+    font-size: 38px;
+    margin: 8px;
+    float: left;
+}
+.settings-open-userpage #settings-user-username{
+    font-size: 20px;
+    font-weight: 600;
+}

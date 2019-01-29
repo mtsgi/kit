@@ -1,0 +1,670 @@
+
+@font-face {
+    font-family: "Noto";
+    src: url("fonts/NotoSansMonoCJKjp-Regular.otf");
+}
+body {
+	margin: 0px;
+	font-size: 16px;
+	font-family: 'Noto Sans JP', sans-serif;
+	overscroll-behavior: none;
+}
+*::selection{
+	background: rgba(0,0,0,.0);
+}
+#kit-wallpaper{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background: url("./system/wallpaper/2001.png");
+	background-size: cover;
+}
+section {
+	position: absolute;
+	top : 30px;
+	left: 0px;
+	width: 100%;
+	height: calc(100% - 70px);
+	display: none;
+	transition: 1s all ease;
+}
+
+.selected-section{
+	transform: scale(0.8);
+	background: rgba(0,0,0,.2);
+	box-shadow: 0px 0px 5px rgba(0,0,0,.5);
+}
+.selected-section:before{
+	color: #ffffff;
+	text-shadow: 0px 0px 3px black;
+	top : -40px;
+	font-size: 20px;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	content:"Desktop"
+}
+
+#desktop-0 {
+	display: block;
+}
+#desktop-l{
+	padding: 20px 0;
+	font-weight: 100;
+	font-size: 24px;
+	color: white;
+	text-align: center;
+	text-shadow: 0px 1px 4px black;
+	background: rgba(0,0,0,.5);
+	box-sizing: border-box;
+	top: 0px;
+	height: 100%;
+}
+#lock-unl{
+	display: block;
+	cursor: pointer;
+	font-size: 16px;
+	margin: 20px;
+}
+#lock-unl:hover{
+	color: cyan;
+}
+#lock-unl span{
+	display: block;
+	font-size: 32px;
+}
+#lock-username{
+	margin: 10px;
+	font-size: 40px;
+}
+#lock-user-icon{
+	display: inline-block;
+	background : white;
+	width: 100px;
+	height: 100px;
+	margin-top: 15px;
+	border-radius: 999px;
+	box-shadow: 0px 1px 10px 0 rgba(0,0,0,.5), inset 0px -2px 15px 5px rgba(255,255,255,.4);
+	border: 3px solid #ffffff;
+}
+#lock-user-icon:after{
+	content: "";
+	display: inline-block;
+	background : rgba(255,255,255,.2);
+	box-shadow: 0px 1px 10px 0px rgba(0,0,0,.1);
+	width: 100px;
+	height: 50px;
+	border-radius: 999px 999px 0px 0px;
+}
+#desktop-l .textbox{
+	border: none;
+	padding: 10px;
+}
+.fas, .fa{
+	font-weight: 100;
+	line-height: 100%;
+}
+.fa:before{
+	font-weight: 700;
+}
+header{
+	z-index: 9996;
+	box-sizing: border-box;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	background: -moz-linear-gradient(45deg, rgba(204,255,216,1) 0%, rgba(212,246,255,1) 38%, rgba(255,219,238,1) 100%);
+	background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(204,255,216,1)), color-stop(38%, rgba(212,246,255,1)), color-stop(100%, rgba(255,219,238,1)));
+	background: -webkit-linear-gradient(45deg, rgba(204,255,216,1) 0%, rgba(212,246,255,1) 38%, rgba(255,219,238,1) 100%);
+	background: -o-linear-gradient(45deg, rgba(204,255,216,1) 0%, rgba(212,246,255,1) 38%, rgba(255,219,238,1) 100%);
+	background: -ms-linear-gradient(45deg, rgba(204,255,216,1) 0%, rgba(212,246,255,1) 38%, rgba(255,219,238,1) 100%);
+	background: linear-gradient(45deg, rgba(204,255,216,1) 0% rgba(212,246,255,1) 38%, rgba(255,219,238,1) 100%);
+	padding : 3px;
+	color: #000000;
+	box-shadow: 0px 0px 5px rgba(0,0,0,.3);
+	opacity: .9;
+}
+header #header-right{
+	float: right;
+}
+header a{
+	cursor: pointer;
+	padding : 3px 4px;
+}
+header a:hover{
+	text-shadow: 0px 1px 3px dodgerblue;
+}
+#kit-milp{
+	display: none;
+	position: fixed;
+	background: #ffffff;
+	padding-top: 38px;
+	padding-bottom: 4px;
+	left: 100px;
+	width: 216px;
+	border-radius: 0px 0px 6px 6px;
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,.4);
+}
+#kit-milp a{
+	padding: 0px 6px;
+	display: block;
+	cursor: default;
+	overflow: hidden;
+}
+#kit-milp a:hover{
+	background: skyblue;
+}
+#kit-milp-launch:before{
+	content: "起動："
+}
+#kit-milp-search:before{
+	content: "Web検索："
+}
+#kit-milp-tweet:before{
+	content: "Tweet："
+}
+.home-icon:before{
+	line-height: 0px;
+	display: block;
+	font-size: 30px;
+	height : 25px;
+}
+.home-icon{
+	font-size: 14px;
+	display: inline-block;
+	color: white;
+	text-shadow: 0px 1px 2px black;
+	cursor: default;
+	margin : 10px 0px;
+	padding : 5px;
+	border-radius: 6px;
+	text-align: center;
+	width: 100px;
+}
+.home-icon:hover{
+	background: rgba(255,255,255,.5);
+}
+.home-fa{
+	margin-bottom: 5px;
+	display: block;
+	font-size: 32px;
+}
+footer{
+	z-index: 9999;
+	background: -moz-linear-gradient(top, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(179,220,237,1)), color-stop(50%, rgba(41,184,229,1)), color-stop(100%, rgba(188,224,238,1)));
+	background: -webkit-linear-gradient(top, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+	background: -o-linear-gradient(top, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+	background: -ms-linear-gradient(top, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+	background: linear-gradient(to bottom, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
+	width : 100%;
+	min-height: 45px;
+	position: fixed;
+	left: 0px;
+	bottom: -5px;
+	box-sizing: border-box;
+	box-shadow: 0px 0px 8px rgba(0,0,0,.4);
+	border-top : 5px solid #ffffff;
+	padding-left: 58px;
+}
+footer #launch{
+	cursor: pointer;
+	position: fixed;
+	bottom: -2px;
+	left: -2px;
+	background: dodgerblue;
+	border: 2px solid white;
+	color: white;
+	padding: 16px;
+	border-radius: 0px 7px 0px 0px;
+	transition: .2s all ease;
+}
+footer #launch:hover{
+	transform: scale(1.1);
+	box-shadow: inset 0px 50px 0 0 rgba(0,0,0,.5), 0px 0px 5px 0 rgba(0,0,0,.5);
+}
+footer .task{
+	cursor: default;
+	box-sizing: border-box;
+	display: inline-block;
+	background: #ffffff;
+	padding: 5px 4px;
+	border-top : 5px solid #303030;
+	width: 200px;
+	margin : 0px 4px;
+	box-shadow: inset -200px 0px 0px 0px #e0e0e0, inset 200px 0px 0px 0px #e0e0e0;
+	transition: .2s all ease;
+	position: relative;
+	top : -5px;
+}
+footer .task:hover{
+	box-shadow: inset 0px 0px 0px 0px #ccc, inset 0px 0px 0px 0px #ccc;
+	border-top : 5px solid dodgerblue;
+}
+footer .task:active{
+	transition: 0s;
+}
+footer .task img{
+	float: left;
+	height : 24px;
+	width : 24px;
+	margin-right: 4px;
+}
+footer .task-min{
+	font-weight: 900;
+}
+footer .task-min:after{
+	content: "";
+	display: inline-block;
+	background: limegreen;
+	float: right;
+	margin-top: 5px;
+	width: 12px;
+	height: 12px;
+	border: 2px solid #404040;
+	border-radius: 3px;
+}
+#footer-noti{
+	position: absolute;
+	cursor: pointer;
+	padding: 6px;
+	right : 4px;
+	bottom : 5px;
+}
+#footer-noti:hover{
+	text-shadow: 0px 1px 3px dodgerblue;
+}
+#footer-tasks{
+	color: white;
+	text-shadow: 0px 1px 3px black;
+	position: absolute;
+	cursor: pointer;
+	font-size: 22px;
+	padding: 6px 5px;
+}
+#footer-tasks:hover{
+	text-shadow: 0px 1px 3px dodgerblue;
+}
+#notifications{
+	z-index: 9996;
+	display: none;
+	box-sizing: border-box;
+	position: fixed;
+	right: 0px;
+	height: 100%;
+	width: 300px;
+	background: rgba(255,255,255,.7);
+	box-shadow: 0px 0px 60px 0px rgba(0,0,0,.4);
+	padding: 40px 8px 50px 8px;
+}
+#notifications .notis{
+	cursor: default;
+	border: 1px solid #a0a0a0;
+	padding: 4px;
+	border-radius: 5px;
+	margin: 6px 4px;
+	background: #ffffff;
+}
+#notifications .notis:hover{
+	border: 1px solid #505050;
+	box-shadow: 0px 1px 5px 0px rgba(0,0,0,.3);
+}
+.notis > span{
+	display: block;
+	font-weight: 700;
+}
+#tasks{
+	padding-left: 38px;
+}
+.window{
+	position: absolute;
+	box-shadow: 0px 2px 10px 0px rgba(0,0,0,.5);
+	border-radius : 4px;
+	background: rgba(255,255,255,.9);
+	min-width : 200px;
+	max-width: 100%;
+	padding : 0px;
+	cursor: default;
+	background: -moz-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
+  background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(255,201,248,1)), color-stop(55%, rgba(186,239,255,1)), color-stop(100%, rgba(150,255,157,1)));
+  background: -webkit-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
+  background: -o-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
+  background: -ms-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
+  background: linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
+}
+section .ui-draggable-dragging{
+	box-shadow: 0px 2px 10px 0px rgba(0,0,0,.5), 0px 0px 0px 8px rgba(30,70,255,.6);
+}
+.win-highlight{
+	box-shadow: 0px 2px 10px 0px rgba(0,0,0,.5), 0px 0px 0px 8px rgba(255,30,70,.6);
+}
+.wt{
+	display: inline-block;
+	color: #000000;
+	font-size: 17px;
+	padding-top: 3px;
+}
+.wt:before{
+	color: white;
+	text-shadow: 0px 1px 2px black;
+}
+.wt img{
+	width: 22px;
+	height: 22px;
+	float: left;
+	margin: 3px;
+}
+.wm{
+	padding: 8px 8px;
+	position: absolute;
+	right: 30px;
+}
+.wm:hover{
+	background: #fff;
+	color: black;
+}
+.wx{
+	cursor: default;
+	padding: 8px 10px;
+	float: right;
+	position: absolute;
+	right: 0px;
+}
+.wx:hover{
+	background: #ff0000;
+	color: white;
+	border-radius: 0px 4px 0px 0px;
+}
+.winc{
+	box-sizing: border-box;
+	border-top : 1px solid #757575;
+	color: #000000;
+	background: #ffffff;
+	border-radius: 0px 0px 4px 4px;
+	padding : 5px;
+	overflow : hidden;
+}
+.kit-button{
+	display: inline-block;
+	cursor: default;
+	border-radius: 4px;
+	line-height: 200%;
+	background: dodgerblue;
+	color: #ffffff;
+	padding: 1px 10px;
+	margin: 1px 2px;
+	text-decoration: none;
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,.3), inset 0px 0px 2px 0px rgba(255,255,255,.5);
+}
+.kit-button:hover{
+	background: rgb(17, 111, 204);
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,.5), inset 0px 0px 2px 0px rgba(0,0,0,.5);
+}
+.kit-button:active{
+	box-shadow: none;
+	padding: 2px 10px 0px 10px;
+}
+.kit-selectable{
+	  cursor: text;
+}
+.kit-selectable *::selection, .kit-selectable::selection{
+    background: dodgerblue;
+    color: white;
+}
+#task-ctx{
+	z-index: 9998;
+	display: none;
+	position: absolute;
+	bottom: 0px;
+	background: rgba(222,222,222,.9);
+	width: 200px;
+	left : 74px;
+	box-sizing: border-box;
+	padding : 6px;
+	padding-bottom: 45px;
+	border : 2px solid white;
+	border-radius: 5px 5px 0px 0px;
+	box-shadow: 0px 2px 8px 0px rgba(0,0,0,.2);
+}
+#task-ctx-name{
+	font-size: 18px;
+}
+#task-ctx-ver{
+	font-size: 14px;
+	padding-bottom : 5px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid gray;
+}
+#task-ctx a{
+	cursor: default;
+	display: block;
+	border-bottom : 2px solid transparent;
+}
+#task-ctx a:hover{
+	color: dodgerblue;
+	border-bottom: 2px solid dodgerblue;
+}
+#task-ctx-img{
+	float: left;
+	height : 26px;
+	max-width: 30px;
+}
+
+#milp{
+	outline: none;
+	width: 200px;
+	font-family: 'Noto Sans JP', sans-serif;
+	position: absolute;
+	top:0px;
+	border: none;
+	font-size: 16px;
+	padding: 1px 8px;
+	color: #fff;
+	background: #444;
+	border-bottom: 4px solid yellow;
+	margin: 0px 4px;
+	font-weight: 100;
+}
+h3{
+	font-size: 20px;
+	margin: 0px;
+	font-weight: normal;
+}
+.btn{
+	cursor: pointer;
+	border: 1px solid gray;
+	margin: 4px 0px;
+	padding: 2px 4px;
+	border-radius: 5px;
+	background: #f0f0f0;
+}
+.btn:hover{
+	border: 1px solid black;
+	background: #e0e0e0;
+}
+.little{
+	font-size: 14px;
+}
+.textbox{
+	outline: none;
+	border: 1px solid #000000;
+	font-size: 16px;
+	padding: 4px;
+	box-shadow: inset 1px 1px 1px 0px rgba(0,0,0,.4);
+	border-radius: 5px;
+	font-family: 'Noto Sans JP', sans-serif;
+}
+.textbox::selection{
+    background: dodgerblue;
+    color: white;
+}
+.task-name{
+	font-family: 'Noto Sans JP', sans-serif;
+}
+.kit-hyperlink{
+	color: dodgerblue;
+	text-decoration: underline;
+	cursor: pointer;
+}
+#kit-power{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	z-index: 10000;
+	background: rgba(0,0,0,0.6);
+	text-align: center;
+}
+#kit-power a{
+	cursor: pointer!important;
+	display: block;
+	font-size: 30px;
+	font-weight: 100;
+	padding: 10px 0;
+	color: white;
+	transition: .1s all ease;
+}
+#kit-power a:hover{
+	transform: scale(1.1);
+	text-shadow: 0px 0px 30px cyan, 0px 0px 18px cyan, 0px 0px 8px cyan;
+}
+#kit-power a:after{
+	display: block;
+	font-size: 16px;
+}
+#kit-power-shutdown:after{
+	content: "アプリケーションを全て終了してシステムを終了します";
+}
+#kit-power-reboot:after{
+	content: "シャットダウンし、再びシステムを起動します";
+}
+#kit-power-suspend:after{
+	content: "起動中のアプリケーションの情報を保持して終了します";
+}
+#kit-power-lock:after{
+	content: "ユーザーからログアウトしロック画面を表示します";
+}
+#kit-tasks{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	background: rgba(0,0,0,.8);
+	padding: 20px;
+	padding-bottom: 120px;
+	overflow: scroll;
+}
+#kit-tasks:before{
+	content: "実行中のアプリケーション ( クリックで強制終了 )";
+	display: block;
+	color: #ffffff;
+}
+#kit-tasks .task{
+	cursor: pointer;
+	display: inline-block;
+	background: #ffffff;
+	padding: 4px 8px;
+	border: 1px solid #000000;
+	border-radius: 5px;
+	width: 150px;
+	box-shadow: 0px 2px 4px 0px rgba(0,0,0,.5);
+	margin: 16px 10px;
+	opacity: .8;
+}
+#kit-tasks .task:hover{
+	opacity: 1.0;
+	transform: scale(1.1);
+	box-shadow: 0px 2px 6px 0px rgba(0,0,0,1);
+}
+#kit-tasks .task:hover:after{
+	content: "クリックして終了";
+	text-align: center;
+	display: block;
+	position: absolute;
+	top : 35px;
+	color: #e0e0e0;
+	width: 150px;
+	font-size: 12px;
+}
+#kit-tasks .task-min:before{
+	content: "";
+	display: inline-block;
+	background: limegreen;
+	float: right;
+	margin-top: 5px;
+	width: 12px;
+	height: 12px;
+	border: 2px solid #404040;
+	border-radius: 3px;
+}
+#kit-tasks .task img{
+	float: left;
+	height: 24px;
+}
+#launcher{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	background: rgba(0,0,0,.4);
+	color: white;
+}
+#launcher-header{
+	font-weight: 100;
+	margin-top: 30px;
+	padding: 10px;
+	font-size: 24px;
+}
+#launcher-header .kit-button{
+	font-size: 18px;
+	float: right;
+}
+#last-notification{
+	z-index: 9995;
+	display: none;
+	position: fixed;
+	background: rgba(255,255,255,.9);
+	padding: 4px;
+	bottom: 54px;
+	right: 12px;
+	width: 200px;
+	border-radius: 4px;
+	cursor: default;
+	box-shadow: 0px 1px 4px 0px rgba(0,0,0,.5);
+}
+#last-notification-close{
+	background: red;
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	float: right;
+	border-radius: 999px;
+	cursor: pointer;
+	opacity: .8;
+}
+#last-notification-title{
+	font-weight: 700;
+}
+#last-notification-content{
+	font-size: 14px;
+}
+#last-notification-app{
+	font-size: 14px;
+	color: #a0a0a0;
+	text-align: right;
+}
+
+
+

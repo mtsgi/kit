@@ -1,0 +1,508 @@
+<!DOCTYPE html>
+<html lang="ja" oncontextmenu="return false">
+
+<head>
+	<meta charset="UTF8" />
+	<title>ikra beta</title>
+	<script src="jquery.min.js"></script>
+	<style type="text/css">
+		body {
+			color: #202020;
+			margin: 0px;
+			padding: 0px;
+			font-size: 16px;
+			background-size: cover;
+			overscroll-behavior: none;
+		}
+
+		header {
+			cursor: default;
+			background: linear-gradient(45deg, #87e0fd 0%, #53cbf1 38%, #05abe0 100%);
+		}
+
+		#menu a {
+			cursor: default;
+			padding: 4px 6px;
+		}
+
+		#menu a:hover {
+			background: rgb(48, 124, 223);
+			color: white;
+		}
+
+		.context {
+			font-size: 14px;
+			position: absolute;
+			z-index: 99;
+			display: none;
+			left: inherit;
+			background: white;
+			padding: 4px 0;
+			box-shadow: 1px 1px 3px rgba(0, 0, 0, .5);
+		}
+
+		.context div {
+			padding: 2px 20px;
+			cursor: default;
+			z-index: 99;
+		}
+
+		.context div:hover {
+			color: white;
+			background: rgb(48, 124, 223);
+		}
+
+		.context aside {
+			font-size: 14px;
+			padding: 1px 6px;
+			color: #606060;
+		}
+
+		iframe {
+			width: 100%;
+			height: calc(100% - 132px);
+			border: none;
+			position: absolute;
+			top: 108px;
+		}
+
+		#tabs {
+			margin-top: 5px;
+			padding: 3px;
+			overflow: scroll;
+		}
+
+		#newtab {
+			cursor: pointer;
+			position: relative;
+			border: 1px solid rgba(0, 0, 0, .5);
+			background: rgba(255, 255, 255, .5);
+			padding: 2px 8px;
+			top: -3px;
+			left: -6px;
+			border-radius: 0px 4px 4px 0px;
+		}
+
+		.tab {
+			cursor: default;
+			border-radius: 6px 6px 0px 0px;
+			margin: 0px 4px;
+			padding: 7px 10px;
+			background: rgba(0, 0, 0, .2);
+		}
+
+		.tab a {
+			cursor: pointer;
+			opacity: 0.3;
+			content: "✕";
+			font-size: 10px;
+			padding: 1px 6px;
+			border-radius: 6px;
+			color: white;
+			background: red;
+			margin: 0px 0px 0px 5px;
+		}
+
+		.tab a:hover {
+			opacity: .9;
+		}
+
+		.active {
+			background: rgba(255, 255, 255, .5);
+		}
+
+		#panel {
+			background: rgba(255, 255, 255, .5);
+			padding: 10px 5px;
+		}
+
+		#panel span {
+			border: 1px solid rgba(0, 0, 0, .5);
+			padding: 5px;
+			border-radius: 5px;
+		}
+
+		#panel span:hover {
+			background: rgba(0, 0, 0, .2);
+		}
+
+		#panel input {
+			outline: 0;
+			display: inline-block;
+			width: calc(100% - 195px);
+			font-size: 14px;
+			padding: 5px;
+			border: 1px solid rgba(0, 0, 0, .5);
+			border-radius: 5px;
+			background: transparent;
+		}
+
+		#panel input:focus {
+			background: rgba(255, 255, 255, .5);
+			border-color: black;
+		}
+
+		footer {
+			text-align: right;
+			position: fixed;
+			box-sizing: border-box;
+			font-size: 13px;
+			padding: 2px;
+			left: 0px;
+			bottom: 0px;
+			width: 100%;
+			background: rgba(0, 0, 0, .2);
+		}
+
+		#about {
+			display: none;
+			position: absolute;
+			top: 30%;
+			padding: 12px;
+			box-sizing: border-box;
+			left: calc(50% - 150px);
+			width: 300px;
+			background: silver;
+			box-shadow: 2px 2px 3px 0 rgba(0, 0, 0, .5), 0px 0px 0px 10000px rgba(0, 0, 0, .8);
+		}
+
+		#about a {
+			cursor: pointer;
+			margin: 2px;
+			float: right;
+			font-size: 14px;
+			color: blue;
+			text-decoration: underline;
+		}
+
+		#about div {
+			font-size: 12px;
+			margin-top: 8px;
+			padding: 6px;
+			background: rgba(255, 255, 255, .5);
+		}
+
+		#tabname {
+			display: none;
+			position: absolute;
+			top: 40px;
+			padding: 12px;
+			box-sizing: border-box;
+			left: calc(50% - 200px);
+			width: 400px;
+			background: linear-gradient(45deg, #87e0fd 0%, #53cbf1 38%, #05abe0 100%);
+			border: 2px solid rgba(255, 255, 255, .5);
+			border-radius: 5px;
+			box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, .5);
+		}
+
+		#newname {
+			outline: 0;
+			display: inline-block;
+			width: calc(100% - 15px);
+			margin-top: 10px;
+			font-size: 14px;
+			padding: 5px;
+			border: 1px solid rgba(0, 0, 0, .5);
+			border-radius: 5px;
+			background: transparent;
+			background: rgba(255, 255, 255, .5);
+		}
+
+		#newname:focus {
+			background: rgba(255, 255, 255, .7);
+			border-color: black;
+		}
+
+		#newname_ok {
+			cursor: default;
+			text-align: center;
+			margin-top: 10px;
+			font-size: 14px;
+			padding: 5px;
+			border: 1px solid rgba(0, 0, 0, .5);
+			border-radius: 5px;
+			background: transparent;
+		}
+
+		#newname_ok:hover {
+			background: rgba(0, 0, 0, .2);
+		}
+
+		#alert {
+			font-size: 14px;
+			display: none;
+			position: absolute;
+			top: 45px;
+			padding: 8px;
+			box-sizing: border-box;
+			left: calc(50% - 150px);
+			width: 300px;
+			background: linear-gradient(45deg, #87e0fd 0%, #53cbf1 38%, #05abe0 100%);
+			border: 2px solid rgba(255, 255, 255, .5);
+			border-radius: 5px;
+			box-shadow: 2px 2px 5px 0 rgba(0, 0, 0, .5);
+			max-height: calc(100% - 100px);
+			overflow: scroll;
+		}
+
+		#alert_title {
+			font-size: 16px;
+			padding-bottom: 5px;
+			margin-bottom: 5px;
+			border-bottom: 1px solid rgba(0, 0, 0, .5);
+		}
+
+		#alert_close {
+			float: right;
+			width: 100px;
+			cursor: default;
+			text-align: center;
+			margin-top: 10px;
+			font-size: 14px;
+			padding: 2px;
+			border: 1px solid rgba(0, 0, 0, .5);
+			border-radius: 5px;
+			background: transparent;
+		}
+
+		#alert_close:hover {
+			background: rgba(0, 0, 0, .2);
+		}
+
+		#alert input {
+			outline: 0;
+			display: inline-block;
+			width: calc(100% - 15px);
+			margin: 5px 0px;
+			font-size: 14px;
+			padding: 5px;
+			border: 1px solid rgba(0, 0, 0, .5);
+			border-radius: 5px;
+			background: transparent;
+			background: rgba(255, 255, 255, .5);
+		}
+
+		#jscon {
+			display: none;
+			outline: 0;
+			position: fixed;
+			background: black;
+			color: limegreen;
+			bottom: 15px;
+			left: 10px;
+			padding: 5px;
+			width: calc(100% - 30px);
+			border: 1px solid white;
+			border-radius: 4px;
+			box-shadow: 0px 1px 3px 0 black;
+		}
+
+		#jscon:before {
+			content: "jsConsole2.0 ";
+		}
+	</style>
+	<script type="text/javascript">
+		$(document).ready(Load);
+
+		var taskv = "タスクの一覧：";
+		for (var i = 0; i < 6; i++) {
+			taskv += "<input type='text' value='task:" + Math.random() + "' disabled>";
+		}
+		var zoom = "ページ表示の拡大率を指定します<input type='text'>10〜1000の整数値で拡大率(単位:%)を入力します";
+		var ua = "任意のユーザーエージェント文字列を指定します<input type='text' value='" + navigator.userAgent + "'>空白で完了するとデフォルトのUA値をセットします";
+		var psrch = "検索する文字列：<input type='text'>";
+		var minim = "最小化の実行中にエラーが発生しました(windowAccessError ikra.kern.app : 1228)。このエラーの詳細について確認するか、レポートを送信することができます。(:d エラーの詳細についてdev.ikra.comで確認する|:r レポートを送信する(-uオプションで最低限の情報のみ送信)|:q 何もしないで完了)<input type='text' value=':q -attr'>";
+
+		function browserFunc() {
+			var iframe = $('iframe').contents();
+			//console.log(iframe.prevObject);
+			$("progress").val($("progress").val() + 1);
+		}
+
+		function Load() {
+			setInterval("browserFunc()", 300);
+			var count = 1;
+			var active = 1;
+			console.log("Hello, ikra!");
+			$("footer").html(navigator.platform);
+			$("#about div").html(navigator.appName + navigator.appVersion);
+			$("#menu a, #download").click(function () {
+				console.log(this.getBoundingClientRect().left);
+				$("#context_" + this.id).css("left", this.getBoundingClientRect().left);
+				$("#context_" + this.id).toggle();
+			});
+			$(".context").click(function () {
+				$(this).hide();
+			});
+			$(".tab").click(function () {
+				$(".tab").removeClass("active");
+				$(this).addClass("active");
+			});
+
+			$(".tab a").click(function () {
+				$(this).parent().hide();
+			});
+
+			$(".tab a").click(function () {
+				$(this).parent().hide();
+			});
+
+			$("#newname_ok").click(function () {
+				$("#tabname").toggle();
+				//$(".tab").html(document.getElementById("newname").value);
+			});
+
+			$("#newtab").click(function () {
+				$("#tabs").append("<span class='tab' id='tab" + count + "'>新しいタブ<a></a></span>");
+				$("#tab" + count).click(function () {
+					$(".tab").removeClass("active");
+					$(this).addClass("active");
+					active = this.id;
+				});
+				$(".tab").dblclick(function () {
+					$("#tabname").toggle();
+					$("#tabname_message").html(this.id + "の名前を変更");
+					document.getElementById("newname").value = this.innerHTML;
+				});
+				$("#tab" + count + " a").click(function () {
+					$(this).parent().hide();
+				});
+				count++;
+			});
+
+			$("*").hover(function () {
+				$("footer").html(this.tagName);
+				if (this.id) $("footer").append("#" + this.id);
+				if (this.value) $("footer").append(" value:" + this.value);
+			});
+		}
+		function exec() {
+			$("iframe").attr("src", document.getElementById("addr").value);
+		}
+
+		function reload() {
+			var src = document.getElementById("fr").src;
+			$("#fr").attr("src", "");
+			$("#fr").attr("src", src);
+		}
+
+		function tabbar() {
+			$("#tabs").toggle();
+			if ($("#tabs").is(":visible")) {
+				$("iframe").css("top", "108px");
+				$("iframe").css("height", "calc(100% - 132px)");
+			}
+			else {
+				$("iframe").css("top", "73px");
+				$("iframe").css("height", "calc(100% - 97px)");
+			}
+		}
+
+		function al(title, text) {
+			$("#alert").hide();
+			$("#alert_title").html(title);
+			$("#alert_text").html(text);
+			$("#alert").show();
+		}
+	</script>
+</head>
+
+<body>
+	<iframe src="newtab.html" id="fr"></iframe>
+	<header>
+		<div id="menu">
+			<a id="file">ファイル</a>
+			<div class="context" id="context_file">
+				<div>タブ管理</div>
+				<div>ファイルを開く</div>
+				<div>名前をつけて保存</div>
+				<div>共有</div>
+				<div onclick="print()">印刷</div>
+			</div>
+			<a id="edit">編集</a>
+			<div class="context" id="context_edit">
+				<div>切り取り</div>
+				<div onclick="document.execCommand('copy')">コピー</div>
+				<div>貼り付け</div>
+				<div onclick="window.getSelection().addRange(document.createRange().selectNodeContents(document.getElementById('menu')));">全て選択</div>
+				<div onclick="al('ページ内検索',psrch)">ページ内検索</div>
+				<div onclick="al('拡張機能なし','キーパッド(keypad.nap)がインストールされていません。ext://kpdから入手できます。')">キーパッド</div>
+			</div>
+			<a id="disp">表示</a>
+			<div class="context" id="context_disp">
+				<div onclick="$('#menu').toggle()">ツールバーの表示</div>
+				<div onclick="tabbar()">タブバーの表示</div>
+				<div onclick="al('拡大率を指定',zoom)">拡大率(100%)</div>
+				<div>ブックマーク</div>
+				<div>拡張機能</div>
+				<div onclick="al('UserAgent',ua)">UserAgent</div>
+			</div>
+			<a id="window">ウィンドウ</a>
+			<div class="context" id="context_window">
+				<div>最大化／解除</div>
+				<div onclick="al('エラー(最小化)',minim)">最小化</div>
+				<div>分割モード(左右)</div>
+				<div>分割モード(上下)</div>
+				<div onclick="location.reload()">ブラウザの再起動</div>
+			</div>
+			<a id="dev">開発</a>
+			<div class="context" id="context_dev">
+				<div>インスペクター</div>
+				<div onclick="$('#jscon').toggle()">JavaScriptコンソール</div>
+				<div>ソース表示</div>
+				<div>DOMツリー</div>
+				<div>AppScript 2.0</div>
+				<div onclick="al('タスクビューア',taskv)">タスクビューア</div>
+			</div>
+			<a id="help">ヘルプ</a>
+			<div class="context" id="context_help">
+				<div>ヘルプ</div>
+				<div onclick="$('#about').toggle(300)">About</div>
+			</div>
+		</div>
+		<div id="tabs">
+			<a id="newtab">+</a>
+			<span class="tab active" id="tab0">新しいタブ<a></a></span>
+		</div>
+		<div id="panel">
+			<span onclick="history.back()">←</span>
+			<span onclick="history.forward()">→</span>
+			<span id="download">⬇</span>
+			<div class="context" id="context_download">
+				<aside>進行中のダウンロード:</aside>
+				<div>p1.pdf<br><progress id="dl_1" max="100" value="28"></progress></div>
+				<aside>完了済のダウンロード:</aside>
+				<div>ダウンロード一覧</div>
+				<div>設定/download</div>
+			</div>
+			<input type="text" value="newtab.html" id="addr">
+			<span onclick="reload()">↻</span>
+			<span onclick="exec()">実行</span>
+		</div>
+	</header>
+	<footer></footer>
+
+	<div id="jscon" contenteditable></div>
+
+	<div id="about">
+		ikra beta 0.12.7
+		<a onclick="al('更新を確認','現在使用しているバージョンは最新バージョンです。')">更新を確認</a>
+		<div onclick="$('#about').hide(300)"></div>
+	</div>
+
+	<div id="tabname">
+		<div id="tabname_message"></div>
+		新しいタブの名前を入力して下さい
+		<input type="text" id="newname">
+		<div id="newname_ok">決定</div>
+	</div>
+
+	<div id="alert">
+		<div id="alert_title">アラート</div>
+		<div id="alert_text">アラートテキストを指定して下さい</div>
+		<div id="alert_close" onclick="$('#alert').hide()">OK</div>
+	</div>
+</body>
+
+</html>

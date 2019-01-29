@@ -1,0 +1,94 @@
+<div class="kit-scroll kit-selectable" data-simplebar>
+    <h3><span class='fa fa-file-invoice'></span> kitドキュメント</h3>
+    kitに関するドキュメントです。kitはJavaScriptベースのカーネルで動作し、HTML/JavaScriptで記述されたアプリケーションを動作させることができます。
+    <br>kitはまだベータ版のため、下記の仕様は変更になる可能性があります。
+
+    <br><br>
+    <h3><span class='fa fa-ban'></span> kitアプリケーションの制約</h3>
+    以下の語はkitシステムやその他に予約されているためアプリケーションの中で使用(定義)することができません。
+    <br>また、他のアプリケーションとの競合を防ぐため、IDやクラス、変数名は「(アプリケーション名)-(名前)」の形式にすることが推奨されます。
+    <div class='document-as'>使用できないタグ</div>
+    <div class='document-bs'>
+            <li>headerタグ</li><li>footerタグ</li><li>sectionタグ</li>
+    </div>
+    代わりに、divタグなどを使用してください。
+    <div class='document-as'>使用できない変数/関数
+    </div>
+    <div class='document-bs'>
+            <li>app[], appCache[]</li><li>Load()</li><li>launch(),close(),kill()</li>
+    </div>
+    システム関数の説明はヘルプを確認してください。
+    <div class='document-as'>使用できないID</div>
+    <div class='document-bs'>
+            <li>#kit-から始まるID</li><li>#desktop-から始まるID</li><li>#desktops, #launch, #notifications</li>
+    </div>
+    <div class='document-as'>使用できないクラス</div>
+    <div class='document-bs'>
+            <li>.window, .wt, .wm, .wx, .wincクラス</li>
+    </div>
+
+    <br>
+    <h3><span class='fa fa-paper-plane'></span> kitアプリケーションを作る</h3>
+    kitアプリケーションを作ってみましょう。<strong>sample</strong>という名前のアプリケーションをつくる場合、次のような最低限のファイル構造が必要です。
+    <div class='document-as'>ディレクトリ構造(kit直下)</div>
+    <div class='document-bs'>
+        app/sample/
+        <li>define.json</li>
+    </div>
+    最初に、kitディレクトリ内の/appにアプリケーションのディレクトリを作成します。define.jsonファイルは必ずアプリケーションディレクトリ直下に置いてある必要があり、アプリ名やアイコンの定義、最初に読み込むファイルやスクリプトの指定などを行います。define.jsonは以下のような構造にします。
+    <div class='document-as'>define.json</div>
+    <div class='document-bs'>{
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"id": "sample",
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"name": "サンプル",
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"icon": "icon.png",
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"version": "1.0.0",
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"author": "私",
+            <br/>
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"view": "default.html",
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"script": "sample.js",
+            <br/>&nbsp;&nbsp;&nbsp;&nbsp;"css": "sample.css"
+            <br/>}
+    </div>
+    <li>id…アプリケーションを参照するための識別子です。他のアプリと衝突しない名称をつけます。</li>
+    <li>name…アプリケーションの名前としてタスクバーやウィンドウなどに表示される名称です(他のアプリと重複しても問題ありません)。</li>
+    <li>icon…アプリケーションディレクトリ直下からの相対パスで画像ファイルを指定します。pngやgifやjpeg、svgなどに対応しています。</li>
+    <li>version…アプリケーションのバージョンを記述します。</li>
+    <li>author…アプリケーションの作者名を記述します(必須ではありません)。</li>
+    <li>view…アプリケーションが最初にロードする画面(.htmlや.txtなど)を指定します。</li>
+    kitアプリケーションはviewで指定したhtmlファイルを最初に読み込みます。scriptでJavaScriptファイルを指定するとスクリプトを走らせることができます(詳細は後述)。次に、cssで指定したスタイルシートファイルを読み込みます。
+
+    <br><br>
+    <h3><span class='fa fa-cat'></span> Hello, world!アプリを作ってみる</h3>
+    「Hello, world!」を表示するだけのアプリケーションを作ってみます。define.jsonで指定したHTMLファイル(default.html)を次のようにします。
+    <div class='document-as'>default.html</div>
+    <div class='document-bs'>
+            Hello,&nbsp;world!
+    </div>
+    これだけで完成です。ファイルが配置できていれば、<a class="kit-hyperlink" onclick="launch('sample')">sampleアプリケーションを実行</a>することができます。icon.pngは、好きな画像にしてみましょう。
+
+    <br><br>
+    <h3><span class='far fa-file-code'></span> 動くアプリを作る</h3>
+    次に、クリックしたらHello, world!が表示されるアプリケーションを作ります。default.htmlの内容を以下のようにしてみます。
+    <div class='document-as'>default.html</div>
+    <div class='document-bs'>
+            &lt;a&nbsp;class=&quot;kit-button&quot;&nbsp;id=&quot;sample-hello&quot;&gt;Click&nbsp;Me!&lt;/a&gt;
+    </div>
+    要素に<strong>kit-button</strong>クラスを要素に付与することで標準スタイルのボタンを配置することができます。<br>
+    <a class="kit-button">ボタンのサンプル</a>
+    <br>次に、この要素にsample-helloというIDを付与しました。他のアプリケーションと競合しないために、sampleアプリケーションのhelloオブジェクトであるという意味で名前をつけます。<br>
+    このボタンをクリックしたらHello, world!というアラートが表示されるようにします。define.jsonで指定したスクリプトファイル(sample.js)ファイルを用意します。
+    <div class='document-as'>sample.js</div>
+    <div class='document-bs'>
+        app_sample(pid);<br>
+        <br>
+        function app_sample(_pid){<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;$("#winc" + _pid + " #sample-hello").click( function(){<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;System.alert("Hello, world!","最初のHello, world!アプリケーションです。")<br>
+        &nbsp;&nbsp;&nbsp;&nbsp;});<br>
+        }
+    </div>
+    ふつうはそのプロセスID(アプリケーションのプロセス一つ一つに振られるID)を引数に取るapp_(アプリケーション名)という関数を定義し、それを1度実行する構造を取ります。<br>
+    関数内で、同プロセスID内の#sample-helloという要素のクリック時の挙動を設定します。Systemクラスのalertメソッドで、タイトルとテキストを引数に指定してアラートを表示させることができます。<br>
+    <a class="kit-hyperlink" onclick="System.alert('アラートのサンプル','アラートはこのように表示されます。')">アラートのサンプル</a><br>
+    なお、ボタンにonclick属性を付与してスクリプトを記述すれば、sample.jsを用いずにアラートを表示することも可能です。
+</div>

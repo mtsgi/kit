@@ -1,0 +1,11 @@
+{
+    "id": "grapes",
+    "name": "Grapes",
+    "icon": "icon.png",
+    "version": "0.12.17",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "grapes.js",
+    "css": ""
+}

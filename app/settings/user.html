@@ -1,0 +1,32 @@
+<script>
+    $("#settings-username").val( localStorage.getItem("kit-username") );
+    $("#settings-user-color").val( localStorage.getItem("kit-user-color") );
+    if( localStorage.getItem("kit-username") ) $("#settings-user-username").text( localStorage.getItem("kit-username") );
+    if( localStorage.getItem("kit-password") ){
+        $(".settings-user-currentpassword").text("設定済みです");
+    }
+    else $(".settings-user-currentpassword").text("未設定です");
+    $(".settings-open-userpage > span").css("color", localStorage.getItem("kit-user-color") );
+</script>
+<a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
+<h3><span class='fa fa-user'></span> ユーザー設定</h3>
+・ユーザー情報
+<div class='btn settings-open-userpage'><span class="fa fa-user"></span><div id="settings-user-username">?</div>ユーザーページを開く</div>
+
+<span class="fa fa-address-card"></span>ユーザー名 <span class="little"> 表示される名前です</span><br>
+<input type='text' class='textbox' id='settings-username'>
+<a class='kit-button settings-username-set'>設定</a><br>
+
+・セキュリティの設定 <span class='little'>パスワードに関する設定</span><br>
+<span class="fa fa-user-lock"></span>パスワード <span class='little'>ロック画面からの復帰に必要です</span><br>
+
+<div class="little"><span class="fa fa-key"></span>現在のパスワード：<span class="settings-user-currentpassword"></span></div>
+
+<input type='password' class='textbox' id='settings-user-password'>
+<a class='kit-button settings-user-password-set'>設定</a>
+
+<br><input type='checkbox' id='settings-user-lockdisp'><label for="settings-user-lockdisp">起動時にロック画面を表示</label>
+<br>
+<span class='fa fa-palette'></span>ユーザーカラー<br>
+<input type='text' class='textbox' id='settings-user-color' placeholder="orangeやrgb(100,0,0)または#ff0050など">
+<a class='kit-button settings-user-color-set'>設定</a>

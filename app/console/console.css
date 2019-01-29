@@ -1,0 +1,41 @@
+.winc-console{
+    padding: 8px;
+    color: #ffffff;
+    background: #000000;
+}
+.winc-console .textbox{
+    background: #000000;
+    color: limegreen;
+    border-color: limegreen;
+    width: calc( 100% - 40px );
+}
+.winc-console .textbox::selection{
+    background-color: limegreen;
+    color: black;
+}
+.winc-console .console-exec{
+    cursor: pointer;
+    float: right;
+    margin: 9px;
+    margin-right: 0px;
+}
+.winc-console .simple-box{
+    border : 1px solid gray;
+    margin-top : 10px;
+    font-size: 13px;
+    padding: 5px;
+    height: 100px;
+    overflow-y: scroll;
+}
+
+.winc-console .simple-box::selection{
+    background-color: limegreen;
+    color: black;
+}
+.winc-console .console-log{
+    color: #a0a0a0;
+}
+.winc-console .console-log::selection{
+    background-color: limegreen;
+    color: black;
+}

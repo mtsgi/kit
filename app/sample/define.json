@@ -1,0 +1,11 @@
+{
+    "id": "sample",
+    "name": "サンプル",
+    "icon": "icon.png",
+    "version": "1.0.0",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "sample.js",
+    "css": "sample.css"
+} 

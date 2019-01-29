@@ -1,0 +1,11 @@
+{
+    "id": "welcome",
+    "name": "ようこそ",
+    "icon": "icon.png",
+    "version": "0.0.0",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "welcome.js",
+    "css": ""
+}

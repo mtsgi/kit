@@ -1,0 +1,11 @@
+{
+    "id": "document",
+    "name": "ドキュメント",
+    "icon": "icon.png",
+    "version": "0.2.1",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "document.js",
+    "css": "document.css"
+}

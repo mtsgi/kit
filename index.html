@@ -1,0 +1,95 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF-8">
+	<title>kitDesktop</title>
+	<script src="system/jquery.min.js"></script>
+	<link rel="stylesheet" href="system/jquery-ui-1.12.1/jquery-ui.min.css">
+	<script src="system/jquery-ui-1.12.1/jquery-ui.min.js"></script>
+	<script src="system/html2canvas.js"></script>
+	<link href="fa/css/all.css" rel="stylesheet">
+	<link href="system/noto.css" rel="stylesheet">
+	<script src="system.js"></script>
+	<link rel="stylesheet" href="system/simplebar.css">
+	<script src="system/simplebar.js"></script>
+	<link href="system/theme/theme-default.css" rel="stylesheet" id="kit-theme-file">
+</head>
+
+<body id="body">
+
+	<div id="kit-wallpaper"></div>
+
+	<section id="desktop-0">
+		<div>Loading</div>
+	</section>
+
+	<section id="desktop-1">
+			<a onclick="launch('welcome')" class="home-icon"><span class="home-fa far fa-comment-dots"></span>ようこそ</a>
+			<a onclick="launch('browser')" class="home-icon"><span class="home-fa fa fa-globe-asia"></span>ブラウザ</a>
+			<a onclick="launch('settings')" class="home-icon"><span class="home-fa fa fa-cogs"></span>設定</a>
+			<a onclick="launch('grapes')" class="home-icon"><span class="home-fa fa fa-laptop-code"></span>Web作成</a>
+	</section>
+
+	<section id="desktop-l">ロックされています<br>
+		<div id="lock-user-icon"></div>
+		<div id="lock-username"></div>
+		<input type="password" id="lock-password" class="textbox">
+		<a id="lock-unl"><span class="fa fa-lock"></span>ロック解除</a>
+	</section>
+
+	<div id="task-ctx">
+		<img src="" id="task-ctx-img">
+		<div id="task-ctx-name">task.name</div><div id="task-ctx-ver">task.version</div>
+		<a id="task-ctx-info">アプリ情報</a>
+		<a id="task-ctx-min">最小化／復元</a>
+		<a id="task-ctx-close">窓を閉じる</a>
+		<a id="task-ctx-kill">アプリ終了</a>
+	</div>
+
+	<div id="launcher">
+			<div id="launcher-header">アプリケーション<a class="kit-button">アプリの管理</a>
+			</div>
+			<div id="launcher-apps"></div>
+	</div>
+
+	<div id="kit-milp">
+			<a id="kit-milp-launch"></a><a id="kit-milp-search"></a><a id="kit-milp-tweet"></a>
+	</div>
+
+	<footer>
+		<a class="fa fa-shapes" id="launch"></a>
+		<a id="footer-tasks" class="fa fa-table"></a>
+		<div id="tasks"></div>
+		<a id="footer-noti"><span class="fas fa-comment-alt"></span> 通知</a>
+	</footer>
+
+	<div id="kit-tasks"></div>
+
+	<div id="last-notification">
+		<a id="last-notification-close"></a><div id="last-notification-title"></div>
+		<div id="last-notification-content"></div><div id="last-notification-app"></div>
+	</div>
+
+	<div id="notifications"></div>
+
+	<header>
+			<a id="desktops"><span class="far fa-clone"></span>Desktop</a>
+			<input type="text" class="kit-selectable" id="milp" placeholder="検索" autocomplete="off">
+			<div id="header-right">
+				<a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
+				<a onclick="launch('clock')"><span class="fas fa-clock"></span><span class="os-time"></span></a>
+				<a class="power-button"><span class="fa fa-power-off"></span>電源</a>
+			</div>
+		</header>
+
+	<div id="kit-power">
+			<a id="kit-power-back">もどる</a>
+			<a id="kit-power-shutdown">シャットダウン</a>
+			<a id="kit-power-reboot">再起動</a>
+			<a id="kit-power-suspend">サスペンド</a>
+			<a id="kit-power-lock">ロック</a>
+	</div>
+</body>
+
+</html>
