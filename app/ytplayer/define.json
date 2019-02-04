@@ -1,0 +1,11 @@
+{
+    "id": "ytplayer",
+    "name": "YouTubePlayer",
+    "icon": "icon.png",
+    "version": "1.0.1",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "ytplayer.js",
+    "css": ""
+}

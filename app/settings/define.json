@@ -1,0 +1,11 @@
+{
+    "id": "settings",
+    "name": "設定",
+    "icon": "icon.png",
+    "version": "0.0.0",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "settings.js",
+    "css": "settings.css"
+}

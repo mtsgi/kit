@@ -1,0 +1,14 @@
+<script>
+    $( "#settings-startup" ).val( localStorage.getItem( "kit-startup" ) );
+</script>
+<a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
+
+<h3>
+    <span class='fa fa-cog'></span> システム設定
+</h3>
+<span class='fa fa-running'></span>スタートアップ<br>
+<div class="little">
+        システムの起動時に自動的に起動するアプリケーションの名前を入力します。複数の場合は半角カンマで区切ります(動作が不安定になる場合があります)。
+</div>
+<input type='text' class='textbox' id='settings-startup'>
+<a class='kit-button settings-startup-set'>設定</a>

@@ -1,0 +1,57 @@
+.winc-browser{
+    padding: 0px;
+}
+.winc-browser iframe{
+    width: 500px;
+    height: 360px;
+    margin: 0px;
+    margin-bottom: -6px;
+    border: none;
+}
+.winc-browser .browser-toolbar{
+    padding: 4px;
+    background: #505050;
+    border-bottom: 1px solid #a0a0a0;
+}
+.winc-browser .btn{
+    border: none;
+    padding: 3px 6px;
+    margin: 0px 2px;
+}
+.winc-browser #browser-url{
+    border: none;
+    background: rgba(255,255,255,.7);
+    font-size: 15px;
+    width: calc( 100% - 122px );
+}
+.winc-browser #browser-url:focus{
+    background: #ffffff;
+}
+.browser-message{
+    display: none;
+    background: white;
+    margin: 3px;
+    padding: 3px;
+    font-size: 14px;
+    border-radius: 4px;
+}
+.browser-menu{
+    display: none;
+    float: right;
+    position: absolute;
+    z-index: 1;
+    right: 0px;
+    background: white;
+    border-radius: 0px 0px 0px 5px;
+    padding: 6px 0;
+    box-shadow: -2px 2px 4px -2px black;
+}
+.browser-menu a{
+    display: block;
+    font-size: 15px;
+    padding: 2px 10px;
+}
+.browser-menu a:hover{
+    background: dodgerblue;
+    color: white;
+}

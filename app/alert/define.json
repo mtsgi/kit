@@ -1,0 +1,11 @@
+{
+    "id": "alert",
+    "name": "アラート",
+    "icon": "icon.png",
+    "version": "0.0.0",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "alert.js",
+    "css": ""
+}

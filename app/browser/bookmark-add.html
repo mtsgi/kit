@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+	<meta charset="UTF8" />
+	<title>ikra beta</title>
+	<script src="jquery.min.js"></script>
+	<style type="text/css">
+		body {
+			background-color: black;
+			color : white;
+			margin: 0px;
+			padding: 10px;
+			font-size: 16px;
+			background: url("bgp.jpg");
+			text-shadow: 0px 1px 4px rgba(0,0,0,.5);
+		}
+		header{
+			font-size: 20px;
+			opacity : .8;
+			padding : 10px;
+			margin-top : 10px;
+		}
+		input{
+			outline: 0;
+			font-size : 20px;
+			border : 1px solid white;
+			border-radius : 6px;
+			padding : 8px;
+			color : white;
+			background : rgba(255,255,255,.3);
+		}
+		a{
+			line-height: 200%;
+			color : white;
+		}
+		#add{
+			background: dodgerblue;
+			color: white;
+			padding: 11px;
+			border-radius: 5px;
+			cursor: pointer;
+		}
+	</style>
+	<script type="text/javascript">
+		$(document).ready(Load);
+		function Load() {
+            var bookmarks = {};
+            if( localStorage["browser-bookmark"] ){
+                bookmarks = JSON.parse(localStorage["browser-bookmark"]);
+            }
+			$("#add").click(function(){
+                if( $("#url").val() == "" || $("#name").val() == "" ){
+                    $("body").append("<br>両方の項目を入力してください。");
+                    return false;
+                }
+                bookmarks[$("#name").val()] = $("#url").val();
+                localStorage["browser-bookmark"] = JSON.stringify(bookmarks);
+                location.href = "bookmark.html";
+			});
+		}
+	</script>
+</head>
+
+<body id="body">
+    <a href="bookmark.html">キャンセル</a>
+    <header>ブックマークの追加</header>
+    名前<br>
+    <input type="text" id="name"><br>
+    URL<br>
+    <input type="text" id="url"><br>
+    <br>
+	<a id="add">追加</a>
+</body>
+
+</html>

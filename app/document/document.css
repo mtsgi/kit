@@ -1,0 +1,28 @@
+.document-content{
+    width: 420px;
+    height: 290px;
+}
+.winc-document .simple-box{
+    border: 1px solid gray;
+    padding: 2px;
+    margin: 2px;
+}
+.document-as{
+    background: #606060;
+    color: white;
+    font-size: 14px;
+    padding: 3px;
+    border-radius: 6px 6px 0px 0px;
+    margin : 0 4px;
+}
+.document-bs{
+    border: 1px solid #606060;
+    margin : 0 4px;
+    padding: 5px;
+    border-radius: 0 0 6px 6px;
+    background: #f0f0f0;
+}
+.winc-document li{
+    margin-left: 20px;
+    list-style-type: square;
+}
