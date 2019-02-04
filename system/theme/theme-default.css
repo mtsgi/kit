@@ -18,7 +18,7 @@ body {
 	left: 0px;
 	height: 100%;
 	width: 100%;
-	background: url("./system/wallpaper/2001.png");
+	background: url("../wallpaper/11.jpg");
 	background-size: cover;
 }
 section {
@@ -219,12 +219,12 @@ footer #launch{
 	border: 2px solid white;
 	color: white;
 	padding: 16px;
-	border-radius: 0px 7px 0px 0px;
+	border-radius: 0px 20px 0px 0px;
 	transition: .2s all ease;
+	box-shadow: inset 0px 0px 5px 0 rgba(255,255,255,.8);
 }
 footer #launch:hover{
-	transform: scale(1.1);
-	box-shadow: inset 0px 50px 0 0 rgba(0,0,0,.5), 0px 0px 5px 0 rgba(0,0,0,.5);
+	padding: 20px 16px;
 }
 footer .task{
 	cursor: default;

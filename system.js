@@ -26,7 +26,7 @@ function Load() {
     for( i in System.startup ) {
         if( System.startup[i] != "" ) launch( System.startup[i] );
     }
-    Notification.push( "通知テスト", processID, "system" );
+    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。pid:" + processID, "system" );
 
     //イベントハンドラ定義
     $( "#desktops" ).click( function() {
@@ -138,6 +138,9 @@ function Load() {
     $( "#kit-milp-launch" ).click( function() {
         launch( $( "#milp" ).val() );
     } );
+    $( "#kit-milp-search" ).click( function() {
+        launch( "browser", "https://www.bing.com/search?q=" + $( "#milp" ).val() );
+    } );
 
     //コンテキストメニュー
     //$("section").contextMenu("contextmenu", function () {
@@ -244,7 +247,7 @@ function appDefine() {
 
 //システムクラス
 const System = new function() {
-    this.version = "0.0.2";
+    this.version = "0.0.3";
     this.username = localStorage.getItem( "kit-username" );
 
     this.appCache = {};

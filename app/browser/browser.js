@@ -33,4 +33,14 @@ function app_browser(_pid){
         $("#winc" + _pid +" #browser-frame").attr("src", "./app/browser/bookmark.html");
         $("#winc" + _pid +" .browser-menu").hide();
     });
+
+    $("#winc" + _pid + " #browser-menu-default").on("click", function(){
+        if( localStorage["kit-default-browser"] == "browser" ){
+            System.alert("設定済み", "ブラウザは既にkitの標準ブラウザに設定されています。");
+        }
+        else{
+            localStorage.setItem("kit-default-browser", "browser");
+            System.alert("設定しました", "ブラウザをkitの標準ブラウザに設定しました。");
+        }
+    });
 }
