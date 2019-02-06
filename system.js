@@ -26,7 +26,7 @@ function Load() {
     for( i in System.startup ) {
         if( System.startup[i] != "" ) launch( System.startup[i] );
     }
-    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", processID );
+    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。pid:" + processID, "system" );
 
     //イベントハンドラ定義
     $( "#desktops" ).click( function() {
@@ -133,16 +133,13 @@ function Load() {
     } ).on( "blur", function() {
         $( "#kit-milp" ).fadeOut( 200 );
     } ).on( 'keydown keyup keypress change', function() {
-        $( "#kit-milp-text" ).text( $( this ).val() );
+        $( "#kit-milp-launch, #kit-milp-search, #kit-milp-tweet" ).text( $( this ).val() );
     } );;
     $( "#kit-milp-launch" ).click( function() {
         launch( $( "#milp" ).val() );
     } );
     $( "#kit-milp-search" ).click( function() {
         launch( "browser", "https://www.bing.com/search?q=" + $( "#milp" ).val() );
-    } );
-    $( "#kit-milp-wikipedia" ).click( function() {
-        launch( "browser", "https://ja.wikipedia.org/wiki/" + $( "#milp" ).val() );
     } );
 
     //コンテキストメニュー
@@ -219,8 +216,8 @@ function appData( data ) {
     } ).load( "./app/" + data.id + "/" + data.view );
 
     //スクリプト読み込み
-    if( data.script != "none" ) $.getScript( "./app/" + data.id + "/" + data.script );
-    if( data.css != "none" ) $( "head link:last" ).append( '<link href="./app/' + data.id + '/' + data.css + '" rel="stylesheet">' );
+    $.getScript( "./app/" + data.id + "/" + data.script );
+    $( "head link:last" ).append( '<link href="./app/' + data.id + '/' + data.css + '" rel="stylesheet">' );
 
     processID++;
     localStorage.setItem( "kit-pid", processID );
@@ -250,7 +247,7 @@ function appDefine() {
 
 //システムクラス
 const System = new function() {
-    this.version = "0.0.4";
+    this.version = "0.0.3";
     this.username = localStorage.getItem( "kit-username" );
 
     this.appCache = {};

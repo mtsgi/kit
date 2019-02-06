@@ -1,19 +1,6 @@
 <script>
-    $( ".settings-kitv" ).text( System.version );
-    $( "#settings-license-1" ).load( "./system/jquery-ui-1.12.1/LICENSE.txt" );
-    $( "#settings-license-2" ).load( "./fa/LICENSE.txt" );
-
-    function latest_kit(){
-        $.getJSON("https://api.github.com/repos/mtsgi/kit/tags", function(data){
-            let result = "github.com/mtsgi/kitから情報を取得しました。<br>";
-            for( i in data ){
-                result += "[" +i+ "] v" + data[i].name;
-                if( i == 0 ) result += "(最新)";
-                result += "<br>" + data[i].commit.sha + "<br>";
-            }
-            System.alert("お使いのkitは" +System.version+ "です",result);
-        });
-    }
+    $(".settings-kitv").text(System.version);
+    $("#settings-license-textarea-1").load("./fa/LICENSE.txt");
 </script>
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 <h3><span class='fa fa-info-circle'></span> kitについて</h3>
@@ -21,18 +8,12 @@
     <img src="system/ico/logo.png" style="max-width: 100%;">
     <br>バージョン<span class="settings-kitv"></span>
 </div>
-KWS 0.0.6 <span style='color:silver'>(kit Window System)</span><br>
-<a class="kit-hyperlink" onclick="latest_kit()">kitのアップデートを確認する</a>
-<div class="little">取得には時間がかかる場合があります</div>
+KWS 0.0.5 <span style='color:silver'>(kit Window System)</span><br>
+<a class="kit-hyperlink">kitのアップデートを確認する</a><br>
 Based on <span class="fab fa-html5"></span>HTML5
 <span class="fab fa-css3-alt"></span>CSS3
 <span class="fab fa-js"></span>JavaScript<br>
-[LICENSE]
-<div class="settings-license-area" data-simplebar>
-    jQueryUI
-    <div id="settings-license-1"></div>
-    Font Awesome
-    <div id="settings-license-2"></div>
-    <div id="settings-license-3"></div>
-</div>
+[LICENSE]<br>
+<textarea class="textbox" id="settings-license-textarea-1" disabled data-simplebar></textarea>
+<br>
 App icons by <a href="https://icons8.com" class="kit-hyperlink">icons8</a>.
