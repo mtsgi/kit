@@ -19,13 +19,16 @@
     margin: 9px;
     margin-right: 0px;
 }
-.winc-console .simple-box{
+.winc-console .console-wrapper{
+    padding: 2px;
     border : 1px solid gray;
     margin-top : 10px;
+    overflow: auto;
+}
+.winc-console .simple-box{
     font-size: 13px;
-    padding: 5px;
+    padding: 2px;
     height: 100px;
-    overflow-y: scroll;
 }
 
 .winc-console .simple-box::selection{

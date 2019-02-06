@@ -31,9 +31,9 @@ function Load() {
     //イベントハンドラ定義
     $( "#desktops" ).click( function() {
         $( "#desktop-" + currentDesktop ).toggleClass( "selected-section" );
-    } ).hover( function() {
+    } ).mousedown( function() {
         $( ".window" ).css( "opacity", "0.6" );
-    }, function() {
+    } ).mouseup( function() {
         $( ".window" ).css( "opacity", "1.0" );
     } );
     //タスク一覧
