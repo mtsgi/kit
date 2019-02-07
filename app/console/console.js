@@ -13,9 +13,9 @@ function app_console(_pid) {
         var exec = $("#winc"+_pid+" .textbox").val();
         prevCommand = exec;
         var _return = JSON.stringify( eval(exec) );
-        if( _return ){
+        if( exec ){
             $("#winc"+_pid+" .simple-box").html(exec+"<br><span class='fa fa-arrow-left'></span>");
-            $("#winc"+_pid+" .simple-box").append( _return+"<br><div class='console-log'>"+log+"</div>");
+            $("#winc"+_pid+" .simple-box").append( JSON.stringify( eval(exec) )+"<br><div class='console-log'>"+log+"</div>");
         }
         $("#winc"+_pid+" .textbox").val("");
     });

@@ -138,18 +138,25 @@ header a:hover{
 	text-shadow: 0px 1px 3px dodgerblue;
 }
 #kit-milp{
+	z-index: 9994;
 	display: none;
 	position: fixed;
 	background: #ffffff;
 	padding-top: 38px;
-	padding-bottom: 4px;
+	padding-bottom: 8px;
 	left: 100px;
 	width: 216px;
 	border-radius: 0px 0px 6px 6px;
 	box-shadow: 0px 1px 4px 0px rgba(0,0,0,.4);
 }
+#kit-milp-text{
+	font-size: 19px;
+	font-weight: 700;
+	padding: 0px 3px;
+	margin-bottom: 4px;
+}
 #kit-milp a{
-	padding: 0px 6px;
+	padding: 3px 6px;
 	display: block;
 	cursor: default;
 	overflow: hidden;
@@ -158,13 +165,13 @@ header a:hover{
 	background: skyblue;
 }
 #kit-milp-launch:before{
-	content: "起動："
+	content: "アプリを起動する"
 }
 #kit-milp-search:before{
-	content: "Web検索："
+	content: "Webで検索する"
 }
-#kit-milp-tweet:before{
-	content: "Tweet："
+#kit-milp-wikipedia:before{
+	content: "Wikipediaで調べる"
 }
 .home-icon:before{
 	line-height: 0px;

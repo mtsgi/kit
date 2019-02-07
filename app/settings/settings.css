@@ -26,6 +26,14 @@
 .winc-settings h3{
     padding: 5px 0px;
 }
+.winc-settings .settings-license-area{
+    background: silver;
+    padding: 3px;
+    border-radius: 6px;
+    height: 150px;
+    width: 100%;
+    box-sizing: border-box;
+}
 .settings-advanced-envar{
     width: 100%;
     max-height: 350px;
