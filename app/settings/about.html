@@ -7,9 +7,9 @@
         $.getJSON("https://api.github.com/repos/mtsgi/kit/tags", function(data){
             let result = "github.com/mtsgi/kitから情報を取得しました。<br>";
             for( i in data ){
-                result += "[" +i+ "] v" + data[i].name;
+                result += "<strong>[" +i+ "] v" + data[i].name;
                 if( i == 0 ) result += "(最新)";
-                result += "<br>" + data[i].commit.sha + "<br>";
+                result += "</strong><div class='little'>" + data[i].commit.sha + "</div>";
             }
             System.alert("お使いのkitは" +System.version+ "です",result);
         });

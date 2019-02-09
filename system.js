@@ -3,6 +3,7 @@
 $( document ).ready( Load );
 
 function Load() {
+    S = System;
 
     if( !localStorage.getItem( "kit-pid" ) ) processID = 0;
     else processID = localStorage.getItem( "kit-pid" );
@@ -28,7 +29,7 @@ function Load() {
     }
     Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", processID );
 
-    //イベントハンドラ定義
+    //イベントハンドラ
     $( "#desktops" ).click( function() {
         $( "#desktop-" + currentDesktop ).toggleClass( "selected-section" );
     } ).mousedown( function() {
@@ -248,16 +249,20 @@ function appDefine() {
     //app["welcome"] = new Application("welcome", "ようこそ", "far fa-comment-dots", "<div style='text-align:center;padding:4px 12px'><div style='font-size:22px'><strong>kit</strong>Desktop <span style='color:silver'>beta</span></div>バージョン0.0<br>キットデスクトップ環境へようこそ<br><a class='button close-this' onclick='page(\detail\)'>詳細</a> <a class='button' id='close-"+pid+"' onclick='close("+pid+")'>閉じる</a></div>", "0.0.0");
 }
 
-//システムクラス
 const System = new function() {
     this.version = "0.0.4";
-    this.username = localStorage.getItem( "kit-username" );
+    this.username = localStorage["kit-username"];
+
+    this.dom = (_pid, attribute) => {
+        return $("#winc" + _pid + " " + attribute);
+    }
 
     this.appCache = {};
     //引数
     this.args = {};
 
     this.shutdown = function() {
+        $( "#last-notification-close" ).click();
         $( "#kit-power-back" ).click();
         for( i in process ) {
             close( i );
@@ -339,3 +344,4 @@ var process = {};
 var processID = 0, currentDesktop = 1;
 var currentCTX = "";
 var prevWindowIndex;
+var S;
