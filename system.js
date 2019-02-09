@@ -135,28 +135,56 @@ function Load() {
         $( "#kit-milp" ).fadeOut( 200 );
     } ).on( 'keydown keyup keypress change', function() {
         $( "#kit-milp-text" ).text( $( this ).val() );
-    } );;
+    } );
     $( "#kit-milp-launch" ).click( function() {
-        launch( $( "#milp" ).val() );
+        let _app = $( "#milp" ).val().split(",")[0];
+        let _args = null;
+        try {
+            if( $( "#milp" ).val().split(",")[1] ){
+                _args = JSON.parse( $( "#milp" ).val().split(",").slice(1).join() );
+            }
+        }
+        catch(error) {
+            Notification.push("引数の解釈に失敗", error, "system");
+        }
+        launch( _app, _args );
     } );
     $( "#kit-milp-search" ).click( function() {
-        launch( "browser", "https://www.bing.com/search?q=" + $( "#milp" ).val() );
+        launch( "browser", { "url" : "https://www.bing.com/search?q=" + $( "#milp" ).val() } );
     } );
     $( "#kit-milp-wikipedia" ).click( function() {
-        launch( "browser", "https://ja.wikipedia.org/wiki/" + $( "#milp" ).val() );
+        launch( "browser", { "url" : "https://ja.wikipedia.org/wiki/" + $( "#milp" ).val() } );
     } );
 
     //コンテキストメニュー
-    //$("section").contextMenu("contextmenu", function () {
-    //    alert("hello");
-    //});
+    $(":root section").on("contextmenu", function() {
+        $( "#kit-context-search" ).val("");
+        $("#kit-context").toggle().css("left", S.mouseX).css("top", S.mouseY);
+        return false;
+    });
+    $( "#kit-context-search" ).keypress( function( e ) {
+        if( e.which == 13 ){
+            $("#kit-context").fadeOut(300);
+            launch( "browser", { "url" : "https://www.bing.com/search?q=" + $( "#kit-context-search" ).val() } );
+        }
+    } );
+    $("#kit-context a").on("click", function(){
+        $("#kit-context").fadeOut(300);
+    });
+
+    $("section").on("click", function(){
+        $("#kit-context").fadeOut(300);
+    })
 
     $( document ).delegate( "a", "click", function() {
         if( this.href ) {
-            launch( localStorage.getItem( "kit-default-browser" ), this.href );
+            launch( localStorage.getItem( "kit-default-browser" ), { "url" : this.href } );
             return false;
         }
-    } );
+    } ).on("mousemove", function(){
+        System.mouseX = event.clientX;
+        System.mouseY = event.clientY;
+    });
 
 }
 
@@ -250,8 +278,11 @@ function appDefine() {
 }
 
 const System = new function() {
-    this.version = "0.0.4";
+    this.version = "0.0.6";
     this.username = localStorage["kit-username"];
+
+    this.mouseX = 0;
+    this.mouseY = 0;
 
     this.dom = (_pid, attribute) => {
         return $("#winc" + _pid + " " + attribute);

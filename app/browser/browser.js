@@ -1,9 +1,9 @@
 app_browser(pid);
 
 function app_browser(_pid){
-    if( System.args[_pid] ){
-        $("#winc" + _pid +" #browser-frame").attr("src", System.args[_pid]);
-        $("#winc" + _pid +" #browser-url").val(System.args[_pid]);
+    if( System.args[_pid] && System.args[_pid].url ){
+        $("#winc" + _pid +" #browser-frame").attr("src", System.args[_pid].url);
+        $("#winc" + _pid +" #browser-url").val(System.args[_pid].url);
     }
 
     if( localStorage["kit-default-browser"] != "browser" ){

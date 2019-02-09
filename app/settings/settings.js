@@ -2,6 +2,10 @@ app_settings(pid);
 
 function app_settings(_pid) {
 
+    if( System.args[_pid] && System.args[_pid].view ){
+        $("#winc" + _pid).load("./app/settings/"+ String(System.args[_pid].view) +".html");
+    }
+
     $("#winc" + _pid).resizable({
         disabled: "true"
     });
