@@ -1,4 +1,11 @@
+//   _    _ _   
+//  | | _(_) |_ 
+//  | |/ / | __|
+//  |   <| | |_ 
+//  |_|\_\_|\__|
+//
 //THIS IS THE KIT KERNEL AND KIT WINDOW SYSTEM
+//http://web.kitit.ml/
 
 $( document ).ready( Load );
 
@@ -284,8 +291,8 @@ const System = new function() {
     this.mouseX = 0;
     this.mouseY = 0;
 
-    this.dom = (_pid, attribute) => {
-        return $("#winc" + _pid + " " + attribute);
+    this.dom = (_pid, _elements) => {
+        return $("#winc" + _pid + " " + _elements);
     }
 
     this.appCache = {};
