@@ -24,10 +24,7 @@ function app_browser(_pid){
         }
     });
 
-    $("#w" + _pid).resizable({
-        alsoResize: "#w"+_pid+" #browser-frame",
-        minWidth: "200"
-    });
+    S.resizable( _pid, "#browser-frame", 200 );
 
     $("#winc" + _pid + " #browser-menu-bookmark").on("click", function(){
         $("#winc" + _pid +" #browser-frame").attr("src", "./app/browser/bookmark.html");

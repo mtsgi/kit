@@ -55,7 +55,7 @@ function Load() {
         }
     } );
     //ランチャー
-    $( "#launcher-apps" ).text( "This function is not implemented yet. / kit ver" + System.version );
+    $( "#launcher-apps" ).text( "未実装機能 / kit v" + System.version );
     $( "#kit-tasks" ).delegate( ".task", "click", function() {
         close( this.id.slice( 1 ) );
         $( this ).hide();
@@ -188,7 +188,7 @@ function Load() {
             launch( localStorage.getItem( "kit-default-browser" ), { "url" : this.href } );
             return false;
         }
-    } ).on("mousemove", function(){
+    } ).on("mousemove", function(event){
         System.mouseX = event.clientX;
         System.mouseY = event.clientY;
     });
@@ -285,7 +285,7 @@ function appDefine() {
 }
 
 const System = new function() {
-    this.version = "0.0.6";
+    this.version = "0.0.7";
     this.username = localStorage["kit-username"];
 
     this.mouseX = 0;
@@ -294,6 +294,8 @@ const System = new function() {
     this.dom = (_pid, _elements) => {
         return $("#winc" + _pid + " " + _elements);
     }
+
+    this.userarea = new Object();
 
     this.appCache = {};
     //引数
@@ -333,12 +335,33 @@ const System = new function() {
         }
     }
 
+    this.time = {
+        "y" : "1970",
+        "m" : "1",
+        "d" : "1",
+        "h" : "00",
+        "i" : "00",
+        "s" : "00",
+        "ms" : "0"
+    }
+
     this.clock = function() {
         DD = new Date();
-        var Hour = ( "00" + DD.getHours() ).slice( -2 );
-        var Min = ( "00" + DD.getMinutes() ).slice( -2 );
-        var Sec = ( "00" + DD.getSeconds() ).slice( -2 );
+        let Year = DD.getFullYear();
+        S.time.y = Year;
+        let Month = DD.getMonth();
+        S.time.m = Month;
+        let DateN = DD.getDate();
+        S.time.d = DateN;
+        let Hour = ( "00" + DD.getHours() ).slice( -2 );
+        S.time.h = Hour;
+        let Min = ( "00" + DD.getMinutes() ).slice( -2 );
+        S.time.i = Min;
+        let Sec = ( "00" + DD.getSeconds() ).slice( -2 );
+        S.time.s = Sec;
         $( ".os-time" ).text( Hour + ":" + Min + ":" + Sec );
+        let MS = DD.getMilliseconds();
+        S.time.ms = MS;
     }
 
     this.changeWallpaper = function( str ) {
@@ -354,8 +377,8 @@ const System = new function() {
     }
 
     this.avoidMultiple = function( _pid ) {
-        var _id = process[_pid].id;
-        var _cnt = 0;
+        let _id = process[_pid].id;
+        let _cnt = 0;
         for( i in process ) {
             if( process[i].id == _id ) _cnt += 1;
         }
@@ -366,20 +389,49 @@ const System = new function() {
         }
         return _cnt;
     }
+
+    this.resizable = function( _pid, _elem, _width, _height ){
+        let E = ".winc";
+        if( _elem ) E = String( _elem );
+        if( !_width ) _width = null;
+        if( !_height ) _height = "100";
+        $("#w" + _pid).resizable({
+            alsoResize: "#w" + _pid + " " + E,
+            minWidth: _width,
+            minHeight: _height
+        });
+    }
 }
 
 const Notification = new function() {
+    this.nid = 0;
+    this.list = new Object();
+
     this.push = function( _title, _content, _app ) {
+        this.list[this.nid] = {
+            "title" : _title,
+            "content" : _content,
+            "app" : _app
+        };
         $( "#last-notification-title" ).text( _title );
         $( "#last-notification-content" ).text( _content );
         $( "#last-notification-app" ).text( _app );
-        $( "#last-notification" ).show( "drop", {direction: "right"}, 300 );
-        $( "#notifications" ).append( "<div class='notis'><span><span class='fas fa-comment-alt'></span>" + _title + "</span>" + _content + "</div>" );
+        $( "#last-notification" ).hide().show( "drop", {direction: "right"}, 300 );
+        $( "#notifications" ).append( "<div class='notis' id='nt" + this.nid + "'><span class='notis_close' id='nc" + this.nid + "'></span><span><span class='fas fa-comment-alt'></span>" + _title + "</span>" + _content + "</div>" );
+        $("#nc" + this.nid).on("click", function(){
+            let _nid = this.id.slice(2);
+            $("#nt" + _nid).fadeOut(300);
+            return false;
+        } );
+        $("#nt" + this.nid).on("click", function(){
+            let _nid = this.id.slice(2);
+            launch(Notification.list[ _nid ].app);
+        } );
+        this.nid ++;
     }
 }
 
 var process = {};
 var processID = 0, currentDesktop = 1;
 var currentCTX = "";
-var prevWindowIndex;
-var S;
+var prevWindowIndex, S;
