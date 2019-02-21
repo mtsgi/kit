@@ -90,7 +90,9 @@ function Load() {
         System.reboot();
     } );
     $( "#kit-power-suspend" ).click( function() {
-        System;
+        $( "section, header, footer, #kit-wallpaper" ).css( "filter", "none" );
+        $( "#kit-power" ).fadeOut( 300 );
+        System.alert("サスペンド機能", "サスペンド機能はこのバージョンのkitではサポートされていません。");
     } );
     $( "#kit-power-lock" ).click( function() {
         System.moveDesktop( "l" );
@@ -205,9 +207,14 @@ function launch( str, args ) {
     }
     //jsonから読み込み
     else {
-        $.getJSON( "./app/" + str + "/define.json", appData ).fail( function() {
-            System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>詳細：アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")" );
-        } );
+        try{
+            $.getJSON( "./app/" + str + "/define.json", appData ).fail( function() {
+                System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>詳細：アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")" );
+            } );
+        }
+        catch(error){
+            Notification.push( "System Error", error, system );
+        }
     }
 }
 
@@ -285,13 +292,13 @@ function appDefine() {
 }
 
 const System = new function() {
-    this.version = "0.0.7";
-    this.username = localStorage["kit-username"];
+    this.version = "0.0.8";
+    this.username = localStorage.getItem("kit-username");
 
     this.mouseX = 0;
     this.mouseY = 0;
 
-    this.dom = (_pid, _elements) => {
+    this.dom = function(_pid, _elements) {
         return $("#winc" + _pid + " " + _elements);
     }
 
@@ -425,7 +432,9 @@ const Notification = new function() {
         } );
         $("#nt" + this.nid).on("click", function(){
             let _nid = this.id.slice(2);
-            launch(Notification.list[ _nid ].app);
+            if( Notification.list[ _nid ].app != "system" ){
+                launch(Notification.list[ _nid ].app);
+            }
         } );
         this.nid ++;
     }
