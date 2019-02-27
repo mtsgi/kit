@@ -1,11 +1,21 @@
+<script>
+    function settings_theme( file ){
+        localStorage.setItem("kit-theme", file );
+        $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
+        $("#desktop-" + currentDesktop).show();
+    }
+    $("#settings-theme-path-set").on("click", function(){
+        settings_theme( $("#settings-theme-path")[0].val() );
+    })
+</script>
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 <h3><span class='fa fa-palette'></span> テーマ設定</h3>
 
 ・テーマを選択
-<div class='btn'>
+<div class='btn' onclick="settings_theme( 'theme-default.css' )">
     標準のテーマ <span class="little">theme-default.css</span>
 </div>
-<div class='btn'>
+<div class='btn' onclick="settings_theme( 'theme-light.css' )">
     軽量テーマ <span class="little">theme-light.css</span>
 </div>
 または、ファイル名を指定<br>

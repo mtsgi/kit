@@ -1,10 +1,16 @@
 <div class="document-content kit-scroll kit-selectable" data-simplebar>
+        <h3><span class='fa fa-file'></span> ヒント</h3>
+        　より多くのkitドキュメントの内容は、<a href="https://kitdev.home.blog/" class="kit-hyperlink">kit開発ブログ</a>から入手できます。
+        <br>
+        　kitの仕様に関する詳しい情報は<a href="https://github.com/mtsgi/kit/wiki" class="kit-hyperlink">Wiki</a>から入手できます。
+        <br>
+        <br>
         <h3><span class='fa fa-file-invoice'></span> kitドキュメント</h3>
         　kitに関するドキュメントです。kitはJavaScriptベースのカーネルで動作し、HTML/JavaScriptで記述されたアプリケーションを動作させることができます。
         <br>
-        　kitはまだベータ版のため、下記の仕様は変更になる可能性があります。
+        　kitはまだベータ版のため、下記の仕様は変更になる可能性があります。<br>
 
-        <br><br>
+        <br>
         <h3><span class='fa fa-ban'></span> kitアプリケーションの制約</h3>
         　以下の語はkitシステムやその他に予約されているためアプリケーションの中で使用(定義)することができません。
         <br>
@@ -72,7 +78,8 @@
         <div class='document-bs'>
                 Hello,&nbsp;world!
         </div>
-        　これだけで完成です。ファイルが配置できていれば、<a class="kit-hyperlink" onclick="launch('sample')">sampleアプリケーションを実行</a>することができます。icon.pngは、好きな画像にしてみましょう。
+        　これだけで完成です。ファイルが配置できていれば、<a class="kit-hyperlink"
+                onclick="launch('sample')">sampleアプリケーションを実行</a>することができます。icon.pngは、好きな画像にしてみましょう。
 
         <br><br>
         <h3><span class='far fa-file-code'></span> 動くアプリを作る</h3>
@@ -128,9 +135,9 @@
 
         <h3><span class='far fa-window-restore'></span> 多重起動を許可しない</h3>
         　アプリケーションによっては、複数のウィンドウを起動されると不具合が生じる場合もあります。問題を防ぐために、kitで用意された<strong>System.avoidMultiple()メソッド</strong>を利用することができます。
-        <div class='document-as'>aタグでリンクを貼る</div>
+        <div class='document-as'>多重起動の防止</div>
         <div class='document-bs'>
-                &lt;a href="http://foo.bar/"&gt;リンクです&lt;/a&gt;
+                System.avoidMultiple( _pid, false );
         </div>
-        　上記のようにリンクを貼るとkitシステムはブラウザ(アプリ名:browser)を起動し、該当するページを表示しようと試みます。
+        　該当するpidのアプリケーションがすでに起動している場合終了され、アラートが表示されます。第二引数にtrueを指定すると、アラートを表示しません。
 </div>

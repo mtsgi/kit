@@ -1,0 +1,11 @@
+{
+    "id": "appman",
+    "name": "アプリ管理",
+    "icon": "icon.png",
+    "version": "0.0.0",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "appman.js",
+    "css": ""
+}

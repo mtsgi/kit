@@ -1,0 +1,51 @@
+{
+    "browser": {
+        "name": "ブラウザ",
+        "icon": "./app/browser/icon.png"
+    },
+
+    "clock": {
+        "name": "時計",
+        "icon": "./app/clock/icon.png"
+    },
+
+    "console": {
+        "name": "コンソール",
+        "icon": "./app/console/icon.png"
+    },
+
+    "document": {
+        "name": "ドキュメント",
+        "icon": "./app/document/icon.png"
+    },
+
+    "fivr": {
+        "name": "Fivr",
+        "icon": "./app/fivr/icon.png"
+    },
+
+    "grapes": {
+        "name": "Grapes",
+        "icon": "./app/grapes/icon.png"
+    },
+
+    "help": {
+        "name": "ヘルプ",
+        "icon": "./app/help/icon.png"
+    },
+
+    "ntflist": {
+        "name": "通知履歴",
+        "icon": "./app/ntflist/icon.png"
+    },
+
+    "settings": {
+        "name": "設定",
+        "icon": "./app/settings/icon.png"
+    },
+
+    "ytplayer": {
+        "name": "YouTubePlayer",
+        "icon": "./app/ytplayer/icon.png"
+    }
+}

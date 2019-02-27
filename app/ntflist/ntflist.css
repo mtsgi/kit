@@ -1,0 +1,32 @@
+.winc-ntflist{
+  min-width: 400px;
+  max-height: 600px;
+}
+.ntflist-list{
+}
+.ntflist-items{
+  border-top: 1px solid silver;
+  padding: 3px;
+}
+.ntflist-items:hover{
+  background: #e0e0e0;
+}
+.ntflist-a{
+  border: 1px solid dodgerblue;
+  color: dodgerblue;
+  border-radius: 4px;
+  margin-right: 4px;
+  padding: 0 4px;
+}
+.ntflist-b{
+  font-weight: 700;
+}
+.ntflist-c{
+  display: block;
+}
+.ntflist-d{
+  font-size: 14px;
+}
+.ntflist-d:before{
+  content: "送信元：";
+}

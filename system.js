@@ -4,8 +4,10 @@
 //  |   <| | |_ 
 //  |_|\_\_|\__|
 //
-//THIS IS THE KIT KERNEL AND KIT WINDOW SYSTEM
-//http://web.kitit.ml/
+// THIS IS THE KIT KERNEL AND KIT WINDOW SYSTEM
+// http://web.kitit.ml/
+// https://github.com/mtsgi/kit
+
 
 $( document ).ready( Load );
 
@@ -22,6 +24,14 @@ function Load() {
 
     if( !localStorage.getItem( "kit-default-browser" ) ) localStorage.setItem( "kit-default-browser", "browser" );
 
+    if( !localStorage.getItem( "kit-theme" ) ) localStorage.setItem( "kit-theme", "theme-default.css" );
+    $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
+
+    if( !localStorage.getItem( "kit-appdir" ) ) localStorage.setItem( "kit-appdir", "./app/" );
+    S.appdir = localStorage.getItem( "kit-appdir" );
+
+    if( localStorage["kit-userarea"] ) System.userarea = JSON.parse(localStorage["kit-userarea"]);
+
     System.moveDesktop( "1" );
 
     var clockmove = setInterval( System.clock, 10 );
@@ -31,10 +41,10 @@ function Load() {
         localStorage.setItem( "kit-startup", new Array( "welcome" ) );
     }
     System.startup = localStorage.getItem( "kit-startup" ).split( "," );
-    for( i in System.startup ) {
-        if( System.startup[i] != "" ) launch( System.startup[i] );
+    for( i of System.startup ) {
+        if( i != "" ) launch( i );
     }
-    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", processID );
+    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system" );
 
     //イベントハンドラ
     $( "#desktops" ).click( function() {
@@ -55,7 +65,9 @@ function Load() {
         }
     } );
     //ランチャー
-    $( "#launcher-apps" ).text( "未実装機能 / kit v" + System.version );
+    $.getJSON("config/apps.json", System.initLauncher).fail( function() {
+        Notification.push( "ランチャー初期化失敗", "アプリケーション一覧(config/apps.json)の読み込みに失敗しました。", system );
+    } );
     $( "#kit-tasks" ).delegate( ".task", "click", function() {
         close( this.id.slice( 1 ) );
         $( this ).hide();
@@ -167,15 +179,27 @@ function Load() {
 
     //コンテキストメニュー
     $(":root section").on("contextmenu", function() {
-        $( "#kit-context-search" ).val("");
+        let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );
+        S.selectedElement = _ptelem;
+        $( "#kit-context-input" ).val( _ptelem.text() );
+        $( "#kit-context-elem" ).text( _ptelem.prop("tagName").toLowerCase() + "要素" );
+        if( _ptelem[0].id ) $( "#kit-context-elem" ).append( "#" + _ptelem[0].id );
+        $( "#kit-context-size" ).text( _ptelem[0].clientWidth + "✕" + _ptelem[0].clientHeight );
         $("#kit-context").toggle().css("left", S.mouseX).css("top", S.mouseY);
         return false;
     });
-    $( "#kit-context-search" ).keypress( function( e ) {
-        if( e.which == 13 ){
-            $("#kit-context").fadeOut(300);
-            launch( "browser", { "url" : "https://www.bing.com/search?q=" + $( "#kit-context-search" ).val() } );
-        }
+    $("#kit-context-open").on("click", function(){
+        S.alert("要素", S.selectedElement.clone());
+    });
+    $("#kit-context-save").on("click", function(){
+        S.obj2img( S.selectedElement , true );
+    });
+    $( "#kit-context-search" ).on("click", function(){
+        $("#kit-context").fadeOut(300);
+        launch( "browser", { "url" : "https://www.bing.com/search?q=" + $( "#kit-context-input" ).val() } );
+    });
+    $( "#kit-context-input" ).keypress( function( e ) {
+        if( e.which == 13 ) $( "#kit-context-search" ).click();
     } );
     $("#kit-context a").on("click", function(){
         $("#kit-context").fadeOut(300);
@@ -194,22 +218,19 @@ function Load() {
         System.mouseX = event.clientX;
         System.mouseY = event.clientY;
     });
-
 }
 
 function launch( str, args ) {
-    appDefine();
+    pid = processID;
     System.args[pid] = args;
-    //連想配列から読み込み
     if( System.appCache[str] ) {
         //app[str].open();
         appData( System.appCache[str] );
     }
-    //jsonから読み込み
     else {
         try{
-            $.getJSON( "./app/" + str + "/define.json", appData ).fail( function() {
-                System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>詳細：アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")" );
+            $.getJSON( S.appdir + str + "/define.json", appData ).fail( function() {
+                System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")。ヘルプは<a class='kit-hyperlink' href='https://kitdev.home.blog/'>こちら</a>" );
             } );
         }
         catch(error){
@@ -231,11 +252,13 @@ function appData( data ) {
         $( "#task-ctx-name" ).text( data.name );
         $( "#task-ctx-img" ).attr( "src", "./app/" + data.id + "/" + data.icon );
         $( "#task-ctx-ver" ).text( data.version + "/pid:" + pid );
-        $( "#task-ctx-close" ).off().on( "click", function() {close( String( pid ) )} );
-        $( "#task-ctx-min" ).off().on( "click", function() {System.min( String( pid ) )} );
-        $( "#task-ctx-kill" ).off().on( "click", function() {kill( String( data.id ) )} );
+        $( "#task-ctx-info" ).off().on( "click", function() {appInfo( data.id )} );
+        $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
+        $( "#task-ctx-min" ).off().on( "click", function() { S.min( String(pid) ) } );
+        $( "#task-ctx-close" ).off().on( "click", function() { close( String(pid) ) } );
+        $( "#task-ctx-kill" ).off().on( "click", function() { kill( String(data.id) ) } );
         const _ctxleft = $( "#t" + pid ).offset().left;
-        const _footertop = Number( $( "footer" ).offset().top ) - 185;
+        const _footertop = Number( $( "footer" ).offset().top ) - 215;
         if( _ctxleft != $( "#task-ctx" ).offset().left ) {
             $( "#task-ctx" ).hide();
         }
@@ -254,7 +277,25 @@ function appData( data ) {
     } );
     $( "#desktop-" + currentDesktop ).append( "<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wt" + pid + "' class='wt'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>" );
     var windowPos = 50 + ( pid % 10 ) * 20;
-    $( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
+    //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
+    $( "#w" + pid ).addClass( "window" ).pep({
+        elementsWithInteraction: ".winc, .ui-resizable-handle",
+        useCSSTranslation: false,
+        disableSelect: false,
+        shouldEase:	true,
+        initiate: function(){
+            $(this.el).addClass("ui-draggable-dragging");
+            $(".window").css("zIndex", "1");
+            this.el.style.zIndex = 2;
+            S.refreshWindowIndex();
+        },
+        rest: function(){
+            this.el.style.transition = "none";
+            $(this.el).removeClass("ui-draggable-dragging");
+        }
+    }).on( "mousedown", function(){
+        $(".window").css( "transition", "none" );
+    } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
     $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( function() {System.min( String( pid ) )} );
     $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( function() {close( String( pid ) )} );
     $( "#winc" + pid ).resizable( {
@@ -267,7 +308,20 @@ function appData( data ) {
 
     processID++;
     localStorage.setItem( "kit-pid", processID );
+}
 
+function appInfo( str ){
+    let _title = "", _content = "";
+    let ac = S.appCache[str];
+    if( ac ){
+        _title = ac.name + " (" + ac.version + ")";
+        _content = "<img style='height: 96px' src='./app/" + ac.id + "/" + ac.icon + "'><br>";
+        for( i in ac ){
+            _content += "<div style='font-weight: 100'>" + i + " : " + ac[i] + "</div>";
+        }
+    }
+    else _title = "取得に失敗しました";
+    S.alert( _title, _content );
 }
 
 //pidからアプリケーションを閉じる
@@ -285,20 +339,18 @@ function kill( str ) {
     }
 }
 
-//アプリケーションの内容を定義
-function appDefine() {
-    pid = processID;
-    //app["welcome"] = new Application("welcome", "ようこそ", "far fa-comment-dots", "<div style='text-align:center;padding:4px 12px'><div style='font-size:22px'><strong>kit</strong>Desktop <span style='color:silver'>beta</span></div>バージョン0.0<br>キットデスクトップ環境へようこそ<br><a class='button close-this' onclick='page(\detail\)'>詳細</a> <a class='button' id='close-"+pid+"' onclick='close("+pid+")'>閉じる</a></div>", "0.0.0");
-}
-
 const System = new function() {
-    this.version = "0.0.8";
+    this.version = "0.1.0";
     this.username = localStorage.getItem("kit-username");
+    this.appdir = localStorage.getItem("kit-appdir");
 
     this.mouseX = 0;
     this.mouseY = 0;
 
+    this.selectedElement = null;
+
     this.dom = function(_pid, _elements) {
+        _elements = _elements || "";
         return $("#winc" + _pid + " " + _elements);
     }
 
@@ -308,6 +360,37 @@ const System = new function() {
     //引数
     this.args = {};
 
+    this.screenshot = function( _pid, _popup ){
+        let _elem = document.querySelector("body");
+        if( _pid ) _elem = document.querySelector("#w"+_pid);
+        html2canvas( _elem ).then(canvas => {
+            if( _popup ){
+                canvas.style.border = "1px solid #909090";
+                S.save( canvas.toDataURL("image/png"), "image" );
+            }
+            return canvas;
+        });
+    }
+
+    this.obj2img = function( _obj, _popup ){
+        let _elem = _obj[0];
+        html2canvas( _elem ).then(canvas => {
+            if( _popup ){
+                canvas.style.border = "1px solid #909090";
+                S.save( canvas.toDataURL("image/png"), "image" );
+            }
+            return canvas;
+        });
+    }
+
+    this.save = function(data, type){
+        launch("fivr", { "save" : data, "type" : type });
+    }
+
+    this.open = function(filename){
+        launch("fivr", { "open" : filename });
+    }
+    
     this.shutdown = function() {
         $( "#last-notification-close" ).click();
         $( "#kit-power-back" ).click();
@@ -324,14 +407,14 @@ const System = new function() {
         location.reload();
     }
 
-    this.alert = function( title, content ) {
-        launch( "alert", [title, content] );
+    this.alert = function( title, content, winname ) {
+        launch( "alert", [title, content, winname] );
     }
 
     this.min = function( str ) {
         var _pid = String( str );
         if( $( "#w" + _pid ).is( ":visible" ) ) {
-            $( "#w" + _pid ).hide( "drop", {direction: "down"}, 300 );
+            $( "#w" + _pid ).css("transition", "none").hide( "drop", {direction: "down"}, 300 );
             $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
             $( "#t" + _pid ).addClass( "task-min" );
         }
@@ -343,6 +426,7 @@ const System = new function() {
     }
 
     this.time = {
+        "obj" : null,
         "y" : "1970",
         "m" : "1",
         "d" : "1",
@@ -353,7 +437,8 @@ const System = new function() {
     }
 
     this.clock = function() {
-        DD = new Date();
+        let DD = new Date();
+        S.time.obj = DD;
         let Year = DD.getFullYear();
         S.time.y = Year;
         let Month = DD.getMonth();
@@ -381,9 +466,10 @@ const System = new function() {
         $( "section" ).hide();
         $( "#desktop-" + str ).show();
         $( "#desktops" ).html( "<span class='far fa-clone'></span>Desktop" + str );
+        currentDesktop = str;
     }
 
-    this.avoidMultiple = function( _pid ) {
+    this.avoidMultiple = function( _pid, _alert ) {
         let _id = process[_pid].id;
         let _cnt = 0;
         for( i in process ) {
@@ -392,7 +478,9 @@ const System = new function() {
         console.log( _cnt );
         if( _cnt > 1 ) {
             close( _pid );
-            System.alert( "多重起動", "アプリケーション" + _id + "が既に起動しています。このアプリケーションの多重起動は許可されていません。" );
+            if( !_alert ){
+                System.alert( "多重起動", "アプリケーション" + _id + "が既に起動しています。このアプリケーションの多重起動は許可されていません。" );
+            }
         }
         return _cnt;
     }
@@ -408,6 +496,22 @@ const System = new function() {
             minHeight: _height
         });
     }
+
+    this.refreshWindowIndex = function(){
+        for( let i=0; i<$(".window"); i++){
+            console.log( $(".window")[i] );
+        };
+    }
+
+    this.initLauncher = function(data){
+        for(i in data){
+            $("#launcher-apps").append("<div class='launcher-app' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
+        }
+        $(".launcher-app").on("click", function(){
+            $("#launch").click();
+            launch( $(this).attr("data-launch") );
+        });
+    }
 }
 
 const Notification = new function() {
@@ -420,9 +524,9 @@ const Notification = new function() {
             "content" : _content,
             "app" : _app
         };
-        $( "#last-notification-title" ).text( _title );
-        $( "#last-notification-content" ).text( _content );
-        $( "#last-notification-app" ).text( _app );
+        $( "#last-notification-title" ).text("").text( _title );
+        $( "#last-notification-content" ).text("").text( _content );
+        $( "#last-notification-app" ).text("").text( _app );
         $( "#last-notification" ).hide().show( "drop", {direction: "right"}, 300 );
         $( "#notifications" ).append( "<div class='notis' id='nt" + this.nid + "'><span class='notis_close' id='nc" + this.nid + "'></span><span><span class='fas fa-comment-alt'></span>" + _title + "</span>" + _content + "</div>" );
         $("#nc" + this.nid).on("click", function(){
@@ -437,6 +541,7 @@ const Notification = new function() {
             }
         } );
         this.nid ++;
+        return (this.nid - 1);
     }
 }
 

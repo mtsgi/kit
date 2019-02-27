@@ -1,0 +1,695 @@
+
+@font-face {
+    font-family: "Noto";
+    src: url("fonts/NotoSansMonoCJKjp-Regular.otf");
+}
+body {
+	margin: 0px;
+	font-size: 16px;
+	font-family: 'Noto Sans JP', sans-serif;
+	overscroll-behavior: none;
+	cursor: url(../cursor-1.png), auto;
+}
+*::selection{
+	background: rgba(0,0,0,.0);
+}
+#kit-wallpaper{
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	height: 100%;
+	width: 100%;
+	background: url("../wallpaper/11.jpg");
+	background-size: cover;
+}
+section {
+	position: absolute;
+	top : 25px;
+	left: 0px;
+	width: 100%;
+	height: calc(100% - 65px);
+	cursor: url(../cursor-1.png), auto;
+}
+
+.selected-section{
+	transform: scale(0.8);
+	background: rgba(0,0,0,.5);
+}
+.selected-section:before{
+	color: #ffffff;
+	top : -40px;
+	font-size: 20px;
+	position: absolute;
+	width: 100%;
+	text-align: center;
+	content:"Desktop"
+}
+
+#desktop-0 {
+	display: block;
+}
+#desktop-l{
+	padding: 20px 0;
+	font-weight: 100;
+	font-size: 24px;
+	color: white;
+	text-align: center;
+	background: rgba(0,0,0,.5);
+	box-sizing: border-box;
+	top: 0px;
+	height: 100%;
+}
+#lock-unl{
+	display: block;
+	cursor:url(../cursor-2.png), pointer;
+	font-size: 16px;
+	margin: 20px;
+}
+#lock-unl:hover{
+	color: cyan;
+}
+#lock-unl span{
+	display: block;
+	font-size: 32px;
+}
+#lock-username{
+	margin: 10px;
+	font-size: 40px;
+}
+#lock-user-icon{
+	display: inline-block;
+	background : white;
+	width: 100px;
+	height: 100px;
+	margin-top: 15px;
+	border-radius: 999px;
+	border: 3px solid #ffffff;
+}
+#desktop-l .textbox{
+	border: none;
+	padding: 10px;
+}
+.fas, .fa{
+	font-weight: 100;
+	line-height: 100%;
+}
+.fa:before{
+	font-weight: 700;
+}
+header{
+	z-index: 9996;
+	box-sizing: border-box;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	background: #BEE5F7;
+	font-size: 15px;
+	padding : 1px;
+	color: #000000;
+	box-shadow: 0px 0px 5px rgba(0,0,0,.3);
+}
+header #header-right{
+	float: right;
+}
+header a{
+	cursor: url(../cursor-2.png),pointer;
+	padding : 3px 4px;
+}
+header a:hover{
+	color: dodgerblue;
+}
+#kit-milp{
+	z-index: 9994;
+	display: none;
+	position: fixed;
+	background: #ffffff;
+	padding-top: 30px;
+	padding-bottom: 4px;
+	left: 94px;
+	width: 206px;
+	border: 1px solid #909090;
+}
+#kit-milp-text{
+	font-size: 19px;
+	font-weight: 700;
+	padding: 0px 3px;
+	margin-bottom: 4px;
+}
+#kit-milp a{
+	font-size: 15px;
+	padding: 1px 5px;
+	display: block;
+	cursor:url(../cursor-1.png), default;
+	overflow: hidden;
+}
+#kit-milp a:hover{
+	background: skyblue;
+}
+#kit-milp-launch:before{
+	content: "アプリを起動する"
+}
+#kit-milp-search:before{
+	content: "Webで検索する"
+}
+#kit-milp-wikipedia:before{
+	content: "Wikipediaで調べる"
+}
+.home-icon:before{
+	line-height: 0px;
+	display: block;
+	font-size: 30px;
+	height : 25px;
+}
+.home-icon{
+	border: 1px solid transparent;
+	font-size: 13px;
+	display: inline-block;
+	color: white;
+	cursor:url(../cursor-1.png), default;
+	margin :  10px 0px;
+	padding : 3px 0px;
+	text-align: center;
+	width: 100px;
+}
+.home-icon:hover{
+	border: 1px solid #ffffff;
+	background: black;
+}
+.home-fa{
+	margin-bottom: 5px;
+	display: block;
+	font-size: 30px;
+}
+footer{
+	z-index: 9999;
+	background: #c0c0c0;
+	width : 100%;
+	min-height: 45px;
+	position: fixed;
+	left: 0px;
+	bottom: -5px;
+	box-sizing: border-box;
+	border-top : 2px solid #ffffff;
+	padding-left: 48px;
+}
+footer #launch{
+	cursor:url(../cursor-2.png), pointer;
+	position: fixed;
+	bottom: -2px;
+	left: -2px;
+	background: dodgerblue;
+	border: 2px solid white;
+	color: white;
+	padding: 11px;
+}
+footer #launch:hover{
+	background: #1741FF;
+}
+footer .task{
+	font-size: 15px;
+	cursor:url(../cursor-1.png), default;
+	box-sizing: border-box;
+	display: inline-block;
+	background: #ffffff;
+	border: 1px solid #404040;
+	padding: 3px;
+	width: 175px;
+	margin : 0px 4px;
+	position: relative;
+	top : 3px;
+}
+footer .task:hover{
+	background: #e0e0e0;
+}
+footer .task img{
+	float: left;
+	height : 24px;
+	width : 24px;
+	margin-right: 4px;
+}
+footer .task-min{
+	font-weight: 900;
+}
+footer .task-min:after{
+	content: "";
+	display: inline-block;
+	background: limegreen;
+	float: right;
+	margin-top: 6px;
+	width: 10px;
+	height: 10px;
+	border: 2px solid #404040;
+}
+#footer-noti{
+	position: absolute;
+	cursor:url(../cursor-2.png), pointer;
+	padding: 6px;
+	right : 4px;
+	bottom : 5px;
+}
+#footer-noti:hover{
+	color: dodgerblue;
+}
+#footer-tasks{
+	color: #000000;
+	position: absolute;
+	cursor:url(../cursor-2.png), pointer;
+	font-size: 22px;
+	padding: 6px 0px;
+}
+#footer-tasks:hover{
+	color: dodgerblue;
+}
+#notifications{
+	z-index: 9995;
+	display: none;
+	box-sizing: border-box;
+	position: fixed;
+	right: 0px;
+	min-height: 100%;
+	max-height: 100%;
+	width: 250px;
+	background: #e0e0e0;
+	padding: 30px 4px 50px 4px;
+}
+#notifications-show-history{
+	display: block;
+	text-align: right;
+}
+#notifications .notis{
+	cursor: url(../cursor-1.png), default;
+	border: 1px solid #a0a0a0;
+	padding: 2px;
+	margin: 6px 4px;
+	background: #ffffff;
+	font-size: 15px;
+}
+#notifications .notis:hover{
+	border: 1px solid #505050;
+	background: #e0e0e0;
+}
+.notis > span{
+	display: block;
+	font-weight: 700;
+}
+.notis_close{
+	cursor:url(../cursor-2.png), pointer;
+	float: right;
+	background: red;
+	width: 13px;
+	height: 13px;
+	margin: 2px;
+}
+#tasks{
+	padding-left: 28px;
+}
+.window{
+	font-size: 15px;
+	position: absolute;
+	min-width : 200px;
+	max-width: 100%;
+	padding : 0px;
+	cursor:url(../cursor-1.png), default;
+	background: #FFF7D4;
+	border: 1px solid #404040;
+	transition: none;
+}
+.window:after{
+	visibility: hidden;
+	content: "_";
+	position: absolute;
+	height: 44px;
+}
+section .ui-draggable-dragging{
+	box-shadow: 0px 2px 10px 0px rgba(0,0,0,.5), 0px 0px 0px 8px rgba(30,70,255,.6);
+}
+.win-highlight{
+	background: white;
+}
+.wt{
+	display: inline-block;
+	color: #000000;
+	font-size: 16px;
+	padding-top: 2px;
+}
+.wt:before{
+	color: white;
+	text-shadow: 0px 1px 2px black;
+}
+.wt img{
+	width: 18px;
+	height: 18px;
+	float: left;
+	margin: 3px;
+}
+.wm{
+	padding: 6px;
+	position: absolute;
+	right: 22px;
+}
+.wm:hover{
+	background: #D6D6AB;
+	color: black;
+}
+.wx{
+	cursor:url(../cursor-1.png), default;
+	padding: 6px;
+	float: right;
+	position: absolute;
+	right: 0px;
+}
+.wx:hover{
+	background: #ff0000;
+	color: white;
+}
+.winc{
+	box-sizing: border-box;
+	border-top : 1px solid #757575;
+	color: #000000;
+	background: #ffffff;
+	padding : 5px;
+	overflow : hidden;
+}
+.kit-button{
+	display: inline-block;
+	cursor:url(../cursor-1.png), default;
+	line-height: 200%;
+	background: dodgerblue;
+	color: #ffffff;
+	padding: 0px 10px;
+	margin: 4px 2px 0px;
+	text-decoration: none;
+	border: 2px solid #ffffff;
+}
+.kit-button:hover{
+	border: 2px solid black;
+}
+.kit-button:active{
+	position: relative;
+	top: 2px;
+}
+.kit-selectable{
+	  cursor:url(../cursor-3.png), text;
+}
+.kit-selectable *::selection, .kit-selectable::selection{
+    background: dodgerblue;
+    color: white;
+}
+#task-ctx{
+	z-index: 9998;
+	display: none;
+	position: absolute;
+	bottom: 0px;
+	background: rgb(222,222,222);
+	width: 175px;
+	left : 74px;
+	box-sizing: border-box;
+	padding : 6px;
+	padding-bottom: 45px;
+	margin-top: 24px;
+	border : 2px solid white;
+	font-size: 15px;
+}
+#task-ctx-name{
+	font-size: 16px;
+}
+#task-ctx-ver{
+	font-size: 12px;
+	padding-bottom : 5px;
+	margin-bottom: 5px;
+	border-bottom: 1px solid gray;
+}
+#task-ctx a{
+	cursor:url(../cursor-1.png), default;
+	display: block;
+	border-bottom : 2px solid transparent;
+}
+#task-ctx a:hover{
+	color: dodgerblue;
+	border-bottom: 2px solid dodgerblue;
+}
+#task-ctx-img{
+	float: left;
+	height : 26px;
+	max-width: 30px;
+}
+
+#milp{
+	outline: none;
+	width: 200px;
+	font-family: 'Noto Sans JP', sans-serif;
+	position: absolute;
+	top:0px;
+	border: none;
+	font-size: 15px;
+	padding: 1px 4px;
+	color: #fff;
+	background: #444;
+	margin: 0px 4px;
+	font-weight: 100;
+}
+h3{
+	font-size: 18px;
+	margin: 0px;
+	font-weight: normal;
+}
+.btn{
+	cursor:url(../cursor-2.png), pointer;
+	border: 1px solid gray;
+	margin: 4px 0px;
+	padding: 2px 4px;
+	background: #f0f0f0;
+}
+.btn:hover{
+	border: 1px solid black;
+	background: #e0e0e0;
+}
+.little{
+	font-size: 13px;
+}
+.textbox{
+	cursor:url(../cursor-3.png), text;
+	outline: none;
+	border: 1px solid #000000;
+	font-size: 16px;
+	padding: 3px;
+	font-family: 'Noto Sans JP', sans-serif;
+}
+.textbox::selection{
+    background: dodgerblue;
+    color: white;
+}
+.task-name{
+	font-family: 'Noto Sans JP', sans-serif;
+}
+.kit-hyperlink{
+	color: dodgerblue;
+	text-decoration: underline;
+	cursor:url(../cursor-2.png), pointer;
+}
+#kit-power{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	box-sizing: border-box;
+	width: 100%;
+	height: 100%;
+	z-index: 10000;
+	background: #000000;
+	transition: none;
+	text-align: center;
+}
+#kit-power a{
+	cursor:url(../cursor-2.png), pointer!important;
+	display: block;
+	font-size: 20px;
+	font-weight: 100;
+	padding: 5px 0;
+	color: white;
+	transition: .1s all ease;
+}
+#kit-power a:hover{
+	color: cyan;
+}
+#kit-power a:after{
+	display: block;
+	font-size: 13px;
+}
+#kit-power-shutdown:after{
+	content: "アプリケーションを全て終了してシステムを終了します";
+}
+#kit-power-reboot:after{
+	content: "シャットダウンし、再びシステムを起動します";
+}
+#kit-power-suspend:after{
+	content: "起動中のアプリケーションの情報を保持して終了します";
+}
+#kit-power-lock:after{
+	content: "ユーザーからログアウトしロック画面を表示します";
+}
+
+#kit-context{
+	cursor:url(../cursor-1.png), default;
+	display: none;
+	z-index: 9994;
+	position: absolute;
+	top: 100px;
+	left: 100px;
+	background: white;
+	border: 1px solid #606060;
+	padding: 0px;
+	padding-bottom: 3px;
+}
+#kit-context input{
+	width: 180px;
+	margin: 5px;
+	padding: 2px 5px;
+	font-size: 14px;
+}
+#kit-context a{
+	display: block;
+	padding: 1px 6px;
+	font-size: 14px;
+}
+#kit-context a:hover{
+	background: dodgerblue;
+	color: white;
+}
+#kit-context-elem{
+	color: #a0a0a0;
+	padding: 0px 5px;
+}
+#kit-context-size{
+	color: #a0a0a0;
+	font-size: 12px;
+	padding: 0px 5px;
+	border-bottom: 1px solid #a0a0a0;
+}
+
+#kit-tasks{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	background: #000030;
+	padding: 20px;
+	padding-bottom: 120px;
+	overflow: scroll;
+}
+#kit-tasks:before{
+	content: "実行中のアプリケーション ( クリックで強制終了 )";
+	display: block;
+	color: #ffffff;
+}
+#kit-tasks .task{
+	cursor:url(../cursor-2.png), pointer;
+	display: inline-block;
+	background: #e0e0e0;
+	padding: 4px 8px;
+	border: 1px solid #000000;
+	width: 150px;
+	margin: 16px 10px;
+}
+#kit-tasks .task:hover{
+	background: #ffffff;
+}
+#kit-tasks .task:hover:after{
+	content: "クリックして終了";
+	text-align: center;
+	display: block;
+	position: absolute;
+	color: #e0e0e0;
+	width: 150px;
+	font-size: 12px;
+}
+#kit-tasks .task-min:before{
+	content: "";
+	display: inline-block;
+	background: limegreen;
+	float: right;
+	margin-top: 5px;
+	width: 12px;
+	height: 12px;
+	border: 2px solid #404040;
+}
+#kit-tasks .task img{
+	float: left;
+	height: 24px;
+}
+#launcher{
+	display: none;
+	position: fixed;
+	top: 0px;
+	left: 0px;
+	width: 100%;
+	height: 100%;
+	box-sizing: border-box;
+	background: rgba(0,0,0,.4);
+	color: white;
+}
+#launcher-header{
+	font-weight: 100;
+	margin-top: 30px;
+	padding: 10px;
+	font-size: 20px;
+}
+#launcher-header .kit-button{
+	font-size: 16px;
+	float: right;
+}
+#launcher-apps{
+	display: flex;
+	flex-wrap: wrap; 
+}
+.launcher-app{
+	padding: 4px;
+	margin: 4px;
+	width: 120px;
+	text-align: center;
+}
+.launcher-app:hover{
+	background: black;
+}
+.launcher-app img{
+	display: block;
+	margin: 0 auto;
+	height: 70px;
+}
+#last-notification{
+	z-index: 9996;
+	display: none;
+	position: fixed;
+	background: #e0e0e0;
+	padding: 4px;
+	bottom: 54px;
+	right: 12px;
+	width: 180px;
+	cursor:url(../cursor-1.png), default;
+}
+#last-notification-close{
+	background: red;
+	width: 15px;
+	height: 15px;
+	display: inline-block;
+	float: right;
+	cursor:url(../cursor-2.png), pointer;
+}
+#last-notification-title{
+	font-weight: 700;
+}
+#last-notification-content{
+	font-size: 14px;
+}
+#last-notification-app{
+	font-size: 14px;
+	color: #a0a0a0;
+	text-align: right;
+}
+
+
+

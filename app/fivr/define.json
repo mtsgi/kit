@@ -1,0 +1,11 @@
+{
+    "id": "fivr",
+    "name": "Fivr",
+    "icon": "icon.png",
+    "version": "0.1.0",
+    "author": "kit",
+
+    "view": "explore.html",
+    "script": "fivr.js",
+    "css": "fivr.css"
+}

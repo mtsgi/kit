@@ -1,0 +1,49 @@
+.winc-fivr{
+    min-width: 100px;
+}
+#fivr-preview{
+    float: left;
+    width: 250px;
+    height: 300px;
+    padding: 5px;
+    padding-top: 25px;
+    box-sizing: border-box;
+    border: 1px solid #909090;
+    background: #e0e0e0;
+    border-radius: 5px 0 0 5px;
+    margin: 5px 0;
+    box-shadow: inset 1px 1px 2px 0 rgba(0,0,0,.3);
+}
+#fivr-preview:before{
+    position: absolute;
+    top: 0px;
+    content: "ファイルのプレビュー";
+}
+#fivr-files{
+    border-radius: 5px;
+    box-sizing: border-box;
+    padding: 5px;
+    height: 300px;
+    border: 1px solid #909090;
+    margin: 5px 0;
+}
+#fivr-filename{
+    width: calc(100% - 75px);
+}
+.fivr-file{
+    padding: 2px 5px;
+}
+.fivr-file:hover{
+    background: #e0e0e0;
+}
+.fivr-file-type{
+    font-size: 13px;
+    padding: 0px 10px;
+    color: dodgerblue;
+}
+.fivr-file-delete{
+    float: right;
+    font-size: 14px;
+    color: dodgerblue;
+    text-decoration: underline;
+}

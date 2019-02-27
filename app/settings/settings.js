@@ -42,6 +42,9 @@ function app_settings(_pid) {
         $("#winc" + _pid).load("./app/settings/system.html");
         //$(".textbox").attr("autocomplete", "off");
     })
+    .delegate(".settings-startup-set", "click", function () {
+        localStorage.setItem( "kit-startup", S.dom( _pid, "#settings-startup").val() );
+    })
     //壁紙
     .delegate(".settings-wallpaper", "click", function () {
         $("#winc" + _pid).load("./app/settings/wallpaper.html");

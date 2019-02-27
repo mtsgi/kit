@@ -26,6 +26,10 @@ function app_browser(_pid){
 
     S.resizable( _pid, "#browser-frame", 200 );
 
+    S.dom( _pid, "#browser-menu-reload").on("click", function(){
+        S.dom( _pid, "#browser-frame" )[0].contentDocument.location.reload(true);
+    });
+
     $("#winc" + _pid + " #browser-menu-bookmark").on("click", function(){
         $("#winc" + _pid +" #browser-frame").attr("src", "./app/browser/bookmark.html");
         $("#winc" + _pid +" .browser-menu").hide();

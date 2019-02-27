@@ -12,7 +12,7 @@ function app_console(_pid) {
         var log = $("#winc"+_pid+" .simple-box").html();
         var exec = $("#winc"+_pid+" .textbox").val();
         prevCommand = exec;
-        var _return = JSON.stringify( eval(exec) );
+        //var _return = JSON.stringify( eval(exec) );
         if( exec ){
             $("#winc"+_pid+" .simple-box").html(exec+"<br><span class='fa fa-arrow-left'></span>");
             $("#winc"+_pid+" .simple-box").append( JSON.stringify( eval(exec) )+"<br><div class='console-log'>"+log+"</div>");

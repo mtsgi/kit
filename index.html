@@ -5,6 +5,7 @@
 	<meta charset="UTF-8">
 	<title>kitDesktop</title>
 	<script src="system/jquery.min.js"></script>
+	<script src="system/jquery.pep.js"></script>
 	<link rel="stylesheet" href="system/jquery-ui-1.12.1/jquery-ui.min.css">
 	<script src="system/jquery-ui-1.12.1/jquery-ui.js"></script>
 	<script src="system/html2canvas.js"></script>
@@ -14,6 +15,7 @@
 	<link rel="stylesheet" href="system/simplebar.css">
 	<script src="system/simplebar.js"></script>
 	<link href="system/theme/theme-default.css" rel="stylesheet" id="kit-theme-file">
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
 </head>
 
 <body id="body">
@@ -26,6 +28,7 @@
 
 	<section id="desktop-1">
 			<a onclick="launch('document')" class="home-icon"><span class="home-fa far fa-file-alt"></span>ドキュメント</a>
+			<a onclick="launch('fivr')" class="home-icon"><span class="home-fa fa fa-folder-open"></span>ファイル</a>
 			<a onclick="launch('browser')" class="home-icon"><span class="home-fa fa fa-globe-asia"></span>ブラウザ</a>
 			<a onclick="launch('settings')" class="home-icon"><span class="home-fa fa fa-cogs"></span>設定</a>
 			<a onclick="launch('grapes')" class="home-icon"><span class="home-fa fa fa-laptop-code"></span>Web作成</a>
@@ -44,13 +47,15 @@
 		<img src="" id="task-ctx-img">
 		<div id="task-ctx-name">task.name</div><div id="task-ctx-ver">task.version</div>
 		<a id="task-ctx-info">アプリ情報</a>
+		<a id="task-ctx-sshot">スクリーンショット</a>
 		<a id="task-ctx-min">最小化／復元</a>
 		<a id="task-ctx-close">窓を閉じる</a>
 		<a id="task-ctx-kill">アプリ終了</a>
 	</div>
 
 	<div id="launcher">
-			<div id="launcher-header">アプリケーション<a class="kit-button">アプリの管理</a>
+			<div id="launcher-header">アプリケーション
+				<a class="kit-button" onclick="$('#launch').click();launch('appman')">アプリの管理</a>
 			</div>
 			<div id="launcher-apps"></div>
 	</div>
@@ -68,9 +73,12 @@
 	</footer>
 
 	<div id="kit-context">
-		<input type="text" class="textbox" placeholder="Web検索" id="kit-context-search">
-		<a><span class="fa fa-plus"></span> 新規作成</a>
-		<a><span class="fa fa-info"></span> システム情報</a>
+		<div id="kit-context-elem">要素</div>
+		<div id="kit-context-size"></div>
+		<a id="kit-context-open"><span class="fa fa-external-link-alt"></span> 要素を開く</a>
+		<a id="kit-context-save"><span class="fa fa-file-download"></span> 要素を保存</a>
+		<input type="text" class="textbox" placeholder="Web検索" id="kit-context-input">
+		<a id="kit-context-search"><span class="fa fa-search"></span> 検索する</a>
 		<a onclick="launch('settings', {'view': 'wallpaper'})"><span class="fa fa-image"></span> 壁紙の設定</a>
 	</div>
 

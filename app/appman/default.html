@@ -1,0 +1,15 @@
+<script>
+    $.getJSON("config/apps.json", function( data ){
+        $("#appman-list1").html("");
+        for( i in data ){
+            //Notification.push( i, "アプリ名:" + data[i].name, i );
+            $("#appman-list1").append("・<a class='kit-hyperlink'>" + data[i].name + "</a> " + i + "<br>");
+        }
+    });
+    S.avoidMultiple( pid, true );
+</script>
+<div style="width: 400px">
+    <h3><span class="far fa-window-restore"></span> アプリ管理</h3>
+    config/apps.json内
+    <div id="appman-list1"></div>
+</div>

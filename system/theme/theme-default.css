@@ -430,12 +430,12 @@ section .ui-draggable-dragging{
 	box-shadow: 0px 1px 3px 0px rgba(0,0,0,.3), inset 0px 0px 2px 0px rgba(255,255,255,.5);
 }
 .kit-button:hover{
-	background: rgb(17, 111, 204);
-	box-shadow: 0px 1px 3px 0px rgba(0,0,0,.5), inset 0px 0px 2px 0px rgba(0,0,0,.5);
+	box-shadow: 0px 1px 3px 0px rgba(0,0,0,.5), inset 0px 0px 2px 0px rgba(0,0,0,.5), inset 0px 9999px 0px 0px rgba(0,0,0,.2);
 }
 .kit-button:active{
-	box-shadow: none;
-	padding: 2px 10px 0px 10px;
+	box-shadow: inset 0px 9999px 0px 0px rgba(0,0,0,.2);
+	position: relative;
+	top: 2px;
 }
 .kit-selectable{
 	  cursor:url(../cursor-3.png), text;
@@ -610,6 +610,16 @@ h3{
 	background: dodgerblue;
 	color: white;
 }
+#kit-context-elem{
+	color: #a0a0a0;
+	padding: 0px 5px;
+}
+#kit-context-size{
+	color: #a0a0a0;
+	font-size: 12px;
+	padding: 0px 5px;
+	border-bottom: 1px solid #a0a0a0;
+}
 
 #kit-tasks{
 	display: none;
@@ -691,6 +701,27 @@ h3{
 #launcher-header .kit-button{
 	font-size: 18px;
 	float: right;
+}
+#launcher-apps{
+	display: flex;
+	flex-wrap: wrap; 
+}
+.launcher-app{
+	border-radius: 5px;
+	padding: 4px;
+	margin: 4px;
+	text-shadow: 0px 0px 3px black;
+	width: 120px;
+	text-align: center;
+}
+.launcher-app:hover{
+	background: rgba(0,0,0,.5);
+	opacity: .8;
+}
+.launcher-app img{
+	display: block;
+	margin: 0 auto;
+	height: 70px;
 }
 #last-notification{
 	z-index: 9996;

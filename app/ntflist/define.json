@@ -1,0 +1,11 @@
+{
+    "id": "ntflist",
+    "name": "通知履歴",
+    "icon": "icon.png",
+    "version": "0.0.0",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "ntflist.js",
+    "css": "ntflist.css"
+}
