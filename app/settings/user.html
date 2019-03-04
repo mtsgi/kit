@@ -7,6 +7,20 @@
     }
     else $(".settings-user-currentpassword").text("未設定です");
     $(".settings-open-userpage > span").css("color", localStorage.getItem("kit-user-color") );
+    if( localStorage.getItem("kit-lock") == "true" ){
+        $("#settings-user-lockdisp").prop('checked', true);
+    }
+    else{
+        $("#settings-user-lockdisp").prop('checked', false);
+    }
+    $("#settings-user-lockdisp").on("change", function(){
+        if( $("#settings-user-lockdisp").is(':checked') ){
+            localStorage.setItem("kit-lock", "true");
+        }
+        else{
+            localStorage.setItem("kit-lock", "false");
+        }
+    });
 </script>
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 <h3><span class='fa fa-user-cog'></span> ユーザー設定</h3>

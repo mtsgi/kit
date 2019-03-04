@@ -34,7 +34,9 @@ function app_fivr(_pid){
             new SimpleBar( S.dom( _pid, "#fivr-preview" )[0] );
             S.dom( _pid, "#fivr-filename" ).val("");
 
-            System.resizable( _pid, ".winc > div, #fivr-preview, #fivr-files" );
+            $("#fivr-preview").resizable({
+                ghost: true
+            });
             //Saving
             S.dom( _pid, "#fivr-save-button" ).on("click", function(){
                 if( S.dom( _pid, "#fivr-filename" ).val().length == 0 ){

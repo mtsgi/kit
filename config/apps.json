@@ -39,6 +39,11 @@
         "icon": "./app/ntflist/icon.png"
     },
 
+    "nqueen": {
+        "name": "Nクイーン",
+        "icon": "./app/nqueen/icon.png"
+    },
+
     "settings": {
         "name": "設定",
         "icon": "./app/settings/icon.png"

@@ -2,7 +2,7 @@
     "id": "settings",
     "name": "設定",
     "icon": "icon.png",
-    "version": "0.0.0",
+    "version": "2.0.0",
     "author": "kit",
 
     "view": "default.html",

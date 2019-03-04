@@ -20,6 +20,8 @@ function Load() {
     if( !localStorage.getItem( "kit-username" ) ) localStorage.setItem( "kit-username", "ユーザー" );
     $( "#kit-header-username" ).text( localStorage.getItem( "kit-username" ) );
 
+    if( localStorage.getItem( "kit-lock" ) == null ) localStorage.setItem( "kit-lock", "false" );
+
     if( localStorage.getItem( "kit-wallpaper" ) ) $( "#kit-wallpaper" ).css( "background", localStorage.getItem( "kit-wallpaper" ) ).css( "background-size", "cover" );
 
     if( !localStorage.getItem( "kit-default-browser" ) ) localStorage.setItem( "kit-default-browser", "browser" );
@@ -88,6 +90,7 @@ function Load() {
     //電源管理
     $( ".power-button" ).click( function() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
+        $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
         $( "section, header, footer, #kit-wallpaper" ).css( "filter", "blur(5px)" );
         $( "#kit-power" ).fadeIn( 300 );
     } );
@@ -107,16 +110,7 @@ function Load() {
         System.alert("サスペンド機能", "サスペンド機能はこのバージョンのkitではサポートされていません。");
     } );
     $( "#kit-power-lock" ).click( function() {
-        System.moveDesktop( "l" );
-
-        $( "#lock-user-icon" ).css( "background", localStorage.getItem( "kit-user-color" ) );
-        $( "section, header, footer" ).css( "filter", "none" );
-        $( "#kit-wallpaper" ).css( "filter", "blur(20px)" );
-        $( "header, footer, #kit-power" ).hide();
-
-        $( "#lock-username" ).text( localStorage.getItem( "kit-username" ) );
-        if( localStorage.getItem( "kit-password" ) ) $( "#lock-password" ).show();
-        else $( "#lock-password" ).hide();
+        System.lock();
     } );
     $( "#lock-password" ).keypress( function( e ) {
         if( e.which == 13 ) $( "#lock-unl" ).click();
@@ -126,7 +120,7 @@ function Load() {
             $( "header, footer" ).show();
             $( "section, header, footer, #kit-wallpaper" ).css( "filter", "none" );
             $( "#lock-password" ).val( "" );
-            System.moveDesktop( currentDesktop );
+            System.moveDesktop(1);
         }
         else $( "#lock-password" ).effect( "bounce", {distance: 12, times: 4}, 500 );
     } ).hover( function() {
@@ -205,6 +199,15 @@ function Load() {
         $("#kit-context").fadeOut(300);
     });
 
+    $("#kit-context-vacuum").on("click", function(){
+        for( i in process ){
+            $("#w"+i).css("transition", ".5s all ease").css("left", S.mouseX - Number( $("#w"+i).innerWidth() / 2 ) ).css("top", S.mouseY - Number( $("#w"+i).innerHeight() / 2 ) );
+        }
+        setTimeout(() => {
+            $(".window").css("transition", "none");
+        }, 500);
+    });
+
     $("section").on("click", function(){
         $("#kit-context").fadeOut(300);
     })
@@ -218,6 +221,13 @@ function Load() {
         System.mouseX = event.clientX;
         System.mouseY = event.clientY;
     });
+
+    if( localStorage.getItem( "kit-lock" ) == "true" ){
+        $("section").hide();
+        setTimeout(() => {
+            System.lock();
+        }, 100);
+    }
 }
 
 function launch( str, args ) {
@@ -258,11 +268,11 @@ function appData( data ) {
         $( "#task-ctx-close" ).off().on( "click", function() { close( String(pid) ) } );
         $( "#task-ctx-kill" ).off().on( "click", function() { kill( String(data.id) ) } );
         const _ctxleft = $( "#t" + pid ).offset().left;
-        const _footertop = Number( $( "footer" ).offset().top ) - 215;
+        const _ctxtop = window.innerHeight - $( "#t" + pid ).offset().top;
         if( _ctxleft != $( "#task-ctx" ).offset().left ) {
             $( "#task-ctx" ).hide();
         }
-        $( "#task-ctx" ).css( "left", _ctxleft ).css( "top", _footertop ).show();
+        $( "#task-ctx" ).css( "left", _ctxleft ).css( "bottom", _ctxtop ).show();
     } );
     $( "section, #kit-tasks" ).on( "mouseenter", function() {
         $( "#task-ctx" ).fadeOut( 200 );
@@ -340,7 +350,7 @@ function kill( str ) {
 }
 
 const System = new function() {
-    this.version = "0.1.0";
+    this.version = "0.1.1";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
 
@@ -359,6 +369,8 @@ const System = new function() {
     this.appCache = {};
     //引数
     this.args = {};
+
+    this.support = $.support;
 
     this.screenshot = function( _pid, _popup ){
         let _elem = document.querySelector("body");
@@ -407,6 +419,19 @@ const System = new function() {
         location.reload();
     }
 
+    this.lock = function(){
+        System.moveDesktop( "l" );
+
+        $( "#lock-user-icon" ).css( "background", localStorage.getItem( "kit-user-color" ) );
+        $( "section, header, footer" ).css( "filter", "none" );
+        $( "#kit-wallpaper" ).css( "filter", "blur(20px)" );
+        $( "header, footer, #kit-power" ).hide();
+
+        $( "#lock-username" ).text( localStorage.getItem( "kit-username" ) );
+        if( localStorage.getItem( "kit-password" ) ) $( "#lock-password" ).show();
+        else $( "#lock-password" ).hide();
+    }
+
     this.alert = function( title, content, winname ) {
         launch( "alert", [title, content, winname] );
     }
@@ -423,6 +448,15 @@ const System = new function() {
             $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
             $( "#t" + _pid ).removeClass( "task-min" );
         }
+    }
+    
+    this.vacuum = function( _left, _top ){
+        for( i in process ){
+            $("#w"+i).css("transition", ".5s all ease").css("left", _left ).css("top", _top );
+        }
+        setTimeout(() => {
+            $(".window").css("transition", "none");
+        }, 500);
     }
 
     this.time = {

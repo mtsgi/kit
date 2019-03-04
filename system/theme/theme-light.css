@@ -182,7 +182,7 @@ header a:hover{
 	font-size: 30px;
 }
 footer{
-	z-index: 9999;
+	z-index: 9998;
 	background: #c0c0c0;
 	width : 100%;
 	min-height: 45px;
@@ -397,7 +397,7 @@ section .ui-draggable-dragging{
     color: white;
 }
 #task-ctx{
-	z-index: 9998;
+	z-index: 9999;
 	display: none;
 	position: absolute;
 	bottom: 0px;
@@ -406,7 +406,7 @@ section .ui-draggable-dragging{
 	left : 74px;
 	box-sizing: border-box;
 	padding : 6px;
-	padding-bottom: 45px;
+	padding-bottom: 8px;
 	margin-top: 24px;
 	border : 2px solid white;
 	font-size: 15px;

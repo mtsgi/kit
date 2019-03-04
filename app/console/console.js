@@ -1,6 +1,8 @@
 app_console(pid);
 
 function app_console(_pid) {
+    "use strict";
+
     let prevCommand = "";
 
     $("#w" + _pid).resizable({

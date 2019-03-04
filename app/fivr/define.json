@@ -2,7 +2,7 @@
     "id": "fivr",
     "name": "Fivr",
     "icon": "icon.png",
-    "version": "0.1.0",
+    "version": "1.1.2",
     "author": "kit",
 
     "view": "explore.html",
