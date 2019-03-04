@@ -1,4 +1,4 @@
-S.avoidMultiple(pid, true);
+S.avoidMultiple(pid, false);
 
 ((_pid) => {
     for( i in Notification.list ){

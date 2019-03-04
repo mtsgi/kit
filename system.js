@@ -8,6 +8,7 @@
 // http://web.kitit.ml/
 // https://github.com/mtsgi/kit
 
+"use strict";
 
 $( document ).ready( Load );
 
@@ -43,7 +44,7 @@ function Load() {
         localStorage.setItem( "kit-startup", new Array( "welcome" ) );
     }
     System.startup = localStorage.getItem( "kit-startup" ).split( "," );
-    for( i of System.startup ) {
+    for( let i of System.startup ) {
         if( i != "" ) launch( i );
     }
     Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system" );
@@ -200,7 +201,7 @@ function Load() {
     });
 
     $("#kit-context-vacuum").on("click", function(){
-        for( i in process ){
+        for( let i in process ){
             $("#w"+i).css("transition", ".5s all ease").css("left", S.mouseX - Number( $("#w"+i).innerWidth() / 2 ) ).css("top", S.mouseY - Number( $("#w"+i).innerHeight() / 2 ) );
         }
         setTimeout(() => {
@@ -288,6 +289,7 @@ function appData( data ) {
     $( "#desktop-" + currentDesktop ).append( "<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wt" + pid + "' class='wt'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>" );
     var windowPos = 50 + ( pid % 10 ) * 20;
     //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
+    System.windowIndex ++;
     $( "#w" + pid ).addClass( "window" ).pep({
         elementsWithInteraction: ".winc, .ui-resizable-handle",
         useCSSTranslation: false,
@@ -295,9 +297,9 @@ function appData( data ) {
         shouldEase:	true,
         initiate: function(){
             $(this.el).addClass("ui-draggable-dragging");
-            $(".window").css("zIndex", "1");
-            this.el.style.zIndex = 2;
-            S.refreshWindowIndex();
+            System.windowIndex ++;
+            this.el.style.zIndex = System.windowIndex;
+            System.refreshWindowIndex();
         },
         rest: function(){
             this.el.style.transition = "none";
@@ -305,7 +307,7 @@ function appData( data ) {
         }
     }).on( "mousedown", function(){
         $(".window").css( "transition", "none" );
-    } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
+    } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  System.windowIndex );
     $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( function() {System.min( String( pid ) )} );
     $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( function() {close( String( pid ) )} );
     $( "#winc" + pid ).resizable( {
@@ -326,7 +328,7 @@ function appInfo( str ){
     if( ac ){
         _title = ac.name + " (" + ac.version + ")";
         _content = "<img style='height: 96px' src='./app/" + ac.id + "/" + ac.icon + "'><br>";
-        for( i in ac ){
+        for( let i in ac ){
             _content += "<div style='font-weight: 100'>" + i + " : " + ac[i] + "</div>";
         }
     }
@@ -344,7 +346,7 @@ function close( str ) {
 }
 
 function kill( str ) {
-    for( pid in process ) {
+    for( let pid in process ) {
         if( process[pid] && process[pid].id == str ) close( pid );
     }
 }
@@ -406,7 +408,7 @@ const System = new function() {
     this.shutdown = function() {
         $( "#last-notification-close" ).click();
         $( "#kit-power-back" ).click();
-        for( i in process ) {
+        for( let i in process ) {
             close( i );
             $( "section" ).hide();
         }
@@ -451,7 +453,7 @@ const System = new function() {
     }
     
     this.vacuum = function( _left, _top ){
-        for( i in process ){
+        for( let i in process ){
             $("#w"+i).css("transition", ".5s all ease").css("left", _left ).css("top", _top );
         }
         setTimeout(() => {
@@ -506,7 +508,7 @@ const System = new function() {
     this.avoidMultiple = function( _pid, _alert ) {
         let _id = process[_pid].id;
         let _cnt = 0;
-        for( i in process ) {
+        for( let i in process ) {
             if( process[i].id == _id ) _cnt += 1;
         }
         console.log( _cnt );
@@ -531,14 +533,27 @@ const System = new function() {
         });
     }
 
+    this.windowIndex = 1;
+
     this.refreshWindowIndex = function(){
-        for( let i=0; i<$(".window"); i++){
-            console.log( $(".window")[i] );
+        let num = $(".window").length;
+        let _array = new Array();
+        let _obj = new Object();
+        for( let i = 0; i < num; i++ ){
+            _obj = { id: $(".window")[i].id, zindex: $(".window")[i].style.zIndex };
+            _array.push( _obj );
         };
+        _array.sort( (a,b) => {
+            return Number(a.zindex - b.zindex);
+        } );
+        for( let i in _array ){
+            document.getElementById(_array[i].id).style.zIndex = i;
+        }
+        System.windowIndex = num;
     }
 
     this.initLauncher = function(data){
-        for(i in data){
+        for( let i in data ){
             $("#launcher-apps").append("<div class='launcher-app' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
         }
         $(".launcher-app").on("click", function(){
@@ -580,6 +595,6 @@ const Notification = new function() {
 }
 
 var process = {};
-var processID = 0, currentDesktop = 1;
+var processID = 0, pid, currentDesktop = 1;
 var currentCTX = "";
 var prevWindowIndex, S;

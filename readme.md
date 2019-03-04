@@ -6,6 +6,7 @@ kitはJavaScript製のカーネルで動作する軽量デスクトップ環境�
 * [github-pages](https://mtsgi.github.io/kit/)
 
 # documents
+* [GitHub Wiki](https://github.com/mtsgi/kit/wiki)
 * [kit公式Webサイト](http://web.kitit.ml/)
 * [mtsgi/kit - GitHub](https://github.com/mtsgi/kit)
 * [kit開発ブログ](https://kitdev.home.blog/)
