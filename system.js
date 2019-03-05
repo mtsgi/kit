@@ -8,8 +8,6 @@
 // http://web.kitit.ml/
 // https://github.com/mtsgi/kit
 
-"use strict";
-
 $( document ).ready( Load );
 
 function Load() {
@@ -151,6 +149,8 @@ function Load() {
         $( "#kit-milp" ).fadeOut( 200 );
     } ).on( 'keydown keyup keypress change', function() {
         $( "#kit-milp-text" ).text( $( this ).val() );
+    } ).keypress( function( e ) {
+        if( e.which == 13 ) $( "#kit-milp-launch" ).click();
     } );
     $( "#kit-milp-launch" ).click( function() {
         let _app = $( "#milp" ).val().split(",")[0];
@@ -173,7 +173,7 @@ function Load() {
     } );
 
     //コンテキストメニュー
-    $(":root section").on("contextmenu", function() {
+    $(":root section:not(#desktop-l)").on("contextmenu", function() {
         let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );
         S.selectedElement = _ptelem;
         $( "#kit-context-input" ).val( _ptelem.text() );
@@ -266,6 +266,10 @@ function appData( data ) {
         $( "#task-ctx-info" ).off().on( "click", function() {appInfo( data.id )} );
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
         $( "#task-ctx-min" ).off().on( "click", function() { S.min( String(pid) ) } );
+        $( "#task-ctx-front" ).off().on( "click", function() {
+            $("#w"+pid).css("z-index", System.windowIndex + 1);
+            System.refreshWindowIndex();
+        } );
         $( "#task-ctx-close" ).off().on( "click", function() { close( String(pid) ) } );
         $( "#task-ctx-kill" ).off().on( "click", function() { kill( String(data.id) ) } );
         const _ctxleft = $( "#t" + pid ).offset().left;
@@ -537,17 +541,17 @@ const System = new function() {
 
     this.refreshWindowIndex = function(){
         let num = $(".window").length;
-        let _array = new Array();
-        let _obj = new Object();
+        let array = new Array();
+        let obj = new Object();
         for( let i = 0; i < num; i++ ){
-            _obj = { id: $(".window")[i].id, zindex: $(".window")[i].style.zIndex };
-            _array.push( _obj );
+            obj = { id: $(".window")[i].id, zindex: $(".window")[i].style.zIndex };
+            array.push( obj );
         };
-        _array.sort( (a,b) => {
+        array.sort( (a,b) => {
             return Number(a.zindex - b.zindex);
         } );
-        for( let i in _array ){
-            document.getElementById(_array[i].id).style.zIndex = i;
+        for( let i in array ){
+            document.getElementById(array[i].id).style.zIndex = i;
         }
         System.windowIndex = num;
     }
