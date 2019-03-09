@@ -442,6 +442,14 @@ const System = new function() {
         launch( "alert", [title, content, winname] );
     }
 
+    this.dialog = function( title, content, func ){
+        launch("dialog", {
+            "title": title,
+            "content": content,
+            "func": func
+        })
+    }
+
     this.min = function( str ) {
         var _pid = String( str );
         if( $( "#w" + _pid ).is( ":visible" ) ) {
@@ -481,9 +489,9 @@ const System = new function() {
         S.time.obj = DD;
         let Year = DD.getFullYear();
         S.time.y = Year;
-        let Month = DD.getMonth();
+        let Month = ( "00" + Number(DD.getMonth()+1) ).slice( -2 );
         S.time.m = Month;
-        let DateN = DD.getDate();
+        let DateN = ( "00" + DD.getDate() ).slice( -2 );
         S.time.d = DateN;
         let Hour = ( "00" + DD.getHours() ).slice( -2 );
         S.time.h = Hour;

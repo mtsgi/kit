@@ -1,0 +1,11 @@
+{
+    "id": "dialog",
+    "name": " ダイアログ",
+    "icon": "icon.png",
+    "version": "1.0.!",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "dialog.js",
+    "css": ""
+}
