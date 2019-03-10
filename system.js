@@ -21,12 +21,18 @@ function Load() {
 
     if( localStorage.getItem( "kit-lock" ) == null ) localStorage.setItem( "kit-lock", "false" );
 
-    if( localStorage.getItem( "kit-wallpaper" ) ) $( "#kit-wallpaper" ).css( "background", localStorage.getItem( "kit-wallpaper" ) ).css( "background-size", "cover" );
+    if( System.bootopt.get("safe") ) $( "#kit-wallpaper" ).css( "background","#404040" );
+    else if( localStorage.getItem( "kit-wallpaper" ) ) $( "#kit-wallpaper" ).css( "background", localStorage.getItem( "kit-wallpaper" ) ).css( "background-size", "cover" );
 
     if( !localStorage.getItem( "kit-default-browser" ) ) localStorage.setItem( "kit-default-browser", "browser" );
 
-    if( !localStorage.getItem( "kit-theme" ) ) localStorage.setItem( "kit-theme", "theme-default.css" );
-    $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
+    if( System.bootopt.get("safe") ){
+        $("#kit-theme-file").attr("href", "./system/theme/theme-light.css" );
+    }
+    else{
+        if( !localStorage.getItem( "kit-theme" ) ) localStorage.setItem( "kit-theme", "theme-default.css" );
+        $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
+    }
 
     if( !localStorage.getItem( "kit-appdir" ) ) localStorage.setItem( "kit-appdir", "./app/" );
     S.appdir = localStorage.getItem( "kit-appdir" );
@@ -35,17 +41,23 @@ function Load() {
 
     System.moveDesktop( "1" );
 
-    var clockmove = setInterval( System.clock, 10 );
+    var clockmove;
+    if( System.bootopt.get("safe") ) clockmove = setInterval( System.clock, 1000 );
+    else  clockmove = setInterval( System.clock, 10 );
 
+    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system" );
     //スタートアップ
     if( localStorage.getItem( "kit-startup" ) == undefined ) {
         localStorage.setItem( "kit-startup", new Array( "welcome" ) );
     }
     System.startup = localStorage.getItem( "kit-startup" ).split( "," );
-    for( let i of System.startup ) {
+    if( System.bootopt.get("safe") ){
+        Notification.push( "セーフブート", "現在、kitをセーフモードで起動しています。", "system" );
+        System.alert( "セーフブート", "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='location.href=\"index.html\";'>通常モードで再起動</a>", "system" );
+    }
+    else for( let i of System.startup ) {
         if( i != "" ) launch( i );
     }
-    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system" );
 
     //イベントハンドラ
     $( "#desktops" ).click( function() {
@@ -153,6 +165,10 @@ function Load() {
         if( e.which == 13 ) $( "#kit-milp-launch" ).click();
     } );
     $( "#kit-milp-launch" ).click( function() {
+        if( $("#milp").val() == "kit" ){
+            System.alert("", "<div style='text-align:left;'>　＿　　　　＿　＿　<br>｜　｜　＿（＿）　｜＿　<br>｜　｜／　／　｜　＿＿｜<br>｜　　　〈｜　｜　｜＿　<br>｜＿｜＼＿ ＼＿＼＿＿｜</div>", S.version);
+            return;
+        }
         let _app = $( "#milp" ).val().split(",")[0];
         let _args = null;
         try {
@@ -356,9 +372,11 @@ function kill( str ) {
 }
 
 const System = new function() {
-    this.version = "0.1.1";
+    this.version = "0.1.2";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
+
+    this.bootopt = new URLSearchParams(location.search);
 
     this.mouseX = 0;
     this.mouseY = 0;
@@ -488,6 +506,7 @@ const System = new function() {
         let DD = new Date();
         S.time.obj = DD;
         let Year = DD.getFullYear();
+        S.time.day = DD.getDay();
         S.time.y = Year;
         let Month = ( "00" + Number(DD.getMonth()+1) ).slice( -2 );
         S.time.m = Month;

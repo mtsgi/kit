@@ -1,5 +1,6 @@
 <script>
     $( "#settings-startup" ).val( localStorage.getItem( "kit-startup" ) );
+    if( System.bootopt.get("safe") ) $("#settings-issafe").html("<strong>[！]現在セーフモードで起動しています</strong><br>");
 </script>
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 
@@ -15,7 +16,15 @@
 <br>
 <span class='fa fa-clock'></span>時刻<br>
 <div class="little">
-    時刻：<span class="os-time"></span>
+    時刻はSystem.timeオブジェクトに格納されています。<br>
+    設定された時刻：<span class="os-time"></span>
 </div>
 <span class='fa fa-window-restore'></span>アプリ管理<br>
-アプリケーションの管理：<a onclick="launch('appman')" class="kit-hyperlink">アプリ管理</a>
+<div class="little">
+    アプリケーションの管理は<a onclick="launch('appman')" class="kit-hyperlink">アプリ管理</a>から実行してください。
+</div>
+<span class='fa fa-shield-alt'></span>セーフブート
+<div class="little">
+    <span id="settings-issafe" style="color: blue;"></span>
+    セーフモードで起動する場合は、<a class="kit-hyperlink" onclick="location.href = '?safe=true'">ここをクリック</a>またはkitにパラメータ<strong>safe=true</strong>を付与して再起動します。
+</div>

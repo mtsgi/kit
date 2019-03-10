@@ -1,5 +1,5 @@
 # kit
-kitはJavaScript製のカーネルで動作する軽量デスクトップ環境を提供します。
+kitはJavaScript製のカーネルで動作し、非常に軽量なデスクトップ環境を提供します。
 
 # latest kit
 * [ダウンロード](https://github.com/mtsgi/kit/releases)
