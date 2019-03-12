@@ -31,3 +31,9 @@
 .ntflist-d:before{
   content: "送信元：";
 }
+.ntflist-e{
+  font-size: 14px;
+}
+.ntflist-e:before{
+  content: "送信日時：";
+}

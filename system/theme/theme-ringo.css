@@ -355,6 +355,10 @@ footer .task-min:before{
 	margin: 9px;
 	border-radius: 99px;
 }
+.notis_time{
+	font-size: 13px;
+	color: #909090;
+}
 .window{
 	position: absolute;
 	box-shadow: 0px 2px 20px 0px rgba(0,0,0,.8);

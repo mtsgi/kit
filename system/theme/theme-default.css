@@ -347,6 +347,10 @@ footer .task-min:after{
 	margin: 2px;
 	border-radius: 99px;
 }
+.notis_time{
+	font-size: 13px;
+	color: #909090;
+}
 #tasks{
 	padding-left: 38px;
 }

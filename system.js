@@ -492,7 +492,7 @@ const System = new function() {
     }
 
     this.time = {
-        "obj" : null,
+        "obj" : new Date(),
         "y" : "1970",
         "m" : "1",
         "d" : "1",
@@ -602,13 +602,14 @@ const Notification = new function() {
         this.list[this.nid] = {
             "title" : _title,
             "content" : _content,
-            "app" : _app
+            "app" : _app,
+            "time" : System.time.obj.toLocaleString()
         };
         $( "#last-notification-title" ).text("").text( _title );
         $( "#last-notification-content" ).text("").text( _content );
         $( "#last-notification-app" ).text("").text( _app );
         $( "#last-notification" ).hide().show( "drop", {direction: "right"}, 300 );
-        $( "#notifications" ).append( "<div class='notis' id='nt" + this.nid + "'><span class='notis_close' id='nc" + this.nid + "'></span><span><span class='fas fa-comment-alt'></span>" + _title + "</span>" + _content + "</div>" );
+        $( "#notifications" ).append( "<div class='notis' id='nt" + this.nid + "'><span class='notis_close' id='nc" + this.nid + "'></span><span><span class='fas fa-comment-alt'></span>" + _title + "</span>" + _content + "<div class='notis_time'>" + System.time.obj.toLocaleString() + "</div></div>" );
         $("#nc" + this.nid).on("click", function(){
             let _nid = this.id.slice(2);
             $("#nt" + _nid).fadeOut(300);
