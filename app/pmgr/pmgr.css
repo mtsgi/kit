@@ -1,5 +1,5 @@
 .winc-pmgr > div{
-  min-width: 500px;
+  width: 500px;
 }
 #pmgr-t thead{
   background: #e0e0e0;
