@@ -250,11 +250,17 @@ footer .task{
 	padding: 5px 4px;
 	border-top : 5px solid #303030;
 	width: 200px;
-	margin : 0px 4px;
+	margin : 0px 0px;
 	box-shadow: inset -200px 0px 0px 0px #e0e0e0, inset 200px 0px 0px 0px #e0e0e0;
 	transition: .2s all ease;
-	position: relative;
-	top : -5px;
+	overflow: hidden;
+	height: 38px;
+	font-size: 15px;
+	margin-top: -5px;
+}
+footer .task:nth-child(odd){
+	border-top : 5px solid #606060;
+	box-shadow: inset -200px 0px 0px 0px #f0f0f0, inset 200px 0px 0px 0px #f0f0f0;
 }
 footer .task:hover{
 	box-shadow: inset 0px 0px 0px 0px #ccc, inset 0px 0px 0px 0px #ccc;
@@ -299,7 +305,7 @@ footer .task-min:after{
 	position: absolute;
 	cursor:url(../cursor-2.png), pointer;
 	font-size: 22px;
-	padding: 6px 5px;
+	padding: 8px 5px;
 }
 #footer-tasks:hover{
 	text-shadow: 0px 1px 3px dodgerblue;

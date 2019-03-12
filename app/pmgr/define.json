@@ -1,0 +1,11 @@
+{
+    "id": "pmgr",
+    "name": "プロセスマネージャー",
+    "icon": "icon.png",
+    "version": "0.0.1",
+    "author": "kit",
+
+    "view": "default.html",
+    "script": "pmgr.js",
+    "css": "pmgr.css"
+}

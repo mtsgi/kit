@@ -1,0 +1,16 @@
+.winc-pmgr > div{
+  min-width: 500px;
+}
+#pmgr-t thead{
+  background: #e0e0e0;
+}
+#pmgr-t th{
+  text-align: left;
+}
+#pmgr-t td img{
+  float: left;
+  height: 25px;
+}
+#pmgr-t tr:hover{
+  background: #f0f0f0;
+}

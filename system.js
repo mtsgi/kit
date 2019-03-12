@@ -268,9 +268,12 @@ function launch( str, args ) {
 
 function appData( data ) {
     var pid = processID;
-    process[String( pid )] = data;
+    process[String( pid )] = {
+        id: data.id,
+        time: System.time.obj.toLocaleString()
+    };
     System.appCache[data.id] = data;
-    $( "#tasks" ).append( "<span id='t" + pid + "'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</span>" );
+    $( "#tasks" ).append( "<span id='t" + pid + "'><img src='./app/" + data.id + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
     //タスクバーのクリック挙動
     $( "#t" + pid ).addClass( "task" ).click( function() {
         System.min( pid );
@@ -469,7 +472,7 @@ const System = new function() {
     }
 
     this.min = function( str ) {
-        var _pid = String( str );
+        let _pid = String( str );
         if( $( "#w" + _pid ).is( ":visible" ) ) {
             $( "#w" + _pid ).css("transition", "none").hide( "drop", {direction: "down"}, 300 );
             $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
@@ -480,6 +483,14 @@ const System = new function() {
             $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
             $( "#t" + _pid ).removeClass( "task-min" );
         }
+    }
+
+    this.close = function( str ) {
+        let _pid = String( str );
+        $( "#w" + _pid ).remove();
+        $( "#t" + _pid ).remove();
+        $( "#task-ctx" ).hide();
+        delete process[_pid];
     }
     
     this.vacuum = function( _left, _top ){
