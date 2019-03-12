@@ -286,8 +286,8 @@ function appData( data ) {
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
         $( "#task-ctx-min" ).off().on( "click", function() { S.min( String(pid) ) } );
         $( "#task-ctx-front" ).off().on( "click", function() {
-            $("#w"+pid).css("z-index", System.windowIndex + 1);
-            System.refreshWindowIndex();
+            $("#w"+pid).css("z-index", KWS.windowIndex + 1);
+            KWS.refreshWindowIndex();
         } );
         $( "#task-ctx-close" ).off().on( "click", function() { close( String(pid) ) } );
         $( "#task-ctx-kill" ).off().on( "click", function() { kill( String(data.id) ) } );
@@ -312,7 +312,7 @@ function appData( data ) {
     $( "#desktop-" + currentDesktop ).append( "<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wt" + pid + "' class='wt'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>" );
     var windowPos = 50 + ( pid % 10 ) * 20;
     //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
-    System.windowIndex ++;
+    KWS.windowIndex ++;
     $( "#w" + pid ).addClass( "window" ).pep({
         elementsWithInteraction: ".winc, .ui-resizable-handle",
         useCSSTranslation: false,
@@ -320,9 +320,9 @@ function appData( data ) {
         shouldEase:	true,
         initiate: function(){
             $(this.el).addClass("ui-draggable-dragging");
-            System.windowIndex ++;
-            this.el.style.zIndex = System.windowIndex;
-            System.refreshWindowIndex();
+            KWS.windowIndex ++;
+            this.el.style.zIndex = KWS.windowIndex;
+            KWS.refreshWindowIndex();
         },
         rest: function(){
             this.el.style.transition = "none";
@@ -330,7 +330,7 @@ function appData( data ) {
         }
     }).on( "mousedown", function(){
         $(".window").css( "transition", "none" );
-    } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  System.windowIndex );
+    } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
     $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( function() {System.min( String( pid ) )} );
     $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( function() {close( String( pid ) )} );
     $( "#winc" + pid ).resizable( {
@@ -472,17 +472,7 @@ const System = new function() {
     }
 
     this.min = function( str ) {
-        let _pid = String( str );
-        if( $( "#w" + _pid ).is( ":visible" ) ) {
-            $( "#w" + _pid ).css("transition", "none").hide( "drop", {direction: "down"}, 300 );
-            $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
-            $( "#t" + _pid ).addClass( "task-min" );
-        }
-        else {
-            $( "#w" + _pid ).show( "drop", {direction: "down"}, 300 );
-            $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
-            $( "#t" + _pid ).removeClass( "task-min" );
-        }
+        KWS.min( str ); //非推奨です(削除予定)。
     }
 
     this.close = function( str ) {
@@ -494,12 +484,7 @@ const System = new function() {
     }
     
     this.vacuum = function( _left, _top ){
-        for( let i in process ){
-            $("#w"+i).css("transition", ".5s all ease").css("left", _left ).css("top", _top );
-        }
-        setTimeout(() => {
-            $(".window").css("transition", "none");
-        }, 500);
+        KWS.vacuum( _left, _top ); //非推奨です(削除予定)。
     }
 
     this.time = {
@@ -575,6 +560,42 @@ const System = new function() {
         });
     }
 
+    this.initLauncher = function(data){
+        for( let i in data ){
+            $("#launcher-apps").append("<div class='launcher-app' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
+        }
+        $(".launcher-app").on("click", function(){
+            $("#launch").click();
+            launch( $(this).attr("data-launch") );
+        });
+    }
+}
+
+const KWS = new function(){
+
+    this.min = function( str ) {
+        let _pid = String( str );
+        if( $( "#w" + _pid ).is( ":visible" ) ) {
+            $( "#w" + _pid ).css("transition", "none").hide( "drop", {direction: "down"}, 300 );
+            $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
+            $( "#t" + _pid ).addClass( "task-min" );
+        }
+        else {
+            $( "#w" + _pid ).show( "drop", {direction: "down"}, 300 );
+            $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
+            $( "#t" + _pid ).removeClass( "task-min" );
+        }
+    }
+
+    this.vacuum = function( _left, _top ){
+        for( let i in process ){
+            $("#w"+i).css("transition", ".5s all ease").css("left", _left ).css("top", _top );
+        }
+        setTimeout(() => {
+            $(".window").css("transition", "none");
+        }, 500);
+    }
+
     this.windowIndex = 1;
 
     this.refreshWindowIndex = function(){
@@ -591,17 +612,7 @@ const System = new function() {
         for( let i in array ){
             document.getElementById(array[i].id).style.zIndex = i;
         }
-        System.windowIndex = num;
-    }
-
-    this.initLauncher = function(data){
-        for( let i in data ){
-            $("#launcher-apps").append("<div class='launcher-app' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
-        }
-        $(".launcher-app").on("click", function(){
-            $("#launch").click();
-            launch( $(this).attr("data-launch") );
-        });
+        KWS.windowIndex = num;
     }
 }
 
