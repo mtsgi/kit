@@ -289,6 +289,9 @@ footer .task-min:after{
 	border: 2px solid #404040;
 	border-radius: 3px;
 }
+footer .t-active{
+	border-top : 5px solid rgb(100, 245, 100) !important;
+}
 #footer-noti{
 	position: absolute;
 	cursor:url(../cursor-2.png), pointer;
@@ -305,7 +308,7 @@ footer .task-min:after{
 	position: absolute;
 	cursor:url(../cursor-2.png), pointer;
 	font-size: 22px;
-	padding: 8px 5px;
+	padding: 6px 5px;
 }
 #footer-tasks:hover{
 	text-shadow: 0px 1px 3px dodgerblue;
@@ -364,16 +367,10 @@ footer .task-min:after{
 	position: absolute;
 	box-shadow: 0px 2px 10px 0px rgba(0,0,0,.5);
 	border-radius : 4px;
-	background: rgba(255,255,255,.9);
+	background: transparent;
 	min-width : 200px;
 	padding : 0px;
 	cursor:url(../cursor-1.png), default;
-	background: -moz-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
-  background: -webkit-gradient(left bottom, right top, color-stop(0%, rgba(255,201,248,1)), color-stop(55%, rgba(186,239,255,1)), color-stop(100%, rgba(150,255,157,1)));
-  background: -webkit-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
-  background: -o-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
-  background: -ms-linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
-  background: linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 55%, rgba(150,255,157,1) 100%);
 }
 .window:after{
 	visibility: hidden;
@@ -387,21 +384,32 @@ section .ui-draggable-dragging{
 .win-highlight{
 	box-shadow: 0px 2px 10px 0px rgba(0,0,0,.5), 0px 0px 0px 8px rgba(255,30,70,.6);
 }
+.windowactive{
+	box-shadow: 0 0 0 4px rgba(255,255,255,.5), 0 2px 10px 0 #000000;
+}
 .wt{
-	display: inline-block;
+	display: block;
 	color: #000000;
 	font-size: 17px;
-	padding-top: 3px;
+	padding: 3px 0;
+	border-radius: 4px 4px 0 0;
+	background: linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 50%, rgba(150,255,157,1) 100%);
 }
 .wt:before{
 	color: white;
 	text-shadow: 0px 1px 2px black;
 }
 .wt img{
-	width: 22px;
-	height: 22px;
+	width: 20px;
+	height: 20px;
 	float: left;
 	margin: 3px;
+}
+.windowactive > .wt{
+	background: linear-gradient(45deg, rgba(255,135,241,1) 0%, rgba(117,239,255,1) 50%, rgba(92,242,102,1) 100%);
+}
+.windowactive > span{
+	opacity: 1.0;
 }
 .wm{
 	padding: 8px 8px;

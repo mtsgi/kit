@@ -55,9 +55,7 @@ function Load() {
         Notification.push( "セーフブート", "現在、kitをセーフモードで起動しています。", "system" );
         System.alert( "セーフブート", "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='location.href=\"index.html\";'>通常モードで再起動</a>", "system" );
     }
-    else for( let i of System.startup ) {
-        if( i != "" ) launch( i );
-    }
+    else for( let i of System.startup ) if( i != "" ) launch( i );
 
     //イベントハンドラ
     $( "#desktops" ).click( function() {
@@ -166,7 +164,7 @@ function Load() {
     } );
     $( "#kit-milp-launch" ).click( function() {
         if( $("#milp").val() == "kit" ){
-            System.alert("", "<div style='text-align:left;'>　＿　　　　＿　＿　<br>｜　｜　＿（＿）　｜＿　<br>｜　｜／　／　｜　＿＿｜<br>｜　　　〈｜　｜　｜＿　<br>｜＿｜＼＿ ＼＿＼＿＿｜</div>", S.version);
+            System.alert("", "<div style='text-align:left;'>　＿　　　　＿　＿　<br>｜　｜　＿（＿）　｜＿　<br>｜　｜／　／　｜　＿＿｜<br>｜　　　〈｜　｜　｜＿　<br>｜＿｜＼＿ ＼ ＿＼＿＿｜</div><hr>", S.version);
             return;
         }
         let _app = $( "#milp" ).val().split(",")[0];
@@ -270,13 +268,18 @@ function appData( data ) {
     var pid = processID;
     process[String( pid )] = {
         id: data.id,
-        time: System.time.obj.toLocaleString()
+        time: System.time.obj.toLocaleString(),
+        isactive: false
     };
     System.appCache[data.id] = data;
     $( "#tasks" ).append( "<span id='t" + pid + "'><img src='./app/" + data.id + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
     //タスクバーのクリック挙動
     $( "#t" + pid ).addClass( "task" ).click( function() {
-        System.min( pid );
+        if( $(this).hasClass("t-active") ) System.min( pid );
+        else{
+            $("#w"+pid).css("z-index", KWS.windowIndex + 1);
+            KWS.refreshWindowIndex();
+        }
     } );
     $( "#t" + pid ).addClass( "task" ).on( "mouseenter", function() {
         $( "#task-ctx-name" ).text( data.name );
@@ -304,10 +307,8 @@ function appData( data ) {
     $( "#t" + pid ).hover( function() {
         prevWindowIndex = $( "#w" + pid ).css( "z-index" );
         $( "#w" + pid ).addClass( "win-highlight" );
-        //$("#w"+pid).css("z-index", "9000");
     }, function() {
         $( "#w" + pid ).removeClass( "win-highlight" );
-        //$("#w"+pid).css("z-index", prevWindowIndex);
     } );
     $( "#desktop-" + currentDesktop ).append( "<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wt" + pid + "' class='wt'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>" );
     var windowPos = 50 + ( pid % 10 ) * 20;
@@ -324,13 +325,14 @@ function appData( data ) {
             this.el.style.zIndex = KWS.windowIndex;
             KWS.refreshWindowIndex();
         },
-        rest: function(){
+        stop: function(){
             this.el.style.transition = "none";
             $(this.el).removeClass("ui-draggable-dragging");
         }
     }).on( "mousedown", function(){
         $(".window").css( "transition", "none" );
     } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
+    KWS.refreshWindowIndex();
     $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( function() {System.min( String( pid ) )} );
     $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( function() {close( String( pid ) )} );
     $( "#winc" + pid ).resizable( {
@@ -359,23 +361,16 @@ function appInfo( str ){
     S.alert( _title, _content );
 }
 
-//pidからアプリケーションを閉じる
 function close( str ) {
-    var _pid = String( str );
-    $( "#w" + _pid ).remove();
-    $( "#t" + _pid ).remove();
-    $( "#task-ctx" ).hide();
-    delete process[_pid];
+    System.close( str ) //非推奨です
 }
 
 function kill( str ) {
-    for( let pid in process ) {
-        if( process[pid] && process[pid].id == str ) close( pid );
-    }
+    System.kill(str)
 }
 
 const System = new function() {
-    this.version = "0.1.2";
+    this.version = "0.1.3";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
 
@@ -398,6 +393,16 @@ const System = new function() {
     this.args = {};
 
     this.support = $.support;
+
+    this.battery = null;
+
+    this.setBattery = function(){
+        if( navigator.getBattery ) navigator.getBattery().then((e)=>{
+            let _lv =  e.level * 100;
+            System.battery = _lv;
+            return _lv;
+        });
+    }
 
     this.screenshot = function( _pid, _popup ){
         let _elem = document.querySelector("body");
@@ -471,16 +476,23 @@ const System = new function() {
         })
     }
 
-    this.min = function( str ) {
-        KWS.min( str ); //非推奨です(削除予定)。
+    this.min = function( _str ) {
+        KWS.min( _str ); //非推奨です(削除予定)。
     }
 
-    this.close = function( str ) {
-        let _pid = String( str );
+    this.close = function( _str ) {
+        let _pid = String( _str );
         $( "#w" + _pid ).remove();
         $( "#t" + _pid ).remove();
         $( "#task-ctx" ).hide();
         delete process[_pid];
+        KWS.refreshWindowIndex();
+    }
+
+    this.kill = function( _str ){
+        for( let pid in process ) {
+            if( process[pid] && process[pid].id == _str ) System.close( pid );
+        }
     }
     
     this.vacuum = function( _left, _top ){
@@ -569,12 +581,33 @@ const System = new function() {
             launch( $(this).attr("data-launch") );
         });
     }
+
+    this.clip = new function(){
+        this.content = null;
+        this.history = new Array();
+
+        this.set = function( content ){
+            this.content = content;
+            this.history.push(content);
+            return content;
+        }
+        this.get = ()=>{ return this.content }
+    }
+
+    this.audio = new function(){
+        this.level = 50;
+
+        this.play = function( _audioid, _src ){
+            $.noop();
+        }
+    }
 }
 
 const KWS = new function(){
+    this.active = null;
 
-    this.min = function( str ) {
-        let _pid = String( str );
+    this.min = function( _str ) {
+        let _pid = String( _str );
         if( $( "#w" + _pid ).is( ":visible" ) ) {
             $( "#w" + _pid ).css("transition", "none").hide( "drop", {direction: "down"}, 300 );
             $( "#task-ctx" ).effect( "bounce", {distance: 12, times: 1}, 400 );
@@ -587,6 +620,10 @@ const KWS = new function(){
         }
     }
 
+    this.max = function( _pid ){
+
+    }
+
     this.vacuum = function( _left, _top ){
         for( let i in process ){
             $("#w"+i).css("transition", ".5s all ease").css("left", _left ).css("top", _top );
@@ -596,6 +633,7 @@ const KWS = new function(){
         }, 500);
     }
 
+    this.active = null;
     this.windowIndex = 1;
 
     this.refreshWindowIndex = function(){
@@ -611,14 +649,29 @@ const KWS = new function(){
         } );
         for( let i in array ){
             document.getElementById(array[i].id).style.zIndex = i;
+            if( i == num-1 ){
+                $("#"+array[i].id).addClass("windowactive");
+                $("#t"+String(array[i].id).substring(1)).addClass("t-active");
+            }
+            else{
+                $("#"+array[i].id).removeClass("windowactive");
+                $("#t"+String(array[i].id).substring(1)).removeClass("t-active");
+                KWS.active = String(array[i].id).substring(1);
+            }
         }
         KWS.windowIndex = num;
+    }
+
+    this.resize = function( _pid, _width, _height ){
+        $("#winc"+_pid).css("width", _width).css("height", _height);
     }
 }
 
 const Notification = new function() {
     this.nid = 0;
     this.list = new Object();
+
+    this.donotpush = false;
 
     this.push = function( _title, _content, _app ) {
         this.list[this.nid] = {
@@ -627,10 +680,12 @@ const Notification = new function() {
             "app" : _app,
             "time" : System.time.obj.toLocaleString()
         };
-        $( "#last-notification-title" ).text("").text( _title );
-        $( "#last-notification-content" ).text("").text( _content );
-        $( "#last-notification-app" ).text("").text( _app );
-        $( "#last-notification" ).hide().show( "drop", {direction: "right"}, 300 );
+        if( !this.donotpush ){
+            $( "#last-notification-title" ).text("").text( _title );
+            $( "#last-notification-content" ).text("").text( _content );
+            $( "#last-notification-app" ).text("").text( _app );
+            $( "#last-notification" ).hide().show( "drop", {direction: "right"}, 300 );
+        }
         $( "#notifications" ).append( "<div class='notis' id='nt" + this.nid + "'><span class='notis_close' id='nc" + this.nid + "'></span><span><span class='fas fa-comment-alt'></span>" + _title + "</span>" + _content + "<div class='notis_time'>" + System.time.obj.toLocaleString() + "</div></div>" );
         $("#nc" + this.nid).on("click", function(){
             let _nid = this.id.slice(2);
@@ -648,7 +703,4 @@ const Notification = new function() {
     }
 }
 
-var process = {};
-var processID = 0, pid, currentDesktop = 1;
-var currentCTX = "";
-var prevWindowIndex, S;
+var process = {}, processID = 0, pid, currentDesktop = 1, currentCTX = "", prevWindowIndex, S;
