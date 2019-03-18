@@ -155,6 +155,36 @@ header a:hover{
 #kit-milp-wikipedia:before{
 	content: "Wikipediaで調べる"
 }
+.dropdown{
+	display: none;
+	position: fixed;
+	top: 23px;
+	right: 0;
+	background: #ffffff;
+	border: 1px solid gray;
+}
+#dropdown-clock{
+	right: 56px;
+}
+#dropdown-sound{
+	right: 140px;
+	padding: 6px;
+}
+#dropdown-sound-slider{
+	margin: 10px;
+	width: 180px;
+}
+.ui-slider-horizontal{
+	border-radius: 0px;
+	background: #e0e0e0;
+	border: 1px solid black !important;
+}
+.ui-slider-handle{
+	outline: none;
+	border-radius: 0px;
+	border: 1px solid black !important;
+	cursor: url(../cursor-1.png), auto !important;
+}
 .home-icon:before{
 	line-height: 0px;
 	display: block;
@@ -227,6 +257,10 @@ footer .task img{
 	height : 24px;
 	width : 24px;
 	margin-right: 4px;
+}
+footer .t-active{
+	background: #6060c0;
+	color: #ffffff;
 }
 footer .task-min{
 	font-weight: 900;
@@ -331,8 +365,14 @@ section .ui-draggable-dragging{
 .win-highlight{
 	background: white;
 }
+.windowactive{
+	border: 1px solid black;
+}
+.windowactive .wt{
+	background: #90a0f0;
+}
 .wt{
-	display: inline-block;
+	display: block;
 	color: #000000;
 	font-size: 16px;
 	padding-top: 2px;

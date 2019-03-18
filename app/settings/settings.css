@@ -1,7 +1,22 @@
 .winc-settings{
     padding: 8px;
 }
-
+.window .winc-settings .textbox{
+    width: calc(100% - 70px);
+}
+.winc-settings h4{
+    font-size: 18px;
+    margin: 10px 0;
+    border-left: 10px solid dodgerblue;
+    padding: 2px 6px;
+    font-weight: 400;
+    box-shadow: 0px 1px 5px 0 rgba(0,0,0,.15);
+}
+.winc-settings .btn .fa-chevron-right{
+    float: right;
+    position: relative;
+    top: 15px;
+}
 .settings-wallpapers{
     text-align: center;
     display: inline-block;
@@ -20,11 +35,17 @@
 
 .settings-default{
     float: left;
+    font-size: 18px;
     margin-right: 10px;
 }
 
 .winc-settings h3{
-    padding: 5px 0px;
+    text-align: right;
+    padding: 0px;
+    font-size: 34px;
+    font-weight: 100;
+    border-bottom: 1px solid #909090;
+    margin-bottom: 20px;
 }
 .winc-settings .settings-license-area{
     background: silver;

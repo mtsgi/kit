@@ -8,9 +8,9 @@
 // http://web.kitit.ml/
 // https://github.com/mtsgi/kit
 
-$( document ).ready( Load );
+$( document ).ready( Kernel );
 
-function Load() {
+function Kernel() {
     S = System;
 
     if( !localStorage.getItem( "kit-pid" ) ) processID = 0;
@@ -96,6 +96,12 @@ function Load() {
     $( "#last-notification-close" ).click( function() {
         $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
     } );
+    $("#notifications-dnp").prop("checked", false).on("change", ()=>{
+        if( $("#notifications-dnp").is(":checked") ){
+            Notification.donotpush = true;
+        }
+        else Notification.donotpush = false;
+    });
     //電源管理
     $( ".power-button" ).click( function() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
@@ -186,6 +192,22 @@ function Load() {
         launch( "browser", { "url" : "https://ja.wikipedia.org/wiki/" + $( "#milp" ).val() } );
     } );
 
+    //サウンドドロップダウン
+    $("#dropdown-sound-slider").slider({
+        min: 0, max: 100, step: 1, value: 100,
+        change: (e, ui) => {
+            System.audio.level = ui.value;
+            $("#dropdown-sound-level").text(ui.value);
+            localStorage.setItem("kit-audio-level", ui.value);
+            for( let i in System.audio.list ){
+                System.audio.list[i].volume = System.audio.level / 100;
+            }
+            if( ui.value == 0 ) $("#kit-header-sound-icon").removeClass("fa-volume-up").addClass("fa-volume-mute");
+            else $("#kit-header-sound-icon").removeClass("fa-volume-mute").addClass("fa-volume-up");
+        }
+    });
+    if( localStorage["kit-audio-level"] ) System.audio.volume( localStorage["kit-audio-level"] );
+
     //コンテキストメニュー
     $(":root section:not(#desktop-l)").on("contextmenu", function() {
         let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );
@@ -275,7 +297,7 @@ function appData( data ) {
     $( "#tasks" ).append( "<span id='t" + pid + "'><img src='./app/" + data.id + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
     //タスクバーのクリック挙動
     $( "#t" + pid ).addClass( "task" ).click( function() {
-        if( $(this).hasClass("t-active") ) System.min( pid );
+        if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) System.min( pid );
         else{
             $("#w"+pid).css("z-index", KWS.windowIndex + 1);
             KWS.refreshWindowIndex();
@@ -288,6 +310,8 @@ function appData( data ) {
         $( "#task-ctx-info" ).off().on( "click", function() {appInfo( data.id )} );
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
         $( "#task-ctx-min" ).off().on( "click", function() { S.min( String(pid) ) } );
+        if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
+        else $( "#task-ctx-front" ).show();
         $( "#task-ctx-front" ).off().on( "click", function() {
             $("#w"+pid).css("z-index", KWS.windowIndex + 1);
             KWS.refreshWindowIndex();
@@ -529,6 +553,53 @@ const System = new function() {
         $( ".os-time" ).text( Hour + ":" + Min + ":" + Sec );
         let MS = DD.getMilliseconds();
         S.time.ms = MS;
+        let circle = {
+            outer: { radius: .9, color: "transparent" },
+            inner: { radius: .85, color: "transparent" }
+        }
+        let lines = {
+            long: { from: .8, to: .7, width: 2, color: "#303030" },
+            short: { from: .8, to: .75, width: 1, color: "#a0a0a0" }
+        }
+        let hands = {
+            hour: { length: .4, width: 3, cap: "butt", color: "#303030", ratio: .2 },
+            minute: { length: .67, width: 2, cap: "butt", color: "#303030", ratio: .2 },
+            second: { length: .67, width: 1, cap: "butt", color: "dodgerblue", ratio: .2 }
+        }
+        let canvas = $(".dropdown-clock-canvas")[0];
+        canvas.width = "200", canvas.height = "200";
+        let context = canvas.getContext("2d");
+        let center = { x: Math.floor(canvas.width / 2), y: Math.floor(canvas.height / 2) };
+        let radius = Math.min(center.x, center.y), angle, len;
+        context.beginPath();context.fillStyle = circle.outer.color;
+        context.arc(center.x, center.y, radius * circle.outer.radius, 0, Math.PI * 2, false);
+        context.fill();context.beginPath();context.fillStyle = circle.inner.color;
+        context.arc(center.x, center.y, radius * circle.inner.radius, 0, Math.PI * 2, false);
+        context.fill();
+        for( let i=0; i<60; i++ ){
+            angle = Math.PI * i / 30;
+            context.beginPath();
+            let line = ( i%5 == 0 ) ? lines.long : lines.short;
+            context.lineWidth = line.width, context.strokeStyle = line.color;
+            context.moveTo(center.x + Math.sin(angle) * radius * line.from, center.y - Math.cos(angle) * radius * line.from)
+            context.lineTo(center.x + Math.sin(angle) * radius * line.to, center.y - Math.cos(angle) * radius * line.to);
+            context.stroke();
+        }
+        angle = Math.PI * ( Hour+Min/60 ) / 6, len = radius * hands.hour.length;
+        context.beginPath(), context.lineWidth = hands.hour.width;
+        context.lineCap = hands.hour.cap, context.strokeStyle = hands.hour.color;
+        context.moveTo(center.x - Math.sin(angle) * len * hands.hour.ratio, center.y + Math.cos(angle) * len * hands.hour.ratio);
+        context.lineTo(center.x + Math.sin(angle) * len, center.y - Math.cos(angle) * len), context.stroke();
+        angle = Math.PI * (Min + Sec / 60) / 30, len = radius * hands.minute.length;
+        context.beginPath(), context.lineWidth = hands.minute.width;
+        context.lineCap = hands.minute.cap, context.strokeStyle = hands.minute.color;
+        context.moveTo(center.x - Math.sin(angle) * len * hands.minute.ratio, center.y + Math.cos(angle) * len * hands.minute.ratio);
+        context.lineTo(center.x + Math.sin(angle) * len, center.y - Math.cos(angle) * len), context.stroke();
+        angle = Math.PI * Sec / 30, len = radius * hands.second.length;
+        context.beginPath(), context.lineWidth = hands.second.width;
+        context.lineCap = hands.second.cap, context.strokeStyle = hands.second.color;
+        context.moveTo(center.x - Math.sin(angle) * len * hands.second.ratio, center.y + Math.cos(angle) * len * hands.second.ratio);
+        context.lineTo(center.x + Math.sin(angle) * len, center.y - Math.cos(angle) * len), context.stroke();
     }
 
     this.changeWallpaper = function( str ) {
@@ -595,15 +666,43 @@ const System = new function() {
     }
 
     this.audio = new function(){
-        this.level = 50;
+        this.level = 100;
+
+        this.list = new Array();
+
+        this.volume = function( _level ){
+            $("#dropdown-sound-slider").slider("value", _level);
+        }
 
         this.play = function( _audioid, _src ){
-            $.noop();
+            if( !System.audio.list[_audioid] ){
+                System.audio.list[_audioid] = new Audio(_src);
+                System.audio.list[_audioid].volume = System.audio.level / 100;
+            }
+            System.audio.list[_audioid].play();
+        }
+
+        this.pause = function( _audioid ){
+            System.audio.list[_audioid].pause();
+        }
+
+        this.stop = function( _audioid ){
+            System.audio.list[_audioid].pause();
+            delete System.audio.list[_audioid];
+        }
+
+        this.seek = function( _audioid, _time ){
+            System.audio.list[_audioid].fastSeek(_time);
+        }
+
+        this.mute = function( _audioid, _bool ){
+            System.audio.list[_audioid].muted = _bool;
         }
     }
 }
 
 const KWS = new function(){
+    this.version = "3.1.0";
     this.active = null;
 
     this.min = function( _str ) {
@@ -652,18 +751,19 @@ const KWS = new function(){
             if( i == num-1 ){
                 $("#"+array[i].id).addClass("windowactive");
                 $("#t"+String(array[i].id).substring(1)).addClass("t-active");
+                KWS.active = String(array[i].id).substring(1);
             }
             else{
                 $("#"+array[i].id).removeClass("windowactive");
                 $("#t"+String(array[i].id).substring(1)).removeClass("t-active");
-                KWS.active = String(array[i].id).substring(1);
             }
         }
         KWS.windowIndex = num;
     }
 
     this.resize = function( _pid, _width, _height ){
-        $("#winc"+_pid).css("width", _width).css("height", _height);
+        if( _width ) $("#winc"+_pid).css("width", _width)
+        if( _height ) $("#winc"+_pid).css("height", _height);
     }
 }
 

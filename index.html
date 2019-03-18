@@ -92,17 +92,32 @@
 		<div id="last-notification-content"></div><div id="last-notification-app"></div>
 	</div>
 
-	<div id="notifications"><a id="notifications-show-history" class="kit-hyperlink" onclick="launch('ntflist')">通知の履歴</a></div>
+	<div id="notifications">
+		<a id="notifications-show-history" class="kit-hyperlink" onclick="launch('ntflist')">通知の履歴</a>
+		<div class="kit-toggle">
+				<input type="checkbox" id="notifications-dnp">
+				<label for="notifications-dnp"></label>
+				<label for="notifications-dnp"><span class="fa fa-bed"></span> 非通知モード</label>
+		</div>
+	</div>
+
+	<div class="dropdown" id="dropdown-clock"><canvas class="dropdown-clock-canvas"></canvas></div>
+	<div class="dropdown" id="dropdown-sound">
+		音量：<span id="dropdown-sound-level">100</span>
+		<a class="kit-hyperlink" onclick="System.audio.volume(0)">ミュート</a>
+		<div id="dropdown-sound-slider"></div>
+	</div>
 
 	<header>
-			<a id="desktops"><span class="far fa-clone"></span>Desktop</a>
-			<input type="text" class="kit-selectable" id="milp" placeholder="検索" autocomplete="off">
-			<div id="header-right">
-				<a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
-				<a onclick="launch('clock')"><span class="fas fa-clock"></span><span class="os-time"></span></a>
-				<a class="power-button"><span class="fa fa-power-off"></span>電源</a>
-			</div>
-		</header>
+		<a id="desktops"><span class="far fa-clone"></span>Desktop</a>
+		<input type="text" class="kit-selectable" id="milp" placeholder="検索" autocomplete="off">
+		<div id="header-right">
+			<a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
+			<a onclick="$('#dropdown-sound').toggle()"><span id="kit-header-sound-icon" class="fa fa-volume-up"></span></a>
+			<a onclick="$('#dropdown-clock').toggle()"><span class="fas fa-clock"></span><span class="os-time"></span></a>
+			<a class="power-button"><span class="fa fa-power-off"></span>電源</a>
+		</div>
+	</header>
 
 	<div id="kit-power">
 			<a id="kit-power-back">もどる</a>

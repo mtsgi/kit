@@ -182,6 +182,39 @@ header a:hover{
 #kit-milp-wikipedia:before{
 	content: "Wikipediaで調べる"
 }
+.dropdown{
+	display: none;
+	position: fixed;
+	top: 25px;
+	right: 0;
+	background: rgba(245,245,245,.95);
+	box-shadow: 0 2px 8px 0 rgba(0,0,0,.3);
+	border-radius: 0 0 5px 5px;
+}
+#dropdown-clock{
+	right: 60px;
+}
+#dropdown-sound{
+	right: 146px;
+	padding: 6px;
+}
+#dropdown-sound-slider{
+	margin: 10px;
+	width: 180px;
+}
+.ui-slider-horizontal{
+	border-radius: 999px;
+	background: linear-gradient(45deg, rgba(255,135,241,1) 0%, rgba(117,239,255,1) 50%, rgba(92,242,102,1) 100%);
+	border: 1px solid white !important;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.4);
+}
+.ui-slider-handle{
+	outline: none;
+	border-radius: 999px;
+	border: 1px solid white !important;
+	box-shadow: 0 1px 3px 0 rgba(0,0,0,.5);
+	cursor: url(../cursor-1.png), auto !important;
+}
 .home-icon:before{
 	line-height: 0px;
 	display: block;
@@ -364,11 +397,10 @@ footer .task-min:before{
 	box-shadow: 0px 2px 20px 0px rgba(0,0,0,.8);
 	border-radius : 4px;
 	border-top: 1px solid #fff;
-	background: rgba(255,255,255,.9);
 	min-width : 200px;
 	padding : 0px;
+	background: #f0f0f0;
 	cursor:url(../cursor-1.png), default;
-	background : linear-gradient(#F5F5F5 0%,#d9d9d9 30px);
 	text-align: center;
 }
 .window:after{
@@ -377,15 +409,23 @@ footer .task-min:before{
 	position: absolute;
 	height: 60px;
 }
+.windowactive{
+	background-color: #f0f0f0;
+	background-image : linear-gradient(#F5F5F5 0%,#d9d9d9 30px);
+	box-shadow: 0px 8px 30px 0 rgba(0,0,0,.8);
+}
 section .ui-draggable-dragging{
 	box-shadow: 0px 2px 20px 0px rgba(0,0,0,.8), 0px 0px 0px 8px rgba(30,70,255,.6);
 }
 .win-highlight{
 	box-shadow: 0px 2px 20px 0px rgba(0,0,0,.8), 0px 0px 0px 8px rgba(255,30,70,.6);
 }
-.wt{
-	display: inline-block;
+.windowactive .wt{
 	color: #000000;
+}
+.wt{
+	color: #909090;
+	display: inline-block;
 	font-size: 16px;
 	padding-top: 1px;
 }
@@ -399,8 +439,8 @@ section .ui-draggable-dragging{
 	position: absolute;
 	left: 25px;
 	padding: 0px;
-	background: #38C93B;
-	border: 1px solid #23961D;
+	background: #b0b0b0;
+	border: 1px solid #909090;
 	font-size: 7px;
 	color: transparent;
 	height: 12px;
@@ -411,12 +451,16 @@ section .ui-draggable-dragging{
 .wm:hover{
 	color: rgba(0,0,0,.9);
 }
+.windowactive .wm{
+	background: #38C93B;
+	border: 1px solid #23961D;
+}
 .wx{
 	position: absolute;
 	left: 5px;
 	padding: 0px;
-	background: #F03E3E;
-	border: 1px solid #C23232;
+	background: #b0b0b0;
+	border: 1px solid #909090;
 	font-size: 7px;
 	line-height: 12px;
 	color: transparent;
@@ -427,6 +471,10 @@ section .ui-draggable-dragging{
 }
 .wx:hover{
 	color: rgba(0,0,0,.9);
+}
+.windowactive .wx{
+	background: #F03E3E;
+	border: 1px solid #C23232;
 }
 .winc{
 	text-align: left;

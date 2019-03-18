@@ -4,14 +4,14 @@
         $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
         $("#desktop-" + currentDesktop).show();
     }
-    $("#settings-theme-path-set").on("click", function(){
-        settings_theme( $("#settings-theme-path")[0].val() );
+    $(".settings-theme-path-set").on("click", function(){
+        settings_theme( $("#settings-theme-path").val() );
     })
 </script>
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 <h3><span class='fa fa-palette'></span> テーマ設定</h3>
 
-・テーマを選択
+<h4>テーマを選択</h4>
 <div class='btn' onclick="settings_theme( 'theme-default.css' )">
     標準のテーマ <span class="little">theme-default.css</span>
 </div>
@@ -25,7 +25,7 @@
 <input type='text' class='textbox' id='settings-theme-path' placeholder='テーマファイルのパス'>
 <a class='kit-button settings-theme-path-set'>設定</a><br>
 
-<span class="fa fa-font"></span>フォント設定
+<h4><span class="fa fa-font"></span>フォント設定</h4>
 <div class='little'>システムのデフォルトフォントを指定します</div>
 <input type='text' class='textbox' id='settings-font' placeholder='フォント名(カンマ区切りで複数)'>
 <a class='kit-button settings-font-set'>設定</a>

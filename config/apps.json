@@ -4,11 +4,6 @@
         "icon": "./app/browser/icon.png"
     },
 
-    "clock": {
-        "name": "時計",
-        "icon": "./app/clock/icon.png"
-    },
-
     "console": {
         "name": "コンソール",
         "icon": "./app/console/icon.png"

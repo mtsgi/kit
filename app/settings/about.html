@@ -1,5 +1,6 @@
 <script>
-    $( ".settings-kitv" ).text( System.version );
+        $( ".settings-kitv" ).text( System.version );
+    $( ".settings-kwsv" ).text( KWS.version );
     $( "#settings-license-1" ).load( "./system/jquery-ui-1.12.1/LICENSE.txt" );
     $( "#settings-license-2" ).load( "./fa/LICENSE.txt" );
 
@@ -19,9 +20,9 @@
 <h3><span class='fa fa-info-circle'></span> kitについて</h3>
 <div style='font-size:22px'>
     <img src="system/ico/logo.png" style="max-width: 100%;">
-    <br>バージョン<span class="settings-kitv"></span>
+    <h4>バージョン<span class="settings-kitv"></span></h4>
 </div>
-KWS 3.0.0<br>
+KWS <span class="settings-kwsv"></span><br>
 <a class="kit-hyperlink" onclick="latest_kit()">kitのアップデートを確認する</a>
 <div class="little">取得には時間がかかる場合があります</div>
 Based on <span class="fab fa-html5"></span>HTML5
