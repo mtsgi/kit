@@ -420,6 +420,7 @@ section .ui-draggable-dragging{
 }
 .windowactive{
 	box-shadow: 0 2px 15px 0 rgba(0,0,0,.7);
+	animation: activeAnim 1s;
 }
 .wt{
 	display: block;
@@ -889,6 +890,12 @@ h3{
 	color: #a0a0a0;
 	text-align: right;
 }
-
-
+@keyframes activeAnim{
+	from{
+			box-shadow: 0 2px 15px 0 rgba(0,0,0,.7), 0 0 0 0 rgba(50,200,90,1.0);
+	} 
+	to{
+			box-shadow: 0 2px 15px 0 rgba(0,0,0,.7), 0 0 0px 25px rgba(50,200,90,0);
+	}
+}
 

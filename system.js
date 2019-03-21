@@ -8,9 +8,9 @@
 // http://web.kitit.ml/
 // https://github.com/mtsgi/kit
 
-$( document ).ready( Kernel );
+$( document ).ready( kit );
 
-function Kernel() {
+function kit() {
     S = System;
 
     if( !localStorage.getItem( "kit-pid" ) ) processID = 0;
@@ -98,9 +98,9 @@ function Kernel() {
     } );
     $("#notifications-dnp").prop("checked", false).on("change", ()=>{
         if( $("#notifications-dnp").is(":checked") ){
-            Notification.donotpush = true;
+            Notification.goodnight = true;
         }
-        else Notification.donotpush = false;
+        else Notification.goodnight = false;
     });
     //電源管理
     $( ".power-button" ).click( function() {
@@ -372,17 +372,7 @@ function appData( data ) {
 }
 
 function appInfo( str ){
-    let _title = "", _content = "";
-    let ac = S.appCache[str];
-    if( ac ){
-        _title = ac.name + " (" + ac.version + ")";
-        _content = "<img style='height: 96px' src='./app/" + ac.id + "/" + ac.icon + "'><br>";
-        for( let i in ac ){
-            _content += "<div style='font-weight: 100'>" + i + " : " + ac[i] + "</div>";
-        }
-    }
-    else _title = "取得に失敗しました";
-    S.alert( _title, _content );
+    System.appInfo(str) //非推奨です
 }
 
 function close( str ) {
@@ -390,11 +380,11 @@ function close( str ) {
 }
 
 function kill( str ) {
-    System.kill(str)
+    System.kill(str) //非推奨です
 }
 
 const System = new function() {
-    this.version = "0.1.3";
+    this.version = "0.1.4";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
 
@@ -498,6 +488,20 @@ const System = new function() {
             "content": content,
             "func": func
         })
+    }
+
+    this.appInfo = function( str ){
+        let _title = "", _content = "";
+        let ac = S.appCache[str];
+        if( ac ){
+            _title = ac.name + " (" + ac.version + ")";
+            _content = "<img style='height: 96px' src='./app/" + ac.id + "/" + ac.icon + "'><br>";
+            for( let i in ac ){
+                _content += "<div><span style='font-weight: 100'>" + i + " </span>" + ac[i] + "</div>";
+            }
+        }
+        else _title = "取得に失敗しました";
+        S.alert( _title, _content );
     }
 
     this.min = function( _str ) {
@@ -666,7 +670,7 @@ const System = new function() {
     }
 
     this.audio = new function(){
-        this.level = 100;
+        this.level = localStorage["kit-audio-level"] || 100;
 
         this.list = new Array();
 
@@ -688,7 +692,7 @@ const System = new function() {
 
         this.stop = function( _audioid ){
             System.audio.list[_audioid].pause();
-            delete System.audio.list[_audioid];
+            System.audio.list[_audioid] = null;
         }
 
         this.seek = function( _audioid, _time ){
@@ -771,7 +775,8 @@ const Notification = new function() {
     this.nid = 0;
     this.list = new Object();
 
-    this.donotpush = false;
+    this.goodnight = false;
+    this.sound = null;
 
     this.push = function( _title, _content, _app ) {
         this.list[this.nid] = {
@@ -780,7 +785,8 @@ const Notification = new function() {
             "app" : _app,
             "time" : System.time.obj.toLocaleString()
         };
-        if( !this.donotpush ){
+        if( !this.goodnight ){
+            if( this.sound ) System.audio.play( "n" + this.nid, this.sound );
             $( "#last-notification-title" ).text("").text( _title );
             $( "#last-notification-content" ).text("").text( _content );
             $( "#last-notification-app" ).text("").text( _app );
