@@ -26,6 +26,10 @@ function kit() {
 
     if( !localStorage.getItem( "kit-default-browser" ) ) localStorage.setItem( "kit-default-browser", "browser" );
 
+    //if( !localStorage.getItem( "kit-debugmode" ) ) localStorage.setItem( "kit-debugmode", "false" );
+    //if( localStorage.getItem( "kit-debugmode" ) == "true" ) System.debugmode = true;
+    //else System.debugmode = false;
+
     if( System.bootopt.get("safe") ){
         $("#kit-theme-file").attr("href", "./system/theme/theme-light.css" );
     }
@@ -106,11 +110,11 @@ function kit() {
     $( ".power-button" ).click( function() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
         $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
-        $( "section, header, footer, #kit-wallpaper" ).css( "filter", "blur(5px)" );
+        $( "section, header, footer, #kit-wallpaper, .dropdown" ).css( "filter", "blur(5px)" );
         $( "#kit-power" ).fadeIn( 300 );
     } );
     $( "#kit-power-back" ).click( function() {
-        $( "section, header, footer, #kit-wallpaper" ).css( "filter", "none" );
+        $( "section, header, footer, #kit-wallpaper, .dropdown" ).css( "filter", "none" );
         $( "#kit-power" ).fadeOut( 300 );
     } );
     $( "#kit-power-shutdown" ).click( function() {
@@ -257,7 +261,12 @@ function kit() {
     } ).on("mousemove", function(event){
         System.mouseX = event.clientX;
         System.mouseY = event.clientY;
-    });
+    }).delegate( ".textbox", "keypress", function( e ) {
+        if( e.which == 13 && $("#" + this.id + " + .kit-button") ){
+            Notification.push("debug", this.id, "system");
+            $("#" + this.id + " + .kit-button").click();
+        }
+    } );
 
     if( localStorage.getItem( "kit-lock" ) == "true" ){
         $("section").hide();
@@ -338,7 +347,7 @@ function appData( data ) {
     var windowPos = 50 + ( pid % 10 ) * 20;
     //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
     KWS.windowIndex ++;
-    $( "#w" + pid ).addClass( "window" ).pep({
+    $( "#w"+pid ).addClass( "window" ).pep({
         elementsWithInteraction: ".winc, .ui-resizable-handle",
         useCSSTranslation: false,
         disableSelect: false,
@@ -355,6 +364,8 @@ function appData( data ) {
         }
     }).on( "mousedown", function(){
         $(".window").css( "transition", "none" );
+        $(this).css("z-index", KWS.windowIndex + 1);
+        KWS.refreshWindowIndex();
     } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
     KWS.refreshWindowIndex();
     $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( function() {System.min( String( pid ) )} );
@@ -407,6 +418,7 @@ const System = new function() {
     this.args = {};
 
     this.support = $.support;
+    this.debugmode = false;
 
     this.battery = null;
 
@@ -706,7 +718,7 @@ const System = new function() {
 }
 
 const KWS = new function(){
-    this.version = "3.1.0";
+    this.version = "3.2.1";
     this.active = null;
 
     this.min = function( _str ) {
@@ -756,10 +768,12 @@ const KWS = new function(){
                 $("#"+array[i].id).addClass("windowactive");
                 $("#t"+String(array[i].id).substring(1)).addClass("t-active");
                 KWS.active = String(array[i].id).substring(1);
+                process[array[i].id.substring(1)].isactive = true;
             }
             else{
                 $("#"+array[i].id).removeClass("windowactive");
                 $("#t"+String(array[i].id).substring(1)).removeClass("t-active");
+                process[array[i].id.substring(1)].isactive = false;
             }
         }
         KWS.windowIndex = num;
@@ -779,6 +793,9 @@ const Notification = new function() {
     this.sound = null;
 
     this.push = function( _title, _content, _app ) {
+        if( !System.debugmode && ( _title == "debug" || _app == "debug" ) ){
+            return false;
+        }
         this.list[this.nid] = {
             "title" : _title,
             "content" : _content,

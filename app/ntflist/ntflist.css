@@ -1,8 +1,6 @@
 .winc-ntflist{
-  min-width: 400px;
+  width: 400px;
   max-height: 600px;
-}
-.ntflist-list{
 }
 .ntflist-items{
   border-top: 1px solid silver;

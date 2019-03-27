@@ -1,6 +1,17 @@
 <script>
     $( "#settings-startup" ).val( localStorage.getItem( "kit-startup" ) );
     if( System.bootopt.get("safe") ) $("#settings-issafe").html("<strong>[！]現在セーフモードで起動しています</strong><br>");
+    $("#settings-system-debugmode").prop('checked', false);
+    $("#settings-system-debugmode").on("change", function(){
+        if( $("#settings-system-debugmode").is(':checked') ){
+            //localStorage.setItem("kit-debugmode", "true");
+            System.debugmode = true;
+        }
+        else{
+            //localStorage.setItem("kit-debugmode", "false");
+            System.debugmode = false;
+        }
+    });
 </script>
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 
@@ -18,6 +29,15 @@
 <div class="little">
     時刻はSystem.timeオブジェクトに格納されています。<br>
     設定された時刻：<span class="os-time"></span>
+</div>
+<h4><span class='fa fa-bug'></span>デバッグモード</h4>
+<div class="little">
+    デバッグモードの詳細は<a href="https://kitdevhome.wordpress.com/2019/03/27/system-debugmode/" class="kit-hyperlink">こちら</a>をご確認ください。
+</div>
+<div class="kit-toggle">
+    <input type="checkbox" id="settings-system-debugmode">
+    <label for="settings-system-debugmode"></label>
+    <label for="settings-system-debugmode">デバッグモード</label>
 </div>
 <h4><span class='fa fa-window-restore'></span>アプリ管理</h4>
 <div class="little">
