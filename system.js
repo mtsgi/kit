@@ -26,6 +26,13 @@ function kit() {
 
     if( !localStorage.getItem( "kit-default-browser" ) ) localStorage.setItem( "kit-default-browser", "browser" );
 
+    if( localStorage.getItem("kit-fusen") ){
+        this.list = JSON.parse(localStorage.getItem("kit-fusen"));
+        for( let i in this.list ){
+            KWS.fusen.add(this.list[i]);
+        }
+    }
+
     //if( !localStorage.getItem( "kit-debugmode" ) ) localStorage.setItem( "kit-debugmode", "false" );
     //if( localStorage.getItem( "kit-debugmode" ) == "true" ) System.debugmode = true;
     //else System.debugmode = false;
@@ -262,7 +269,7 @@ function kit() {
         System.mouseX = event.clientX;
         System.mouseY = event.clientY;
     }).delegate( ".textbox", "keypress", function( e ) {
-        if( e.which == 13 && $("#" + this.id + " + .kit-button") ){
+        if( e.which == 13 && this.id && $("#" + this.id + " + .kit-button") ){
             Notification.push("debug", this.id, "system");
             $("#" + this.id + " + .kit-button").click();
         }
@@ -782,6 +789,37 @@ const KWS = new function(){
     this.resize = function( _pid, _width, _height ){
         if( _width ) $("#winc"+_pid).css("width", _width)
         if( _height ) $("#winc"+_pid).css("height", _height);
+    }
+
+    this.fusen = new function(){
+        this.fid = 0;
+        this.list = new Object();
+
+        this.add = function(_text){
+            KWS.fusen.list[KWS.fusen.fid] = String(_text);
+            $("#desktop-"+currentDesktop).append("<div class='kit-fusen' id='kit-f"+KWS.fusen.fid+"'><i class='fa fa-quote-left'></i>"+_text+"</div>");
+            $("#kit-f"+KWS.fusen.fid).css("left", Number(KWS.fusen.fid)*20 + 20).pep({
+                elementsWithInteraction: ".winc, .ui-resizable-handle",
+                useCSSTranslation: false,
+                disableSelect: false,
+                shouldEase:	true,
+                initiate: function(){
+                    $(this.el).css("ui-opacity", "0.7");
+                },
+                stop: function(){
+                    this.el.style.transition = "none";
+                    $(this.el).css("ui-opacity", "1.0");
+                }
+            })
+            localStorage.setItem("kit-fusen", JSON.stringify( KWS.fusen.list ));
+            KWS.fusen.fid++;
+        }
+
+        this.remove = function(_fid){
+            delete KWS.fusen.list[_fid];
+            localStorage.setItem("kit-fusen", JSON.stringify( KWS.fusen.list ));
+            $("#kit-f"+KWS.fusen.fid).remove();
+        }
     }
 }
 

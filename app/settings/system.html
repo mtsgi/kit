@@ -1,7 +1,7 @@
 <script>
     $( "#settings-startup" ).val( localStorage.getItem( "kit-startup" ) );
     if( System.bootopt.get("safe") ) $("#settings-issafe").html("<strong>[！]現在セーフモードで起動しています</strong><br>");
-    $("#settings-system-debugmode").prop('checked', false);
+    if( System.debugmode ) $("#settings-system-debugmode").prop('checked', true);
     $("#settings-system-debugmode").on("change", function(){
         if( $("#settings-system-debugmode").is(':checked') ){
             //localStorage.setItem("kit-debugmode", "true");
