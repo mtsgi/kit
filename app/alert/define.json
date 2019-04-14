@@ -2,8 +2,12 @@
     "id": "alert",
     "name": "アラート",
     "icon": "icon.png",
-    "version": "0.0.0",
+    "version": "0.1.1",
     "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
 
     "view": "default.html",
     "script": "alert.js",

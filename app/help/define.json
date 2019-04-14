@@ -2,8 +2,12 @@
     "id": "help",
     "name": "ヘルプ",
     "icon": "icon.png",
-    "version": "0.0.0",
+    "version": "0.0.2",
     "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
 
     "view": "default.html",
     "script": "",

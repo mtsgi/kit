@@ -2,8 +2,12 @@
     "id": "pmgr",
     "name": "プロセスマネージャー",
     "icon": "icon.png",
-    "version": "2.0.2",
+    "version": "2.0.3",
     "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
 
     "view": "default.html",
     "script": "pmgr.js",

@@ -37,6 +37,11 @@ function kit() {
     //if( localStorage.getItem( "kit-debugmode" ) == "true" ) System.debugmode = true;
     //else System.debugmode = false;
 
+    if( localStorage.getItem("kit-darkmode") == "true" ){
+        KWS.darkmode = true;
+        $("#kit-darkmode").attr("href", "system/theme/kit-darkmode.css");
+    }
+
     if( System.bootopt.get("safe") ){
         $("#kit-theme-file").attr("href", "./system/theme/theme-light.css" );
     }
@@ -219,6 +224,17 @@ function kit() {
     });
     if( localStorage["kit-audio-level"] ) System.audio.volume( localStorage["kit-audio-level"] );
 
+    $("#dropdown-sound-silent").prop("checked", false).on("change", ()=>{
+        if( $("#dropdown-sound-silent").is(":checked") ){
+            System.audio.silent = true;
+            $("#kit-header-sound-icon").removeClass("fa-volume-up").addClass("fa-volume-mute");
+        }
+        else{
+            System.audio.silent = false;
+            $("#kit-header-sound-icon").removeClass("fa-volume-mute").addClass("fa-volume-up");
+        }
+    });
+
     //コンテキストメニュー
     $(":root section:not(#desktop-l)").on("contextmenu", function() {
         let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );
@@ -307,7 +323,8 @@ function appData( data ) {
     process[String( pid )] = {
         id: data.id,
         time: System.time.obj.toLocaleString(),
-        isactive: false
+        isactive: false,
+        preventclose: false
     };
     System.appCache[data.id] = data;
     $( "#tasks" ).append( "<span id='t" + pid + "'><img src='./app/" + data.id + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
@@ -351,6 +368,7 @@ function appData( data ) {
         $( "#w" + pid ).removeClass( "win-highlight" );
     } );
     $( "#desktop-" + currentDesktop ).append( "<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wt" + pid + "' class='wt'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>" );
+    if( data.support && data.support.darkmode == true ) $("#winc"+pid).addClass("winc-darkmode");
     var windowPos = 50 + ( pid % 10 ) * 20;
     //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
     KWS.windowIndex ++;
@@ -383,7 +401,10 @@ function appData( data ) {
 
     //スクリプト読み込み
     if( data.script != "none" ) $.getScript( "./app/" + data.id + "/" + data.script );
-    if( data.css != "none" ) $( "head link:last" ).append( '<link href="./app/' + data.id + '/' + data.css + '" rel="stylesheet">' );
+    if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
+        $( "head" ).append( '<link href="./app/' + data.id + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
+        Notification.push("debug", "新規スタイルシートの読み込み", data.id);
+    }
 
     processID++;
     localStorage.setItem( "kit-pid", processID );
@@ -402,7 +423,7 @@ function kill( str ) {
 }
 
 const System = new function() {
-    this.version = "0.1.4";
+    this.version = "0.1.5";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
 
@@ -690,6 +711,7 @@ const System = new function() {
 
     this.audio = new function(){
         this.level = localStorage["kit-audio-level"] || 100;
+        this.silent = false;
 
         this.list = new Array();
 
@@ -703,6 +725,10 @@ const System = new function() {
                 System.audio.list[_audioid].volume = System.audio.level / 100;
             }
             System.audio.list[_audioid].play();
+        }
+
+        this.get = function( _audioid ){
+            return System.audio.list[_audioid];
         }
 
         this.pause = function( _audioid ){
@@ -725,8 +751,10 @@ const System = new function() {
 }
 
 const KWS = new function(){
-    this.version = "3.2.1";
+    this.version = "3.2.2";
     this.active = null;
+
+    this.darkmode = false;
 
     this.min = function( _str ) {
         let _pid = String( _str );

@@ -1,4 +1,18 @@
 <script>
+    if( KWS.darkmode ) $("#settings-theme-darkmode").prop('checked', true);
+    $("#settings-theme-darkmode").on("change", function(){
+        if( $("#settings-theme-darkmode").is(':checked') ){
+            localStorage.setItem("kit-darkmode", "true");
+            KWS.darkmode = true;
+            $("#kit-darkmode").attr("href", "system/theme/kit-darkmode.css");
+        }
+        else{
+            localStorage.setItem("kit-darkmode", "false");
+            KWS.darkmode = false;
+            $("#kit-darkmode").attr("href", null);
+        }
+    })
+
     function settings_theme( file ){
         localStorage.setItem("kit-theme", file );
         $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
@@ -11,6 +25,12 @@
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 <h3><span class='fa fa-palette'></span> テーマ設定</h3>
 
+<h4>ダークモード　<a onclick="S.alert('ダークモード','画面UI全体を黒色の構成にすることで目の疲れを軽減します。<br>一部のアプリやテーマで正しく機能しない場合があります。')" class="kit-hyperlink far fa-question-circle"></a></h4>
+<div class="kit-toggle">
+    <input type="checkbox" id="settings-theme-darkmode">
+    <label for="settings-theme-darkmode"></label>
+    <label for="settings-theme-darkmode">ダークモードを有効にする</label>
+</div>
 <h4>テーマを選択</h4>
 <div class='btn' onclick="settings_theme( 'theme-default.css' )">
     標準のテーマ <span class="little">theme-default.css</span>

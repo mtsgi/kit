@@ -3,7 +3,7 @@
     background: rgba(255,255,255,.9);
 }
 .window .winc-settings .textbox{
-    width: calc(100% - 70px);
+    width: calc(100% - 85px);
 }
 .winc-settings h4{
     font-size: 18px;
@@ -104,4 +104,7 @@
 .settings-open-userpage #settings-user-username{
     font-size: 20px;
     font-weight: 600;
+}
+.winc-darkmode.winc-settings h4{
+    background: #606060 !important;
 }

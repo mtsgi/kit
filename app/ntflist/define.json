@@ -2,8 +2,12 @@
     "id": "ntflist",
     "name": "通知履歴",
     "icon": "icon.png",
-    "version": "0.1.0",
+    "version": "0.1.1",
     "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
 
     "view": "default.html",
     "script": "ntflist.js",

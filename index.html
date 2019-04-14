@@ -1,9 +1,10 @@
 <!DOCTYPE html>
 <html lang="ja">
-
 <head>
 	<meta charset="UTF-8">
 	<title>kitDesktop</title>
+	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<!-- Libs -->
 	<script src="system/jquery.min.js"></script>
 	<script src="system/jquery.pep.js"></script>
 	<link rel="stylesheet" href="system/jquery-ui-1.12.1/jquery-ui.min.css">
@@ -11,15 +12,16 @@
 	<script src="system/html2canvas.js"></script>
 	<link href="fa/css/all.css" rel="stylesheet">
 	<link href="system/noto.css" rel="stylesheet">
-	<script src="system.js"></script>
 	<link rel="stylesheet" href="system/simplebar.css">
 	<script src="system/simplebar.js"></script>
+	<!-- System and Theme -->
+	<script src="system.js"></script>
 	<link href="system/theme/theme-default.css" rel="stylesheet" id="kit-theme-file">
-	<meta name="viewport" content="width=device-width,initial-scale=1.0,minimum-scale=1.0,maximum-scale=1.0,user-scalable=no">
+	<link rel="stylesheet" id="kit-darkmode">
+	<!-- App固有CSS -->
 </head>
 
 <body id="body">
-
 	<div id="kit-wallpaper"></div>
 
 	<section id="desktop-0">
@@ -50,7 +52,7 @@
 		<a id="task-ctx-sshot"><span class="fa fa-camera"></span> スクリーンショット</a>
 		<a id="task-ctx-min"><span class="fa fa-window-maximize"></span> 最小化／復元</a>
 		<a id="task-ctx-front"><span class="fa fa-layer-group"></span> 窓を一番手前へ</a>
-		<a id="task-ctx-close"><span class="far fa-window-close"></span> 窓を閉じる</a>
+		<a id="task-ctx-close"><span class="far fa-times-circle"></span> 窓を閉じる</a>
 		<a id="task-ctx-kill"><span class="fa fa-ban"></span> アプリ終了</a>
 	</div>
 
@@ -104,7 +106,11 @@
 	<div class="dropdown" id="dropdown-clock"><canvas class="dropdown-clock-canvas"></canvas></div>
 	<div class="dropdown" id="dropdown-sound">
 		音量：<span id="dropdown-sound-level">100</span>
-		<a class="kit-hyperlink" onclick="System.audio.volume(0)">ミュート</a>
+		<div class="kit-toggle">
+				<input type="checkbox" id="dropdown-sound-silent">
+				<label for="dropdown-sound-silent"></label>
+				<label for="dropdown-sound-silent"><span class="fa fa-volume-off"></span> サイレント</label>
+		</div>
 		<div id="dropdown-sound-slider"></div>
 	</div>
 
@@ -127,5 +133,4 @@
 			<a id="kit-power-lock">ロック</a>
 	</div>
 </body>
-
 </html>

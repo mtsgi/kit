@@ -36,6 +36,9 @@
 .fivr-file:hover{
     background: #e0e0e0;
 }
+.winc-darkmode .fivr-file:hover{
+    background: #535353;
+}
 .fivr-file-type{
     font-size: 13px;
     padding: 0px 10px;

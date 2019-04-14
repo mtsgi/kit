@@ -7,8 +7,12 @@ function app_nqueen( _pid ) {
     var nqueenNum = 0;
     S.dom( _pid, "#nqueen-start" ).on( "click", function() {
         //初期化
-        nqueenSize = $( "#nqueen-size" ).val();
+        nqueenSize = Number($( "#nqueen-size" ).val());
         if( nqueenSize < 0 ) nqueenSize = nqueenSize * -1;
+        if( nqueenSize > 500 && !S.debugmode ){
+            S.alert("Nクイーン", "数値が大きすぎます。");
+            return;
+        };
         nqueenNum = 0;
         $( "#nqueen-num" ).text( nqueenNum );
         $( "#nqueen-table" ).html( "" );

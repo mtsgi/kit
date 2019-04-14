@@ -2,8 +2,12 @@
     "id": "dialog",
     "name": " ダイアログ",
     "icon": "icon.png",
-    "version": "1.0.!",
+    "version": "1.0.2",
     "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
 
     "view": "default.html",
     "script": "dialog.js",

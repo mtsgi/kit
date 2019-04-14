@@ -2,8 +2,12 @@
     "id": "ytplayer",
     "name": "YouTubePlayer",
     "icon": "icon.png",
-    "version": "1.0.1",
+    "version": "1.0.2",
     "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
 
     "view": "default.html",
     "script": "ytplayer.js",

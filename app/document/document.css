@@ -26,3 +26,7 @@
     margin-left: 20px;
     list-style-type: square;
 }
+.winc-darkmode .document-bs{
+    background: #202020;
+    color: #ffffff;
+}
