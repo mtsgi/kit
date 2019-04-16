@@ -40,6 +40,7 @@ function kit() {
     if( localStorage.getItem("kit-darkmode") == "true" ){
         KWS.darkmode = true;
         $("#kit-darkmode").attr("href", "system/theme/kit-darkmode.css");
+        $(".winc-darkmode").addClass("kit-darkmode");
     }
 
     if( System.bootopt.get("safe") ){
@@ -369,6 +370,7 @@ function appData( data ) {
     } );
     $( "#desktop-" + currentDesktop ).append( "<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wt" + pid + "' class='wt'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>" );
     if( data.support && data.support.darkmode == true ) $("#winc"+pid).addClass("winc-darkmode");
+    if( KWS.darkmode ) $("#winc"+pid).addClass("kit-darkmode");
     var windowPos = 50 + ( pid % 10 ) * 20;
     //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
     KWS.windowIndex ++;
@@ -450,6 +452,8 @@ const System = new function() {
 
     this.battery = null;
 
+    this.log = new Array();
+
     this.setBattery = function(){
         if( navigator.getBattery ) navigator.getBattery().then((e)=>{
             let _lv =  e.level * 100;
@@ -488,14 +492,27 @@ const System = new function() {
     this.open = function(filename){
         launch("fivr", { "open" : filename });
     }
+
+    this.preventClose = function( _pid ){
+        if( !process[_pid] ) return false;
+        process[_pid].preventclose = true;
+        return true;
+    }
     
     this.shutdown = function() {
         $( "#last-notification-close" ).click();
         $( "#kit-power-back" ).click();
         for( let i in process ) {
-            close( i );
-            $( "section" ).hide();
+            if( process[i].preventclose == true ){
+                S.dialog( "シャットダウンの中断", "pid" + i + "がシャットダウンを妨げています。<br>強制終了してシャットダウンを続行する場合は[OK]を押下してください。", () => {
+                    process[i].preventclose = false;
+                    S.shutdown();
+                } );
+                return false;
+            }
+            else close( i );
         }
+        $( "section" ).hide();
         $( "body" ).css( "background-color", "black" );
         $( "header, footer" ).fadeOut( 300 );
         $( "#kit-wallpaper" ).fadeOut( 1500 );

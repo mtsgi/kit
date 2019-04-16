@@ -30,6 +30,9 @@
 .winc-browser #browser-url:focus{
     background: #ffffff;
 }
+.kit-darkmode.winc-browser #browser-url{
+    color: #303030;
+}
 .browser-message{
     display: none;
     background: white;
@@ -48,6 +51,9 @@
     border-radius: 0px 0px 0px 5px;
     padding: 6px 0;
     box-shadow: -2px 2px 4px -2px black;
+}
+.kit-darkmode.winc-browser .browser-menu{
+    background: #505050;
 }
 .browser-menu a{
     display: block;

@@ -5,11 +5,13 @@
             localStorage.setItem("kit-darkmode", "true");
             KWS.darkmode = true;
             $("#kit-darkmode").attr("href", "system/theme/kit-darkmode.css");
+            $(".winc-darkmode").addClass("kit-darkmode");
         }
         else{
             localStorage.setItem("kit-darkmode", "false");
             KWS.darkmode = false;
             $("#kit-darkmode").attr("href", null);
+            $(".winc-darkmode").removeClass("kit-darkmode");
         }
     })
 
@@ -25,7 +27,7 @@
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 <h3><span class='fa fa-palette'></span> テーマ設定</h3>
 
-<h4>ダークモード　<a onclick="S.alert('ダークモード','画面UI全体を黒色の構成にすることで目の疲れを軽減します。<br>一部のアプリやテーマで正しく機能しない場合があります。')" class="kit-hyperlink far fa-question-circle"></a></h4>
+<h4>ダークモード(試験的な機能)　<a onclick="S.alert('ダークモード','画面UI全体を黒色の構成にすることで目の疲れを軽減します。<br>一部のアプリやテーマで正しく機能しない場合があります。')" class="kit-hyperlink far fa-question-circle"></a></h4>
 <div class="kit-toggle">
     <input type="checkbox" id="settings-theme-darkmode">
     <label for="settings-theme-darkmode"></label>
