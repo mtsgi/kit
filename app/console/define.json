@@ -2,7 +2,7 @@
     "id": "console",
     "name": "コンソール",
     "icon": "icon.png",
-    "version": "0.0.0",
+    "version": "3.0.1",
     "author": "kit",
 
     "view": "default.html",

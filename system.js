@@ -32,11 +32,7 @@ function kit() {
             KWS.fusen.add(this.list[i]);
         }
     }
-
-    //if( !localStorage.getItem( "kit-debugmode" ) ) localStorage.setItem( "kit-debugmode", "false" );
-    //if( localStorage.getItem( "kit-debugmode" ) == "true" ) System.debugmode = true;
-    //else System.debugmode = false;
-
+    
     if( localStorage.getItem("kit-darkmode") == "true" ){
         KWS.darkmode = true;
         $("#kit-darkmode").attr("href", "system/theme/kit-darkmode.css");
@@ -97,7 +93,7 @@ function kit() {
         Notification.push( "ランチャー初期化失敗", "アプリケーション一覧(config/apps.json)の読み込みに失敗しました。", system );
     } );
     $( "#kit-tasks" ).delegate( ".task", "click", function() {
-        close( this.id.slice( 1 ) );
+        System.close( this.id.slice( 1 ) );
         $( this ).hide();
     } );
     //通知バー
@@ -294,9 +290,7 @@ function kit() {
 
     if( localStorage.getItem( "kit-lock" ) == "true" ){
         $("section").hide();
-        setTimeout(() => {
-            System.lock();
-        }, 100);
+        setTimeout(() =>  System.lock(), 100);
     }
 }
 
@@ -341,7 +335,7 @@ function appData( data ) {
         $( "#task-ctx-name" ).text( data.name );
         $( "#task-ctx-img" ).attr( "src", "./app/" + data.id + "/" + data.icon );
         $( "#task-ctx-ver" ).text( data.version + "/pid:" + pid );
-        $( "#task-ctx-info" ).off().on( "click", function() {appInfo( data.id )} );
+        $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( data.id )} );
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
         $( "#task-ctx-min" ).off().on( "click", function() { S.min( String(pid) ) } );
         if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
@@ -350,8 +344,8 @@ function appData( data ) {
             $("#w"+pid).css("z-index", KWS.windowIndex + 1);
             KWS.refreshWindowIndex();
         } );
-        $( "#task-ctx-close" ).off().on( "click", function() { close( String(pid) ) } );
-        $( "#task-ctx-kill" ).off().on( "click", function() { kill( String(data.id) ) } );
+        $( "#task-ctx-close" ).off().on( "click", () => { System.close( String(pid) ) } );
+        $( "#task-ctx-kill" ).off().on( "click", () => { System.kill( String(data.id) ) } );
         const _ctxleft = $( "#t" + pid ).offset().left;
         const _ctxtop = window.innerHeight - $( "#t" + pid ).offset().top;
         if( _ctxleft != $( "#task-ctx" ).offset().left ) {
@@ -396,7 +390,7 @@ function appData( data ) {
     } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
     KWS.refreshWindowIndex();
     $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( function() {System.min( String( pid ) )} );
-    $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( function() {close( String( pid ) )} );
+    $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( () => { System.close( String(pid) ) } );
     $( "#winc" + pid ).resizable( {
         minWidth: "200"
     } ).load( "./app/" + data.id + "/" + data.view );
@@ -412,16 +406,19 @@ function appData( data ) {
     localStorage.setItem( "kit-pid", processID );
 }
 
+//非推奨メソッド
 function appInfo( str ){
-    System.appInfo(str) //非推奨です
+    System.appInfo(str)
 }
 
+//非推奨メソッド
 function close( str ) {
-    System.close( str ) //非推奨です
+    System.close( str )
 }
 
+//非推奨メソッド
 function kill( str ) {
-    System.kill(str) //非推奨です
+    System.kill(str)
 }
 
 const System = new function() {
@@ -453,6 +450,7 @@ const System = new function() {
     this.battery = null;
 
     this.log = new Array();
+    this.noop = () => {}
 
     this.setBattery = function(){
         if( navigator.getBattery ) navigator.getBattery().then((e)=>{
@@ -499,27 +497,28 @@ const System = new function() {
         return true;
     }
     
-    this.shutdown = function() {
+    this.shutdown = function(_opt) {
         $( "#last-notification-close" ).click();
         $( "#kit-power-back" ).click();
         for( let i in process ) {
             if( process[i].preventclose == true ){
-                S.dialog( "シャットダウンの中断", "pid" + i + "がシャットダウンを妨げています。<br>強制終了してシャットダウンを続行する場合は[OK]を押下してください。", () => {
+                S.dialog( "シャットダウンの中断", "pid" + System.appCache[process[i].id].name + "がシャットダウンを妨げています。<br>強制終了してシャットダウンを続行する場合は[OK]を押下してください。", () => {
                     process[i].preventclose = false;
-                    S.shutdown();
+                    System.shutdown();
                 } );
                 return false;
             }
-            else close( i );
+            else System.close( i );
         }
         $( "section" ).hide();
         $( "body" ).css( "background-color", "black" );
         $( "header, footer" ).fadeOut( 300 );
         $( "#kit-wallpaper" ).fadeOut( 1500 );
+        if( _opt == "reboot" ) location.reload();
     }
 
     this.reboot = function() {
-        location.reload();
+        System.shutdown("reboot");
     }
 
     this.lock = function(){
@@ -549,7 +548,7 @@ const System = new function() {
 
     this.appInfo = function( str ){
         let _title = "", _content = "";
-        let ac = S.appCache[str];
+        let ac = System.appCache[str];
         if( ac ){
             _title = ac.name + " (" + ac.version + ")";
             _content = "<img style='height: 96px' src='./app/" + ac.id + "/" + ac.icon + "'><br>";
@@ -558,11 +557,12 @@ const System = new function() {
             }
         }
         else _title = "取得に失敗しました";
-        S.alert( _title, _content );
+        System.alert( _title, _content );
     }
-
+ 
+    //非推奨です(削除予定)。
     this.min = function( _str ) {
-        KWS.min( _str ); //非推奨です(削除予定)。
+        KWS.min( _str );
     }
 
     this.close = function( _str ) {
@@ -684,7 +684,7 @@ const System = new function() {
         }
         console.log( _cnt );
         if( _cnt > 1 ) {
-            close( _pid );
+            System.close( _pid );
             if( !_alert ){
                 System.alert( "多重起動", "アプリケーション" + _id + "が既に起動しています。このアプリケーションの多重起動は許可されていません。" );
             }

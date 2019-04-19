@@ -13,6 +13,6 @@ function app_alert(_pid) {
         }
     }
     $("#winc" + _pid + " .kit-button").on("click", function(){
-        close(_pid);
+        System.close(_pid);
     });
 }

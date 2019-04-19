@@ -7,9 +7,10 @@ function app_dialog(_pid) {
         $("#winc" + _pid + " .dialog-content").html(System.args[_pid].content);
     }
     $("#winc" + _pid + " .dialog-cancel").on("click", function(){
-        close(_pid);
+        System.close(_pid);
     });
     $("#winc" + _pid + " .dialog-ok").on("click", function(){
         System.args[_pid].func();
+        System.close(_pid);
     });
 }

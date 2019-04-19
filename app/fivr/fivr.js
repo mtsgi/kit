@@ -53,7 +53,7 @@ function app_fivr(_pid){
                 }
                 localStorage["kit-userarea"] = JSON.stringify(System.userarea);
                 S.alert( "ファイルの保存" , "ユーザー領域にファイル「"+S.dom( _pid, "#fivr-filename" ).val()+"」を保存しました。");
-                close( _pid );
+                S.close( _pid );
             });
         }, 100);
         return false;

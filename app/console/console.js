@@ -4,20 +4,29 @@ function app_console(_pid) {
     "use strict";
 
     let prevCommand = "";
+    let cmdHistory = [""];
+    let cmdFocus = 0;
 
     $("#w" + _pid).resizable({
         alsoResize: "#w" + _pid + " .console-wrapper",
         minWidth: "200"
     });
 
-    $("#winc"+_pid+" .console-exec").click(function(){
-        var log = $("#winc"+_pid+" .simple-box").html();
-        var exec = $("#winc"+_pid+" .textbox").val();
-        prevCommand = exec;
-        //var _return = JSON.stringify( eval(exec) );
+    $("#winc"+_pid+" .console-exec").on("click", function(){
+        let log = $("#winc"+_pid+" .simple-box").html();
+        let exec = $("#winc"+_pid+" .textbox").val();
         if( exec ){
+            prevCommand = exec;
+            cmdFocus = cmdHistory.length;
+            cmdHistory.unshift(exec);
+            Notification.push("debug", cmdHistory)
             $("#winc"+_pid+" .simple-box").html(exec+"<br><span class='fa fa-arrow-left'></span>");
-            $("#winc"+_pid+" .simple-box").append( JSON.stringify( eval(exec) )+"<br><div class='console-log'>"+log+"</div>");
+            try {
+                $("#winc"+_pid+" .simple-box").append( JSON.stringify( eval(exec) )+"<br><div class='console-log'>"+log+"</div>");
+            } catch (error) {
+                console.log(error);
+                $("#winc"+_pid+" .simple-box").append( error +"<br><div class='console-log'>"+log+"</div>");
+            }
         }
         $("#winc"+_pid+" .textbox").val("");
     });
@@ -30,10 +39,12 @@ function app_console(_pid) {
 
       $(document).on("keydown", "#winc"+_pid+" .textbox", function(e){
         if(e.which == 38){
-            $("#winc"+_pid+" .textbox").val(prevCommand);
+            if( cmdHistory[cmdFocus-1] != undefined ) cmdFocus--;
+            $("#winc"+_pid+" .textbox").val(cmdHistory[cmdFocus]);
         }
         else if(e.which == 40){
-            $("#winc"+_pid+" .textbox").val("");
+            if( cmdHistory[cmdFocus+1] != undefined ) cmdFocus++;
+            $("#winc"+_pid+" .textbox").val(cmdHistory[cmdFocus]);
         }
       });
 }

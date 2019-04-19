@@ -14,7 +14,7 @@ function app_welcome(_pid) {
     });
     $("#winc" + _pid).delegate(".welcome-close", "click", function () {
         console.log(_pid);
-        close(_pid);
+        S.close(_pid);
     });
 
     $("#winc" + _pid).delegate(".welcome-document", "click", function () {

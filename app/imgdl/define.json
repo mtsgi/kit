@@ -1,8 +1,8 @@
 {
-    "id": "dialog",
-    "name": "ダイアログ",
+    "id": "imgdl",
+    "name": "ImgDL",
     "icon": "icon.png",
-    "version": "1.0.2",
+    "version": "0.1.0",
     "author": "kit",
 
     "support": {
@@ -10,6 +10,6 @@
     },
 
     "view": "default.html",
-    "script": "dialog.js",
+    "script": "imgdl.js",
     "css": ""
 }

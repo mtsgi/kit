@@ -10,6 +10,6 @@
         }
     }, 1000 );
     $(".pmgr-close").on("click", ()=>{
-        close( $(this).attr("data-pmgr-close") );
+        S.close( $(this).attr("data-pmgr-close") );
     });
 })(pid);
