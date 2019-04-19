@@ -1,5 +1,5 @@
 # kit
-kitはJavaScript製のカーネルで動作する、非常に軽量なデスクトップ環境です。
+JavaScriptで動作するとっても軽量なデスクトップ環境
 
 # latest kit
 * [ダウンロード](https://github.com/mtsgi/kit/releases)
@@ -10,6 +10,7 @@ kitはJavaScript製のカーネルで動作する、非常に軽量なデスク�
 * [kit公式Webサイト](http://web.kitit.ml/)
 * [mtsgi/kit - GitHub](https://github.com/mtsgi/kit)
 * [kit開発ブログ](https://kitdev.home.blog/)
+* [Bitbucket Repository](https://bitbucket.org/y-/kit/)
 
 # libraries
 * jQuery
