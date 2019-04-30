@@ -24,11 +24,11 @@
     border : 1px solid gray;
     margin-top : 10px;
     overflow: auto;
+    min-height: 200px;
 }
 .winc-console .simple-box{
     font-size: 13px;
     padding: 2px;
-    height: 100px;
 }
 
 .winc-console .simple-box::selection{
@@ -40,5 +40,14 @@
 }
 .winc-console .console-log::selection{
     background-color: limegreen;
+    color: black;
+}
+.winc-console pre{
+    display: inline;
+	font-family: 'Noto Sans JP', sans-serif;
+}
+.winc-console pre::selection{
+    user-select: text;
+    background: limegreen;
     color: black;
 }

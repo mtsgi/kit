@@ -185,6 +185,27 @@ header a:hover{
 	border: 1px solid black !important;
 	cursor: url(../cursor-1.png), auto !important;
 }
+.desktop-icons{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 4px;
+}
+.desktop-icon{
+	padding: 4px;
+	margin: 4px;
+	width: 100px;
+	text-align: center;
+	overflow: hidden;
+	color: #fff;
+}
+.desktop-icon:hover{
+	background: black;
+}
+.desktop-icon img{
+	display: block;
+	margin: 0 auto;
+	height: 50px;
+}
 .home-icon:before{
 	line-height: 0px;
 	display: block;

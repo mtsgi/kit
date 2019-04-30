@@ -14,6 +14,7 @@
 	<link href="system/noto.css" rel="stylesheet">
 	<link rel="stylesheet" href="system/simplebar.css">
 	<script src="system/simplebar.js"></script>
+	<script src="system/jquery.windowResizable.js"></script>
 	<!-- System and Theme -->
 	<script src="system.js"></script>
 	<link href="system/theme/theme-default.css" rel="stylesheet" id="kit-theme-file">
@@ -29,13 +30,7 @@
 	</section>
 
 	<section id="desktop-1">
-			<a onclick="launch('document')" class="home-icon"><span class="home-fa far fa-file-alt"></span>ドキュメント</a>
-			<a onclick="launch('fivr')" class="home-icon"><span class="home-fa fa fa-folder-open"></span>ファイル</a>
-			<a onclick="launch('browser')" class="home-icon"><span class="home-fa fa fa-globe-asia"></span>ブラウザ</a>
-			<a onclick="launch('settings')" class="home-icon"><span class="home-fa fa fa-cogs"></span>設定</a>
-			<a onclick="launch('grapes')" class="home-icon"><span class="home-fa fa fa-laptop-code"></span>Web作成</a>
-			<a onclick="launch('console')" class="home-icon"><span class="home-fa fa fa-terminal"></span>コンソール</a>
-			<a onclick="launch('ytplayer')" class="home-icon"><span class="home-fa fab fa-youtube"></span>動画閲覧</a>
+		<div class="desktop-icons"></div>
 	</section>
 
 	<section id="desktop-l">ロックされています<br>
@@ -77,14 +72,23 @@
 
 	<div id="kit-context">
 		<div id="kit-context-elem">要素</div>
-		<div id="kit-context-size"></div>
-		<a id="kit-context-open"><span class="fa fa-external-link-alt"></span> 要素を開く</a>
-		<a id="kit-context-save"><span class="fa fa-file-download"></span> 要素を保存</a>
+		<div id="kit-contextgroup-elem">
+			<div id="kit-context-size"></div>
+			<a id="kit-context-open"><span class="fa fa-external-link-alt"></span> 要素を開く</a>
+			<a id="kit-context-save"><span class="fa fa-file-download"></span> 要素を保存</a>
+		</div>
+		<div id="kit-contextgroup-text">
+			<div id="kit-context-text">テキスト</div>
+			<a id="kit-context-copy"><span class="fa fa-copy"></span> コピー</a>
+			<a id="kit-context-search"><span class="fa fa-search"></span> 検索する</a>
+		</div>
 		<input type="text" class="textbox" placeholder="Web検索" id="kit-context-input">
-		<a id="kit-context-search"><span class="fa fa-search"></span> 検索する</a>
-		<a onclick="launch('settings', {'view': 'wallpaper'})"><span class="fa fa-image"></span> 壁紙の設定</a>
-		<a onclick="launch('pmgr')"><span class="fa fa-tachometer-alt"></span> プロセス管理</a>
-		<a id="kit-context-vacuum"><span class="fa fa-compress"></span> 吸い寄せる</a>
+		<div id="kit-contextgroup-desktop">
+			<div id="kit-context-desktop">デスクトップ</div>
+			<a onclick="launch('settings', {'view': 'wallpaper'})"><span class="fa fa-image"></span> 壁紙の設定</a>
+			<a onclick="launch('pmgr')"><span class="fa fa-tachometer-alt"></span> プロセス管理</a>
+			<a id="kit-context-vacuum"><span class="fa fa-compress"></span> 吸い寄せる</a>
+		</div>
 	</div>
 
 	<div id="kit-tasks"></div>
@@ -118,6 +122,7 @@
 		<a id="desktops"><span class="far fa-clone"></span>Desktop</a>
 		<input type="text" class="kit-selectable" id="milp" placeholder="検索" autocomplete="off">
 		<div id="header-right">
+			<a id="kit-header-fullscreen"><span class="fa fa-window-maximize"></span>最大化を解除</a>
 			<a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
 			<a onclick="$('#dropdown-sound').toggle()"><span id="kit-header-sound-icon" class="fa fa-volume-up"></span></a>
 			<a onclick="$('#dropdown-clock').toggle()"><span class="fas fa-clock"></span><span class="os-time"></span></a>

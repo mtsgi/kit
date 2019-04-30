@@ -7,22 +7,17 @@ function app_console(_pid) {
     let cmdHistory = [""];
     let cmdFocus = 0;
 
-    $("#w" + _pid).resizable({
-        alsoResize: "#w" + _pid + " .console-wrapper",
-        minWidth: "200"
-    });
-
     $("#winc"+_pid+" .console-exec").on("click", function(){
         let log = $("#winc"+_pid+" .simple-box").html();
         let exec = $("#winc"+_pid+" .textbox").val();
         if( exec ){
             prevCommand = exec;
             cmdFocus = cmdHistory.length;
-            cmdHistory.unshift(exec);
+            cmdHistory.shift(exec);
             Notification.push("debug", cmdHistory)
             $("#winc"+_pid+" .simple-box").html(exec+"<br><span class='fa fa-arrow-left'></span>");
             try {
-                $("#winc"+_pid+" .simple-box").append( JSON.stringify( eval(exec) )+"<br><div class='console-log'>"+log+"</div>");
+                $("#winc"+_pid+" .simple-box").append( "<pre>" + JSON.stringify( eval(exec), null, 4 )+"</pre><div class='console-log'>"+log+"</div>");
             } catch (error) {
                 console.log(error);
                 $("#winc"+_pid+" .simple-box").append( error +"<br><div class='console-log'>"+log+"</div>");

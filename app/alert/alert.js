@@ -6,10 +6,10 @@ function app_alert(_pid) {
         $("#winc" + _pid + " .alert-title").text(System.args[pid][0]);
         $("#winc" + _pid + " .alert-content").html(System.args[pid][1]);
         if( System.args[pid][2] ){
-            $("#wt" + _pid).html("<img src='./app/alert/icon.png'>"+System.args[pid][2]);
+            KWS.changeWindowTitle( _pid, System.args[pid][2] );
         }
         else{
-            $("#wt" + _pid).html("<img src='./app/alert/icon.png'>"+System.args[pid][0]);
+            KWS.changeWindowTitle( _pid, System.args[pid][0] );
         }
     }
     $("#winc" + _pid + " .kit-button").on("click", function(){

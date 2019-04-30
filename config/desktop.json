@@ -1,0 +1,31 @@
+{
+    "document": {
+        "name": "ドキュメント",
+        "icon": "./app/document/icon.png"
+    },
+
+    "fivr": {
+        "name": "ファイル",
+        "icon": "./app/fivr/icon.png"
+    },
+    
+    "browser": {
+        "name": "ブラウザ",
+        "icon": "./app/browser/icon.png"
+    },
+
+    "settings": {
+        "name": "設定",
+        "icon": "./app/settings/icon.png"
+    },
+
+    "console": {
+        "name": "コンソール",
+        "icon": "./app/console/icon.png"
+    },
+
+    "ytplayer": {
+        "name": "動画閲覧",
+        "icon": "./app/ytplayer/icon.png"
+    }
+}

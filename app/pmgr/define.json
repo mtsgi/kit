@@ -2,11 +2,21 @@
     "id": "pmgr",
     "name": "プロセスマネージャー",
     "icon": "icon.png",
-    "version": "2.0.3",
+    "version": "3.0.1",
     "author": "kit",
 
+    "size": {
+        "width": "500px",
+        "height": "280px"
+    },
+
     "support": {
-        "darkmode": true
+        "darkmode": true,
+        "fullscreen": true
+    },
+
+    "resize": {
+        "minWidth": 300
     },
 
     "view": "default.html",

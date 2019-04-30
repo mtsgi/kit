@@ -2,8 +2,14 @@
     "id": "console",
     "name": "コンソール",
     "icon": "icon.png",
-    "version": "3.0.1",
+    "version": "3.0.2",
     "author": "kit",
+
+    "support": {
+        "fullscreen": true
+    },
+
+    "resize": true,
 
     "view": "default.html",
     "script": "console.js",

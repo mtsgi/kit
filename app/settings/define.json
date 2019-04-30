@@ -6,7 +6,8 @@
     "author": "kit",
 
     "support": {
-        "darkmode": true
+        "darkmode": true,
+        "fullscreen": true
     },
 
     "view": "default.html",

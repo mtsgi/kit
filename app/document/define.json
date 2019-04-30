@@ -5,9 +5,17 @@
     "version": "0.2.2",
     "author": "kit",
 
-    "support": {
-        "darkmode": true
+    "size": {
+        "width": 420,
+        "height": 290
     },
+
+    "support": {
+        "darkmode": true,
+        "fullscreen": true
+    },
+
+    "resize": true,
 
     "view": "default.html",
     "script": "document.js",

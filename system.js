@@ -7,6 +7,8 @@
 // THIS IS THE KIT KERNEL AND KIT WINDOW SYSTEM
 // http://web.kitit.ml/
 // https://github.com/mtsgi/kit
+"use strict";
+
 
 $( document ).ready( kit );
 
@@ -69,6 +71,8 @@ function kit() {
         System.alert( "セーフブート", "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='location.href=\"index.html\";'>通常モードで再起動</a>", "system" );
     }
     else for( let i of System.startup ) if( i != "" ) launch( i );
+    
+    $("#kit-header-fullscreen").hide();
 
     //イベントハンドラ
     $( "#desktops" ).click( function() {
@@ -87,6 +91,17 @@ function kit() {
             $( "#task-ctx" ).fadeOut( 200 );
             $( "#kit-tasks" ).html( $( "#tasks" ).html() ).fadeIn( 300 ).css( "z-index", "9997" );
         }
+    } );
+    //デスクトップアイコン
+    $.getJSON("config/desktop.json", (data) => {
+        for( let i in data ){
+            $(".desktop-icons").append("<div class='desktop-icon' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
+        }
+        $(".desktop-icon").on("click", function(){
+            launch( $(this).attr("data-launch") );
+        });
+    }).fail( function() {
+        Notification.push( "読み込みに失敗", "デスクトップ(config/desktop.json)の読み込みに失敗しました。", system );
     } );
     //ランチャー
     $.getJSON("config/apps.json", System.initLauncher).fail( function() {
@@ -236,7 +251,18 @@ function kit() {
     $(":root section:not(#desktop-l)").on("contextmenu", function() {
         let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );
         S.selectedElement = _ptelem;
-        $( "#kit-context-input" ).val( _ptelem.text() );
+        S.selectedText = window.getSelection();
+        $( "#kit-context-input" ).val( S.selectedText );
+        if( $( "#kit-context-input" ).val() == "" ) $("#kit-contextgroup-text").hide();
+        else $("#kit-contextgroup-text").show();
+        if( _ptelem[0].id == "desktop-" + currentDesktop ){
+            $("#kit-contextgroup-desktop").show();
+            $("#kit-contextgroup-elem").hide();
+        }
+        else{
+            $("#kit-contextgroup-desktop").hide();
+            $("#kit-contextgroup-elem").show();
+        }
         $( "#kit-context-elem" ).text( _ptelem.prop("tagName").toLowerCase() + "要素" );
         if( _ptelem[0].id ) $( "#kit-context-elem" ).append( "#" + _ptelem[0].id );
         $( "#kit-context-size" ).text( _ptelem[0].clientWidth + "✕" + _ptelem[0].clientHeight );
@@ -262,7 +288,7 @@ function kit() {
 
     $("#kit-context-vacuum").on("click", function(){
         for( let i in process ){
-            $("#w"+i).css("transition", ".5s all ease").css("left", S.mouseX - Number( $("#w"+i).innerWidth() / 2 ) ).css("top", S.mouseY - Number( $("#w"+i).innerHeight() / 2 ) );
+            KWS.vacuum( S.mouseX, S.mouseY );    
         }
         setTimeout(() => {
             $(".window").css("transition", "none");
@@ -288,6 +314,15 @@ function kit() {
         }
     } );
 
+    window.onresize = () => {
+        System.display.width = window.innerWidth;
+        System.display.height = window.innerWidth;
+
+        if( KWS.fullscreen.pid ){
+            KWS.resize( KWS.fullscreen.pid, System.display.width, System.display.height - 30 );
+        }
+    }
+
     if( localStorage.getItem( "kit-lock" ) == "true" ){
         $("section").hide();
         setTimeout(() =>  System.lock(), 100);
@@ -298,6 +333,7 @@ function launch( str, args ) {
     pid = processID;
     System.args[pid] = args;
     if( System.appCache[str] ) {
+        if( KWS.fullscreen.pid ) KWS.unmax(KWS.fullscreen.pid);
         //app[str].open();
         appData( System.appCache[str] );
     }
@@ -362,9 +398,26 @@ function appData( data ) {
     }, function() {
         $( "#w" + pid ).removeClass( "win-highlight" );
     } );
-    $( "#desktop-" + currentDesktop ).append( "<div id='w" + pid + "'><span id='wm" + pid + "'></span><span id='wx" + pid + "'></span><div id='wt" + pid + "' class='wt'><img src='./app/" + data.id + "/" + data.icon + "'>" + data.name + "</div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>" );
+    let WINDOWAPPEND = "<div id='w" + pid + "'><div id='wt" + pid + "' class='wt'><i class='wmzx'><span id='wm" + pid + "'></span>";
+    if( data.support && data.support.fullscreen == true ) WINDOWAPPEND += "<span id='wz" + pid + "'></span>";
+    WINDOWAPPEND += "<span id='wx" + pid + "'></span></i><img src='./app/" + data.id + "/" + data.icon + "'><span id='wtname" + pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>";
+    $( "#desktop-" + currentDesktop ).append( WINDOWAPPEND );
     if( data.support && data.support.darkmode == true ) $("#winc"+pid).addClass("winc-darkmode");
     if( KWS.darkmode ) $("#winc"+pid).addClass("kit-darkmode");
+
+    if( data.size ){
+        $("#winc"+pid).css("width", data.size.width).css("height", data.size.height);
+    }
+    if( data.resize ){
+        let _minwidth = 200, _minheight = 40;
+        if( data.resize.minWidth ) _minwidth = data.resize.minWidth;
+        if( data.resize.minHeight ) _minheight = data.resize.minHeight;
+        $("#winc"+pid).windowResizable({
+            minWidth: _minwidth,
+            minHeight: _minheight
+        });
+    }
+
     var windowPos = 50 + ( pid % 10 ) * 20;
     //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
     KWS.windowIndex ++;
@@ -389,8 +442,9 @@ function appData( data ) {
         KWS.refreshWindowIndex();
     } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
     KWS.refreshWindowIndex();
-    $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( function() {System.min( String( pid ) )} );
-    $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( () => { System.close( String(pid) ) } );
+    $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( () => KWS.min( String(pid) ) );
+    $( "#wz" + pid ).addClass( "wz fas fa-square" ).click( () => KWS.max( String(pid) ) );
+    $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( () => System.close( String(pid) ) );
     $( "#winc" + pid ).resizable( {
         minWidth: "200"
     } ).load( "./app/" + data.id + "/" + data.view );
@@ -422,7 +476,7 @@ function kill( str ) {
 }
 
 const System = new function() {
-    this.version = "0.1.5";
+    this.version = "0.2.0";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
 
@@ -431,7 +485,13 @@ const System = new function() {
     this.mouseX = 0;
     this.mouseY = 0;
 
+    this.display = {
+        "width": window.innerWidth,
+        "height": window.innerHeight
+    }
+
     this.selectedElement = null;
+    this.selectedText = null;
 
     this.dom = function(_pid, _elements) {
         _elements = _elements || "";
@@ -726,6 +786,10 @@ const System = new function() {
         this.get = ()=>{ return this.content }
     }
 
+    this.config = new function(){
+        this.apps = new Object();
+    }
+
     this.audio = new function(){
         this.level = localStorage["kit-audio-level"] || 100;
         this.silent = false;
@@ -773,6 +837,11 @@ const KWS = new function(){
 
     this.darkmode = false;
 
+    this.changeWindowTitle = function( _pid, _str ){
+        $("#tname"+_pid).text( _str );
+        $("#wtname"+_pid).text( _str );
+    }
+
     this.min = function( _str ) {
         let _pid = String( _str );
         if( $( "#w" + _pid ).is( ":visible" ) ) {
@@ -787,8 +856,60 @@ const KWS = new function(){
         }
     }
 
-    this.max = function( _pid ){
+    this.fullscreen = {
+        "pid": null,
+        "prevWidth": null,
+        "prevHeight": null,
+        "prevTop": 0,
+        "prevLeft": 0
+    }
 
+    this.max = function( _pid ){
+        if( KWS.fullscreen.pid ){
+            Notification.push("最大化に失敗", "最大化しているウィンドウがあります。");
+            return;
+        }
+        $( "#wt"+_pid ).addClass("wtmaximize");
+        $( "#w"+_pid ).css({
+            "top": "0px",
+            "left": "0px"
+        })
+        .addClass("windowmaximize")
+        .css("z-index", KWS.windowIndex + 1);
+        KWS.refreshWindowIndex();
+
+        KWS.fullscreen.prevWidth = $("#winc"+_pid).outerWidth();
+        KWS.fullscreen.prevHeight = $("#winc"+_pid).outerHeight();
+        KWS.fullscreen.prevTop = $("#w"+_pid).offset().top;
+        KWS.fullscreen.prevLeft = $("#w"+_pid).offset().left;
+
+        KWS.resize( _pid, System.display.width, System.display.height - 30 );
+        $("footer").hide();
+        $("#kit-header-fullscreen").show().on("click", () => {
+            KWS.unmax( _pid );
+        });
+        KWS.fullscreen.pid = _pid;
+    }
+
+    this.unmax = function( _pid ){
+        if( _pid != KWS.fullscreen.pid ){
+            Notification.push("最大化解除に失敗", "対象がフルスクリーンウィンドウではありません。");
+            return;
+        }
+        $( "#wt"+_pid ).removeClass("wtmaximize");
+        $( "#w"+_pid ).css({
+            "top": KWS.fullscreen.prevTop,
+            "left": KWS.fullscreen.prevLeft
+        })
+        .removeClass("windowmaximize");
+        $("footer").show();
+        $("#kit-header-fullscreen").hide().off();
+        KWS.resize( _pid, KWS.fullscreen.prevWidth, "auto" );
+        KWS.fullscreen.pid = null;
+        KWS.fullscreen.prevWidth = null;
+        KWS.fullscreen.prevHeight = null;
+        KWS.fullscreen.prevTop = null;
+        KWS.fullscreen.prevLeft = null;
     }
 
     this.vacuum = function( _left, _top ){

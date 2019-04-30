@@ -5,6 +5,7 @@
 }
 body {
 	margin: 0px;
+	overflow: hidden;
 	font-size: 16px;
 	font-family: 'Noto Sans JP', sans-serif;
 	overscroll-behavior: none;
@@ -26,8 +27,8 @@ section {
 	position: absolute;
 	top : 30px;
 	left: 0px;
-	width: 100%;
-	height: calc(100% - 70px);
+	min-width: 100%;
+	min-height: calc(100% - 70px);
 	display: none;
 	transition: 1s all ease;
 	cursor: url(../cursor-1.png), auto;
@@ -216,6 +217,31 @@ header a:hover{
 	box-shadow: 0 1px 3px 0 rgba(0,0,0,.5);
 	cursor: url(../cursor-1.png), auto !important;
 }
+.desktop-icons{
+	display: flex;
+	flex-wrap: wrap;
+	padding: 4px;
+}
+.desktop-icon{
+	border-radius: 5px;
+	padding: 4px;
+	margin: 4px;
+	text-shadow: 0px 1px 4px black;
+	width: 100px;
+	text-align: center;
+	overflow: hidden;
+	color: #fff;
+}
+.desktop-icon:hover{
+	background: rgba(0,0,0,.5);
+	opacity: .8;
+	box-shadow: 0 0 3px 0 cyan;
+}
+.desktop-icon img{
+	display: block;
+	margin: 0 auto;
+	height: 50px;
+}
 .home-icon:before{
 	line-height: 0px;
 	display: block;
@@ -259,6 +285,12 @@ footer{
 	box-shadow: 0px 0px 8px rgba(0,0,0,.4);
 	border-top : 5px solid #ffffff;
 	padding-left: 58px;
+}
+.footermaximize{
+	transition: .2s all ease;
+}
+.footermaximize-hidden{
+	bottom: -39px!important;
 }
 footer #launch{
 	cursor:url(../cursor-2.png), pointer;
@@ -423,14 +455,23 @@ section .ui-draggable-dragging{
 	box-shadow: 0 2px 15px 0 rgba(0,0,0,.7);
 	animation: activeAnim 1s;
 }
+.windowmaximize{
+	position: fixed;
+	border-radius: none;
+	overflow: hidden;
+}
+.windowmaximize:after{
+	height: 0px;
+}
 .wt{
 	display: block;
 	min-height: 24px;
 	color: #000000;
 	font-size: 17px;
 	padding: 3px 0;
+	padding-right: 100px;
 	border-radius: 4px 4px 0 0;
-background : linear-gradient(#F2F2F2 0%,#D1D1D1 100%);
+  background : linear-gradient(#F2F2F2 0%,#D1D1D1 100%);
 	background: linear-gradient(45deg, rgba(194,194,194,1) 0%, rgba(235,235,235,1) 50%, rgba(194,194,194,1) 100%);
 }
 .wt:before{
@@ -446,25 +487,39 @@ background : linear-gradient(#F2F2F2 0%,#D1D1D1 100%);
 .windowactive > .wt{
 	background: linear-gradient(45deg, rgba(255,201,248,1) 0%, rgba(186,239,255,1) 50%, rgba(150,255,157,1) 100%);
 }
-.windowactive > span{
+.wtmaximize{
+	display: none;
+}
+.windowactive span{
 	opacity: 1.0;
+}
+.wmzx{
+	position: absolute;
+	top: 0px;
+	right: 0px;
+	display: flex;
+  justify-content: flex-end;
 }
 .wm{
 	padding: 8px 8px;
-	position: absolute;
-	right: 30px;
 	opacity: .6;
 }
 .wm:hover{
 	background: dodgerblue;
 	color: #fff;
 }
+.wz{
+	padding: 8px 8px;
+	opacity: .6;
+}
+.wz:hover{
+	background: orange;
+	color: #fff;
+}
 .wx{
 	cursor:url(../cursor-1.png), default;
 	padding: 8px 10px;
 	float: right;
-	position: absolute;
-	right: 0px;
 	opacity: .6;
 }
 .wx:hover{
@@ -479,7 +534,7 @@ background : linear-gradient(#F2F2F2 0%,#D1D1D1 100%);
 	background: #ffffff;
 	border-radius: 0px 0px 4px 4px;
 	padding : 5px;
-	overflow : hidden;
+	overflow : hidden!important;
 	max-width: 100%;
 }
 .kit-button{
@@ -526,7 +581,7 @@ background : linear-gradient(#F2F2F2 0%,#D1D1D1 100%);
 	float: right;
   display: inline-block;
   position: relative;
-  cursor: pointer;
+	cursor: url(../cursor-2.png), pointer;
   outline: none;
   user-select: none;
 }
@@ -752,6 +807,13 @@ h3{
 	color: #a0a0a0;
 	font-size: 12px;
 	padding: 0px 5px;
+	border-bottom: 1px solid #a0a0a0;
+}
+#kit-context-text, #kit-context-desktop{
+	color: #a0a0a0;
+	font-size: 15px;
+	padding: 4px 5px;
+	border-top: 1px solid #a0a0a0;
 	border-bottom: 1px solid #a0a0a0;
 }
 
