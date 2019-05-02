@@ -264,6 +264,19 @@ function kit() {
             $("#kit-contextgroup-elem").show();
         }
         $( "#kit-context-elem" ).text( _ptelem.prop("tagName").toLowerCase() + "要素" );
+
+        $("#kit-contextgroup-custom").hide();
+        if( _ptelem.attr("data-kit-contextid") ){
+            $("#kit-contextgroup-custom").show().html('<div id="kit-context-custom"></div>');
+            $("#kit-context-custom").text(_ptelem.attr("data-kit-contextid"));
+            for( let i in KWS.context[_ptelem.attr("data-kit-contextid")]){
+                $("#kit-contextgroup-custom").append("<a id='kit-context-" + _ptelem.attr("data-kit-contextid") + "-" + i + "'><span class='fa " + KWS.context[_ptelem.attr("data-kit-contextid")][i].icon + "'></span> " + KWS.context[_ptelem.attr("data-kit-contextid")][i].label +"</a>");
+                $("#kit-context-" + _ptelem.attr("data-kit-contextid") + "-" + i).on("click", () => {
+                    KWS.context[_ptelem.attr("data-kit-contextid")][i].function();
+                    $("#kit-context").fadeOut(300);
+                });
+            }
+        }
         if( _ptelem[0].id ) $( "#kit-context-elem" ).append( "#" + _ptelem[0].id );
         $( "#kit-context-size" ).text( _ptelem[0].clientWidth + "✕" + _ptelem[0].clientHeight );
         $("#kit-context").toggle().css("left", S.mouseX).css("top", S.mouseY);
@@ -285,7 +298,6 @@ function kit() {
     $("#kit-context a").on("click", function(){
         $("#kit-context").fadeOut(300);
     });
-
     $("#kit-context-vacuum").on("click", function(){
         for( let i in process ){
             KWS.vacuum( S.mouseX, S.mouseY );    
@@ -294,6 +306,10 @@ function kit() {
             $(".window").css("transition", "none");
         }, 500);
     });
+    $("#kit-context-fusen").on("click", function(){
+        KWS.fusen.add("");
+    });
+
 
     $("section").on("click", function(){
         $("#kit-context").fadeOut(300);
@@ -904,7 +920,7 @@ const KWS = new function(){
         .removeClass("windowmaximize");
         $("footer").show();
         $("#kit-header-fullscreen").hide().off();
-        KWS.resize( _pid, KWS.fullscreen.prevWidth, "auto" );
+        KWS.resize( _pid, KWS.fullscreen.prevWidth, KWS.fullscreen.prevHeight );
         KWS.fullscreen.pid = null;
         KWS.fullscreen.prevWidth = null;
         KWS.fullscreen.prevHeight = null;
@@ -963,9 +979,12 @@ const KWS = new function(){
 
         this.add = function(_text){
             KWS.fusen.list[KWS.fusen.fid] = String(_text);
-            $("#desktop-"+currentDesktop).append("<div class='kit-fusen' id='kit-f"+KWS.fusen.fid+"'><i class='fa fa-quote-left'></i>"+_text+"</div>");
-            $("#kit-f"+KWS.fusen.fid).css("left", Number(KWS.fusen.fid)*20 + 20).pep({
-                elementsWithInteraction: ".winc, .ui-resizable-handle",
+            $("#desktop-"+currentDesktop).append("<div class='kit-fusen' id='kit-f"+KWS.fusen.fid+"'><i class='fa fa-quote-left'></i><textarea class='kit-fusen-textarea kit-selectable' data-fid='"+KWS.fusen.fid+"' data-kit-contextid='fusen'>"+_text+"</textarea></div>");
+            $("#kit-f"+KWS.fusen.fid).css({
+                "left": Number(KWS.fusen.fid)*40 + 20,
+                "top": Number(KWS.fusen.fid)*10 + 100,
+            }).pep({
+                elementsWithInteraction: ".kit-fusen-textarea",
                 useCSSTranslation: false,
                 disableSelect: false,
                 shouldEase:	true,
@@ -977,6 +996,11 @@ const KWS = new function(){
                     $(this.el).css("ui-opacity", "1.0");
                 }
             })
+            $(".kit-fusen-textarea").off().on("change",function(){
+                Notification.push($(this).attr("data-fid"), $(this).val(), "debug");
+                KWS.fusen.list[$(this).attr("data-fid")] = $(this).val();
+                localStorage.setItem("kit-fusen", JSON.stringify( KWS.fusen.list ));
+            });
             localStorage.setItem("kit-fusen", JSON.stringify( KWS.fusen.list ));
             KWS.fusen.fid++;
         }
@@ -984,7 +1008,30 @@ const KWS = new function(){
         this.remove = function(_fid){
             delete KWS.fusen.list[_fid];
             localStorage.setItem("kit-fusen", JSON.stringify( KWS.fusen.list ));
-            $("#kit-f"+KWS.fusen.fid).remove();
+            $("#kit-f"+_fid).remove();
+        }
+    }
+
+    this.addCustomContext = function( _elem, _contextid, _obj ){
+        KWS.context[_contextid] = _obj;
+    }
+
+    this.context = {
+        "fusen" : {
+            "delete" : {
+                "label" : "ふせんを削除",
+                "icon" : "fa-trash-alt",
+                "function" : function(){
+                    KWS.fusen.remove( S.selectedElement.attr("data-fid") );
+                }
+            },
+            "copy" : {
+                "label" : "ふせんを複製",
+                "icon" : "fa-copy",
+                "function" : function(){
+                    KWS.fusen.add( KWS.fusen.list[S.selectedElement.attr("data-fid")] );
+                }
+            }
         }
     }
 }

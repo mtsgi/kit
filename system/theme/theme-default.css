@@ -809,7 +809,7 @@ h3{
 	padding: 0px 5px;
 	border-bottom: 1px solid #a0a0a0;
 }
-#kit-context-text, #kit-context-desktop{
+#kit-context-text, #kit-context-desktop, #kit-context-custom{
 	color: #a0a0a0;
 	font-size: 15px;
 	padding: 4px 5px;
@@ -956,14 +956,22 @@ h3{
 .kit-fusen{
 	background: rgba(255,250,220,.9);
 	width: 200px;
-	padding: 4px;KWS.
+	padding: 4px;
 	margin: 8px;
-	box-sizing: border-box;
 	border-radius: 6px;
-	box-shadow:inset 0 1px 1px 0 rgba(0,0,0,.5), 0 1px 4px 0 rgba(0,0,0,.5);
+	box-shadow:0 1px 4px 0 rgba(0,0,0,.5);
 	position: absolute;
 	bottom: 20px;
-	height: 60px;
+	height: 55px;
+}
+.kit-fusen-textarea{
+	cursor:url(../cursor-3.png), text;
+	font-family: 'Noto Sans JP', sans-serif;
+	position: absolute;
+	width: 180px;
+	background: transparent;
+	border: none;
+	resize: none;
 }
 
 @keyframes activeAnim{
