@@ -421,7 +421,6 @@ footer .task-min:before{
 	position: absolute;
 	box-shadow: 0px 2px 20px 0px rgba(0,0,0,.8);
 	border-radius : 4px;
-	border-top: 1px solid #fff;
 	min-width : 200px;
 	padding : 0px;
 	background: #f0f0f0;
@@ -450,20 +449,28 @@ section .ui-draggable-dragging{
 }
 .wt{
 	color: #909090;
-	display: inline-block;
+	display: block;
 	font-size: 16px;
 	padding-top: 1px;
+	border-radius : 4px 4px 0 0;
 }
 .wt img{
+	position: relative;
+	top: 2px;
 	width: 18px;
 	height: 18px;
-	float: left;
-	margin: 3px;
+	margin: 0px 2px;
+}
+.wmzx{
+	position: absolute;
+	top: 0px;
+	left: 0px;
+	font-size: 12px;
+	display: flex;
+  justify-content: flex-start;
+	flex-direction: row-reverse;
 }
 .wm{
-	position: absolute;
-	left: 25px;
-	padding: 0px;
 	background: #b0b0b0;
 	border: 1px solid #909090;
 	font-size: 7px;
@@ -471,19 +478,16 @@ section .ui-draggable-dragging{
 	height: 12px;
 	width: 12px;
 	border-radius: 99px;
-	margin: 6px 0;
+	margin: 6px 4px;
 }
 .wm:hover{
 	color: rgba(0,0,0,.9);
 }
 .windowactive .wm{
-	background: #38C93B;
-	border: 1px solid #23961D;
+	background: #FFE72E;
+	border: 1px solid #D6AC2B;
 }
 .wx{
-	position: absolute;
-	left: 5px;
-	padding: 0px;
 	background: #b0b0b0;
 	border: 1px solid #909090;
 	font-size: 7px;
@@ -492,7 +496,7 @@ section .ui-draggable-dragging{
 	height: 12px;
 	width: 12px;
 	border-radius: 99px;
-	margin: 6px 0;
+	margin: 6px 4px;
 }
 .wx:hover{
 	color: rgba(0,0,0,.9);
@@ -500,6 +504,24 @@ section .ui-draggable-dragging{
 .windowactive .wx{
 	background: #F03E3E;
 	border: 1px solid #C23232;
+}
+.wz{
+	background: #b0b0b0;
+	border: 1px solid #909090;
+	font-size: 7px;
+	line-height: 12px;
+	color: transparent;
+	height: 12px;
+	width: 12px;
+	border-radius: 99px;
+	margin: 6px 2px;
+}
+.wz:hover{
+	color: rgba(0,0,0,.9);
+}
+.windowactive .wz{
+	background: #38C93B;
+	border: 1px solid #23961D;
 }
 .winc{
 	text-align: left;
@@ -536,6 +558,60 @@ section .ui-draggable-dragging{
 .kit-selectable *::selection, .kit-selectable::selection{
     background: dodgerblue;
     color: white;
+}
+.kit-toggle{
+	padding: 10px;
+	border-bottom: 1px solid #909090;
+}
+.kit-toggle:hover{
+	background: #f0f0f0;
+}
+.kit-toggle input{
+  position: absolute;
+  margin-left: -9999px;
+  visibility: hidden;
+}
+.kit-toggle input + label {
+	float: right;
+  display: inline-block;
+  position: relative;
+	cursor: url(../cursor-2.png), pointer;
+  outline: none;
+  user-select: none;
+}
+.kit-toggle input + label {
+  padding: 1px;
+  width: 60px;
+  height: 30px;
+  background-color: transparent;
+}
+.kit-toggle input + label:before,
+.kit-toggle input + label:after {
+  display: block;
+	position: absolute;
+	top: 0px;
+  left: 0px;
+	bottom: 5px;
+  content: "";
+}
+.kit-toggle input + label:before {
+  right: 0px;
+  background-color: #e0e0e0;
+  border-radius: 60px;
+  transition: background 0.4s;
+}
+.kit-toggle input + label:after {
+  width: 26px;
+  background-color: #fff;
+  border-radius: 100%;
+  box-shadow: 0 2px 5px rgba(0, 0, 0, 0.3);
+  transition: margin 0.4s;
+}
+.kit-toggle input:checked + label:before {
+  background-color: #8ce196;
+}
+.kit-toggle input:checked + label:after {
+  margin-left: 36px;
 }
 #task-ctx{
 	z-index: 9999;
@@ -883,6 +959,23 @@ h3{
 	text-align: right;
 	padding: 0 4px;
 }
-
-
-
+.kit-fusen{
+	background: rgba(255,250,220,.9);
+	width: 200px;
+	padding: 4px;
+	margin: 8px;
+	border-radius: 6px;
+	box-shadow:0 1px 4px 0 rgba(0,0,0,.5);
+	position: absolute;
+	bottom: 20px;
+	height: 55px;
+}
+.kit-fusen-textarea{
+	cursor:url(../cursor-3.png), text;
+	font-family: 'Noto Sans JP', sans-serif;
+	position: absolute;
+	width: 180px;
+	background: transparent;
+	border: none;
+	resize: none;
+}

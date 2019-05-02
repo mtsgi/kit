@@ -408,21 +408,41 @@ section .ui-draggable-dragging{
 	float: left;
 	margin: 3px;
 }
-.wm{
-	padding: 6px;
+.wtmaximize{
+	display: none;
+}
+.windowactive span{
+	opacity: 1.0;
+}
+.wmzx{
 	position: absolute;
-	right: 22px;
+	top: 0px;
+	right: 0px;
+	font-size: 12px;
+	display: flex;
+  justify-content: flex-end;
+}
+.wm{
+	padding: 8px 8px;
+	opacity: .6;
 }
 .wm:hover{
-	background: #D6D6AB;
-	color: black;
+	background: dodgerblue;
+	color: #fff;
+}
+.wz{
+	padding: 8px 8px;
+	opacity: .6;
+}
+.wz:hover{
+	background: orange;
+	color: #fff;
 }
 .wx{
 	cursor:url(../cursor-1.png), default;
-	padding: 6px;
+	padding: 8px 10px;
 	float: right;
-	position: absolute;
-	right: 0px;
+	opacity: .6;
 }
 .wx:hover{
 	background: #ff0000;
@@ -632,6 +652,13 @@ h3{
 	padding: 0px 5px;
 	border-bottom: 1px solid #a0a0a0;
 }
+#kit-context-text, #kit-context-desktop, #kit-context-custom{
+	color: #a0a0a0;
+	font-size: 15px;
+	padding: 4px 5px;
+	border-top: 1px solid #a0a0a0;
+	border-bottom: 1px solid #a0a0a0;
+}
 
 #kit-tasks{
 	display: none;
@@ -755,6 +782,22 @@ h3{
 	color: #a0a0a0;
 	text-align: right;
 }
-
-
-
+.kit-fusen{
+	background: rgb(255,250,220);
+	border: 1px solid #909090;
+	width: 200px;
+	padding: 4px;
+	margin: 8px;
+	position: absolute;
+	bottom: 20px;
+	height: 55px;
+}
+.kit-fusen-textarea{
+	cursor:url(../cursor-3.png), text;
+	font-family: 'Noto Sans JP', sans-serif;
+	position: absolute;
+	width: 180px;
+	background: transparent;
+	border: none;
+	resize: none;
+}
