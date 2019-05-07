@@ -269,7 +269,7 @@ header a:hover{
 	font-size: 32px;
 }
 footer{
-	z-index: 9997;
+	z-index: 9998;
 	background: -moz-linear-gradient(top, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
 	background: -webkit-gradient(left top, left bottom, color-stop(0%, rgba(179,220,237,1)), color-stop(50%, rgba(41,184,229,1)), color-stop(100%, rgba(188,224,238,1)));
 	background: -webkit-linear-gradient(top, rgba(179,220,237,1) 0%, rgba(41,184,229,1) 50%, rgba(188,224,238,1) 100%);
@@ -620,7 +620,7 @@ section .ui-draggable-dragging{
   margin-left: 36px;
 }
 #task-ctx{
-	z-index: 9998;
+	z-index: 9999;
 	display: none;
 	position: fixed;
 	bottom: 0px;

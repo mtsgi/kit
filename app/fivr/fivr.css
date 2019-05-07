@@ -23,15 +23,18 @@
     border-radius: 5px;
     box-sizing: border-box;
     padding: 5px;
-    height: 300px;
+    max-height: calc(100% - 46px);
     border: 1px solid #909090;
     margin: 5px 0;
+    overflow: scroll;
 }
 #fivr-filename{
     width: calc(100% - 75px);
 }
 .fivr-file{
     padding: 2px 5px;
+    max-height: 25px;
+    overflow: hidden;
 }
 .fivr-file:hover{
     background: #e0e0e0;
@@ -49,4 +52,7 @@
     font-size: 14px;
     color: dodgerblue;
     text-decoration: underline;
+}
+#fivr-path{
+    width: calc(100% - 132px);
 }
