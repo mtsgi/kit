@@ -7,6 +7,9 @@
     }
     else $(".settings-user-currentpassword").text("未設定です");
     $(".settings-open-userpage > span").css("color", localStorage.getItem("kit-user-color") );
+    $(".settings-open-userpage").on("click", ()=>{
+        launch("user");
+    });
     if( localStorage.getItem("kit-lock") == "true" ){
         $("#settings-user-lockdisp").prop('checked', true);
     }
@@ -25,7 +28,7 @@
 <a class='btn settings-default'><span class='fa fa-arrow-circle-left'></span>設定</a>
 <h3><span class='fa fa-user-cog'></span> ユーザー設定</h3>
 <h4>ユーザー情報</h4>
-<div class='btn settings-open-userpage'><span class="fa fa-user"></span><div id="settings-user-username">?</div>ユーザーページを開く</div>
+<div class='btn settings-open-userpage'><span class="fa fa-user"></span><div id="settings-user-username">[username]</div>ユーザーページを開く</div>
 
 <span class="fa fa-address-card"></span>ユーザー名 <a onclick="S.alert('ユーザー名','表示される名前です')" class="kit-hyperlink far fa-question-circle"></a><br>
 <input type='text' class='textbox' id='settings-username'>

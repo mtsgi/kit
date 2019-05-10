@@ -247,6 +247,10 @@ function kit() {
         }
     });
 
+    $("#kit-header-user").on("click", ()=>{
+        launch("user");
+    });
+
     //コンテキストメニュー
     $(":root section:not(#desktop-l)").on("contextmenu", function() {
         let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );

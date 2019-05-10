@@ -1,0 +1,36 @@
+#user-box{
+  display: flex;
+  border-bottom: 1px solid #a0a0a0;
+}
+#user-icon{
+	display: inline-block;
+	background : white;
+	width: 60px;
+	height: 60px;
+	margin: 5px;
+  margin-bottom: 15px;
+	border-radius: 999px;
+	box-shadow: 0px 1px 4px 0 rgba(0,0,0,.4), inset 0px -2px 15px 5px rgba(255,255,255,.4);
+	border: 3px solid #ffffff;
+}
+#user-icon:after{
+	content: "";
+	display: inline-block;
+	background : rgba(255,255,255,.2);
+	box-shadow: 0px 1px 10px 0px rgba(0,0,0,.1);
+	width: 60px;
+	height: 30px;
+	border-radius: 999px 999px 0px 0px;
+}
+#user-info{
+  padding: 6px;
+  font-size: 24px;
+}
+#user-type{
+  opacity: .5;
+  font-size: 15px;
+}
+#user-lock{
+  position: absolute;
+  right: 6px;
+}

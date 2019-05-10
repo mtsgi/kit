@@ -1,0 +1,20 @@
+{
+    "id": "user",
+    "name": "ユーザー",
+    "icon": "icon.png",
+    "version": "1.0.0",
+    "author": "kit",
+
+    "size": {
+        "width": 400
+    },
+
+    "support": {
+        "darkmode": true,
+        "fullscreen": true
+    },
+
+    "view": "default.html",
+    "script": "user.js",
+    "css": "user.css"
+}
