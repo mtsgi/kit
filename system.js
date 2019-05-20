@@ -53,6 +53,7 @@ function kit() {
     S.appdir = localStorage.getItem( "kit-appdir" );
 
     if( localStorage["kit-userarea"] ) System.userarea = JSON.parse(localStorage["kit-userarea"]);
+    if( localStorage["kit-recycle"] ) System.recycle = JSON.parse(localStorage["kit-recycle"]);
 
     System.moveDesktop( "1" );
 
@@ -515,6 +516,7 @@ const System = new function() {
     }
 
     this.userarea = new Object();
+    this.recycle = new Object();
 
     this.appCache = {};
     //引数

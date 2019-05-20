@@ -1,5 +1,27 @@
 app_fivr( pid );
 
+KWS.context.fivr = {
+    "open": {
+        "label": "Fivrで開く",
+        "icon" : "fa-external-link-square-alt",
+        "function" : function(){
+            S.open( S.selectedElement.attr("data-fivr") );
+        }
+    },
+    "delete": {
+        "label": "ゴミ箱へ移動",
+        "icon" : "fa-trash-alt",
+        "function" : function(){
+            System.recycle[S.selectedElement.attr("data-fivr")] = System.userarea[S.selectedElement.attr("data-fivr")];
+            delete System.userarea[S.selectedElement.attr("data-fivr")];
+            localStorage["kit-userarea"] = JSON.stringify(System.userarea);
+            localStorage["kit-recycle"] = JSON.stringify(System.userarea);
+            S.alert("ファイルの削除", "ファイルをゴミ箱に移動しました:" +  S.selectedElement.attr("data-fivr") );
+            fivr_load();
+        }
+    }
+}
+
 function app_fivr(_pid){
     //openの時
     if( S.args[_pid] && S.args[_pid].open ){
@@ -9,13 +31,16 @@ function app_fivr(_pid){
             if( S.userarea[S.args[_pid].open].type == "image" ){
                 S.dom( _pid, "#fivr-open" ).html( "<img src='" + S.userarea[S.args[_pid].open].data + "'>" );
             }
+            else if( S.userarea[S.args[_pid].open].type == "text" ){
+                S.dom( _pid, "#fivr-open" ).html( "<div class='fivr-text' data-simplebar>" + String(S.userarea[S.args[_pid].open].data) + "</div>" );
+            }
             else if( S.userarea[S.args[_pid].open].type == "element" ){
                 S.dom( _pid, "#fivr-open" ).html( S.userarea[S.args[_pid].open].data );
             }
             else{
                 S.dom( _pid, "#fivr-open" ).html( JSON.stringify(S.userarea[S.args[_pid].open].data) );
             }
-        }, 50);
+        }, 20);
     }
     //saveの時
     if( S.args[_pid] && S.args[_pid].save ){
@@ -74,18 +99,10 @@ function app_fivr(_pid){
         S.dom( _pid, "#fivr-files").html("");
         let cnt = 0;
         for( i in S.userarea ){
-            S.dom( _pid, "#fivr-files").append("<div class='fivr-file' data-fivr='"+i+"'><a class='fivr-file-delete' data-fivr='"+i+"'>削除</a><span class='fa fa-file'></span> " + i + "<span class='fivr-file-type'>" + S.userarea[i].type + "</span></div>");
+            S.dom( _pid, "#fivr-files").append("<div class='fivr-file' data-fivr='"+i+"' data-kit-contextid='fivr'><span class='fa fa-file'></span> " + i + "<span class='fivr-file-type'>" + S.userarea[i].type + "</span></div>");
             cnt ++;
         }
         if( cnt == 0 ) S.dom( _pid, "#fivr-files").append("<div>表示するファイルがありません。<br>ファイルや要素を保存するとここに表示されます。</div>");
-        //削除
-        S.dom( _pid, ".fivr-file-delete" ).on("click", function(){
-            delete System.userarea[$(this).attr("data-fivr")];
-            localStorage["kit-userarea"] = JSON.stringify(System.userarea);
-
-            S.alert("ファイルの削除", "ファイルを削除しました:" +  $(this).attr("data-fivr") );
-            fivr_load();
-        });
         //open
         S.dom( _pid, ".fivr-file" ).on("click", function(){
             S.open( $(this).attr("data-fivr") );
