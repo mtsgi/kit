@@ -1,6 +1,7 @@
 app_fivr( pid );
 
 KWS.context.fivr = {
+    "name": "ファイルについて",
     "open": {
         "label": "Fivrで開く",
         "icon" : "fa-external-link-square-alt",
