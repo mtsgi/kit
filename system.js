@@ -269,15 +269,18 @@ function kit() {
             $("#kit-contextgroup-elem").show();
         }
         $( "#kit-context-elem" ).text( _ptelem.prop("tagName").toLowerCase() + "要素" );
-
         $("#kit-contextgroup-custom").hide();
-        if( _ptelem.attr("data-kit-contextid") ){
+
+        let  _ctxid = _ptelem.attr("data-kit-contextid");
+        if( _ctxid ){
             $("#kit-contextgroup-custom").show().html('<div id="kit-context-custom"></div>');
-            $("#kit-context-custom").text(_ptelem.attr("data-kit-contextid"));
-            for( let i in KWS.context[_ptelem.attr("data-kit-contextid")]){
-                $("#kit-contextgroup-custom").append("<a id='kit-context-" + _ptelem.attr("data-kit-contextid") + "-" + i + "'><span class='fa " + KWS.context[_ptelem.attr("data-kit-contextid")][i].icon + "'></span> " + KWS.context[_ptelem.attr("data-kit-contextid")][i].label +"</a>");
-                $("#kit-context-" + _ptelem.attr("data-kit-contextid") + "-" + i).on("click", () => {
-                    KWS.context[_ptelem.attr("data-kit-contextid")][i].function();
+            let  _ctxname = KWS.context[_ctxid].name || _ctxid; 
+            $("#kit-context-custom").text( _ctxname );
+            for( let i in KWS.context[_ctxid]){
+                if( i == "name" ) continue;
+                $("#kit-contextgroup-custom").append("<a id='kit-context-" + _ctxid + "-" + i + "'><span class='fa " + KWS.context[_ctxid][i].icon + "'></span> " + KWS.context[_ctxid][i].label +"</a>");
+                $("#kit-context-" + _ctxid + "-" + i).on("click", () => {
+                    KWS.context[_ctxid][i].function();
                     $("#kit-context").fadeOut(300);
                 });
             }
@@ -365,7 +368,7 @@ function launch( str, args ) {
             } );
         }
         catch(error){
-            Notification.push( "System Error", error, system );
+            Notification.push( "System Error", error, "system" );
         }
     }
 }
@@ -1024,6 +1027,7 @@ const KWS = new function(){
 
     this.context = {
         "fusen" : {
+            "name" : "ふせん",
             "delete" : {
                 "label" : "ふせんを削除",
                 "icon" : "fa-trash-alt",
