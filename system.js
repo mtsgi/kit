@@ -385,7 +385,7 @@ function appData( data ) {
     $( "#tasks" ).append( "<span id='t" + pid + "'><img src='./app/" + data.id + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
     //タスクバーのクリック挙動
     $( "#t" + pid ).addClass( "task" ).click( function() {
-        if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) System.min( pid );
+        if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) KWS.min( pid );
         else{
             $("#w"+pid).css("z-index", KWS.windowIndex + 1);
             KWS.refreshWindowIndex();
@@ -397,7 +397,7 @@ function appData( data ) {
         $( "#task-ctx-ver" ).text( data.version + "/pid:" + pid );
         $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( data.id )} );
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
-        $( "#task-ctx-min" ).off().on( "click", function() { S.min( String(pid) ) } );
+        $( "#task-ctx-min" ).off().on( "click", function() { KWS.min( String(pid) ) } );
         if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
         else $( "#task-ctx-front" ).show();
         $( "#task-ctx-front" ).off().on( "click", function() {

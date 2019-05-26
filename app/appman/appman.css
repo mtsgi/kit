@@ -1,0 +1,23 @@
+#appman-list1{
+  display: flex;
+  overflow: scroll;
+}
+.appman-app{
+  overflow: hidden;
+  min-width: 100px;
+  display: block;
+  text-align: center;
+  margin: 8px;
+  padding: 6px;
+  border-radius: 5px;
+  box-shadow: 0 1px 4px 0 rgba(0,0,0,.2);
+}
+.appman-app img{
+  display: inline-block;
+  height: 50px;
+}
+.appman-app span{
+  display: block;
+  color: #909090;
+  font-size: 14px;
+}

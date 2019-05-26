@@ -2,15 +2,23 @@
     $.getJSON("config/apps.json", function( data ){
         $("#appman-list1").html("");
         for( i in data ){
-            //Notification.push( i, "アプリ名:" + data[i].name, i );
-            $("#appman-list1").append("・<a class='kit-hyperlink'>" + data[i].name + "</a> " + i + "<br>");
+            Notification.push( "debug", "アプリ名:" + data[i].name, i );
+            $("#appman-list1").append("<a class='appman-app'><img src='" + data[i].icon + "'><br>" + data[i].name + "<span>" + i + "</span></a>");
         }
     });
+    $("#appman-list1").html("");
+        for( i in System.installed ){
+            Notification.push( "debug", "アプリ名:" + data[i].name, i );
+            $("#appman-list1").append("<a class='appman-app'><img src='" + data[i].icon + "'><br>" + data[i].name + "<span>" + i + "</span></a>");
+        }
     S.avoidMultiple( pid, true );
 </script>
-<div style="width: 400px">
+<div>
+    <a class="kit-button" style="float: right">アプリをインストール</a>
     <h3><span class="far fa-window-restore"></span> アプリ管理</h3>
     <div class="little">kitディレクトリのconfig/apps.jsonを書き換えることで、ランチャーにアプリケーションを追加することができます。</div>
-    config/apps.json内
+    ・既定のアプリ
     <div id="appman-list1"></div>
+    ・インストール済みアプリ
+    <div id="appman-list2"></div>
 </div>

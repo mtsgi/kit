@@ -2,14 +2,19 @@
     "id": "appman",
     "name": "アプリ管理",
     "icon": "icon.png",
-    "version": "0.0.1",
+    "version": "1.0.0",
     "author": "kit",
 
     "support": {
-        "darkmode": true
+        "darkmode": true,
+        "fullscreen": true
+    },
+
+    "size": {
+        "width": 420
     },
 
     "view": "default.html",
     "script": "appman.js",
-    "css": ""
+    "css": "appman.css"
 }
