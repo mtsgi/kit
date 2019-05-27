@@ -1,0 +1,20 @@
+{
+    "id": "install",
+    "name": "アプリインストーラー",
+    "icon": "icon.png",
+    "version": "1.0.0",
+    "author": "kit",
+
+    "support": {
+        "darkmode": true,
+        "fullscreen": true
+    },
+
+    "size": {
+        "width": 500
+    },
+
+    "view": "default.html",
+    "script": "install.js",
+    "css": "install.css"
+}

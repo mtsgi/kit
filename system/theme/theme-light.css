@@ -463,12 +463,12 @@ section .ui-draggable-dragging{
 	background: dodgerblue;
 	color: #ffffff;
 	padding: 0px 10px;
-	margin: 4px 2px 0px;
+	margin: 4px 1px 0px;
 	text-decoration: none;
-	border: 2px solid #ffffff;
+	border: 1px solid #ffffff;
 }
 .kit-button:hover{
-	border: 2px solid black;
+	border: 1px solid black;
 }
 .kit-button:active{
 	position: relative;

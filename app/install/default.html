@@ -1,0 +1,32 @@
+<div class="install-title">アプリインストーラー</div>
+手順に従ってkitにアプリケーションをインストールできます。
+<hr>
+<div class="install-prot" id="install-prot1">
+    1.アプリのdefine.jsonのパスを入力してください
+    <br><br>
+    <input type="text" id="install-define-path" class="textbox">define.json
+    <a class="kit-button" id="install-define-decide"><i class="fa fa-arrow-right"></i></a>
+</div>
+
+<div class="install-prot" id="install-prot2">
+    2.アプリ情報を入力してください
+    <br><br>
+    アプリID(変更不可)<br>
+    <input type="text" id="install-appid" class="textbox" disabled>
+    <br><br>
+    アプリケーション名<br>
+    <input type="text" id="install-name" class="textbox">
+    <br><br>
+    アイコン画像のパス<br>
+    <input type="text" id="install-icon" class="textbox">
+    <br><br>
+    <a class="kit-button" id="install-start">インストールを開始する</a>
+</div>
+
+<div class="install-prot" id="install-prot3">
+    <span class="install-title">インストール完了</span>
+    <br><br>
+    アプリケーション<strong id="install-done-name"></strong>をkitにインストールしました。
+    <br><br>
+    <a class="kit-button" id="install-close">閉じる</a>
+</div>

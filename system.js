@@ -644,6 +644,8 @@ const System = new function() {
         else _title = "取得に失敗しました";
         System.alert( _title, _content );
     }
+
+    this.installed = new Array();
  
     //非推奨です(削除予定)。
     this.min = function( _str ) {
