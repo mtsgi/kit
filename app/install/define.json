@@ -1,8 +1,8 @@
 {
-    "id": "appman",
-    "name": "アプリ管理",
+    "id": "install",
+    "name": "アプリインストーラー",
     "icon": "icon.png",
-    "version": "1.0.1",
+    "version": "1.0.0",
     "author": "kit",
 
     "support": {
@@ -11,10 +11,10 @@
     },
 
     "size": {
-        "width": 420
+        "width": 500
     },
 
     "view": "default.html",
-    "script": "appman.js",
-    "css": "appman.css"
+    "script": "install.js",
+    "css": "install.css"
 }

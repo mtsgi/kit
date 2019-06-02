@@ -1,0 +1,20 @@
+.winc-install{
+  background: rgba(255,255,255,.9);
+  text-align: center;
+}
+.winc-install hr{
+  opacity: .5;
+}
+.install-title{
+  font-size: 22px;
+}
+.install-prot{
+  margin: 18px 0;
+}
+#install-define-path{
+  width: 260px;
+  margin-right: 8px;
+}
+#install-prot2, #install-prot3{
+  display: none;
+}
