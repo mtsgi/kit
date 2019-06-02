@@ -52,6 +52,8 @@ function kit() {
     if( !localStorage.getItem( "kit-appdir" ) ) localStorage.setItem( "kit-appdir", "./app/" );
     S.appdir = localStorage.getItem( "kit-appdir" );
 
+    if( localStorage.getItem( "kit-installed" ) ) System.installed = JSON.parse( localStorage.getItem( "kit-installed" ) );
+
     if( localStorage["kit-userarea"] ) System.userarea = JSON.parse(localStorage["kit-userarea"]);
     if( localStorage["kit-recycle"] ) System.recycle = JSON.parse(localStorage["kit-recycle"]);
 
@@ -353,9 +355,11 @@ function kit() {
     }
 }
 
-function launch( str, args ) {
+function launch( str, args, dir ) {
     pid = processID;
     System.args[pid] = args;
+    System.launchpath[pid] = dir || System.appdir + str;
+
     if( System.appCache[str] ) {
         if( KWS.fullscreen.pid ) KWS.unmax(KWS.fullscreen.pid);
         //app[str].open();
@@ -363,7 +367,7 @@ function launch( str, args ) {
     }
     else {
         try{
-            $.getJSON( S.appdir + str + "/define.json", appData ).fail( function() {
+            $.getJSON( S.launchpath[pid] + "/define.json", appData ).fail( function() {
                 System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")。ヘルプは<a class='kit-hyperlink' href='https://kitdev.home.blog/'>こちら</a>" );
             } );
         }
@@ -382,7 +386,7 @@ function appData( data ) {
         preventclose: false
     };
     System.appCache[data.id] = data;
-    $( "#tasks" ).append( "<span id='t" + pid + "'><img src='./app/" + data.id + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
+    $( "#tasks" ).append( "<span id='t" + pid + "'><img src='" + S.launchpath[pid] + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
     //タスクバーのクリック挙動
     $( "#t" + pid ).addClass( "task" ).click( function() {
         if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) KWS.min( pid );
@@ -422,10 +426,11 @@ function appData( data ) {
     }, function() {
         $( "#w" + pid ).removeClass( "win-highlight" );
     } );
-    let WINDOWAPPEND = "<div id='w" + pid + "'><div id='wt" + pid + "' class='wt'><i class='wmzx'><span id='wm" + pid + "'></span>";
-    if( data.support && data.support.fullscreen == true ) WINDOWAPPEND += "<span id='wz" + pid + "'></span>";
-    WINDOWAPPEND += "<span id='wx" + pid + "'></span></i><img src='./app/" + data.id + "/" + data.icon + "'><span id='wtname" + pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>";
-    $( "#desktop-" + currentDesktop ).append( WINDOWAPPEND );
+    let _windowAppend = "<div id='w" + pid + "'><div id='wt" + pid + "' class='wt'><i class='wmzx'><span id='wm" + pid + "'></span>";
+    if( data.support && data.support.fullscreen == true ) _windowAppend += "<span id='wz" + pid + "'></span>";
+    _windowAppend += "<span id='wx" + pid + "'></span></i><img src='" + S.launchpath[pid]　+ "/" + data.icon + "'><span id='wtname" + pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>";
+    $( "#desktop-" + currentDesktop ).append( _windowAppend );
+
     if( data.support && data.support.darkmode == true ) $("#winc"+pid).addClass("winc-darkmode");
     if( KWS.darkmode ) $("#winc"+pid).addClass("kit-darkmode");
 
@@ -471,12 +476,12 @@ function appData( data ) {
     $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( () => System.close( String(pid) ) );
     $( "#winc" + pid ).resizable( {
         minWidth: "200"
-    } ).load( "./app/" + data.id + "/" + data.view );
+    } ).load( System.launchpath[pid] + "/" + data.view );
 
     //スクリプト読み込み
-    if( data.script != "none" ) $.getScript( "./app/" + data.id + "/" + data.script );
+    if( data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script );
     if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
-        $( "head" ).append( '<link href="./app/' + data.id + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
+        $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
         Notification.push("debug", "新規スタイルシートの読み込み", data.id);
     }
 
@@ -526,8 +531,10 @@ const System = new function() {
     this.recycle = new Object();
 
     this.appCache = {};
-    //引数
+    //アプリ引数
     this.args = {};
+    //アプリ起動パス
+    this.launchpath = {};
 
     this.support = $.support;
     this.debugmode = false;
@@ -792,12 +799,21 @@ const System = new function() {
     }
 
     this.initLauncher = function(data){
+        $("#launcher-apps").html("");
         for( let i in data ){
             $("#launcher-apps").append("<div class='launcher-app' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
         }
+        if( !System.bootopt.get("safe") ){
+            for( let i of System.installed ){
+                $("#launcher-apps").append("<div class='launcher-app' data-define-path='" + i.path + "' data-define-id='" + i.id + "'><img src='" + i.icon + "'>" + i.name + "</div>");
+            }
+        }
         $(".launcher-app").on("click", function(){
             $("#launch").click();
-            launch( $(this).attr("data-launch") );
+            if( $(this).attr("data-launch") ) launch( $(this).attr("data-launch") );
+            else if( $(this).attr("data-define-path") ){
+                launch( $(this).attr("data-define-id"), null, $(this).attr("data-define-path") );
+            };
         });
     }
 

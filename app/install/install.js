@@ -1,22 +1,22 @@
 ( (_pid) => {
     let iobj = new Object();
     S.dom( _pid, "#install-define-decide").on("click", ()=>{
-        let define_path = $("#install-define-path").val();
+        let define_path = S.dom( _pid, "#install-define-path").val();
         if( define_path.length == 0 ){
             S.alert("インストーラー", "define.jsonのパスを入力してください。");
             return;
         }
 
         $.getJSON( define_path + "define.json" , function( data ){
-            iobj.define = define_path + "define.json";
+            iobj.path = define_path;
             iobj.id = data.id;
 
             S.dom( _pid, "#install-appid" ).val( data.id );
             S.dom( _pid, "#install-name" ).val( data.name );
             S.dom( _pid, "#install-icon" ).val( define_path + data.icon );
 
-            $("#install-prot1").hide();
-            $("#install-prot2").show();
+            S.dom( _pid, "#install-prot1").hide();
+            S.dom( _pid, "#install-prot2").show();
         }).fail( function() {
             S.alert("読み込みに失敗", "define.jsonが存在しないか、アクセスできません。");
         } );;
@@ -29,12 +29,15 @@
         console.log(iobj);
 
         System.installed.push(iobj);
+        localStorage.setItem("kit-installed", JSON.stringify(System.installed));
+
+
         S.dom( _pid, "#install-done-name" ).text( iobj.name );
 
-        $("#install-prot2").hide();
-        $("#install-prot3").show();
+        S.dom( _pid, "#install-prot2").hide();
+        S.dom( _pid, "#install-prot3").show();
 
-        System.initLauncher();
+        $.getJSON("config/apps.json", System.initLauncher);
     });
 
     S.dom( _pid, "#install-close" ).on("click", ()=>{
