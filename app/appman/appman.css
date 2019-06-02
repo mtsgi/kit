@@ -1,4 +1,4 @@
-#appman-list1{
+#appman-list1, #appman-list2{
   display: flex;
   overflow: scroll;
 }
