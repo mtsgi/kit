@@ -399,7 +399,7 @@ function appData( data ) {
         $( "#task-ctx-name" ).text( data.name );
         $( "#task-ctx-img" ).attr( "src", "./app/" + data.id + "/" + data.icon );
         $( "#task-ctx-ver" ).text( data.version + "/pid:" + pid );
-        $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( data.id )} );
+        $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( data.id, pid )} );
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
         $( "#task-ctx-min" ).off().on( "click", function() { KWS.min( String(pid) ) } );
         if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
@@ -638,15 +638,23 @@ const System = new function() {
         })
     }
 
-    this.appInfo = function( str ){
+    this.appInfo = function( str, _pid ){
         let _title = "", _content = "";
         let ac = System.appCache[str];
+        let _lp = "";
+        if( _pid ) _lp = System.launchpath[pid];
+        else for( let i in process ){
+            if( process[i].id == str ){
+                _lp = System.launchpath[i]; break;
+            }
+        }
         if( ac ){
             _title = ac.name + " (" + ac.version + ")";
-            _content = "<img style='height: 96px' src='./app/" + ac.id + "/" + ac.icon + "'><br>";
+            _content = "<img style='height: 96px' src='" + _lp + "/" + ac.icon + "'><br>";
             for( let i in ac ){
-                _content += "<div><span style='font-weight: 100'>" + i + " </span>" + ac[i] + "</div>";
+                if( typeof ac[i] != "object" ) _content += "<div><span style='font-weight: 100'>" + i + " </span>" + ac[i] + "</div>";
             }
+            _content += "<br><span style='font-weight: 100'>起動パス(先頭) " + _lp + "</span><br><br>"
         }
         else _title = "取得に失敗しました";
         System.alert( _title, _content );
