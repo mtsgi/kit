@@ -537,9 +537,9 @@ section .ui-draggable-dragging{
 	overflow : hidden!important;
 	max-width: 100%;
 }
-.kit-button{
+.kit-button {
 	display: inline-block;
-	cursor:url(../cursor-1.png), default;
+	cursor: url(./cursor-1.png), default;
 	border-radius: 4px;
 	line-height: 200%;
 	background: dodgerblue;
@@ -548,10 +548,11 @@ section .ui-draggable-dragging{
 	margin: 1px 2px;
 	text-decoration: none;
 	transition: .2s all ease;
-	box-shadow: 0px 1px 3px 0px rgba(0,0,0,.3), inset 0px 0px 2px 0px rgba(255,255,255,.5), inset 0px -14px 1px 3px rgba(255,255,255,.2);
+	text-shadow: 0 1px 3px rgba(0,0,0,.2);
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .3), inset 0px 0px 2px 0px rgba(255, 255, 255, .5), inset 0px -1em 1px 3px rgba(255, 255, 255, .2);
 }
-.kit-button:hover{
-	box-shadow: 0px 1px 3px 0px rgba(0,0,0,.5), inset 0px 0px 2px 0px rgba(0,0,0,.5), inset 0px 9999px 0px 0px rgba(0,0,0,.2), inset 0px -14px 1px 3px rgba(255,255,255,.2);
+.kit-button:hover {
+	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .5), inset 0px 0px 2px 0px rgba(0, 0, 0, .5), inset 0px 1em 1px 3px rgba(255, 255, 255, .2), inset 0px 9999px 0px 0px rgba(0, 0, 0, .2);
 }
 .kit-button:active{
 	box-shadow: inset 0px 9999px 0px 0px rgba(0,0,0,.2);
