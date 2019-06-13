@@ -19,7 +19,7 @@
             S.dom( _pid, "#install-prot2").show();
         }).fail( function() {
             S.alert("読み込みに失敗", "define.jsonが存在しないか、アクセスできません。");
-        } );;
+        } );
     });
 
     S.dom( _pid, "#install-start" ).on("click", ()=>{

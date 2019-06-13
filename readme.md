@@ -3,7 +3,7 @@ JavaScriptで動作するとっても軽量なデスクトップ環境
 
 # latest kit
 * [ダウンロード](https://github.com/mtsgi/kit/releases)
-* [github-pages](https://mtsgi.github.io/kit/)
+* [kit Canaryを体験](https://mtsgi.github.io/kit/) (安定前のバージョンです)
 
 # documents
 * [GitHub Wiki](https://github.com/mtsgi/kit/wiki)
@@ -11,6 +11,11 @@ JavaScriptで動作するとっても軽量なデスクトップ環境
 * [mtsgi/kit - GitHub](https://github.com/mtsgi/kit)
 * [kit開発ブログ](https://kitdev.home.blog/)
 * [Bitbucket Repository](https://bitbucket.org/y-/kit/)
+
+# kit family
+* [mtsgi/kish](https://github.com/mtsgi/kish)
+* [mtsgi/kitstrap](https://github.com/mtsgi/kitstrap)
+* [kitHub(beta)](https://kithub-beta.herokuapp.com/)
 
 # libraries
 * jQuery

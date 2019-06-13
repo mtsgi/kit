@@ -1,3 +1,5 @@
+"use strict";
+
 //   _    _ _   
 //  | | _(_) |_ 
 //  | |/ / | __|
@@ -7,7 +9,6 @@
 // THIS IS THE KIT KERNEL AND KIT WINDOW SYSTEM
 // http://web.kitit.ml/
 // https://github.com/mtsgi/kit
-"use strict";
 
 
 $( document ).ready( kit );
@@ -654,7 +655,7 @@ const System = new function() {
             for( let i in ac ){
                 if( typeof ac[i] != "object" ) _content += "<div><span style='font-weight: 100'>" + i + " </span>" + ac[i] + "</div>";
             }
-            _content += "<br><span style='font-weight: 100'>起動パス(先頭) " + _lp + "</span><br><br>"
+            _content += "<br><span style='font-weight: 100'>起動パス" + _lp + "</span><br><br>"
         }
         else _title = "取得に失敗しました";
         System.alert( _title, _content );
