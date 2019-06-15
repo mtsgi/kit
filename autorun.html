@@ -4,13 +4,21 @@
     <meta charset="UTF-8">
     <title>kit-autorun</title>
     <script type="text/javascript">
-        var flag = localStorage["kit-setup-flag"];
-        if( flag ) location.href = "index.html";
-        else location.href = "setup.html";
+        setTimeout(() => {
+            let flag = localStorage.getItem("kit-setup-flag");
+            if( flag ) location.href = "index.html";
+            else location.href = "setup.html";
+        }, 400);
+        window.addEventListener("keydown", (e)=>{
+            if(e.shiftKey) location.href = "index.html?safe=true"
+        })
     </script>
 </head>
 
-<body>
+<body style="background: #000; color: #eee">
+    Booting kit...
+    <br>
+    press 'shift' to safe boot
 </body>
 
 </html>
