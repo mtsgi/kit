@@ -1,0 +1,20 @@
+{
+    "id": "bandr",
+    "name": "バックアップと復元",
+    "icon": "icon.png",
+    "version": "1.0.0",
+    "author": "kit",
+
+    "size": {
+        "width": 400
+    },
+
+    "support": {
+        "darkmode": true,
+        "fullscreen": true
+    },
+
+    "view": "default.html",
+    "script": "bandr.js",
+    "css": "bandr.css"
+}

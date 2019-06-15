@@ -1,0 +1,20 @@
+.bandr-container{
+  display: flex;
+}
+.bandr-container > .btn{
+  margin: 5px;
+  width: 50%;
+  text-align: center;
+}
+.bandr-b{
+  display: block;
+  height: 100px;
+  background: no-repeat center;
+  background-image: url(b.png);
+}
+.bandr-r{
+  display: block;
+  height: 100px;
+  background: no-repeat center;
+  background-image: url(r.png);
+}
