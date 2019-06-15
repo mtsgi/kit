@@ -4,10 +4,11 @@
     background: #000000;
 }
 .winc-console .textbox{
+    box-sizing: border-box;
     background: #000000;
     color: limegreen;
     border-color: limegreen;
-    width: calc( 100% - 40px );
+    width: calc( 100% - 45px );
 }
 .winc-console .textbox::selection{
     background-color: limegreen;

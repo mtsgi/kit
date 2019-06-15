@@ -2,14 +2,20 @@
     $(".settings-advanced-envar").html("");
     for( i in localStorage ){
         $(".settings-advanced-envar").append("<a class='kit-hyperlink'>？</a>");
+        let disp = null, ls = localStorage[i];
+        if( typeof ls == "object" ) disp = JSON.stringify(ls, null, 4);
+
         if( i == "kit-password" ){
             $(".settings-advanced-envar").append("<div class='settings-envar1'>"+i+"</div>").append("<div class='settings-envar2'>(表示できません)</div>");
         }
         else if( i == "kit-userarea" ){
             $(".settings-advanced-envar").append("<div class='settings-envar1'>"+i+"</div>").append("<div class='settings-envar2'><a class='btn' onclick='launch(\"fivr\")'>Fivrで表示</a></div>");
         }
+        else if( i == "kit-recycle" ){
+            $(".settings-advanced-envar").append("<div class='settings-envar1'>"+i+"</div>").append("<div class='settings-envar2'><a class='btn' onclick='launch(\"fivr\")'>Fivrで表示</a></div>");
+        }
         else{
-            $(".settings-advanced-envar").append("<div class='settings-envar1'>"+i+"</div>").append("<div class='settings-envar2'>"+localStorage[i]+"</div>");
+            $(".settings-advanced-envar").append("<div class='settings-envar1'>"+i+"</div>").append("<div class='settings-envar2'>"+(disp||ls)+"</div>");
         }
     }
 </script>

@@ -94,6 +94,10 @@
         function Load() {
             $("section").hide();
             $("#1").show("drop", 500);
+
+            $("#config-username").val( localStorage.getItem("kit-username") )
+            $("#config-usercolor").val( localStorage.getItem("kit-user-color") )
+            $("#config-password").val( localStorage.getItem("kit-password") )
         }
         function page(str) {
             $("section").fadeOut(500);

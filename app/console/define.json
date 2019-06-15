@@ -2,11 +2,15 @@
     "id": "console",
     "name": "コンソール",
     "icon": "icon.png",
-    "version": "3.0.2",
+    "version": "3.0.3",
     "author": "kit",
 
     "support": {
         "fullscreen": true
+    },
+
+    "size": {
+        "width": 500
     },
 
     "resize": true,

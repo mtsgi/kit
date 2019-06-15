@@ -72,7 +72,7 @@ function kit() {
     System.startup = localStorage.getItem( "kit-startup" ).split( "," );
     if( System.bootopt.get("safe") ){
         Notification.push( "セーフブート", "現在、kitをセーフモードで起動しています。", "system" );
-        System.alert( "セーフブート", "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='location.href=\"index.html\";'>通常モードで再起動</a>", "system" );
+        System.alert( "セーフブート", "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='System.reboot()'>通常モードで再起動</a>", "system" );
     }
     else for( let i of System.startup ) if( i != "" ) launch( i );
     
@@ -138,12 +138,14 @@ function kit() {
     $( ".power-button" ).click( function() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
         $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
-        $( "section, header, footer, #kit-wallpaper, .dropdown" ).css( "filter", "blur(5px)" );
-        $( "#kit-power" ).fadeIn( 300 );
+        $( "#kit-wallpaper" ).css( "filter", "blur(5px)" );
+        $( "footer, header, #desktop-" + currentDesktop ).hide();
+        $( "#kit-power" ).show();
     } );
     $( "#kit-power-back" ).click( function() {
         $( "section, header, footer, #kit-wallpaper, .dropdown" ).css( "filter", "none" );
-        $( "#kit-power" ).fadeOut( 300 );
+        $( "footer, header, #desktop-" + currentDesktop ).show();
+        $( "#kit-power" ).hide();
     } );
     $( "#kit-power-shutdown" ).click( function() {
         System.shutdown();
@@ -398,9 +400,9 @@ function appData( data ) {
     } );
     $( "#t" + pid ).addClass( "task" ).on( "mouseenter", function() {
         $( "#task-ctx-name" ).text( data.name );
-        $( "#task-ctx-img" ).attr( "src", "./app/" + data.id + "/" + data.icon );
+        $( "#task-ctx-img" ).attr( "src", System.launchpath[pid] + "/" + data.icon );
         $( "#task-ctx-ver" ).text( data.version + "/pid:" + pid );
-        $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( data.id, pid )} );
+        $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( pid )} );
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
         $( "#task-ctx-min" ).off().on( "click", function() { KWS.min( String(pid) ) } );
         if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
@@ -488,11 +490,6 @@ function appData( data ) {
 
     processID++;
     localStorage.setItem( "kit-pid", processID );
-}
-
-//非推奨メソッド
-function appInfo( str ){
-    System.appInfo(str)
 }
 
 //非推奨メソッド
@@ -607,7 +604,7 @@ const System = new function() {
         $( "body" ).css( "background-color", "black" );
         $( "header, footer" ).fadeOut( 300 );
         $( "#kit-wallpaper" ).fadeOut( 1500 );
-        if( _opt == "reboot" ) location.reload();
+        if( _opt == "reboot" ) location.href = "autorun.html";
     }
 
     this.reboot = function() {
@@ -639,23 +636,17 @@ const System = new function() {
         })
     }
 
-    this.appInfo = function( str, _pid ){
+    this.appInfo = function( _pid ){
         let _title = "", _content = "";
-        let ac = System.appCache[str];
-        let _lp = "";
-        if( _pid ) _lp = System.launchpath[pid];
-        else for( let i in process ){
-            if( process[i].id == str ){
-                _lp = System.launchpath[i]; break;
-            }
-        }
+        let ac = System.appCache[process[_pid].id];
+        let _lp = System.launchpath[_pid];
         if( ac ){
             _title = ac.name + " (" + ac.version + ")";
             _content = "<img style='height: 96px' src='" + _lp + "/" + ac.icon + "'><br>";
             for( let i in ac ){
                 if( typeof ac[i] != "object" ) _content += "<div><span style='font-weight: 100'>" + i + " </span>" + ac[i] + "</div>";
             }
-            _content += "<br><span style='font-weight: 100'>起動パス" + _lp + "</span><br><br>"
+            _content += "<br><span style='font-weight: 100'>起動パス " + _lp + "</span><br><br>"
         }
         else _title = "取得に失敗しました";
         System.alert( _title, _content );
