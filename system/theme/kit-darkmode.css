@@ -76,3 +76,8 @@ footer{
     background: #303030 !important;
     color: #f0f0f0;
 }
+/* for ringo theme */
+#task-ctx:after{
+    border: 15px solid transparent;
+    border-top: 20px solid #303030;
+}
