@@ -1,6 +1,8 @@
 .winc-install{
-  background: rgba(255,255,255,.9);
+  background: rgba(255,255,255,.8);
   text-align: center;
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 }
 .winc-install hr{
   opacity: .5;

@@ -25,7 +25,7 @@ function kit() {
     if( localStorage.getItem( "kit-lock" ) == null ) localStorage.setItem( "kit-lock", "false" );
 
     if( System.bootopt.get("safe") ) $( "#kit-wallpaper" ).css( "background","#404040" );
-    else if( localStorage.getItem( "kit-wallpaper" ) ) $( "#kit-wallpaper" ).css( "background", localStorage.getItem( "kit-wallpaper" ) ).css( "background-size", "cover" );
+    else if( localStorage.getItem( "kit-wallpaper" ) ) $( "#kit-wallpaper" ).css( "background", localStorage.getItem( "kit-wallpaper" ) ).css( "background-size", "cover" ).css( "background-position", "center" );
 
     if( !localStorage.getItem( "kit-default-browser" ) ) localStorage.setItem( "kit-default-browser", "browser" );
 
@@ -740,17 +740,17 @@ const System = new function() {
             context.lineTo(center.x + Math.sin(angle) * radius * line.to, center.y - Math.cos(angle) * radius * line.to);
             context.stroke();
         }
-        angle = Math.PI * ( Hour+Min/60 ) / 6, len = radius * hands.hour.length;
+        angle = Math.PI * ( Number(Hour)+Number(Min)/60 ) / 6, len = radius * hands.hour.length;
         context.beginPath(), context.lineWidth = hands.hour.width;
         context.lineCap = hands.hour.cap, context.strokeStyle = hands.hour.color;
         context.moveTo(center.x - Math.sin(angle) * len * hands.hour.ratio, center.y + Math.cos(angle) * len * hands.hour.ratio);
         context.lineTo(center.x + Math.sin(angle) * len, center.y - Math.cos(angle) * len), context.stroke();
-        angle = Math.PI * (Min + Sec / 60) / 30, len = radius * hands.minute.length;
+        angle = Math.PI * ( Number(Min)+Number(Sec) / 60) / 30, len = radius * hands.minute.length;
         context.beginPath(), context.lineWidth = hands.minute.width;
         context.lineCap = hands.minute.cap, context.strokeStyle = hands.minute.color;
         context.moveTo(center.x - Math.sin(angle) * len * hands.minute.ratio, center.y + Math.cos(angle) * len * hands.minute.ratio);
         context.lineTo(center.x + Math.sin(angle) * len, center.y - Math.cos(angle) * len), context.stroke();
-        angle = Math.PI * Sec / 30, len = radius * hands.second.length;
+        angle = Math.PI * Number(Sec) / 30, len = radius * hands.second.length;
         context.beginPath(), context.lineWidth = hands.second.width;
         context.lineCap = hands.second.cap, context.strokeStyle = hands.second.color;
         context.moveTo(center.x - Math.sin(angle) * len * hands.second.ratio, center.y + Math.cos(angle) * len * hands.second.ratio);
