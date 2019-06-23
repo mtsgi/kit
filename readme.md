@@ -1,6 +1,8 @@
 # kit
 JavaScriptで動作するとっても軽量なデスクトップ環境
 
+簡単なWebの知識ですぐにkitアプリケーションを作成できます
+
 # latest kit
 * [ダウンロード](https://github.com/mtsgi/kit/releases)
 * [kit Canaryを体験](https://mtsgi.github.io/kit/) (安定前のバージョンです)
@@ -13,9 +15,9 @@ JavaScriptで動作するとっても軽量なデスクトップ環境
 * [Bitbucket Repository](https://bitbucket.org/y-/kit/)
 
 # kit family
-* [mtsgi/kish](https://github.com/mtsgi/kish)
-* [mtsgi/kitstrap](https://github.com/mtsgi/kitstrap)
-* [kitHub(beta)](https://kithub-beta.herokuapp.com/)
+* [kish](https://github.com/mtsgi/kish) - kishはkitのための強力なシェルです
+* [kitstrap](https://github.com/mtsgi/kitstrap) - kitstrapは軽量のCSSフレームワークです 
+* [kitHub(beta)](https://kithub-beta.herokuapp.com/) - kit用のアプリケーションストア
 
 # libraries
 * jQuery
