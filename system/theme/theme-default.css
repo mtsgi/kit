@@ -382,6 +382,8 @@ footer .t-active{
 	text-shadow: 0px 1px 3px dodgerblue;
 }
 #notifications{
+	backdrop-filter: blur(10px);
+	-webkit-backdrop-filter: blur(10px);
 	z-index: 9994;
 	display: none;
 	box-sizing: border-box;
@@ -540,26 +542,9 @@ section .ui-draggable-dragging{
 }
 .kit-button {
 	display: inline-block;
-	cursor: url(./cursor-1.png), default;
-	border-radius: 4px;
-	line-height: 200%;
-	background: dodgerblue;
-	color: #ffffff;
-	padding: 1px 10px;
-	margin: 1px 2px;
-	text-decoration: none;
-	transition: .2s all ease;
-	text-shadow: 0 1px 3px rgba(0,0,0,.2);
-	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .3), inset 0px 0px 2px 0px rgba(255, 255, 255, .5), inset 0px -1em 1px 3px rgba(255, 255, 255, .2);
+	/* [kitstrap] */
 }
-.kit-button:hover {
-	box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .5), inset 0px 0px 2px 0px rgba(0, 0, 0, .5), inset 0px 1em 1px 3px rgba(255, 255, 255, .2), inset 0px 9999px 0px 0px rgba(0, 0, 0, .2);
-}
-.kit-button:active{
-	box-shadow: inset 0px 9999px 0px 0px rgba(0,0,0,.2);
-	position: relative;
-	top: 2px;
-}
+
 .kit-selectable{
 	  cursor:url(../cursor-3.png), text;
 }
@@ -682,46 +667,16 @@ h3{
 	font-weight: normal;
 }
 .btn{
-	cursor:url(../cursor-2.png), pointer;
-	border: 1px solid gray;
-	margin: 4px 0px;
-	padding: 2px 4px;
-	border-radius: 5px;
-	background: #f0f0f0;
-	transition: .2s all ease;
-	box-shadow:inset 0 1px 1px 0px #fff, inset 0 -1px 1px 0px #fff;
+	/* [kitstrap] */
 }
-.btn:hover{
-	position: relative;
-	box-shadow: 0px 1px 4px 0 rgba(0,0,0,.3);
-	background: #fcfcfc;
-}
-.btn:active{
-	transition: none;
-	top: 1px;
-}
+
 .little{
 	font-size: 14px;
 }
 .textbox{
-	cursor:url(../cursor-3.png), text;
-	outline: none;
-	border: 1px solid #000000;
-	font-size: 16px;
-	padding: 4px;
-	background: #ffffff;
-	box-shadow: inset 1px 1px 3px 0px rgba(0,0,0,.2);
-	border-radius: 5px;
-	font-family: 'Noto Sans JP', sans-serif;
+	/* [kitstrap] */
 }
-.textbox:focus{
-	background: #ffffff;
-	box-shadow: 0 0 0 3px rgba(180,200,255,.8);
-}
-.textbox::selection{
-    background: dodgerblue;
-    color: white;
-}
+
 .task-name{
 	font-family: 'Noto Sans JP', sans-serif;
 }

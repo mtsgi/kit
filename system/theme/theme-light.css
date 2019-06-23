@@ -283,6 +283,10 @@ footer .t-active{
 	background: #6060c0;
 	color: #ffffff;
 }
+footer .t-active:hover{
+	background: #9797e9;
+	color: #ffffff;
+}
 footer .task-min{
 	font-weight: 900;
 }
@@ -390,7 +394,7 @@ section .ui-draggable-dragging{
 	border: 1px solid black;
 }
 .windowactive .wt{
-	background: #90a0f0;
+	background: #c7d0ff;
 }
 .wt{
 	display: block;
@@ -456,7 +460,7 @@ section .ui-draggable-dragging{
 	padding : 5px;
 	overflow : hidden;
 }
-.kit-button{
+.kit-button, kit-button{
 	display: inline-block;
 	cursor:url(../cursor-1.png), default;
 	line-height: 200%;
@@ -466,13 +470,18 @@ section .ui-draggable-dragging{
 	margin: 4px 1px 0px;
 	text-decoration: none;
 	border: 1px solid #ffffff;
+	box-shadow: none;
+	text-shadow: none;
+	border-radius: 0;
+	transition: none;
 }
-.kit-button:hover{
-	border: 1px solid black;
+.kit-button:hover, kit-button:hover{
+	box-shadow: none;
+	background: #1875d1;
 }
 .kit-button:active{
 	position: relative;
-	top: 2px;
+	top: 1px;
 }
 .kit-selectable{
 	  cursor:url(../cursor-3.png), text;
@@ -539,16 +548,20 @@ h3{
 	margin: 0px;
 	font-weight: normal;
 }
-.btn{
+.btn, kit-btn{
 	cursor:url(../cursor-2.png), pointer;
 	border: 1px solid gray;
 	margin: 4px 0px;
 	padding: 2px 4px;
 	background: #f0f0f0;
+	box-shadow: none;
+	border-radius: 0;
+	transition: none;
 }
 .btn:hover{
 	border: 1px solid black;
 	background: #e0e0e0;
+	box-shadow: none;
 }
 .little{
 	font-size: 13px;
@@ -560,10 +573,8 @@ h3{
 	font-size: 16px;
 	padding: 3px;
 	font-family: 'Noto Sans JP', sans-serif;
-}
-.textbox::selection{
-    background: dodgerblue;
-    color: white;
+	border-radius: 0;
+	box-shadow: none;
 }
 .task-name{
 	font-family: 'Noto Sans JP', sans-serif;
@@ -800,4 +811,14 @@ h3{
 	background: transparent;
 	border: none;
 	resize: none;
+}
+.kit-toggle input+label:after{
+	box-shadow: none;
+	border: 1px solid #909090;
+	transition: none;
+}
+.kit-toggle input+label:before {
+	transform: scale(.75);
+  border-radius: 0;
+  transition: none;
 }

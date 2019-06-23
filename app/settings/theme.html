@@ -18,7 +18,8 @@
     function settings_theme( file ){
         localStorage.setItem("kit-theme", file );
         $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
-        $("#desktop-" + currentDesktop).show();
+        //$("#desktop-" + currentDesktop).show();
+        System.moveDesktop( currentDesktop );
     }
     $(".settings-theme-path-set").on("click", function(){
         settings_theme( $("#settings-theme-path").val() );
