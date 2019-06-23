@@ -479,17 +479,19 @@ function appData( data ) {
     $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( () => System.close( String(pid) ) );
     $( "#winc" + pid ).resizable( {
         minWidth: "200"
-    } ).load( System.launchpath[pid] + "/" + data.view );
-
-    //スクリプト読み込み
-    if( data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script );
-    if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
-        $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
-        Notification.push("debug", "新規スタイルシートの読み込み", data.id);
-    }
-
-    processID++;
-    localStorage.setItem( "kit-pid", processID );
+    } ).load( System.launchpath[pid] + "/" + data.view, (r, s, x) =>{
+        if( s == "error" ){
+            Notification.push("起動に失敗:" + x.status, x.statusText);
+            return false;
+        }
+        if( data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script );
+        if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
+            $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
+            //Notification.push("debug", "新規スタイルシートの読み込み", data.id);
+        }
+        processID++;
+        localStorage.setItem( "kit-pid", processID );
+    } );
 }
 
 //非推奨メソッド
