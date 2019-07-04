@@ -20,7 +20,8 @@ function app_settings(_pid) {
     })
     //ユーザー設定
     .delegate(".settings-user", "click", function () {
-        $("#winc" + _pid).load("./app/settings/user.html");
+        App.load(_pid, "user.html");
+        //$("#winc" + _pid).load("./app/settings/user.html");
         //$(".textbox").attr("autocomplete", "off");
     })
     .delegate(".settings-username-set", "click", function () {

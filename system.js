@@ -337,9 +337,15 @@ function kit() {
         System.mouseX = event.clientX;
         System.mouseY = event.clientY;
     }).delegate( ".textbox", "keypress", function( e ) {
-        if( e.which == 13 && this.id && $("#" + this.id + " + .kit-button") ){
-            Notification.push("debug", this.id, "system");
-            $("#" + this.id + " + .kit-button").click();
+        if( e.which == 13 && this.id ){
+            if( $("#" + this.id + " + .kit-button").length ){
+                Notification.push("debug", this.id, "system");
+                $("#" + this.id + " + .kit-button").click();
+            }
+            else if( $("#" + this.id + " + kit-button").length ){
+                Notification.push("debug", this.id, "system");
+                $("#" + this.id + " + kit-button").click();
+            }
         }
     } );
 
@@ -389,7 +395,10 @@ function appData( data ) {
         preventclose: false
     };
     System.appCache[data.id] = data;
-    $( "#tasks" ).append( "<span id='t" + pid + "'><img src='" + S.launchpath[pid] + "/" + data.icon + "'><span id='tname" + pid + "'>" + data.name + "<span></span>" );
+    let _taskAppend = "<span id='t" + pid + "'>";
+    if( data.icon && data.icon != "none" ) _taskAppend += "<img src='" + S.launchpath[pid] + "/" + data.icon + "'>";
+    _taskAppend += "<span id='tname" + pid + "'>" + data.name + "<span></span>";
+    $( "#tasks" ).append( _taskAppend );
     //タスクバーのクリック挙動
     $( "#t" + pid ).addClass( "task" ).click( function() {
         if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) KWS.min( pid );
@@ -400,7 +409,8 @@ function appData( data ) {
     } );
     $( "#t" + pid ).addClass( "task" ).on( "mouseenter", function() {
         $( "#task-ctx-name" ).text( data.name );
-        $( "#task-ctx-img" ).attr( "src", System.launchpath[pid] + "/" + data.icon );
+        if( data.icon && data.icon != "none" ) $( "#task-ctx-img" ).attr( "src", System.launchpath[pid] + "/" + data.icon );
+        else $( "#task-ctx-img" ).hide();
         $( "#task-ctx-ver" ).text( data.version + "/pid:" + pid );
         $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( pid )} );
         $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
@@ -431,7 +441,9 @@ function appData( data ) {
     } );
     let _windowAppend = "<div id='w" + pid + "'><div id='wt" + pid + "' class='wt'><i class='wmzx'><span id='wm" + pid + "'></span>";
     if( data.support && data.support.fullscreen == true ) _windowAppend += "<span id='wz" + pid + "'></span>";
-    _windowAppend += "<span id='wx" + pid + "'></span></i><img src='" + S.launchpath[pid]　+ "/" + data.icon + "'><span id='wtname" + pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>";
+    _windowAppend += "<span id='wx" + pid + "'></span></i>";
+    if( data.icon && data.icon != "none" ) _windowAppend += "<img src='" + S.launchpath[pid]　+ "/" + data.icon + "'>";
+    _windowAppend += "<span id='wtname" + pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>";
     $( "#desktop-" + currentDesktop ).append( _windowAppend );
 
     if( data.support && data.support.darkmode == true ) $("#winc"+pid).addClass("winc-darkmode");
@@ -484,11 +496,11 @@ function appData( data ) {
             Notification.push("起動に失敗:" + x.status, x.statusText);
             return false;
         }
-        if( data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script );
+        if( data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => App.kaf(pid) );
         if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
             $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
             //Notification.push("debug", "新規スタイルシートの読み込み", data.id);
-        }
+        }        
         processID++;
         localStorage.setItem( "kit-pid", processID );
     } );
@@ -522,9 +534,14 @@ const System = new function() {
     this.selectedElement = null;
     this.selectedText = null;
 
-    this.dom = function(_pid, _elements) {
-        _elements = _elements || "";
-        return $("#winc" + _pid + " " + _elements);
+    this.dom = function(_pid, ..._elems) {
+        let q = "";
+        if( !_elems.length ) q = ",#winc" + _pid;
+        else for( let i of _elems ){
+            q += ",#winc" + _pid + " " + i;
+        }
+        console.log(q)
+        return $( q.substring(1) );
     }
 
     this.userarea = new Object();
@@ -643,8 +660,8 @@ const System = new function() {
         let ac = System.appCache[process[_pid].id];
         let _lp = System.launchpath[_pid];
         if( ac ){
-            _title = ac.name + " (" + ac.version + ")";
-            _content = "<img style='height: 96px' src='" + _lp + "/" + ac.icon + "'><br>";
+            _title = ac.name + " " + ac.version;
+            if( ac.icon && ac.icon != "none" ) _content = "<img style='height: 96px' src='" + _lp + "/" + ac.icon + "'><br>";
             for( let i in ac ){
                 if( typeof ac[i] != "object" ) _content += "<div><span style='font-weight: 100'>" + i + " </span>" + ac[i] + "</div>";
             }
@@ -1104,6 +1121,46 @@ const Notification = new function() {
         } );
         this.nid ++;
         return (this.nid - 1);
+    }
+}
+
+const App = new function() {
+    this.e = new Object();
+
+    this.event = ( _pid, _name, _event ) => {
+        if( !App.e[_pid] ) App.e[_pid] = new Object();
+        App.e[_pid][_name] = _event;
+    }
+
+    this.kaf = ( _pid ) => {
+        for( let i of S.dom(_pid, ".kaf", "kaf") ){
+            if( i.getAttribute("kit-ref") ){
+                $(i).on("click", () => App.load(_pid, i.getAttribute("kit-ref")) );
+            }
+            if( i.getAttribute("kit-e") ){
+                let _eqs = i.getAttribute("kit-e").split(",");
+                for( let k of _eqs ){
+                    let _eq = k.split(" ");
+                    $(i).on( _eq[1]||"click", App.e[_pid][_eq[0]] );
+                }
+            }
+            if( i.getAttribute("kit-src") ){
+                $(i).attr("src", System.launchpath[_pid] +"/"+ i.getAttribute("kit-ref") )
+            }
+            if( i.getAttribute("kit-alert") ){
+                $(i).on("click", ()=> System.alert( System.appCache[ process[_pid].id ].name, i.getAttribute("kit-alert") ) );
+            }
+        }
+    }
+
+    this.load = ( _pid, _path ) => {
+        S.dom(_pid).load( System.launchpath[_pid] +"/"+ _path, () => {
+            App.kaf(_pid);
+        } );
+    }
+
+    this.preventClose = ( _pid, _bool ) => {
+        process[_pid].preventclose = _bool || true;
     }
 }
 
