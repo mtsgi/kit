@@ -496,7 +496,8 @@ function appData( data ) {
             Notification.push("起動に失敗:" + x.status, x.statusText);
             return false;
         }
-        if( data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => App.kaf(pid) );
+        if( !data.script || data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => App.kaf(pid) ).fail( () =>  App.kaf(pid) );
+        else App.kaf(pid);
         if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
             $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
             //Notification.push("debug", "新規スタイルシートの読み込み", data.id);
@@ -1134,21 +1135,27 @@ const App = new function() {
 
     this.kaf = ( _pid ) => {
         for( let i of S.dom(_pid, ".kaf", "kaf") ){
-            if( i.getAttribute("kit-ref") ){
+            if( i.hasAttribute("kit-ref") ){
                 $(i).on("click", () => App.load(_pid, i.getAttribute("kit-ref")) );
             }
-            if( i.getAttribute("kit-e") ){
+            if( i.hasAttribute("kit-e") ){
                 let _eqs = i.getAttribute("kit-e").split(",");
                 for( let k of _eqs ){
                     let _eq = k.split(" ");
                     $(i).on( _eq[1]||"click", App.e[_pid][_eq[0]] );
                 }
             }
-            if( i.getAttribute("kit-src") ){
+            if( i.hasAttribute("kit-src") ){
                 $(i).attr("src", System.launchpath[_pid] +"/"+ i.getAttribute("kit-ref") )
             }
-            if( i.getAttribute("kit-alert") ){
+            if( i.hasAttribute("kit-alert") ){
                 $(i).on("click", ()=> System.alert( System.appCache[ process[_pid].id ].name, i.getAttribute("kit-alert") ) );
+            }
+            if( i.hasAttribute("kit-launch") ){
+                $(i).on("click", ()=> launch( i.getAttribute("kit-launch") ) );
+            }
+            if( i.hasAttribute("kit-close") ){
+                $(i).on("click", ()=> System.close( i.getAttribute("kit-close") || _pid ) );
             }
         }
     }
