@@ -1,14 +1,14 @@
 <script>
     $(".welcome-version").text(System.version);
 </script>
-<div style='text-align:center;padding:4px 12px;'>
-    <div style='font-size:22px'>
-        <img src="system/ico/logo.png" style="max-width: 100%;">
-    </div>
+<div style='text-align:center' class="p">
+    <img src="system/ico/logo.png" style="max-width: 100%;">
     バージョン<span class="welcome-version"></span>
-    <br>kitはJavaScriptベースのデスクトップ環境を提供します。<br>
-    操作マニュアルおよびヘルプは<a class='kit-hyperlink welcome-help'>こちら</a>。
-    ドキュメントは<a class='kit-hyperlink welcome-document'>こちら</a>。<br>
+    <br>
+    kitはJavaScriptベースのデスクトップ環境を提供します。
+    <br>
+    操作マニュアルおよびヘルプは<kit-hl class="kaf" kit-launch="help">こちら</kit-hl>。
+    ドキュメントは<kit-hl class="kaf" kit-launch="document">こちら</kit-hl><br>
     kit公式Webサイトは<a class='kit-hyperlink' href="http://web.kitit.ml/">こちら</a>。
-    <a class='kit-button welcome-back'>もどる</a>
+    <kit-button class="kaf" kit-ref="default.html">もどる</kit-button>
 </div>

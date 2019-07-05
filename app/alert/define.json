@@ -2,7 +2,7 @@
     "id": "alert",
     "name": "アラート",
     "icon": "icon.png",
-    "version": "0.1.1",
+    "version": "1.0.0",
     "author": "kit",
 
     "support": {
@@ -11,5 +11,5 @@
 
     "view": "default.html",
     "script": "alert.js",
-    "css": ""
+    "css": "none"
 }

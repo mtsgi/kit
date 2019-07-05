@@ -1,9 +1,8 @@
-/* kitstrap v0.1 */
+/* kitstrap v0.2 */
 
 body {
-    margin: 0px;
+    margin: 0;
     font-family: sans-serif;
-    overscroll-behavior: none;
     cursor: default;
 }
 
@@ -12,7 +11,7 @@ body::selection {
     color: white;
 }
 
-.kit-flex {
+.kit-flex, kit-flex {
     display: flex;
     flex-wrap: wrap;
 }
@@ -41,6 +40,53 @@ kit-footer, .kit-footer{
     padding: 8px;
     text-align: center;
     margin-top: 10px;
+}
+
+kit-navbar, .kit-navbar{
+    display: block;
+    background: #eee;
+    padding: 0;
+}
+
+kit-navbar kit-navitem,
+kit-navbar .kit-navitem,
+.kit-navbar kit-navitem,
+.kit-navbar .kit-navitem{
+    display: inline-block;
+    padding: 2px 10px;
+}
+
+kit-navbar kit-navitem:hover,
+kit-navbar .kit-navitem:hover,
+.kit-navbar kit-navitem:hover,
+.kit-navbar .kit-navitem:hover{
+    color: #ffffff;
+    background: #1f83e7;
+}
+
+kit-navbar-alt, .kit-navbar-alt{
+    display: block;
+    background: #f0f0f0;
+    padding: 0;
+}
+
+kit-navbar-alt kit-navitem,
+kit-navbar-alt .kit-navitem,
+.kit-navbar-alt kit-navitem,
+.kit-navbar-alt .kit-navitem{
+    display: inline-block;
+    color: #909090;
+    padding: 8px 12px;
+    cursor: pointer;
+    text-decoration: none;
+}
+
+kit-navbar-alt kit-navitem:hover,
+kit-navbar-alt .kit-navitem:hover,
+.kit-navbar-alt kit-navitem:hover,
+.kit-navbar-alt .kit-navitem:hover{
+    color: #404040;
+    text-decoration: underline;
 }
 
 #kit-wallpaper {
@@ -156,13 +202,13 @@ kit-btn, .btn {
     box-shadow: inset 0 1px 1px 0px #fff, inset 0 -1px 1px 0px #fff;
 }
 
-btn:hover, .btn:hover {
+kit-btn:hover, .btn:hover {
     position: relative;
-    box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, .1);
+    box-shadow: 0px 1px 4px 0 rgba(0, 0, 0, .3);
     background: #fcfcfc;
 }
 
-btn:active, .btn:active {
+kit-btn:active, .btn:active {
     transition: none;
     top: 1px;
 }
@@ -222,11 +268,12 @@ kit-button, .kit-button {
     text-decoration: none;
     transition: .2s all ease;
     text-shadow: 0 1px 3px rgba(0, 0, 0, .2);
+    text-align: center;
     box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .3), inset 0px 0px 2px 0px rgba(255, 255, 255, .5), inset 0px -1em 1px 3px rgba(255, 255, 255, .2);
 }
 
 kit-button:hover, .kit-button:hover {
-    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .5), inset 0px 0px 2px 0px rgba(0, 0, 0, .2), inset 0px 1em 1px 3px rgba(255, 255, 255, .2), inset 0px 9999px 0px 0px rgba(0, 0, 0, .2);
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .5), inset 0px 0px 2px 0px rgba(0, 0, 0, .2), inset 0px 1em 1px 3px rgba(255, 255, 255, .2), inset 0px 9999px 0px 0px rgba(0, 0, 0, .15);
 }
 
 kit-button:active, .kit-button:active {
@@ -261,13 +308,90 @@ kit-button-alt:hover, .kit-button-alt:hover {
     color: white;
 }
 
+.kit-button.small,
+kit-button.small,
+.kit-button-alt.small,
+.kit-button-alt.small{
+    font-size: 13px;
+    padding: 0px 5px;
+}
+
+.kit-button.medium,
+kit-button.medium,
+.kit-button-alt.medium,
+.kit-button-alt.medium{
+    font-size: 16px;
+    padding: 1px 8px;
+}
+
+.kit-button.large,
+kit-button.large,
+.kit-button-alt.large,
+.kit-button-alt.large{
+    font-size: 20px;
+    padding: 3px 14px;
+}
+
+kit-buttongroup{
+    display: flex;
+}
+
+kit-buttongroup kit-button,
+kit-buttongroup .kit-button,
+.kit-buttongroup kit-button,
+.kit-buttongroup .kit-button,
+kit-buttongroup kit-button-alt,
+kit-buttongroup .kit-button-alt,
+.kit-buttongroup kit-button-alt,
+.kit-buttongroup .kit-button-alt{
+    border-radius: 0;
+    margin: 0px;
+    border-left-width: 0;
+}
+
+kit-buttongroup kit-button:first-child,
+kit-buttongroup .kit-button:first-child,
+.kit-buttongroup kit-button:first-child,
+.kit-buttongroup .kit-button:first-child,
+kit-buttongroup kit-button-alt:first-child,
+kit-buttongroup .kit-button-alt:first-child,
+.kit-buttongroup kit-button-alt:first-child,
+.kit-buttongroup .kit-button-alt:first-child{
+    border-radius: 6px 0 0 6px;
+    border-left-width: 2px;
+}
+
+kit-buttongroup kit-button:last-child,
+kit-buttongroup .kit-button:last-child,
+.kit-buttongroup kit-button:last-child,
+.kit-buttongroup .kit-button:last-child,
+kit-buttongroup kit-button-alt:last-child,
+kit-buttongroup .kit-button-alt:last-child,
+.kit-buttongroup kit-button-alt:last-child,
+.kit-buttongroup .kit-button-alt:last-child{
+    border-radius: 0 6px 6px 0;
+}
+
 kit-block, .kit-block {
     display: block;
 }
 
-kit-small, .kit-small {
+kit-inblock, .kit-inblock {
+    display: inline-block;
+}
+
+kit-inline, .kit-inline {
+    display: inline;
+}
+
+kit-sub, .kit-sub {
     color: #999;
     font-size: 14px;
+}
+
+kit-title, .kit-title {
+    color: #222;
+    font-size: 20px;
 }
 
 kit-badge, .kit-badge {
@@ -276,14 +400,33 @@ kit-badge, .kit-badge {
     padding: 0 5px;
     margin: 0 4px;
     border-radius: 5px;
+    font-weight: 400;
     box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .2);
+}
+
+kit-flash, .kit-flash{
+    position: fixed;
+    top: 0px;
+    left: 100px;
+    width: calc(100% - 200px);
+    padding: 4px 10px;
+    box-sizing: border-box;
+    background: #ffffff;
+    box-shadow: 0 1px 3px 0 rgba(0,0,0,.3);
+    border-radius: 0 0 10px 10px;
 }
 
 h2 {
     margin: 10px 0;
     padding: 2px;
-    font-weight: 100;
+    font-weight: 900;
     border-bottom: 1px solid #c0c0c0;
+}
+
+h5 {
+    font-size: 15px;
+    color: #909090;
+    margin: 4px 0;
 }
 
 code {
@@ -310,6 +453,10 @@ kit-left, .kit-left {
     display: inline-block;
     padding: 10px;
     width: 100px;
+}
+
+kit-right, .kit-right{
+    float: right;
 }
 
 kit-container {
@@ -341,6 +488,22 @@ kit-container kit-box:last-child, kit-container .kit-box:last-child {
 kit-container kit-box:only-child, kit-container .kit-box:only-child {
     border-radius: 6px;
 }
+
+/* padding and margin */
+
+.p{ padding: 8px }
+.p-s{ padding: 4px }
+.p-m{ padding: 10px }
+.p-l{ padding: 16px }
+.p-xl{ padding: 24px }
+.p-0{ padding: 0 }
+
+.m{ margin: 8px }
+.m-s{ margin: 4px }
+.m-m{ margin: 10px }
+.m-l{ margin: 16px }
+.m-xl{ margin: 24px }
+.m-0{ margin: 0 }
 
 /* colors */
 
