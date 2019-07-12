@@ -1,11 +1,12 @@
 # kit
 JavaScriptで動作するとっても軽量なデスクトップ環境
 
-簡単なWebの知識ですぐにkitアプリケーションを作成できます
+kitアプリケーションはすぐに、簡単に作成できます
 
 # latest kit
 * [ダウンロード](https://github.com/mtsgi/kit/releases)
 * [kit Canaryを体験](https://mtsgi.github.io/kit/) (安定前のバージョンです)
+* [最新安定版を体験](http://kitit.ml/)
 
 # documents
 * [GitHub Wiki](https://github.com/mtsgi/kit/wiki)
