@@ -1,6 +1,17 @@
 app_settings( pid );
 
 function app_settings( _pid ) {
+    App.event( _pid, "update", ()=>{
+        $.getJSON("https://api.github.com/repos/mtsgi/kit/tags", function(data){
+            let result = "";
+            for( i in data ){
+                result += "<strong>v" + data[i].name;
+                if( i == 0 ) result += "(最新)";
+                result += "</strong><div class='little'>" + data[i].commit.sha + "</div>";
+            }
+            System.alert("お使いのkitは" +System.version+ "です",result);
+        });
+    } );
 
     if( System.args[_pid] && System.args[_pid].view ) {
         App.load( _pid, String( System.args[_pid].view ) + ".html" );
