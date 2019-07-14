@@ -1,31 +1,17 @@
 <script>
-    $( ".settings-kitv" ).text( System.version );
-    $( ".settings-kwsv" ).text( KWS.version );
     $( "#settings-license-1" ).load( "./system/jquery-ui-1.12.1/LICENSE.txt" );
     $( "#settings-license-2" ).load( "./fa/LICENSE.txt" );
     $( "#settings-license-3" ).load( "./system/jquery_LICENSE.txt" );
-
-    function latest_kit(){
-        $.getJSON("https://api.github.com/repos/mtsgi/kit/tags", function(data){
-            let result = "";
-            for( i in data ){
-                result += "<strong>v" + data[i].name;
-                if( i == 0 ) result += "(最新)";
-                result += "</strong><div class='little'>" + data[i].commit.sha + "</div>";
-            }
-            System.alert("お使いのkitは" +System.version+ "です",result);
-        });
-    }
 </script>
 <kit-btn class="kit-inline kaf" kit-ref="default.html"><span class='fa fa-arrow-circle-left'></span>戻る</kit-btn>
 <h3><span class='fa fa-info-circle'></span> kitについて</h3>
 <div style='font-size:22px'>
     <img src="system/ico/logo.png" style="max-width: 100%;">
-    <h4>バージョン<span class="settings-kitv"></span></h4>
+    <h4>バージョン<span kit-text="System.version" kaf></span></h4>
 </div>
-KWS <span class="settings-kwsv"></span> / KAF(v1)<br>
+KWS <span kit-text="KWS.version" kaf></span> / kaf(v1)<br>
 <img src="documents/kaf-logo.png" alt="kit Apps framework" style="height: 50px"><br>
-<a class="kit-hyperlink" onclick="latest_kit()">kitのアップデートを確認する</a>
+<a class="kit-hyperlink kaf" kit-e="update">kitのアップデートを確認する</a>
 <div class="little">取得には時間がかかる場合があります</div>
 Based on <span class="fab fa-html5"></span>HTML5
 <span class="fab fa-css3-alt"></span>CSS3

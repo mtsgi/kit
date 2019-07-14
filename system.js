@@ -540,8 +540,7 @@ const System = new function() {
         if( !_elems.length ) q = ",#winc" + _pid;
         else for( let i of _elems ){
             q += ",#winc" + _pid + " " + i;
-        }
-        console.log(q)
+        }   
         return $( q.substring(1) );
     }
 
@@ -796,7 +795,7 @@ const System = new function() {
         for( let i in process ) {
             if( process[i].id == _id ) _cnt += 1;
         }
-        console.log( _cnt );
+        Notification.push( "debug", _cnt );
         if( _cnt > 1 ) {
             System.close( _pid );
             if( !_alert ){
@@ -1134,7 +1133,7 @@ const App = new function() {
     }
 
     this.kaf = ( _pid ) => {
-        for( let i of S.dom(_pid, ".kaf", "kaf") ){
+        for( let i of S.dom(_pid, ".kaf", "kaf", "[kaf]") ){
             if( i.hasAttribute("kit-ref") ){
                 $(i).on("click", () => App.load(_pid, i.getAttribute("kit-ref")) );
             }
