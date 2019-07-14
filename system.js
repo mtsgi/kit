@@ -1157,6 +1157,12 @@ const App = new function() {
             if( i.hasAttribute("kit-close") ){
                 $(i).on("click", ()=> System.close( i.getAttribute("kit-close") || _pid ) );
             }
+            if( i.hasAttribute("kit-text") ){
+                $(i).text( eval(i.getAttribute("kit-text")) );
+            }
+            if( i.hasAttribute("kit-html") ){
+                $(i).html( eval(i.getAttribute("kit-html")) );
+            }
         }
     }
 
