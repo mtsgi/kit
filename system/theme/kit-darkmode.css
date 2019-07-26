@@ -45,11 +45,11 @@ footer{
     color: #f0f0f0;
 }
 /* system parts */
-.winc-darkmode .btn{
+.winc-darkmode .btn,.winc-darkmode kit-btn{
     background: #303030;
     color: #f0f0f0;
 }
-.winc-darkmode .btn:hover{
+.winc-darkmode .btn:hover, .winc-darkmode kit-btn:hover{
     background: #505050;
 }
 .winc-darkmode .textbox{

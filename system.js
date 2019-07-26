@@ -105,11 +105,11 @@ function kit() {
             launch( $(this).attr("data-launch") );
         });
     }).fail( function() {
-        Notification.push( "読み込みに失敗", "デスクトップ(config/desktop.json)の読み込みに失敗しました。", system );
+        Notification.push( "読み込みに失敗", "デスクトップ(config/desktop.json)の読み込みに失敗しました。", "system" );
     } );
     //ランチャー
     $.getJSON("config/apps.json", System.initLauncher).fail( function() {
-        Notification.push( "ランチャー初期化失敗", "アプリケーション一覧(config/apps.json)の読み込みに失敗しました。", system );
+        Notification.push( "ランチャー初期化失敗", "アプリケーション一覧(config/apps.json)の読み込みに失敗しました。", "system" );
     } );
     $( "#kit-tasks" ).delegate( ".task", "click", function() {
         System.close( this.id.slice( 1 ) );
@@ -139,7 +139,7 @@ function kit() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
         $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
         $( "#kit-wallpaper" ).css( "filter", "blur(5px)" );
-        $( "footer, header, #desktop-" + currentDesktop ).hide();
+        $( "footer, header, #launcher, #task-ctx, .dropdown, #desktop-" + currentDesktop ).hide();
         $( "#kit-power" ).show();
     } );
     $( "#kit-power-back" ).click( function() {
@@ -187,7 +187,7 @@ function kit() {
         }
         else {
             $( "#kit-wallpaper" ).css( "filter", "blur(5px)" )
-            $( "section" ).hide();
+            $( "section, #task-ctx" ).hide();
             $( "#launcher" ).show();
         }
     } );
@@ -377,7 +377,8 @@ function launch( str, args, dir ) {
     else {
         try{
             $.getJSON( S.launchpath[pid] + "/define.json", appData ).fail( function() {
-                System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")。ヘルプは<a class='kit-hyperlink' href='https://kitdev.home.blog/'>こちら</a>" );
+                Notification.push("kitアプリをロードできません", str + "を展開できませんでした。アプリが存在しないか、クロスオリジン要求がブロックされている可能性があります。詳細:https://kitdev.home.blog/", "system");
+                //System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")。ヘルプは<a class='kit-hyperlink' href='https://kitdev.home.blog/'>こちら</a>" );
             } );
         }
         catch(error){
