@@ -12,6 +12,11 @@
         "darkmode": true
     },
 
+    "size": {
+        "width": 500,
+        "height": "auto"
+    },
+
     "view": "explore.html",
     "script": "fivr.js",
     "css": "fivr.css"
