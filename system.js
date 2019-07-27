@@ -276,7 +276,7 @@ function kit() {
         $( "#kit-context-elem" ).text( _ptelem.prop("tagName").toLowerCase() + "要素" );
         $("#kit-contextgroup-custom").hide();
 
-        let  _ctxid = _ptelem.attr("data-kit-contextid");
+        let  _ctxid = _ptelem.attr("data-kit-contextid") || _ptelem.attr("kit-context");
         if( _ctxid ){
             $("#kit-contextgroup-custom").show().html('<div id="kit-context-custom"></div>');
             let  _ctxname = KWS.context[_ctxid].name || _ctxid; 
@@ -1026,7 +1026,7 @@ const KWS = new function(){
 
         this.add = function(_text){
             KWS.fusen.list[KWS.fusen.fid] = String(_text);
-            $("#desktop-"+currentDesktop).append("<div class='kit-fusen' id='kit-f"+KWS.fusen.fid+"'><i class='fa fa-quote-left'></i><textarea class='kit-fusen-textarea kit-selectable' data-fid='"+KWS.fusen.fid+"' data-kit-contextid='fusen'>"+_text+"</textarea></div>");
+            $("#desktop-"+currentDesktop).append("<div class='kit-fusen' id='kit-f"+KWS.fusen.fid+"'><i class='fa fa-quote-left'></i><textarea class='kit-fusen-textarea kit-selectable' data-fid='"+KWS.fusen.fid+"' kit-context='fusen'>"+_text+"</textarea></div>");
             $("#kit-f"+KWS.fusen.fid).css({
                 "left": Number(KWS.fusen.fid)*40 + 20,
                 "top": Number(KWS.fusen.fid)*10 + 100,
@@ -1174,6 +1174,10 @@ const App = new function() {
 
     this.preventClose = ( _pid, _bool ) => {
         process[_pid].preventclose = _bool || true;
+    }
+
+    this.context = ( _cid, _obj ) => {
+        KWS.context[ _cid ] = _obj;
     }
 }
 

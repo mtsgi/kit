@@ -100,7 +100,7 @@ function app_fivr(_pid){
         S.dom( _pid, "#fivr-files").html("");
         let cnt = 0;
         for( i in S.userarea ){
-            S.dom( _pid, "#fivr-files").append("<div class='fivr-file' data-fivr='"+i+"' data-kit-contextid='fivr'><span class='fa fa-file'></span> " + i + "<span class='fivr-file-type'>" + S.userarea[i].type + "</span></div>");
+            S.dom( _pid, "#fivr-files").append("<div class='fivr-file' data-fivr='"+i+"' kit-context='fivr'><span class='fa fa-file'></span> " + i + "<span class='fivr-file-type'>" + S.userarea[i].type + "</span></div>");
             cnt ++;
         }
         if( cnt == 0 ) S.dom( _pid, "#fivr-files").append("<div>表示するファイルがありません。<br>ファイルや要素を保存するとここに表示されます。</div>");
