@@ -442,17 +442,17 @@ kit-buttongroup .kit-button-alt:only-child,
 }
 
 kit-block,
-.kit-block {
+.kit-block.kit-block {
     display: block;
 }
 
 kit-inblock,
-.kit-inblock {
+.kit-inblock.kit-inblock {
     display: inline-block;
 }
 
 kit-inline,
-.kit-inline {
+.kit-inline.kit-inline {
     display: inline;
 }
 

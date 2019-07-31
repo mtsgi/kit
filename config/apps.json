@@ -1,4 +1,9 @@
 {
+    "bandr": {
+        "name": "バックアップと復元",
+        "icon": "./app/bandr/icon.png"
+    },
+
     "browser": {
         "name": "ブラウザ",
         "icon": "./app/browser/icon.png"
