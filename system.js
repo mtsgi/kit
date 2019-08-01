@@ -1128,8 +1128,8 @@ const Notification = new function() {
 
 const App = new function() {
     this.changeWindowTitle = ( _pid, _t ) => {
-        $( "#tname"+_pid ).text( _str );
-        $( "#wtname"+_pid ).text( _str );
+        $( "#tname"+_pid ).text( _t );
+        $( "#wtname"+_pid ).text( _t );
         process[_pid].title = _t;
         return App;
     }
