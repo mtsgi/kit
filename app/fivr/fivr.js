@@ -28,7 +28,7 @@ function app_fivr(_pid){
     if( S.args[_pid] && S.args[_pid].open ){
         $("#winc" + _pid).load("./app/fivr/open.html");
         setTimeout(() => {
-            KWS.changeWindowTitle( _pid, S.args[_pid].open );
+            App.changeWindowTitle( _pid, S.args[_pid].open );
             if( S.userarea[S.args[_pid].open].type == "image" ){
                 S.dom( _pid, "#fivr-open" ).html( "<img src='" + S.userarea[S.args[_pid].open].data + "'>" );
             }
