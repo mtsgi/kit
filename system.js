@@ -393,7 +393,8 @@ function appData( data ) {
         id: data.id,
         time: System.time.obj.toLocaleString(),
         isactive: false,
-        preventclose: false
+        preventclose: false,
+        title: data.name
     };
     System.appCache[data.id] = data;
     let _taskAppend = "<span id='t" + pid + "'>";
@@ -1126,12 +1127,27 @@ const Notification = new function() {
 }
 
 const App = new function() {
+    this.changeWindowTitle = ( _pid, _t ) => {
+        $( "#tname"+_pid ).text( _str );
+        $( "#wtname"+_pid ).text( _str );
+        process[_pid].title = _t;
+        return App;
+    }
+
+    this.context = ( _cid, _obj ) => {
+        KWS.context[ _cid ] = _obj;
+        return App;
+    }
+
     this.e = new Object();
 
     this.event = ( _pid, _name, _event ) => {
         if( !App.e[_pid] ) App.e[_pid] = new Object();
         App.e[_pid][_name] = _event;
+        return App;
     }
+
+    this.getPath = ( _pid, _path ) => System.launchpath[_pid] + _path;
 
     this.kaf = ( _pid ) => {
         for( let i of S.dom(_pid, ".kaf", "kaf", "[kaf]") ){
@@ -1170,14 +1186,12 @@ const App = new function() {
         S.dom(_pid).load( System.launchpath[_pid] +"/"+ _path, () => {
             App.kaf(_pid);
         } );
+        return App;
     }
 
     this.preventClose = ( _pid, _bool ) => {
         process[_pid].preventclose = _bool || true;
-    }
-
-    this.context = ( _cid, _obj ) => {
-        KWS.context[ _cid ] = _obj;
+        return App;
     }
 }
 

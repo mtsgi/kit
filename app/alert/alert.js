@@ -4,10 +4,10 @@
         S.dom(_pid, ".alert-title").text(System.args[pid][0]);
         S.dom(_pid, ".alert-content").html(System.args[pid][1]);
         if( System.args[pid][2] ){
-            KWS.changeWindowTitle( _pid, System.args[pid][2] );
+            App.changeWindowTitle( _pid, System.args[pid][2] );
         }
         else{
-            KWS.changeWindowTitle( _pid, System.args[pid][0] );
+            App.changeWindowTitle( _pid, System.args[pid][0] );
         }
     }
 })(pid);
