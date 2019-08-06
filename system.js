@@ -1139,6 +1139,15 @@ const App = new function() {
         return App;
     }
 
+    this.d = new Object();
+
+    this.data = ( _pid, _name ) => {
+        let _r;
+        if( _name ) _r = App.d[_pid][_name];
+        else _r = App.d[_pid];
+        return _r;
+    }
+
     this.e = new Object();
 
     this.event = ( _pid, _name, _event ) => {
@@ -1178,6 +1187,10 @@ const App = new function() {
             }
             if( i.hasAttribute("kit-html") ){
                 $(i).html( eval(i.getAttribute("kit-html")) );
+            }
+            if( i.hasAttribute("kit-bind") ){
+                if( App.d[_pid] == undefined ) App.d[_pid] = new Object();
+                $(i).on("change", () => App.d[_pid][i.getAttribute("kit-bind")] = $(i).val() );
             }
         }
     }
