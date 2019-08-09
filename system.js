@@ -1159,7 +1159,18 @@ const App = new function() {
     this.getPath = ( _pid, _path ) => System.launchpath[_pid] + _path;
 
     this.kaf = ( _pid ) => {
-        for( let i of S.dom(_pid, ".kaf", "kaf", "[kaf]") ){
+        let attrs = [
+            "[kit-ref]",
+            "[kit-e]",
+            "[kit-src]",
+            "[kit-alert]",
+            "[kit-launch]",
+            "[kit-close]",
+            "[kit-text]",
+            "[kit-html]",
+            "[kit-bind]"
+        ]
+        for( let i of S.dom(_pid, ...attrs) ){
             if( i.hasAttribute("kit-ref") ){
                 $(i).on("click", () => App.load(_pid, i.getAttribute("kit-ref")) );
             }
