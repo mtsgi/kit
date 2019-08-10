@@ -2,7 +2,7 @@
     "id": "document",
     "name": "ドキュメント",
     "icon": "icon.png",
-    "version": "0.2.2",
+    "version": "0.2.3",
     "author": "kit",
 
     "size": {
@@ -18,6 +18,6 @@
     "resize": true,
 
     "view": "default.html",
-    "script": "document.js",
+    "script": "none",
     "css": "document.css"
 }
