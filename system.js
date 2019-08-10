@@ -442,13 +442,13 @@ function appData( data ) {
         $( "#w" + pid ).removeClass( "win-highlight" );
     } );
     let _windowAppend = "<div id='w" + pid + "'><div id='wt" + pid + "' class='wt'><i class='wmzx'><span id='wm" + pid + "'></span>";
-    if( data.support && data.support.fullscreen == true ) _windowAppend += "<span id='wz" + pid + "'></span>";
+    if( data.support && data.support['fullscreen'] == true ) _windowAppend += "<span id='wz" + pid + "'></span>";
     _windowAppend += "<span id='wx" + pid + "'></span></i>";
     if( data.icon && data.icon != "none" ) _windowAppend += "<img src='" + S.launchpath[pid]　+ "/" + data.icon + "'>";
     _windowAppend += "<span id='wtname" + pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>";
     $( "#desktop-" + currentDesktop ).append( _windowAppend );
 
-    if( data.support && data.support.darkmode == true ) $("#winc"+pid).addClass("winc-darkmode");
+    if( data.support && data.support['darkmode'] == true ) $("#winc"+pid).addClass("winc-darkmode");
     if( KWS.darkmode ) $("#winc"+pid).addClass("kit-darkmode");
 
     if( data.size ){
@@ -464,8 +464,7 @@ function appData( data ) {
         });
     }
 
-    var windowPos = 50 + ( pid % 10 ) * 20;
-    //$( "#w" + pid ).addClass( "window" ).draggable( {cancel: ".winc", stack: ".window"} ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index", $( ".window" ).length + 1 );
+    let windowPos = 50 + ( pid % 10 ) * 20;
     KWS.windowIndex ++;
     $( "#w"+pid ).addClass( "window" ).pep({
         elementsWithInteraction: ".winc, .ui-resizable-handle",
@@ -498,11 +497,12 @@ function appData( data ) {
             Notification.push("起動に失敗:" + x.status, x.statusText);
             return false;
         }
-        if( !data.script || data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => App.kaf(pid) ).fail( () =>  App.kaf(pid) );
-        else App.kaf(pid);
+        if( !data.script || data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => {
+            if( !data.support || data.support['kaf'] != false ) App.kaf(pid);
+        } ).fail( () =>  App.kaf(pid) );
+        else if( !data.support || data.support['kaf'] != false ) App.kaf(pid);
         if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
             $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
-            //Notification.push("debug", "新規スタイルシートの読み込み", data.id);
         }        
         processID++;
         localStorage.setItem( "kit-pid", processID );
