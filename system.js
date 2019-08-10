@@ -542,8 +542,15 @@ const System = new function() {
         if( !_elems.length ) q = ",#winc" + _pid;
         else for( let i of _elems ){
             q += ",#winc" + _pid + " " + i;
-        }   
+        }
         return $( q.substring(1) );
+    }
+
+    this.qs = ( _pid, ..._elems ) => {
+        let q = "";
+        if( !_elems.length ) q = ",#winc" + _pid;
+        else for( let i of _elems ) q += ",#winc" + _pid + " " + i;
+        return document.querySelectorAll( q.substring(1) )
     }
 
     this.userarea = new Object();
