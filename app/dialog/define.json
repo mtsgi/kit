@@ -2,14 +2,18 @@
     "id": "dialog",
     "name": "ダイアログ",
     "icon": "icon.png",
-    "version": "1.0.3",
+    "version": "2.0.0",
     "author": "kit",
 
     "support": {
         "darkmode": true
     },
 
+    "size": {
+        "width": "400px"
+    },
+
     "view": "default.html",
     "script": "dialog.js",
-    "css": ""
+    "css": "none"
 }
