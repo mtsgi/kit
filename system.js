@@ -161,10 +161,10 @@ function kit() {
     $( "#kit-power-lock" ).click( function() {
         System.lock();
     } );
-    $( "#lock-password" ).keypress( function( e ) {
+    $( "#lock-password" ).on( 'keypress', function( e ) {
         if( e.which == 13 ) $( "#lock-unl" ).click();
     } );
-    $( "#lock-unl" ).click( function() {
+    $( "#lock-unl" ).on( 'click', function() {
         if( !localStorage.getItem( "kit-password" ) || $( "#lock-password" ).val() == localStorage.getItem( "kit-password" ) ) {
             $( "header, footer" ).show();
             $( "section, header, footer, #kit-wallpaper" ).css( "filter", "none" );
@@ -1141,11 +1141,14 @@ const App = new function() {
 
     this.d = new Object();
 
-    this.data = ( _pid, _name ) => {
-        let _r;
-        if( _name ) _r = App.d[_pid][_name];
-        else _r = App.d[_pid];
-        return _r;
+    this.data = ( _pid, _name, _value ) => {
+        if( _value !== undefined ) {
+            S.dom(_pid, `[kit-bind=${_name}]`).val( _value );
+            S.dom(_pid, `[kit-observe=${_name}]`).text( _value );
+            return App.d[_pid][_name] = _value;
+        }
+        else if( _name ) return App.d[_pid][_name];
+        else return App.d[_pid];
     }
 
     this.e = new Object();
@@ -1168,8 +1171,12 @@ const App = new function() {
             "[kit-close]",
             "[kit-text]",
             "[kit-html]",
-            "[kit-bind]"
+            "[kit-bind]",
+            "[kit-observe]"
         ]
+        const PID = _pid;
+        const DATA = App.data(_pid);
+        const ARGS = System.args[_pid];
         for( let i of S.dom(_pid, ...attrs) ){
             if( i.hasAttribute("kit-ref") ){
                 $(i).on("click", () => App.load(_pid, i.getAttribute("kit-ref")) );
@@ -1201,7 +1208,13 @@ const App = new function() {
             }
             if( i.hasAttribute("kit-bind") ){
                 if( App.d[_pid] == undefined ) App.d[_pid] = new Object();
-                $(i).on("change", () => App.d[_pid][i.getAttribute("kit-bind")] = $(i).val() );
+                $(i).on('keydown keyup keypress change', () => {
+                    App.d[_pid][i.getAttribute("kit-bind")] = i.value;
+                    S.dom(_pid, `[kit-observe=${i.getAttribute("kit-bind")}]`).text( i.value );
+                } );
+            }
+            if( i.hasAttribute("kit-observe") ){
+                $(i).text( App.d[_pid][i.getAttribute("kit-observe")] );
             }
         }
     }

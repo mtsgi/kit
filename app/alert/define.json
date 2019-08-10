@@ -2,11 +2,15 @@
     "id": "alert",
     "name": "アラート",
     "icon": "icon.png",
-    "version": "1.0.0",
+    "version": "2.0.0",
     "author": "kit",
 
     "support": {
         "darkmode": true
+    },
+
+    "size": {
+        "width": "400px"
     },
 
     "view": "default.html",
