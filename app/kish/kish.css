@@ -1,0 +1,121 @@
+.winc-kish {
+  padding: 0;
+  background: transparent;
+	backdrop-filter: blur(10px);
+}
+
+#kish-form {
+  background: rgba(255, 255, 255, .8);
+}
+
+#kish-input {
+  position: absolute;
+  bottom: 0;
+  box-sizing: border-box;
+  font-family: 'Noto Sans JP', sans-serif;
+  width: 100%;
+  border: none;
+  background: transparent;
+  padding: 6px;
+  padding-left: 25px;
+  font-size: 20px;
+  font-weight: 100;
+  color: #f0f0f0;
+  transition: .3s all ease-out;
+  text-shadow: 0 1px 3px #202020;
+  background: rgba(0, 0, 0, .5);
+  box-shadow: inset 0 0 0 0 transparent, inset 0 0 0 0 transparent;
+}
+
+#kish-input:focus {
+  outline: none;
+  background: rgba(0, 0, 0, .8);
+  background-size: cover;
+  background-attachment: fixed;
+  box-shadow: 0 0 10px 0 #202020;
+}
+
+#kish-indicator {
+  position: absolute;
+  bottom: 13px;
+  left: 10px;
+  color: #f0f0f0;
+}
+
+#kish-wrapper {
+  overflow: scroll;
+  background-image: url(bg.jpg);
+  background-size: cover;
+  background-attachment: fixed;
+  font-size: 20px;
+  text-shadow: 0 1px 2px rgba(0, 0, 0, .8);
+  color: #f0f0f0;
+  font-weight: 400;
+}
+
+#kish-out {
+  background-image: url(logo-white.png);
+  background-repeat: no-repeat;
+  background-position: top right;
+  background-size: 150px;
+  min-height: 100px;
+  display: flex;
+  flex-flow: column nowrap;
+  margin-bottom: 44px;
+}
+
+#kish-logo {
+  display: inline-block;
+  background-image: url(logo-white.png);
+  background-size: contain;
+  height: 40px;
+  width: 68px;
+}
+
+.kish-item {
+  padding: 0 5px;
+  transition: .2s all ease-out;
+}
+
+.kish-item:hover {
+  background: rgba(0, 0, 0, .3);
+}
+
+.kish-from {
+  font-size: 13px;
+  padding: 0 4px;
+  background: rgba(255, 255, 255, .3);
+  position: relative;
+  top: -3px;
+  box-shadow: 0 1px 1px 0 rgba(0, 0, 0, .5);
+  border-radius: 4px;
+  margin-right: 4px;
+}
+
+#kish-curcmd{
+  display: none;
+  position: absolute;
+  left: 8px;
+  bottom: 52px;
+  background: #12bf12;
+  color: #ffffff;
+  border-radius: 4px;
+  font-size: 14px;
+  padding: 2px 6px;
+  box-shadow: 0 1px 3px 0 rgba(0,0,0,.4);
+}
+
+#kish-curcmd:after{
+  content: "";
+  position: absolute;
+  top: 100%;
+  left: 50%;
+  margin-left: -5px;
+  border: 5px solid transparent;
+  border-top: 7px solid #12bf12;
+}
+
+.kish-highlight{
+  padding: 0 5px;
+  color: #ceffb8;
+}
