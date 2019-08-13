@@ -1196,7 +1196,7 @@ const App = new function() {
                 }
             }
             if( i.hasAttribute("kit-src") ){
-                $(i).attr("src", System.launchpath[_pid] +"/"+ i.getAttribute("kit-ref") )
+                $(i).attr("src", System.launchpath[_pid] +"/"+ i.getAttribute("kit-src") )
             }
             if( i.hasAttribute("kit-alert") ){
                 $(i).on("click", ()=> System.alert( System.appCache[ process[_pid].id ].name, i.getAttribute("kit-alert") ) );
