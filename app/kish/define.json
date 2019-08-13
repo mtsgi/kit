@@ -1,0 +1,22 @@
+{
+    "id": "kish",
+    "name": "kish",
+    "icon": "icon.png",
+    "version": "0.3.0",
+    "author": "kit",
+
+    "size": {
+        "width": 600,
+        "height": 350
+    },
+
+    "support": {
+        "fullscreen": true
+    },
+
+    "resize": true,
+
+    "view": "default.html",
+    "script": "kish.js",
+    "css": "kish.css"
+}

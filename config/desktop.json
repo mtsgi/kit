@@ -24,6 +24,11 @@
         "icon": "./app/console/icon.png"
     },
 
+    "kish": {
+        "name": "kish",
+        "icon": "./app/kish/icon.png"
+    },
+
     "ytplayer": {
         "name": "動画閲覧",
         "icon": "./app/ytplayer/icon.png"
