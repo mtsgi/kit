@@ -1,0 +1,65 @@
+<div class="kit-scroll kit-selectable" data-simplebar>
+    <a kit-ref="default.html" class="kit-button-alt small">もどる</a>
+    <h1 id="kit-">kitアプリのしくみ</h1>
+    <p>はじめてのkitアプリを作る前に、kitアプリのしくみについて知っておきましょう。kitアプリのしくみはとても簡単です。</p>
+    <p>kitアプリケーションは基本的に、kitディレクトリ直下の<code>/app</code>以下にアプリケーションごとにディレクトリを持つ形で存在しています。</p>
+    <blockquote>
+        <p><code>/app</code>以外の場所にあるアプリケーションは、「インストール」をすることで簡単に利用することもできます(これを利用すればインターネット上のディレクトリからkitアプリケーションをロードすることも可能です)。
+        </p>
+    </blockquote>
+    <h2 id="-">ディレクトリ構造</h2>
+    <p>まずは、<code>/app/welcome</code>というディレクトリの中を見てみてください。これはデフォルトでkitの起動時に起動する<strong>welcome</strong>というアプリケーションの中身です(使用しているkitのバージョンによっては内容が異なる場合があります)。
+    </p>
+    <p><img kit-src="images/welcome.png" alt="kitDesktop"></p>
+    <p>ディレクトリは、以下のような構造をしています。<strong>welcome</strong>というアプリケーションはこの<strong>たった4つ</strong>のファイルで動いているということです。</p>
+    <pre><code><span class="hljs-selector-tag">app</span>
+    └── <span class="hljs-selector-tag">welcome</span>
+        ├── <span class="hljs-selector-tag">default</span><span class="hljs-selector-class">.html</span>
+        ├── <span class="hljs-selector-tag">define</span><span class="hljs-selector-class">.json</span>
+        ├── <span class="hljs-selector-tag">detail</span><span class="hljs-selector-class">.html</span>
+        └── <span class="hljs-selector-tag">icon</span><span class="hljs-selector-class">.png</span>
+    </code></pre>
+    <p>最も重要なのは、<code>define.json</code>というファイルです。kitシステムは、アプリケーションをロードするとき最初にアプリのディレクトリ内の<code>define.json</code>を参照します。ここにはアプリケーションの情報が記述されています。
+    </p>
+    <h2 id="define-json-">define.jsonについて</h2>
+    <p><strong>welcome</strong>アプリのdefine.jsonは以下のようになっています。</p>
+    <pre><code class="lang-define.json">{
+        <span class="hljs-attr">"id"</span>: <span class="hljs-string">"welcome"</span>,
+        <span class="hljs-attr">"name"</span>: <span class="hljs-string">"ようこそ"</span>,
+        <span class="hljs-attr">"icon"</span>: <span class="hljs-string">"icon.png"</span>,
+        <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1.1.0"</span>,
+        <span class="hljs-attr">"author"</span>: <span class="hljs-string">"kit"</span>,
+    
+        <span class="hljs-attr">"size"</span>: {
+            <span class="hljs-attr">"width"</span>: <span class="hljs-number">300</span>
+        },
+    
+        <span class="hljs-attr">"view"</span>: <span class="hljs-string">"default.html"</span>,
+        <span class="hljs-attr">"script"</span>: <span class="hljs-string">"none"</span>,
+        <span class="hljs-attr">"css"</span>: <span class="hljs-string">""</span>
+    }
+    </code></pre>
+    <p>ここにアプリケーションの名前や作者名などの情報が記述されます。それぞれの項目の詳細はここでは省きますが、アプリの起動時に<code>view</code>という項目に記述されたファイル(ここでは<code>default.html</code>)がアプリの画面(テンプレート)として読み込まれる仕組みです。
+    </p>
+    <blockquote>
+        <p><code>define.json</code>の書き方や内容については、<a kit-ref="def.html" class="kit-hyperlink">define.json - 定義可能項目の一覧</a>をご確認ください。</p>
+    </blockquote>
+    <h2 id="html-">HTMLによるアプリのテンプレート</h2>
+    <p>次に、<code>default.html</code>の内容を見てみましょう。kitでは、HTMLを使ってアプリケーションのテンプレートを記述することができます。部分的なテンプレートとして記述するため、<code>&lt;html&gt;</code>タグや<code>&lt;body&gt;</code>タグ、<code>&lt;head&gt;</code>タグは必要ありません。
+    </p>
+    <pre><code class="lang-default.html"><span class="hljs-tag">&lt;<span class="hljs-name">div</span> <span class="hljs-attr">class</span>=<span class="hljs-string">'p kit-text-c'</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">img</span> <span class="hljs-attr">src</span>=<span class="hljs-string">"system/ico/logo.png"</span> <span class="hljs-attr">style</span>=<span class="hljs-string">"max-width: 100%;"</span>&gt;</span>
+        バージョン<span class="hljs-tag">&lt;<span class="hljs-name">span</span> <span class="hljs-attr">kit-text</span>=<span class="hljs-string">"System.version"</span> <span class="hljs-attr">kaf</span>&gt;</span><span class="hljs-tag">&lt;/<span class="hljs-name">span</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+        kitへようこそ
+        <span class="hljs-tag">&lt;<span class="hljs-name">br</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">kit-button</span> <span class="hljs-attr">kaf</span> <span class="hljs-attr">kit-ref</span>=<span class="hljs-string">'detail.html'</span>&gt;</span>詳細<span class="hljs-tag">&lt;/<span class="hljs-name">kit-button</span>&gt;</span>
+        <span class="hljs-tag">&lt;<span class="hljs-name">kit-button</span> <span class="hljs-attr">kaf</span> <span class="hljs-attr">kit-close</span>&gt;</span>閉じる<span class="hljs-tag">&lt;/<span class="hljs-name">kit-button</span>&gt;</span>
+    <span class="hljs-tag">&lt;/<span class="hljs-name">div</span>&gt;</span>
+    </code></pre>
+    <p>たったこれだけのHTML記述でこのような見た目のアプリケーションを作成することができるのです。</p>
+    <p><img kit-src="images/welcome.png" alt="kitDesktop"></p>
+    <p>ここで指定されている<code>class</code>属性は、CSSフレームワーク<strong>kitstrap</strong>のものです。<code>kit-</code>から始まる属性は<strong>kit
+            apps framework</strong>(kaf)によるアプリケーションの動作定義です。</p>
+    <p>これらの標準実装のおかげで、簡単に、ほとんどコーディングすることなくkitアプリケーションのテンプレートを作成、動作を定義することが可能になっています。詳細や使い方は次の章で紹介します。</p>
+</div>

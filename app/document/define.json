@@ -2,12 +2,12 @@
     "id": "document",
     "name": "ドキュメント",
     "icon": "icon.png",
-    "version": "0.2.3",
+    "version": "1.0.0",
     "author": "kit",
 
     "size": {
-        "width": 420,
-        "height": 290
+        "width": 720,
+        "height": 480
     },
 
     "support": {
