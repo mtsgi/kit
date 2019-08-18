@@ -1,28 +1,13 @@
-.winc-document .simple-box{
-    border: 1px solid gray;
-    padding: 2px;
-    margin: 2px;
+.winc-document{
+    padding: 0;
 }
-.document-as{
-    background: #606060;
-    color: white;
-    font-size: 14px;
-    padding: 3px;
-    border-radius: 6px 6px 0px 0px;
-    margin : 0 4px;
+
+.winc-document > div{
+    padding: 12px;
+    box-sizing: border-box;
 }
-.document-bs{
-    border: 1px solid #606060;
-    margin : 0 4px;
-    padding: 5px;
-    border-radius: 0 0 6px 6px;
-    background: #f0f0f0;
-}
+
 .winc-document li{
     margin-left: 20px;
     list-style-type: square;
-}
-.winc-darkmode .document-bs{
-    background: #202020;
-    color: #ffffff;
 }

@@ -1,0 +1,120 @@
+<div class="kit-scroll kit-selectable" data-simplebar>
+    <a kit-ref="default.html" class="kit-button-alt small">もどる</a>
+    <h1 id="-kit-">はじめてのkitアプリ</h1>
+    <p>いよいよ、はじめてのkitアプリケーションを作ってみましょう。</p>
+    <p>簡単な「BMIを計算するアプリケーション」を作ってみましょう。まずは、<code>/app</code>以下に<code>bmi</code>という名前のディレクトリを作成します。</p>
+    <blockquote>
+        <p>ここで作成したディレクトリの名前が<strong>アプリのID</strong>となります。</p>
+    </blockquote>
+    <h2 id="define-json-">define.jsonを作る</h2>
+    <p>kitアプリケーションに必須である<strong>define.json</strong>を、アプリケーションディレクトリの直下に以下のような内容で配置します。</p>
+    <pre><code class="lang-define.json">{
+            <span class="hljs-attr">"id"</span>: <span class="hljs-string">"bmi"</span>,
+            <span class="hljs-attr">"name"</span>: <span class="hljs-string">"BMI計算"</span>,
+            <span class="hljs-attr">"icon"</span>: <span class="hljs-string">"none"</span>,
+            <span class="hljs-attr">"version"</span>: <span class="hljs-string">"1"</span>,
+            <span class="hljs-attr">"author"</span>: <span class="hljs-string">"authorName"</span>,
+        
+            <span class="hljs-attr">"support"</span>: {
+                <span class="hljs-attr">"darkmode"</span>: <span class="hljs-literal">true</span>,
+                <span class="hljs-attr">"resize"</span>: <span class="hljs-literal">false</span>,
+                <span class="hljs-attr">"fullscreen"</span>: <span class="hljs-literal">false</span>
+            },
+        
+            <span class="hljs-attr">"size"</span>: {
+                <span class="hljs-attr">"width"</span>: <span class="hljs-string">"auto"</span>,
+                <span class="hljs-attr">"height"</span>: <span class="hljs-string">"auto"</span>
+            },
+        
+            <span class="hljs-attr">"view"</span>: <span class="hljs-string">"default.html"</span>,
+            <span class="hljs-attr">"script"</span>: <span class="hljs-string">"bmi.js"</span>,
+            <span class="hljs-attr">"css"</span>: <span class="hljs-string">"none"</span>
+        }
+        </code></pre>
+    <p>define.jsonの内容を変更することでアプリの名前やバージョン情報を自由に定義できます。define.jsonの書き方についての詳細は<a kit-ref="def.html" class="kit-hyperlink">こちら</a>を参照してください。</p>
+    <p>重要なのは<code>view</code>で定義したファイルがテンプレートとしてロードされ、<code>script</code>で定義したJavaScriptファイルが実行されるということです。</p>
+    <h2 id="-">テンプレートを作る</h2>
+    <p>次に、define.jsonで定義した<strong>default.html</strong>にHTMLでアプリを作っていきます。</p>
+    <blockquote>
+        <p>このメインのテンプレートのファイル名は何でもいいのですが、慣習的に<strong>default.html</strong>という名前で作る場合が多いです。</p>
+    </blockquote>
+    <p>BMIを算出する式は、<strong>体重 ÷ (身長)^2</strong>です。体重と身長を入力するフィールドを配置することが考えられます。</p>
+    <pre><code class="lang-default.html">&lt;input <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"text"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"textbox m"</span> placeholder=<span class="hljs-string">"身長(cm)"</span>&gt;&lt;br&gt;
+        &lt;input <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"text"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"textbox m"</span> placeholder=<span class="hljs-string">"体重(kg)"</span>&gt;
+        &lt;kit-button <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"kit-block m"</span>&gt;計算&lt;/kit-button&gt;
+        </code></pre>
+    <p>2つの<code>&lt;input&gt;</code>タグに<strong>kitstrap</strong>の<code>.textbox</code>クラスを付与し、スタイルを設定します。そして、<code>&lt;kit-button&gt;</code>要素を使って計算ボタンを配置しましょう(ブロック要素にするために<code>.kit-block</code>クラスを付与します)。
+    </p>
+    <blockquote>
+        <p><code>.m</code>クラスは、要素にmarginを付与します。<code>.p</code>クラスは要素にpaddingを付与します。詳細は<a
+                href="https://mtsgi.github.io/kitstrap/docs/layouts.html" class="kit-hyperlink">kitstrapのドキュメント</a>をご確認ください。</p>
+    </blockquote>
+    <p>この時点で、アプリケーションを開いてみる(検索ボックスに「bmi」を入力し、「アプリを起動する」をクリック)と、次のような見た目が完成しているはずです。</p>
+    <p><img kit-src="images/bmi.png" alt="kitDesktop"></p>
+    <p>ただし、現状ではボタンをクリックしても何も起きません。ここからスクリプトを書くことでBMI計算アプリとしての動作を完成させましょう。</p>
+    <h2 id="-">スクリプトを書く</h2>
+    <p><code>define.json</code>の中でスクリプトとして指定した<code>bmi.js</code>というファイルを作ってください。この時点で、アプリのディレクトリの中身は次のようになっているはずです。</p>
+    <pre><code>app
+        └── bmi
+            ├── bmi<span class="hljs-selector-class">.js</span>
+            ├── default<span class="hljs-selector-class">.html</span>
+            └── define.json
+        </code></pre>
+    <p>スクリプトとして指定したJavaScriptのコードは、アプリの起動時に自動的に実行されます。</p>
+    <p>kitアプリのスクリプトの基本形は次の形です：</p>
+    <pre><code class="lang-bmi.js">((<span class="hljs-name">_pid</span>) =&gt; {
+            //ここにスクリプトを記述
+        })(<span class="hljs-name">pid</span>)<span class="hljs-comment">;</span>
+        </code></pre>
+    <p>kitアプリケーションをスクリプトありで作る場合、毎回このひな形から作り始めましょう。</p>
+    <blockquote>
+        <p>これは、アプリの<strong>プロセスID</strong>を引数に取る<strong>即時関数</strong>です。関数スコープを持ち、<code>_pid</code>変数を使うことでプロセスIDを使った処理を行うことができます。プロセスIDは、アプリケーションの起動時に割り振られる識別子で、プロセスを判断し操作するのに重要なものです。
+        </p>
+    </blockquote>
+    <p>実は、ボタンのクリック時のイベントを設定して、<code>&lt;input&gt;</code>タグの内容を取得して計算をする処理を書いて…というのは少し面倒ですが、<strong>kit apps
+            framework</strong>(kaf)の機能を使うことでこれらは簡単に実現することができます。</p>
+    <p><strong>kaf</strong>を使うことで、JavaScriptコーディングの量を劇的に少なく、あるいはまったくなくすことができます(実際に、<code>welcome</code>アプリではJavaScriptによるコーディングは1行もありません)。<code>default.html</code>に次のように少し書き加えます。
+    </p>
+    <pre><code class="lang-default.html">&lt;input <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"text"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"textbox m"</span> placeholder=<span class="hljs-string">"身長(cm)"</span> kit-bind=<span class="hljs-string">"height"</span>&gt;&lt;br&gt;
+        &lt;input <span class="hljs-class"><span class="hljs-keyword">type</span></span>=<span class="hljs-string">"text"</span> <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"textbox m"</span> placeholder=<span class="hljs-string">"体重(kg)"</span> kit-bind=<span class="hljs-string">"weight"</span>&gt;
+        &lt;kit-button <span class="hljs-class"><span class="hljs-keyword">class</span></span>=<span class="hljs-string">"kit-block m"</span> kit-e=<span class="hljs-string">"calc"</span>&gt;計算&lt;/kit-button&gt;
+        </code></pre>
+    <p>2つの<code>&lt;input&gt;</code>要素の<code>kit-bind</code>属性にそれぞれ<code>&quot;height&quot;</code>、<code>&quot;weight&quot;</code>という名前をつけます。こうすることで、スクリプトから<strong>App.data()</strong>メソッドを使ってバインドされたデータを取得することができるようになります。
+    </p>
+    <p>また、<code>&lt;kit-button&gt;</code>要素に<code>kit-e</code>属性に<code>&quot;calc&quot;</code>というイベント名を指定し、ボタンのクリック時に<strong>calc</strong>というイベントが呼び出されるようにします。
+    </p>
+    <blockquote>
+        <p><code>kit-e=&quot;calc&quot;</code>という記述は、実は<code>kit-e=&quot;calc click&quot;</code>の省略形です。イベント名のあとに半角スペースを空けてイベント種類(<strong>event.type</strong>。詳細は<a
+                href="https://developer.mozilla.org/ja/docs/Web/API/Event/type" class="kit-hyperlink">こちらの記事</a>を参照)を指定することでイベントの実行条件を定義できるのですが、<code>click</code>の場合のみ省略できます。
+        </p>
+    </blockquote>
+    <p>それができたら、スクリプト側で<strong>calc</strong>というイベントを定義しましょう。あと少しで最初のkitアプリが完成します。</p>
+    <pre><code class="lang-bmi.js">((<span class="hljs-name">_pid</span>) =&gt; {
+            // <span class="hljs-string">"calc"</span>というイベントを設定
+            App.event(<span class="hljs-name">_pid</span>, <span class="hljs-string">"calc"</span>, ()=&gt;{
+                // heightとweightを取得
+                let h = App.data(<span class="hljs-name">_pid</span>).height;
+                let w = App.data(<span class="hljs-name">_pid</span>).weight;
+                // 数値に変換
+                h = Number(<span class="hljs-name">h</span>) / <span class="hljs-number">100</span><span class="hljs-comment">;</span>
+                w = Number(<span class="hljs-name">w</span>)<span class="hljs-comment">;</span>
+                // 計算
+                let BMI = w / (<span class="hljs-name">h</span> * h)<span class="hljs-comment">;</span>
+                let apt = (<span class="hljs-name">h</span> * h) * <span class="hljs-number">22</span><span class="hljs-comment">;</span>
+                // アラート表示
+                System.alert(`BMIは${BMI}です。`, `適正体重は${apt}kgです。`)<span class="hljs-comment">;</span>
+            })<span class="hljs-comment">;</span>
+        })(<span class="hljs-name">pid</span>)<span class="hljs-comment">;</span>
+        </code></pre>
+    <p><code>App.event()</code>メソッドでイベントを定義します。第1引数は<strong>プロセスID</strong>(先ほど即時関数の仮引数とした<code>_pid</code>を使います)、第2引数は<strong>イベント名</strong>(ここでは<code>&quot;calc&quot;</code>)、第3引数に<strong>実行される関数</strong>そのものを記述します。kafのイベントはプロセスごとに管理されるため、他のアプリとのイベント名の重複は気にする必要がありません。
+    </p>
+    <p>変数<code>h</code>と<code>w</code>にそれぞれ身長、体重の値を格納します。それを数値に変換し、BMIと適正体重を算出後、システムネイティブの<code>System.alert()</code>メソッドを使ってアラートとしてBMIと適正体重を表示するというスクリプトになっています。
+    </p>
+    <h2 id="-">完成！</h2>
+    <p>これで、はじめてのkitアプリが完成です！実際にアプリを起動してみましょう。</p>
+    <p><img kit-src="images/bmiapp.png" alt="kitDesktop"></p>
+    <p>数値を入力して、計算ボタンをクリックするとBMIが算出されるはずです。</p>
+    <p>さて、kitアプリの作り方が分かったでしょうか。もうあなたは自由にkitアプリを作成できるでしょう。</p>
+    <p>もしくは、まだ改善点のある<code>bmi</code>アプリを改良してみるのもよいでしょう。</p>
+
+</div>
