@@ -1,14 +1,15 @@
 # kit
-JavaScriptで動作するとっても軽量なデスクトップ環境
+kitはJavaScriptで動作するとっても軽量なデスクトップ環境です。
 
-kitアプリケーションはすぐに、簡単に作成できます
+kitアプリケーションはすぐに、簡単に作成できます。[もっと知る](https://mtsgi.github.io/kitdocs)
 
 # latest kit
-* [ダウンロード](https://github.com/mtsgi/kit/releases)
+* ### [ダウンロード(リリース一覧)](https://github.com/mtsgi/kit/releases)
 * [kit Canaryを体験](https://mtsgi.github.io/kit/) (安定前のバージョンです)
 * [最新安定版を体験](http://kitit.ml/)
 
-# documents
+# documentation
+* ### [kitドキュメント](https://mtsgi.github.io/kitdocs)
 * [GitHub Wiki](https://github.com/mtsgi/kit/wiki)
 * [kit公式Webサイト](http://web.kitit.ml/)
 * [mtsgi/kit - GitHub](https://github.com/mtsgi/kit)

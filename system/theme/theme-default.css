@@ -722,7 +722,7 @@ h3{
 	content: "シャットダウンし、再びシステムを起動します";
 }
 #kit-power-suspend:after{
-	content: "起動中のアプリケーションの情報を保持して終了します";
+	content: "より高速な再起動をします(試験的な機能)";
 }
 #kit-power-lock:after{
 	content: "ユーザーからログアウトしロック画面を表示します";

@@ -154,6 +154,7 @@ function kit() {
         System.reboot();
     } );
     $( "#kit-power-suspend" ).click( function() {
+        location.reload();
         $( "section, header, footer, #kit-wallpaper" ).css( "filter", "none" );
         $( "#kit-power" ).fadeOut( 300 );
         System.alert("サスペンド機能", "サスペンド機能はこのバージョンのkitではサポートされていません。");
