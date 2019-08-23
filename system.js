@@ -509,20 +509,11 @@ function appData( data ) {
     } );
 }
 
-//非推奨メソッド
-function close( str ) {
-    System.close( str )
-}
-
-//非推奨メソッド
-function kill( str ) {
-    System.kill(str)
-}
-
 const System = new function() {
     this.version = "0.2.0";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
+    this.loc = { ...location };
 
     this.bootopt = new URLSearchParams(location.search);
 
@@ -681,11 +672,6 @@ const System = new function() {
     }
 
     this.installed = new Array();
- 
-    //非推奨です(削除予定)。
-    this.min = function( _str ) {
-        KWS.min( _str );
-    }
 
     this.close = function( _str ) {
         let _pid = String( _str );
