@@ -1,0 +1,198 @@
+<div class="kit-scroll kit-selectable" data-simplebar>
+    <a kit-ref="default.html" class="kit-button-alt small">もどる</a>
+    <h2 id="-kit-v0-2-0">リリースノート：kit v0.2.0</h2>
+    <p><strong>kit v0.2 &quot;aquamarine&quot;</strong>リリースは久しぶりの大型アップデートです。非常に多くの更新内容がありますが、どれも重要でkitをより便利にするものです。</p>
+    <h2 id="-">デスクトップ機能</h2>
+    <ul>
+        <li><code>config/desktop.json</code>からデスクトップアイコンを読み込みます。<ul>
+                <li>動的にデスクトップのアイコンを読み込みます。</li>
+            </ul>
+        </li>
+        <li>ウィンドウのリサイズ機能を一新。<ul>
+                <li>jQuery UIによるリサイズを廃止(アプリ内での使用は引き続き可能です)。</li>
+            </ul>
+        </li>
+        <li>コンテキストメニューの項目グループ化機能が利用可能になりました。<ul>
+                <li><code>kit-contextgroup-</code>接頭辞付きIDを使用します。</li>
+            </ul>
+        </li>
+        <li>付箋関連機能が実装されました。<ul>
+                <li>付箋データのリアルタイム保存(変更されるたびに自動的に保存されます)。</li>
+                <li>デスクトップのコンテキストメニューから付箋が追加可能になりました。</li>
+                <li>付箋のカスタムコンテキストメニューから付箋が削除・複製可能になりました。</li>
+            </ul>
+        </li>
+        <li>各種テーマのスタイルがダークテーマに対応するよう調整されました。</li>
+    </ul>
+    <h2 id="-">システム関連</h2>
+    <ul>
+        <li>システム全体を常に<strong>strictモード</strong>で実行します。</li>
+        <li><a class="kit-hyperlink" kit-ref="`/System.installed`"><code>System.installed</code></a>
+            <ul>
+                <li>インストールされたアプリケーションが保存されます。</li>
+            </ul>
+        </li>
+        <li><strong>起動パス</strong>の概念<ul>
+                <li><a class="kit-hyperlink" kit-ref="/System.launchpath"><code>System.launchpath</code></a>にすべてのアプリの起動パスが格納されます。</li>
+                <li>起動パスは、それぞれのプロセスがアプリケーションを読み込んでいるディレクトリのパスを表します。</li>
+                <li>これによりkitアプリケーションのより柔軟な利用(インストールなど)が可能になりました。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/System.appInfo"><code>System.appInfo</code>メソッド</a>の更新<ul>
+                <li>起動パスを表示するようになりました。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/System.display"><code>System.display</code></a>
+            <ul>
+                <li>デスクトップの現在の幅と高さを格納します。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/System.selectedText"><code>System.selectedText</code></a>
+            <ul>
+                <li>選択中の文字列を格納します。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/System.config"><code>System.config</code></a>
+            <ul>
+                <li>設定情報を格納します。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/System.changeWindowTitle"><code>System.changeWindowTitle</code>メソッド</a>
+            <ul>
+                <li>任意のウィンドウのタイトルを変更します。</li>
+            </ul>
+        </li>
+        <li>kitシステム起動時にShiftキーを押下することでセーフブートが可能になりました。<ul>
+                <li>受付時間はおよそ0.4秒です。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/System.dom"><code>System.dom</code>メソッド</a>の更新<ul>
+                <li>可変長引数に対応し、指定プロセス内の任意の個数の複数セレクタに該当するDOMをまとめてjQueryオブジェクトとして返します。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/System.qs"><code>System.qs</code>メソッド</a>
+            <ul>
+                <li>新しいSystem.domメソッドと同一の構文で、該当するすべてのDOMの静的な<code>NodeList</code>を返すバージョンです。内部的に<code>document.querySelector</code>メソッドを使用しています。
+                </li>
+            </ul>
+        </li>
+        <li><code>process</code>オブジェクトにプロセスのウィンドウタイトルを格納します。</li>
+        <li>アプリのテンプレートの読み込みが完了する前にスクリプトの読み込み・実行が行われるバグを修正しました。</li>
+        <li>システムのアナログ時計が抱えていたバグを修正しました。</li>
+    </ul>
+    <p>この他に、軽微なバグの修正、システム全体の軽量化が含まれます。</p>
+    <h2 id="kitstrap-">kitstrapのバンドル</h2>
+    <p><strong>kitstrap 0.2がバンドルされました。</strong>これにより、以前より格段にアプリケーションのスタイルやレイアウトを作成することが簡単になりました。</p>
+    <p>kitstrapについての詳細は<a class="kit-hyperlink" href="https://mtsgi.github.io/kitstrap/docs">kitstrapドキュメント</a>を参照してください。</p>
+    <h2 id="kit-apps-framework">kit apps framework</h2>
+    <p>kit apps framwork
+        (v1)が実装されました。アプリの開発者は<strong>kaf</strong>を使用することで、JavaScriptコーディングの量を劇的に少なく、あるいはまったくなくすことができます。既存のアプリの一部もkafを利用するように変更されています。
+    </p>
+    <p><strong>kaf</strong>は<a class="kit-hyperlink" kit-ref="/App">Appクラス</a>上に展開され、<code>App</code>クラス内の各種メソッドから操作可能です。kit v0.2
+        &quot;aquamarine&quot;で実装された<strong>kaf</strong>関連機能は以下の通りです。詳細は各属性・メソッドのページを参照してください。</p>
+    <h3 id="kaf-">kaf属性</h3>
+    <ul>
+        <li><a class="kit-hyperlink" kit-ref="/kit-alert">kit-alert属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-bind">kit-bind属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-close">kit-close属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-e">kit-e属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-html">kit-html属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-launch">kit-launch属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-observe">kit-observe属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-ref">kit-ref属性</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/kit-src">kit-src属性</a></li>
+    </ul>
+    <h3 id="app-">Appクラス内のメソッド</h3>
+    <ul>
+        <li><a class="kit-hyperlink" kit-ref="/App.changeWindowTitle">App.changeWindowTitleメソッド</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/App.context">App.contextメソッド</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/App.data">App.dataメソッド</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/App.event">App.eventメソッド</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/App.getPath">App.getPathメソッド</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/App.kaf">App.kafメソッド</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/App.load">App.loadメソッド</a></li>
+        <li><a class="kit-hyperlink" kit-ref="/App.preventClose">App.preventCloseメソッド</a></li>
+    </ul>
+    <h2 id="kws-">KWS関連</h2>
+    <ul>
+        <li><a class="kit-hyperlink" kit-ref="/KWS.fullscreen"><code>KWS.fullscreen</code></a>
+            <ul>
+                <li>最大化ウィンドウのプロセスIDなどの情報を格納します。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/KWS.max"><code>KWS.max</code>メソッド</a>が実装されました。<ul>
+                <li>指定ウィンドウを最大化します。</li>
+            </ul>
+        </li>
+        <li><a class="kit-hyperlink" kit-ref="/KWS.unmax"><code>KWS.unmax</code>メソッド</a>が実装されました。<ul>
+                <li>指定ウィンドウの最大化を解除します。</li>
+            </ul>
+        </li>
+    </ul>
+    <h2 id="define-json-">define.jsonの新機能</h2>
+    <ul>
+        <li><code>support.fullscreen</code>キーを指定して最大化可否を指定します。</li>
+        <li><code>size</code>キーを指定して初期のウィンドウサイズを指定します。</li>
+        <li><code>resize</code>キーを指定してウィンドウのリサイズ時の最小幅および最小高を指定します。</li>
+        <li><code>icon</code>キーに<code>none</code>を指定することでアイコンなしを指定可能になりました。</li>
+        <li><code>support.kaf</code>キーに<code>false</code>を指定してkafを無効化することが可能です。</li>
+    </ul>
+    <h2 id="-">各種アプリの更新</h2>
+    <p>非常に更新内容が多いため、大きな更新のみ紹介します。</p>
+    <ul>
+        <li>デフォルトアプリとして<code>app/kish</code>(v0.3)をバンドルしました。<ul>
+                <li>kishについての詳細は<a class="kit-hyperlink" href="https://mtsgi.github.io/kish/docs">kishドキュメント</a>を参照してください。</li>
+            </ul>
+        </li>
+        <li>新しいアプリ<code>app/user</code>を追加しました。<ul>
+                <li>ユーザー情報／ステータスを素早く確認できます。ステータスバーからアクセス可能です。</li>
+            </ul>
+        </li>
+        <li>新しいアプリ<code>app/install</code>を追加しました。<ul>
+                <li>簡単なウィザードに従ってkitにアプリケーションをインストールできます。</li>
+            </ul>
+        </li>
+        <li>新しいアプリ<code>app/bandr</code>を追加しました。<ul>
+                <li><code>.kitbackup</code>ファイルを利用したkitシステム全体のバックアップ及び復元が実行可能です。</li>
+            </ul>
+        </li>
+        <li>アプリ<code>app/document</code>を<strong>v1.0</strong>にアップデートしました。</li>
+        <li>アプリ<code>app/alert</code>を<strong>v2.0</strong>にアップデートしました。<ul>
+                <li>kafを使用しています。また、長いアラートがスクロール表示されるようになりました。</li>
+            </ul>
+        </li>
+        <li>アプリ<code>app/appman</code>を<strong>v1.0</strong>にアップデートしました。<ul>
+                <li>インストール済みアプリの一覧が表示されるようになりました。</li>
+            </ul>
+        </li>
+        <li>アプリ<code>app/dialog</code>を<strong>v2.0</strong>にアップデートしました。</li>
+        <li>アプリ<code>app/pmgr</code>を<strong>v3.1</strong>にアップデートしました。</li>
+        <li>アプリ<code>app/settings</code>を<strong>v4.0</strong>にアップデートしました。</li>
+        <li>アプリ<code>app/welcome</code>を<strong>v1.2</strong>にアップデートしました。<ul>
+                <li><strong>kaf</strong>を用いることにより、JavaScriptコーディングが0行になったアプリの一つです。</li>
+            </ul>
+        </li>
+        <li>アプリ<code>app/ytplayer</code>を<strong>v1.1</strong>にアップデートしました。</li>
+    </ul>
+    <h2 id="-">非推奨メソッドの削除</h2>
+    <p>グローバルスコープ上のメソッドは徐々に削除されています。</p>
+    <ul>
+        <li>非推奨メソッドだった<code>appInfo</code>メソッドが削除されました。<ul>
+                <li>代替の<a class="kit-hyperlink" kit-ref="/System.appInfo">System.appInfoメソッド</a>を使用してください。</li>
+            </ul>
+        </li>
+        <li>非推奨メソッドだった<code>close</code>メソッドが削除されました。<ul>
+                <li>代替の<a class="kit-hyperlink" kit-ref="/System.close">System.closeメソッド</a>を使用してください。</li>
+            </ul>
+        </li>
+        <li>非推奨メソッドだった<code>kill</code>メソッドが削除されました。<ul>
+                <li>代替の<a class="kit-hyperlink" kit-ref="/System.kill">System.killメソッド</a>を使用してください。</li>
+            </ul>
+        </li>
+        <li>非推奨メソッドだった<code>System.min</code>メソッドが削除されました。<ul>
+                <li>代替の<a class="kit-hyperlink" kit-ref="/KWS.min">KWS.minメソッド</a>を使用してください。</li>
+            </ul>
+        </li>
+    </ul>
+
+</div>
