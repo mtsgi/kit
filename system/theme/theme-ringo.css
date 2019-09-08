@@ -130,7 +130,6 @@ header{
 	width: 100%;
 	background: #fff;
 	padding : 0px;
-	color: #000000;
 	box-shadow: 0px 0px 5px rgba(0,0,0,.3);
 	opacity: .9;
 }
@@ -528,7 +527,6 @@ section .ui-draggable-dragging{
 	text-align: left;
 	box-sizing: border-box;
 	border-top : 1px solid #A0A0A0;
-	color: #000000;
 	background: #ffffff;
 	border-radius: 0px 0px 4px 4px;
 	padding : 5px;

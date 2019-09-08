@@ -60,6 +60,13 @@ function kit() {
 
     System.moveDesktop( "1" );
 
+    try {
+        $("#desktop-l").html(joypixels.toImage($("#desktop-l").html()));
+        System.support['emoji'] = true;
+    } catch (e) {
+        System.support['emoji'] = false;
+    }
+
     var clockmove;
     if( System.bootopt.get("safe") ) clockmove = setInterval( System.clock, 1000 );
     else  clockmove = setInterval( System.clock, 10 );
@@ -498,20 +505,24 @@ function appData( data ) {
             Notification.push("起動に失敗:" + x.status, x.statusText);
             return false;
         }
+        if( S.support.emoji ) S.dom(pid).each(function() {
+            let converted = joypixels.toImage($(this).html());
+            $(this).html(converted);
+        });
         if( !data.script || data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => {
             if( !data.support || data.support['kaf'] != false ) App.kaf(pid);
         } ).fail( () =>  App.kaf(pid) );
         else if( !data.support || data.support['kaf'] != false ) App.kaf(pid);
         if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
             $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
-        }        
+        }
         processID++;
         localStorage.setItem( "kit-pid", processID );
     } );
 }
 
 const System = new function() {
-    this.version = "0.2.0";
+    this.version = "0.2.1";
     this.username = localStorage.getItem("kit-username");
     this.appdir = localStorage.getItem("kit-appdir");
     this.loc = { ...location };
@@ -1215,6 +1226,10 @@ const App = new function() {
 
     this.load = ( _pid, _path ) => {
         S.dom(_pid).load( System.launchpath[_pid] +"/"+ _path, () => {
+            if( S.support.emoji ) S.dom(_pid).each(function() {
+                let converted = joypixels.toImage($(this).html());
+                $(this).html(converted);
+            });
             App.kaf(_pid);
         } );
         return App;

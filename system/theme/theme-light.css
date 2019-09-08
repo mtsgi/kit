@@ -106,7 +106,6 @@ header{
 	background: #BEE5F7;
 	font-size: 15px;
 	padding : 1px;
-	color: #000000;
 	box-shadow: 0px 0px 5px rgba(0,0,0,.3);
 }
 header #header-right{
@@ -455,7 +454,6 @@ section .ui-draggable-dragging{
 .winc{
 	box-sizing: border-box;
 	border-top : 1px solid #757575;
-	color: #000000;
 	background: #ffffff;
 	padding : 5px;
 	overflow : hidden;

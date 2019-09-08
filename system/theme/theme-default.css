@@ -134,7 +134,6 @@ header{
 	background: -ms-linear-gradient(45deg, rgba(204,255,216,1) 0%, rgba(212,246,255,1) 38%, rgba(255,219,238,1) 100%);
 	background: linear-gradient(45deg, rgba(204,255,216,1) 0% rgba(212,246,255,1) 38%, rgba(255,219,238,1) 100%);
 	padding : 3px;
-	color: #000000;
 	box-shadow: 0px 0px 5px rgba(0,0,0,.3);
 	opacity: .9;
 }
@@ -534,7 +533,6 @@ section .ui-draggable-dragging{
 .winc{
 	box-sizing: border-box;
 	border-top : 1px solid #757575;
-	color: #000000;
 	background: #ffffff;
 	border-radius: 0px 0px 4px 4px;
 	padding : 5px;

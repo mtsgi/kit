@@ -4,11 +4,11 @@
     color: #f0f0f0;
 }
 .wt{
-    background: #000000;
+    background: #181818;
     color: #f0f0f0;
 }
 .windowactive > .wt{
-    background: #000000;
+    background: #181818;
     color: limegreen;
 }
 .wmzx span{
