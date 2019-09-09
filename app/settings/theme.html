@@ -1,5 +1,6 @@
 <script>
     if( KWS.darkmode ) $("#settings-theme-darkmode").prop('checked', true);
+    if( localStorage['kit-emoji'] == 'true' ) $("#settings-theme-emoji").prop('checked', true);
     $("#settings-theme-darkmode").on("change", function(){
         if( $("#settings-theme-darkmode").is(':checked') ){
             localStorage.setItem("kit-darkmode", "true");
@@ -13,6 +14,15 @@
             $("#kit-darkmode").attr("href", null);
             $(".winc-darkmode").removeClass("kit-darkmode");
         }
+    });
+
+    $("#settings-theme-emoji").on("change", function(){
+        if( $("#settings-theme-emoji").is(':checked') ){
+            localStorage.setItem("kit-emoji", "true");
+        }
+        else{
+            localStorage.setItem("kit-emoji", "false");
+        }
     })
 
     function settings_theme( file ){
@@ -23,7 +33,7 @@
     }
     $(".settings-theme-path-set").on("click", function(){
         settings_theme( $("#settings-theme-path").val() );
-    })
+    });
 </script>
 <kit-btn kit-ref="default.html"><span class='fa fa-arrow-circle-left'></span>戻る</kit-btn>
 <h3><span class='fa fa-palette'></span> テーマ設定</h3>
@@ -48,3 +58,8 @@
     <label for="settings-theme-darkmode"></label>
     <label for="settings-theme-darkmode">ダークモードを有効にする</label>
 </div>
+
+<h4>Emoji　<a kit-alert=":thumbsup:コロンを使用した構文によるJoyPixels 5.0 Emojiを有効にします:smile:接続できない場合は利用できません。変更は再起動すると適用されます:art:" class="kit-hyperlink far fa-question-circle"></a></h4>
+<label class="kit-toggle">
+    <input type="checkbox" id="settings-theme-emoji">Emojiを有効にする<label for="settings-theme-emoji"></label>
+</label>

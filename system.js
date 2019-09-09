@@ -24,15 +24,17 @@ function kit() {
 
     if( localStorage.getItem( "kit-lock" ) == null ) localStorage.setItem( "kit-lock", "false" );
 
+    if( localStorage.getItem( "kit-emoji" ) == null ) localStorage.setItem( "kit-emoji", "false" );
+
     if( System.bootopt.get("safe") ) $( "#kit-wallpaper" ).css( "background","#404040" );
     else if( localStorage.getItem( "kit-wallpaper" ) ) $( "#kit-wallpaper" ).css( "background", localStorage.getItem( "kit-wallpaper" ) ).css( "background-size", "cover" ).css( "background-position", "center" );
 
     if( !localStorage.getItem( "kit-default-browser" ) ) localStorage.setItem( "kit-default-browser", "browser" );
 
     if( localStorage.getItem("kit-fusen") ){
-        this.list = JSON.parse(localStorage.getItem("kit-fusen"));
-        for( let i in this.list ){
-            KWS.fusen.add(this.list[i]);
+        KWS.list = JSON.parse(localStorage.getItem("kit-fusen"));
+        for( let i in KWS.list ){
+            KWS.fusen.add(KWS.list[i]);
         }
     }
     
@@ -60,7 +62,7 @@ function kit() {
 
     System.moveDesktop( "1" );
 
-    try {
+    if( localStorage['kit-emoji'] == 'true' ) try {
         $("#desktop-l").html(joypixels.toImage($("#desktop-l").html()));
         System.support['emoji'] = true;
     } catch (e) {
@@ -505,10 +507,12 @@ function appData( data ) {
             Notification.push("起動に失敗:" + x.status, x.statusText);
             return false;
         }
-        if( S.support.emoji ) S.dom(pid).each(function() {
-            let converted = joypixels.toImage($(this).html());
-            $(this).html(converted);
-        });
+        if( S.support.emoji && localStorage.getItem( "kit-emoji" ) == "true" ){
+            S.dom(pid).each(function() {
+                let converted = joypixels.toImage($(this).html());
+                $(this).html(converted);
+            });
+        }
         if( !data.script || data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => {
             if( !data.support || data.support['kaf'] != false ) App.kaf(pid);
         } ).fail( () =>  App.kaf(pid) );
