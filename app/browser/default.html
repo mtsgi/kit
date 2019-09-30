@@ -1,7 +1,8 @@
 <div class="browser-toolbar">
     <div class="browser-message">標準のブラウザに設定されていません
-            <a class="btn" onclick="localStorage.setItem('kit-default-browser', 'browser');Notification.push('標準ブラウザ','kit標準のブラウザに設定しました','browser')">設定する</a>
-            <a class="btn" id="browser-message-close">閉じる</a>
+        <a class="btn"
+            onclick="localStorage.setItem('kit-default-browser', 'browser');Notification.push('標準ブラウザ','kit標準のブラウザに設定しました','browser')">設定する</a>
+        <a class="btn" id="browser-message-close">閉じる</a>
     </div>
     <a class="kit-button" onclick="window.history.back()"><span class="fa fa-arrow-left"></span></a>
     <a class="btn" onclick="window.history.forward()"><span class="fa fa-arrow-right"></span></a>
@@ -9,9 +10,10 @@
     <a class="btn browser-bars"><span class="fa fa-bars"></span></a>
 </div>
 <div class="browser-menu">
-        <a id="browser-menu-reload"><span class="fa fa-redo"></span> 再読み込み</a>
-        <a onclick="launch('browser')"><span class="far fa-plus-square"></span> 新しいウィンドウ</a>
-        <a id="browser-menu-bookmark"><span class="far fa-bookmark"></span> ブックマーク</a>
-        <a id="browser-menu-default"><span class="far fa-hand-peace"></span> 標準のブラウザ</a>
+    <a id="browser-menu-reload"><span class="fa fa-redo"></span> 再読み込み</a>
+    <a onclick="launch('browser')"><span class="far fa-plus-square"></span> 新しいウィンドウ</a>
+    <a id="browser-menu-bookmark"><span class="far fa-bookmark"></span> ブックマーク</a>
+    <a id="browser-menu-default"><span class="far fa-hand-peace"></span> 標準のブラウザ</a>
+    <a id="browser-menu-designmode"><span class="fa fa-ruler"></span> DesignMode切替</a>
 </div>
 <iframe src="./app/browser/newtab.html" id="browser-frame" data-simplebar></iframe>

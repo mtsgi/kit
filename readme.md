@@ -1,15 +1,16 @@
 # kit
-kitはJavaScriptで動作するとっても軽量なデスクトップ環境です。
+![kit](https://mtsgi.github.io/kit/documents/logo.png)
 
-kitアプリケーションはすぐに、簡単に作成できます。[もっと知る](https://mtsgi.github.io/kitdocs)
+> kitはJavaScriptで動作するとっても軽量なデスクトップ環境です。
+
+- kitアプリケーションはすぐに、簡単に作成できます。[もっと知る(kitチュートリアル)](https://mtsgi.github.io/kitdocs)
 
 # latest kit
-* ### [ダウンロード(リリース一覧)](https://github.com/mtsgi/kit/releases)
-* [kit Canaryを体験](https://mtsgi.github.io/kit/) (安定前のバージョンです)
-* [最新安定版を体験](http://kitit.ml/)
+* [ダウンロード(リリース一覧)](https://github.com/mtsgi/kit/releases)
+### [![kit Canary](https://mtsgi.github.io/kit/documents/banner-canary.png)](https://mtsgi.github.io/kit/)
 
 # documentation
-* ### [kitドキュメント](https://mtsgi.github.io/kitdocs)
+### [![kitドキュメント](https://mtsgi.github.io/kit/documents/banner-docs.png)](https://mtsgi.github.io/kitdocs)
 * [GitHub Wiki](https://github.com/mtsgi/kit/wiki)
 * [kit公式Webサイト](http://web.kitit.ml/)
 * [mtsgi/kit - GitHub](https://github.com/mtsgi/kit)
@@ -20,6 +21,7 @@ kitアプリケーションはすぐに、簡単に作成できます。[もっ�
 * [kish](https://github.com/mtsgi/kish) - kishはkitのための強力なシェルです
 * [kitstrap](https://github.com/mtsgi/kitstrap) - kitstrapは軽量のCSSフレームワークです 
 * [kitHub(beta)](https://kithub-beta.herokuapp.com/) - kit用のアプリケーションストア
+* [defgen](https://mtsgi.github.io/defgen/) - 便利なdefine.json自動生成ツール
 
 # libraries
 * jQuery

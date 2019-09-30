@@ -9,40 +9,13 @@
 		body {
 			background-color: black;
 			color : white;
-			margin: 0px;
 			padding: 10px;
-			font-size: 16px;
 			text-align: center;
 			background: url("bgp.jpg");
 			text-shadow: 0px 1px 4px rgba(0,0,0,.5);
 		}
-		header{
-			font-size: 20px;
-			opacity : .8;
-			padding : 10px;
-			margin-top : 30px;
-		}
-		input{
-			outline: 0;
-			font-size : 20px;
-			border : 1px solid white;
-			border-radius : 6px;
-			padding : 8px;
-			color : white;
-			background : rgba(255,255,255,.3);
-		}
-		a{
-			line-height: 200%;
-			color : white;
-		}
-		#sb{
-			background: dodgerblue;
-			color: white;
-			padding: 11px;
-			border-radius: 5px;
-			cursor: pointer;
-		}
 	</style>
+	<link rel="stylesheet" href="../../system/kitstrap/kitstrap.css">
 	<script type="text/javascript">
 		$(document).ready(Load);
 		function Load() {
@@ -52,7 +25,7 @@
             }
             else $("#area").append("ブックマークが登録されていません。");
             for( i in bookmarks ){
-                $("#area").append( "・<a href='"+bookmarks[i]+"'>"+i+"</a><br>" );
+                $("#area").append( "・<a class='kit-hyperlink' href='"+bookmarks[i]+"'>"+i+"</a><br>" );
 			}
 			
 			$("#sb").click(function(){
@@ -64,21 +37,25 @@
 </head>
 
 <body id="body">
-	<header>新しいタブ</header>
-	<input type="text" id="sw">
-	<a onclick="search()" id="sb">検索</a>
-	<header>ブックマーク</header>
-	<a href="bookmark.html">ブックマークの一覧および追加</a>
-	<div id="area"></div>
-	<header>おすすめ</header>
-	<a href="http://tork.webcrow.jp/kakeibo.html">家計簿</a><br>
-	<a href="http://keionet.jp/">京王百貨店ﾓﾊﾞｲﾙｻｲﾄ</a><br>
-	<a href="http://tork.webcrow.jp/kusogenpc.html">クソ診断ジェネレータ</a><br>
-	<a href="http://tork.webcrow.jp/imagesearch.html">画像検索(β)</a><br>
-	<a href="http://tork.webcrow.jp/canvas.html">画像編集ツール</a><br>
-	<a href="http://tork.webcrow.jp/chess.html">Nクイーン</a><br>
-	<a href="https://f.tabtter.jp/">Tabtter Free</a><br>
-	<a href="http://tork.webcrow.jp/ruby3.html">ルビ振るやつ(v3.0)</a>
+	<h2 class="kit-font-normal">新しいタブ</h2>
+	<div class="kit-formgroup">
+		<input type="text" id="sw" class="textbox">
+		<a onclick="search()" id="sb" class="kit-button">検索</a>
+	</div>
+	<kit-space class="m"></kit-space>
+	<h4>ブックマーク</h4>
+	<a href="bookmark.html" class="kit-hl-alt">ブックマークの一覧および追加</a>
+	<blockquote id="area"></blockquote>
+	<kit-space class="m"></kit-space>
+	<h4>おすすめ</h4>
+	<a class="kit-hl-alt" href="http://tork.webcrow.jp/kakeibo.html">家計簿</a><br>
+	<a class="kit-hl-alt" href="http://keionet.jp/">京王百貨店ﾓﾊﾞｲﾙｻｲﾄ</a><br>
+	<a class="kit-hl-alt" href="http://tork.webcrow.jp/kusogenpc.html">クソ診断ジェネレータ</a><br>
+	<a class="kit-hl-alt" href="http://tork.webcrow.jp/imagesearch.html">画像検索(β)</a><br>
+	<a class="kit-hl-alt" href="http://tork.webcrow.jp/canvas.html">画像編集ツール</a><br>
+	<a class="kit-hl-alt" href="http://tork.webcrow.jp/chess.html">Nクイーン</a><br>
+	<a class="kit-hl-alt" href="https://f.tabtter.jp/">Tabtter Free</a><br>
+	<a class="kit-hl-alt" href="http://tork.webcrow.jp/ruby3.html">ルビ振るやつ(v3.0)</a>
 </body>
 
 </html>
