@@ -44,4 +44,17 @@ function app_browser(_pid){
             System.alert("設定しました", "ブラウザをkitの標準ブラウザに設定しました。");
         }
     });
+
+    $("#winc" + _pid + " #browser-menu-designmode").on("click", function(){
+        let _ifr = System.qs(_pid, 'iframe')[0];
+        try {
+            if( _ifr.contentDocument.designMode == "on" ){
+                _ifr.contentDocument.designMode = "off";
+            }
+            else _ifr.contentDocument.designMode = "on";
+        } catch (error) {
+            Notification.push('DesignMode切り替えに失敗', error, 'browser');
+        }
+        $("#winc" + _pid +" .browser-menu").hide();
+    });
 }
