@@ -13,38 +13,45 @@
             $("#kit-darkmode").attr("href", null);
             $(".winc-darkmode").removeClass("kit-darkmode");
         }
-    })
-
-    function settings_theme( file ){
+    });
+    function set_theme( file ){
         localStorage.setItem("kit-theme", file );
         $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
-        //$("#desktop-" + currentDesktop).show();
         System.moveDesktop( currentDesktop );
     }
     $(".settings-theme-path-set").on("click", function(){
-        settings_theme( $("#settings-theme-path").val() );
-    })
+        set_theme( $("#settings-theme-path").val() );
+    });
 </script>
-<kit-btn kit-ref="default.html"><span class='fa fa-arrow-circle-left'></span>戻る</kit-btn>
-<h3><span class='fa fa-palette'></span> テーマ設定</h3>
+<kit-btn kit-ref="default.html">
+    <span class='fa fa-arrow-circle-left'></span>戻る
+</kit-btn>
+
+<h3>
+    <span class='fa fa-palette'></span> テーマ設定
+</h3>
 
 <h4>テーマを選択</h4>
-<div class='btn' onclick="settings_theme( 'theme-default.css' )">
+<div class='btn' onclick="set_theme( 'theme-default.css' )">
     標準のテーマ <span class="little">theme-default.css</span>
 </div>
-<div class='btn' onclick="settings_theme( 'theme-light.css' )">
+<div class='btn' onclick="set_theme( 'theme-light.css' )">
     軽量テーマ <span class="little">theme-light.css</span>
 </div>
-<div class='btn' onclick="settings_theme( 'theme-ringo.css' )">
+<div class='btn' onclick="set_theme( 'theme-ringo.css' )">
     りんごテーマ <span class="little">theme-ringo.css</span>
 </div>
+
 または、ファイル名を指定<br>
 <input type='text' class='textbox' id='settings-theme-path' placeholder='テーマファイルのパス'>
 <a class='kit-button settings-theme-path-set'>設定</a><br>
 
-<h4>ダークモード(試験的な機能)　<a onclick="S.alert('ダークモード','画面UI全体を黒色の構成にすることで目の疲れを軽減します。<br>一部のアプリやテーマで正しく機能しない場合があります。')" class="kit-hyperlink far fa-question-circle"></a></h4>
-<div class="kit-toggle">
-    <input type="checkbox" id="settings-theme-darkmode">
+<h4>
+    ダークモード(試験的な機能)
+    <a kit-alert='ダークモード：画面UI全体を黒色の構成にすることで目の疲れを軽減します。一部のアプリやテーマで正しく機能しない場合があります。' class="kit-hyperlink far fa-question-circle"></a>
+</h4>
+
+<label class="kit-toggle">
+    <input type="checkbox" id="settings-theme-darkmode">ダークモードを有効にする
     <label for="settings-theme-darkmode"></label>
-    <label for="settings-theme-darkmode">ダークモードを有効にする</label>
-</div>
+</label>

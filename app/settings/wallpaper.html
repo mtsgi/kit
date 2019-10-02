@@ -1,17 +1,38 @@
-<kit-btn kit-ref="default.html"><span class='fa fa-arrow-circle-left'></span>戻る</kit-btn>
-<h3><span class='fa fa-image'></span> 壁紙の設定</h3>
-<h4>標準の壁紙 <span class='little'>./system/wallpaper内</span></h4>
+<kit-btn kit-ref="default.html">
+    <span class='fa fa-arrow-circle-left'></span>戻る
+</kit-btn>
+
+<h3>
+    <span class='fa fa-image'></span>
+    壁紙の設定
+</h3>
+
+<h4>
+    標準の壁紙
+    <span class='little'>./system/wallpaper内</span>
+</h4>
+
 <div class='simplebox wallpaper-list'>
-        <a class="btn little settings-wallpapers" onclick="System.changeWallpaper('url(./system/wallpaper/11.jpg)')">
-                <img src='./system/wallpaper/11.jpg'>標準に戻す
-        </a>
-        <a class="btn little settings-wallpapers" onclick="S.alert('','ファイルから選択できません')">
-                <img src="./app/fivr/icon.png">ファイルから選択
-        </a>
+    <a class="btn little settings-wallpapers" onclick="System.changeWallpaper('url(./system/wallpaper/11.jpg)')">
+        <img src='./system/wallpaper/11.jpg'>標準に戻す
+    </a>
+    <a class="btn little settings-wallpapers" kit-alert="ファイルから選択できません">
+        <img src="./app/fivr/icon.png">ファイルから選択
+    </a>
 </div>
-<h4>任意の壁紙 <span class='little'>パスまたはURLを指定</span></h4>
+
+<h4>
+    任意の壁紙
+    <span class='little'>パスまたはURLを指定</span>
+</h4>
+
 <input type='text' class='textbox' id='settings-wallpaper-path' placeholder='./system/wallpaper/sample.png など'>
-<a class='kit-button settings-wallpaper-set'>設定</a><br>
-<h4>単色 <span class='little'>色の名前またはカラーコード</span></h4>
+<a class='kit-button settings-wallpaper-set' kit-e='wallpaper_set'>設定</a><br>
+
+<h4>
+    単色
+    <span class='little'>色の名前またはカラーコード</span>
+</h4>
+
 <input type='text' class='textbox' id='settings-background' placeholder='#902020 や skyblue など'>
-<a class='kit-button settings-background-set'>設定</a>
+<a class='kit-button settings-background-set' kit-e='background_set'>設定</a>

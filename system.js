@@ -16,8 +16,7 @@ $( document ).ready( kit );
 function kit() {
     S = System;
 
-    if( !localStorage.getItem( "kit-pid" ) ) processID = 0;
-    else processID = localStorage.getItem( "kit-pid" );
+    if( localStorage.getItem( "kit-pid" ) ) pid = localStorage.getItem( "kit-pid" );
 
     if( !localStorage.getItem( "kit-username" ) ) localStorage.setItem( "kit-username", "ユーザー" );
     $( "#kit-header-username" ).text( localStorage.getItem( "kit-username" ) );
@@ -366,20 +365,18 @@ function kit() {
 }
 
 function launch( str, args, dir ) {
-    pid = processID;
-    System.args[pid] = args;
-    System.launchpath[pid] = dir || System.appdir + str;
+    let _pid = pid;
+    System.args[_pid] = args;
+    System.launchpath[_pid] = dir || System.appdir + str;
 
     if( System.appCache[str] ) {
         if( KWS.fullscreen.pid ) KWS.unmax(KWS.fullscreen.pid);
-        //app[str].open();
         appData( System.appCache[str] );
     }
     else {
         try{
-            $.getJSON( S.launchpath[pid] + "/define.json", appData ).fail( function() {
+            $.getJSON( S.launchpath[_pid] + "/define.json", appData ).fail( function() {
                 Notification.push("kitアプリをロードできません", str + "を展開できませんでした。アプリが存在しないか、クロスオリジン要求がブロックされている可能性があります。詳細:https://kitdev.home.blog/", "system");
-                //System.alert( "起動エラー", "アプリケーションの起動に失敗しました<br>アプリケーション" + str + "は存在しないかアクセス権がありません(pid:" + processID + ")。ヘルプは<a class='kit-hyperlink' href='https://kitdev.home.blog/'>こちら</a>" );
             } );
         }
         catch(error){
@@ -389,8 +386,9 @@ function launch( str, args, dir ) {
 }
 
 function appData( data ) {
-    var pid = processID;
-    process[String( pid )] = {
+    let _pid = pid;
+    app = new App(_pid);
+    process[String( _pid )] = {
         id: data.id,
         time: System.time.obj.toLocaleString(),
         isactive: false,
@@ -398,76 +396,76 @@ function appData( data ) {
         title: data.name
     };
     System.appCache[data.id] = data;
-    let _taskAppend = "<span id='t" + pid + "'>";
-    if( data.icon && data.icon != "none" ) _taskAppend += "<img src='" + S.launchpath[pid] + "/" + data.icon + "'>";
-    _taskAppend += "<span id='tname" + pid + "'>" + data.name + "<span></span>";
+    let _taskAppend = `<span id='t${_pid}'>`;
+    if( data.icon && data.icon != "none" ) _taskAppend += `<img src='${S.launchpath[_pid]}/${data.icon}'>`;
+    _taskAppend += `<span id='tname${_pid}'>${data.name}<span></span>`;
     $( "#tasks" ).append( _taskAppend );
-    //タスクバーのクリック挙動
-    $( "#t" + pid ).addClass( "task" ).click( function() {
-        if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) KWS.min( pid );
-        else{
-            $("#w"+pid).css("z-index", KWS.windowIndex + 1);
-            KWS.refreshWindowIndex();
+    $( "#t" + _pid ).addClass( "task" ).on({
+        click: function() {
+            if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) KWS.min( _pid );
+            else{
+                $("#w"+_pid).css("z-index", KWS.windowIndex + 1);
+                KWS.refreshWindowIndex();
+            }
+        },
+        mouseenter: function() {
+            $( "#task-ctx-name" ).text( data.name );
+            if( data.icon && data.icon != "none" ) $( "#task-ctx-img" ).attr( "src", System.launchpath[_pid] + "/" + data.icon );
+            else $( "#task-ctx-img" ).hide();
+            $( "#task-ctx-ver" ).text( data.version + "/pid:" + _pid );
+            $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( _pid )} );
+            $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(_pid, true) } );
+            $( "#task-ctx-min" ).off().on( "click", function() { KWS.min( String(_pid) ) } );
+            if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
+            else $( "#task-ctx-front" ).show();
+            $( "#task-ctx-front" ).off().on( "click", function() {
+                $("#w"+_pid).css("z-index", KWS.windowIndex + 1);
+                KWS.refreshWindowIndex();
+            } );
+            $( "#task-ctx-close" ).off().on("click", () => System.close(_pid));
+            $( "#task-ctx-kill" ).off().on("click", () => System.kill( data.id));
+            const _ctxleft = $(this).offset().left, _ctxtop = window.innerHeight - $(this).offset().top;
+            if( _ctxleft != $( "#task-ctx" ).offset().left ) $( "#task-ctx" ).hide();
+            $( "#task-ctx" ).css( "left", _ctxleft ).css( "bottom", _ctxtop ).show();
         }
-    } );
-    $( "#t" + pid ).addClass( "task" ).on( "mouseenter", function() {
-        $( "#task-ctx-name" ).text( data.name );
-        if( data.icon && data.icon != "none" ) $( "#task-ctx-img" ).attr( "src", System.launchpath[pid] + "/" + data.icon );
-        else $( "#task-ctx-img" ).hide();
-        $( "#task-ctx-ver" ).text( data.version + "/pid:" + pid );
-        $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( pid )} );
-        $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(pid, true) } );
-        $( "#task-ctx-min" ).off().on( "click", function() { KWS.min( String(pid) ) } );
-        if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
-        else $( "#task-ctx-front" ).show();
-        $( "#task-ctx-front" ).off().on( "click", function() {
-            $("#w"+pid).css("z-index", KWS.windowIndex + 1);
-            KWS.refreshWindowIndex();
-        } );
-        $( "#task-ctx-close" ).off().on( "click", () => { System.close( String(pid) ) } );
-        $( "#task-ctx-kill" ).off().on( "click", () => { System.kill( String(data.id) ) } );
-        const _ctxleft = $( "#t" + pid ).offset().left;
-        const _ctxtop = window.innerHeight - $( "#t" + pid ).offset().top;
-        if( _ctxleft != $( "#task-ctx" ).offset().left ) {
-            $( "#task-ctx" ).hide();
-        }
-        $( "#task-ctx" ).css( "left", _ctxleft ).css( "bottom", _ctxtop ).show();
     } );
     $( "section, #kit-tasks" ).on( "mouseenter", function() {
         $( "#task-ctx" ).fadeOut( 200 );
     } );
-    $( "#t" + pid ).hover( function() {
-        prevWindowIndex = $( "#w" + pid ).css( "z-index" );
-        $( "#w" + pid ).addClass( "win-highlight" );
-    }, function() {
-        $( "#w" + pid ).removeClass( "win-highlight" );
-    } );
-    let _windowAppend = "<div id='w" + pid + "'><div id='wt" + pid + "' class='wt'><i class='wmzx'><span id='wm" + pid + "'></span>";
-    if( data.support && data.support['fullscreen'] == true ) _windowAppend += "<span id='wz" + pid + "'></span>";
-    _windowAppend += "<span id='wx" + pid + "'></span></i>";
-    if( data.icon && data.icon != "none" ) _windowAppend += "<img src='" + S.launchpath[pid]　+ "/" + data.icon + "'>";
-    _windowAppend += "<span id='wtname" + pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + pid + "'></div></div>";
+    $( "#t" + _pid ).on({
+        mouseenter: () => {
+            prevWindowIndex = $( "#w" + _pid ).css( "z-index" );
+            $( "#w" + _pid ).addClass( "win-highlight" );
+        },
+        mouseleave: () => $( "#w" + _pid ).removeClass( "win-highlight" )
+    });
+
+    let _windowAppend = "<div id='w" + _pid + "'><div id='wt" + _pid + "' class='wt'><i class='wmzx'><span id='wm" + _pid + "'></span>";
+    if( data.support && data.support['fullscreen'] == true ) _windowAppend += "<span id='wz" + _pid + "'></span>";
+    _windowAppend += "<span id='wx" + _pid + "'></span></i>";
+    if( data.icon && data.icon != "none" ) _windowAppend += "<img src='" + S.launchpath[_pid]　+ "/" + data.icon + "'>";
+    _windowAppend += "<span id='wtname" + _pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + _pid + "'></div></div>";
     $( "#desktop-" + currentDesktop ).append( _windowAppend );
 
-    if( data.support && data.support['darkmode'] == true ) $("#winc"+pid).addClass("winc-darkmode");
-    if( KWS.darkmode ) $("#winc"+pid).addClass("kit-darkmode");
+    if( data.support && data.support['darkmode'] == true ) $("#winc"+_pid).addClass("winc-darkmode");
+    if( KWS.darkmode ) $("#winc"+_pid).addClass("kit-darkmode");
 
     if( data.size ){
-        $("#winc"+pid).css("width", data.size.width).css("height", data.size.height);
+        $("#winc"+_pid).css("width", data.size.width).css("height", data.size.height);
     }
     if( data.resize ){
         let _minwidth = 200, _minheight = 40;
         if( data.resize.minWidth ) _minwidth = data.resize.minWidth;
         if( data.resize.minHeight ) _minheight = data.resize.minHeight;
-        $("#winc"+pid).windowResizable({
+        $("#winc"+_pid).windowResizable({
             minWidth: _minwidth,
             minHeight: _minheight
         });
     }
 
-    let windowPos = 50 + ( pid % 10 ) * 20;
+    let windowPos = 50 + ( _pid % 10 ) * 20;
     KWS.windowIndex ++;
-    $( "#w"+pid ).addClass( "window" ).pep({
+    $( "#w"+_pid ).addClass( "window" ).pep({
         elementsWithInteraction: ".winc, .ui-resizable-handle",
         useCSSTranslation: false,
         disableSelect: false,
@@ -488,25 +486,32 @@ function appData( data ) {
         KWS.refreshWindowIndex();
     } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
     KWS.refreshWindowIndex();
-    $( "#wm" + pid ).addClass( "wm fa fa-window-minimize" ).click( () => KWS.min( String(pid) ) );
-    $( "#wz" + pid ).addClass( "wz fas fa-square" ).click( () => KWS.max( String(pid) ) );
-    $( "#wx" + pid ).addClass( "wx fa fa-times" ).click( () => System.close( String(pid) ) );
-    $( "#winc" + pid ).resizable( {
+    $( `#wm${_pid}` ).addClass( "wm fa fa-window-minimize" ).on("click", () => KWS.min( _pid ) );
+    $( `#wz${_pid}` ).addClass( "wz fas fa-square" ).on("click", () => KWS.max( _pid ) );
+    $( `#wx${_pid}` ).addClass( "wx fa fa-times" ).on("click", () => System.close( _pid )  );
+    $( "#winc" + _pid ).resizable( {
         minWidth: "200"
-    } ).load( System.launchpath[pid] + "/" + data.view, (r, s, x) =>{
+    } ).load( System.launchpath[_pid] + "/" + data.view, (r, s, x) => {
         if( s == "error" ){
             Notification.push("起動に失敗:" + x.status, x.statusText);
             return false;
         }
-        if( !data.script || data.script != "none" ) $.getScript( System.launchpath[pid] + "/" + data.script, () => {
-            if( !data.support || data.support['kaf'] != false ) App.kaf(pid);
-        } ).fail( () =>  App.kaf(pid) );
-        else if( !data.support || data.support['kaf'] != false ) App.kaf(pid);
+        if( !data.script || data.script != "none" ) $.getScript( System.launchpath[_pid] + "/" + data.script, () => {
+            if( !data.support || data.support['kaf'] != false ) App.kaf(_pid);
+            pid++;
+        }).fail( () => {
+            App.kaf(_pid);
+            pid++;
+        });
+        else if( !data.support || data.support['kaf'] != false ){
+            App.kaf(_pid);
+            pid++;
+        }
+        else pid++;
         if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
-            $( "head" ).append( '<link href="' + System.launchpath[pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
-        }        
-        processID++;
-        localStorage.setItem( "kit-pid", processID );
+            $( "head" ).append( '<link href="' + System.launchpath[_pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
+        }
+        localStorage.setItem( "kit-pid", pid );
     } );
 }
 
@@ -684,8 +689,8 @@ const System = new function() {
     }
 
     this.kill = function( _str ){
-        for( let pid in process ) {
-            if( process[pid] && process[pid].id == _str ) System.close( pid );
+        for( let _pid in process ) {
+            if( process[_pid] && process[_pid].id == _str ) System.close( _pid );
         }
     }
     
@@ -1120,42 +1125,59 @@ const Notification = new function() {
     }
 }
 
-const App = new function() {
-    this.changeWindowTitle = ( _pid, _t ) => {
+class App {
+    constructor(_pid) {
+        this.args = System.args[_pid];
+        this.close = System.close(_pid);
+        this.d = () => App.d[_pid];
+        this.dom = (..._args) => System.dom(_pid, ..._args);
+        this.qs = (...args) => System.qs(_pid, ...args);
+        this.e = () => App.e[_pid];
+
+        this.changeWindowTitle = _t => App.changeWindowTitle( _pid, _t );
+        this.data = (_name, _value) => App.data(_pid, _name, _value);
+        this.event = (_name, _event) => App.event(_pid, _name, _event);
+        this.getPath = _path => App.getPath(_pid, _path);
+        this.kaf = () => App.kaf(_pid);
+        this.load = _path => App.load(_pid, _path);
+        this.preventClose = _bool => App.preventClose(_pid, _bool);
+    }
+
+    static changeWindowTitle( _pid, _t ) {
         $( "#tname"+_pid ).text( _t );
         $( "#wtname"+_pid ).text( _t );
         process[_pid].title = _t;
         return App;
     }
 
-    this.context = ( _cid, _obj ) => {
+    static context( _cid, _obj ) {
         KWS.context[ _cid ] = _obj;
         return App;
     }
 
-    this.d = new Object();
-
-    this.data = ( _pid, _name, _value ) => {
+    static data( _pid, _name, _value ) {
         if( _value !== undefined ) {
-            S.dom(_pid, `[kit-bind=${_name}]`).val( _value );
-            S.dom(_pid, `[kit-observe=${_name}]`).text( _value );
+            S.dom(_pid, `[kit\\:bind=${_name}]`).val( _value );
+            S.dom(_pid, `[kit\\:observe=${_name}]`).text( _value );
+            if( _value ) S.dom(_pid, `[kit\\:if=${_name}]`).show();
+            else S.dom(_pid, `[kit\\:if=${_name}]`).hide();
             return App.d[_pid][_name] = _value;
         }
         else if( _name ) return App.d[_pid][_name];
         else return App.d[_pid];
     }
 
-    this.e = new Object();
-
-    this.event = ( _pid, _name, _event ) => {
+    static event( _pid, _name, _event ) {
         if( !App.e[_pid] ) App.e[_pid] = new Object();
         App.e[_pid][_name] = _event;
         return App;
     }
 
-    this.getPath = ( _pid, _path ) => System.launchpath[_pid] + _path;
+    static getPath( _pid, _path ) {
+        return System.launchpath[_pid] + _path;
+    }
 
-    this.kaf = ( _pid ) => {
+    static kaf( _pid ) {
         let attrs = [
             "[kit-ref]",
             "[kit-e]",
@@ -1165,13 +1187,18 @@ const App = new function() {
             "[kit-close]",
             "[kit-text]",
             "[kit-html]",
-            "[kit-bind]",
-            "[kit-observe]"
+            "[kit\\:bind]",
+            "[kit\\:observe]",
+            "[kit\\:value]",
+            "[kit-value]",
+            "[kit-color]",
+            "[kit\\:if]",
+            "[kit-if]"
         ]
         const PID = _pid;
         const DATA = App.data(_pid);
         const ARGS = System.args[_pid];
-        for( let i of S.dom(_pid, ...attrs) ){
+        for( let i of S.qs(_pid, ...attrs) ){
             if( i.hasAttribute("kit-ref") ){
                 $(i).on("click", () => App.load(_pid, i.getAttribute("kit-ref")) );
             }
@@ -1183,7 +1210,7 @@ const App = new function() {
                 }
             }
             if( i.hasAttribute("kit-src") ){
-                $(i).attr("src", System.launchpath[_pid] +"/"+ i.getAttribute("kit-src") )
+                $(i).attr("src", `${System.launchpath[_pid]}/${i.getAttribute("kit-src")}` );
             }
             if( i.hasAttribute("kit-alert") ){
                 $(i).on("click", ()=> System.alert( System.appCache[ process[_pid].id ].name, i.getAttribute("kit-alert") ) );
@@ -1200,30 +1227,57 @@ const App = new function() {
             if( i.hasAttribute("kit-html") ){
                 $(i).html( eval(i.getAttribute("kit-html")) );
             }
-            if( i.hasAttribute("kit-bind") ){
+            if( i.hasAttribute("kit:bind") ){
                 if( App.d[_pid] == undefined ) App.d[_pid] = new Object();
                 $(i).on('keydown keyup keypress change', () => {
-                    App.d[_pid][i.getAttribute("kit-bind")] = i.value;
-                    S.dom(_pid, `[kit-observe=${i.getAttribute("kit-bind")}]`).text( i.value );
+                    let _name = i.getAttribute("kit:bind");
+                    App.d[_pid][_name] = i.value;
+                    S.dom(_pid, `[kit\\:observe=${_name}]`).text( i.value );
+                    if( i.value ) S.dom(_pid, `[kit\\:if=${_name}]`).show();
+                    else S.dom(_pid, `[kit\\:if=${_name}]`).hide();
                 } );
             }
-            if( i.hasAttribute("kit-observe") ){
-                $(i).text( App.d[_pid][i.getAttribute("kit-observe")] );
+            if( i.hasAttribute("kit:observe") ){
+                $(i).text( App.d[_pid][i.getAttribute("kit:observe")] );
+            }
+            if( i.hasAttribute("kit:value") ){
+                $(i).val( App.d[_pid][i.getAttribute("kit:value")] );
+            }
+            if( i.hasAttribute("kit-value") ){
+                $(i).val( eval(i.getAttribute("kit-value")) );
+            }
+            if( i.hasAttribute("kit-color") ){
+                $(i).css('color', i.getAttribute("kit-color"));
+            }
+            if( i.hasAttribute("kit:if") ){
+                if( App.d[_pid][i.getAttribute("kit:if")] ){
+                    $(i).show();
+                }
+                else $(i).hide();
+            }
+            if( i.hasAttribute("kit-if") ){
+                if( eval( i.getAttribute("kit-if")) ){
+                    $(i).show();
+                }
+                else $(i).hide();
             }
         }
     }
 
-    this.load = ( _pid, _path ) => {
+    static load( _pid, _path ) {
         S.dom(_pid).load( System.launchpath[_pid] +"/"+ _path, () => {
             App.kaf(_pid);
         } );
         return App;
     }
 
-    this.preventClose = ( _pid, _bool ) => {
+    static preventClose( _pid, _bool ) {
         process[_pid].preventclose = _bool || true;
         return App;
     }
 }
 
-var process = {}, processID = 0, pid, currentDesktop = 1, currentCTX = "", prevWindowIndex, S;
+App.d = new Object();
+App.e = new Object();
+
+var process = {}, pid = 0, app, currentDesktop = 1, currentCTX = "", prevWindowIndex, S;
