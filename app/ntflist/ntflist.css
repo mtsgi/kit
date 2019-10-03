@@ -2,13 +2,6 @@
   width: 400px;
   max-height: 600px;
 }
-.ntflist-items{
-  border-top: 1px solid silver;
-  padding: 3px;
-}
-.ntflist-items:hover{
-  background: #e0e0e0;
-}
 .ntflist-a{
   font-size: 12px;
   border: 1px solid dodgerblue;
@@ -23,14 +16,8 @@
 .ntflist-c{
   display: block;
 }
-.ntflist-d{
-  font-size: 14px;
-}
 .ntflist-d:before{
   content: "送信元：";
-}
-.ntflist-e{
-  font-size: 14px;
 }
 .ntflist-e:before{
   content: "送信日時：";

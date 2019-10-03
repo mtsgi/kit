@@ -3,30 +3,30 @@
 <hr>
 <div class="install-prot" id="install-prot1">
     1.アプリのdefine.jsonのパスを入力してください
-    <br><br>
-    <input type="text" id="install-define-path" class="textbox">define.json
-    <a class="kit-button" id="install-define-decide"><i class="fa fa-arrow-right"></i></a>
+    <kit-space class="m"></kit-space>
+    <input type="text" kit:bind="path" class="textbox"> define.json
+    <a class="kit-button" kit-e="define-decide"><i class="fa fa-arrow-right"></i></a>
 </div>
 
 <div class="install-prot" id="install-prot2">
     2.アプリ情報を入力してください
-    <br><br>
+    <kit-space class="m"></kit-space>
     アプリID(変更不可)<br>
     <input type="text" id="install-appid" class="textbox" disabled>
-    <br><br>
+    <kit-space class="m"></kit-space>
     アプリケーション名<br>
     <input type="text" id="install-name" class="textbox">
-    <br><br>
+    <kit-space class="m"></kit-space>
     アイコン画像のパス<br>
     <input type="text" id="install-icon" class="textbox">
-    <br><br>
-    <a class="kit-button" id="install-start">インストールを開始する</a>
+    <kit-space class="m"></kit-space>
+    <a class="kit-button" kit-e="start">インストールを開始する</a>
 </div>
 
 <div class="install-prot" id="install-prot3">
     <span class="install-title">インストール完了</span>
     <br><br>
-    アプリケーション<strong id="install-done-name"></strong>をkitにインストールしました。
+    アプリケーション<strong kit:observe="appname"></strong>をkitにインストールしました。
     <br><br>
-    <a class="kit-button" id="install-close">閉じる</a>
+    <a class="kit-button" kit-close>閉じる</a>
 </div>

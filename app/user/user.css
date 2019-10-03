@@ -1,6 +1,5 @@
 #user-box{
   display: flex;
-  border-bottom: 1px solid #a0a0a0;
 }
 #user-icon{
 	display: inline-block;

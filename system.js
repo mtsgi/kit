@@ -1127,12 +1127,15 @@ const Notification = new function() {
 
 class App {
     constructor(_pid) {
+        App.e[_pid] = new Object();
+        App.d[_pid] = new Object();
+        
         this.args = System.args[_pid];
-        this.close = System.close(_pid);
+        this.close = () => System.close(_pid);
         this.d = () => App.d[_pid];
         this.dom = (..._args) => System.dom(_pid, ..._args);
         this.qs = (...args) => System.qs(_pid, ...args);
-        this.e = () => App.e[_pid];
+        this.e = App.e[_pid];
 
         this.changeWindowTitle = _t => App.changeWindowTitle( _pid, _t );
         this.data = (_name, _value) => App.data(_pid, _name, _value);
