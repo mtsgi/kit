@@ -21,12 +21,14 @@
   width: 100%;
   font-size: 20px;
   padding: 10px;
+  cursor: url(./cursor-3.png), text;
 }
 
 .kit-sightre-result {
   padding: 6px;
   display: flex;
   flex-direction: row;
+  cursor: url(./cursor-1.png), default;
 }
 
 .kit-sightre-result:hover {
@@ -37,6 +39,10 @@
 
 .kit-sightre-result.-app {
   border-left: 5px solid limegreen;
+}
+
+.kit-sightre-result.-file {
+  border-left: 5px solid orange;
 }
 
 .kit-sightre-result.-link {

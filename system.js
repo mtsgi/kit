@@ -249,6 +249,22 @@ function kit() {
                     });
                 }
             }
+            for( let i in System.userarea ){
+                if( i.indexOf(_word) == 0 || i.indexOf(_word) == 0 ){
+                    $(`<div class='kit-sightre-result -file'>
+                            <i class="fa fa-file --icon"></i>
+                            <div class='--info'>
+                                <div class='--name'>${i}</div>
+                                <div class='--desc'>ファイル - 種類：${S.userarea[i].type} - ユーザー：${System.username}</div>
+                            </div>
+                            <div class='--open fa fa-arrow-right'></div>
+                        </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                        System.open(i);
+                        $('#kit-sightre-results').html('');
+                        $('#kit-sightre').fadeOut(300);
+                    });
+                }
+            }
             $(`<div class='kit-sightre-result -link'>
                     <i class="fa fa-search --icon"></i>
                     <div class='--info'>
