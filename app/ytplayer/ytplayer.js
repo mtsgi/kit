@@ -1,14 +1,12 @@
-app_ytplayer(pid);
-
-function app_ytplayer(_pid) {
+((_pid, _app) => {
     $("#w" + _pid).resizable({
         alsoResize: ".ytplayer-area",
         minWidth: "200"
     });
 
-    $("#winc" + _pid).delegate(".ytplayer-play", "click", function () {
-        $("#winc" + _pid + " .ytplayer-area").attr("src", "https://www.youtube.com/embed/"+ $("#winc" + _pid + " #ytplayer-src").val() +"?&showinfo=0&iv_load_policy=3&fs=0&modestbranding=1");
-    }).delegate(".ytplayer-nico", "click", function () {
-        $("#winc" + _pid + " .ytplayer-area").attr("src", "https://embed.nicovideo.jp/watch/"+ $("#winc" + _pid + " #ytplayer-src").val() +"?&showinfo=0&iv_load_policy=3&fs=0&modestbranding=1");
+    _app.dom().delegate(".ytplayer-play", "click", () => {
+        _app.dom(".ytplayer-area").attr("src", "https://www.youtube.com/embed/"+ _app.dom("#ytplayer-src").val() +"?&showinfo=0&iv_load_policy=3&fs=0&modestbranding=1");
+    }).delegate(".ytplayer-nico", "click", () => {
+        _app.dom(".ytplayer-area").attr("src", "https://embed.nicovideo.jp/watch/"+ _app.dom("#ytplayer-src").val() +"?&showinfo=0&iv_load_policy=3&fs=0&modestbranding=1");
     });
-}
+})(pid, app);

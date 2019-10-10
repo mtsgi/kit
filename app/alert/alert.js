@@ -1,3 +1,1 @@
-((_pid) => {
-    App.changeWindowTitle( _pid, System.args[pid][2] || System.args[pid][0] );
-})(pid);
+((_pid, _app) => _app.changeWindowTitle( _app.args[2] || _app.args[0] ) )(pid, app);

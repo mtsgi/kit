@@ -1,8 +1,7 @@
-S.avoidMultiple(pid, false);
-
-((_pid) => {
+((_pid, _app) => {
+    S.avoidMultiple(_pid, false);
     for( i in Notification.list ){
-        S.dom(_pid, ".ntflist-list")
-        .append("<div class='ntflist-items'><span class='ntflist-a'>" + i + "</span><span class='ntflist-b'>" + Notification.list[i].title + "</span><span class='ntflist-c'>" + Notification.list[i].content + "</span><span class='ntflist-d'>" + Notification.list[i].app + "</span><br><span class='ntflist-e'>" + Notification.list[i].time + "</span>");
+        _app.dom(".ntflist-list")
+        .append("<div class='kit-pane hover'><span class='ntflist-a'>" + i + "</span><span class='ntflist-b'>" + Notification.list[i].title + "</span><span class='ntflist-c'>" + Notification.list[i].content + "</span><span class='kit-sub'>" + Notification.list[i].app + "</span><br><span class='kit-sub'>" + Notification.list[i].time + "</span>");
     }
-})(pid)
+})(pid, app);

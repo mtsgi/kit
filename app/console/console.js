@@ -1,45 +1,38 @@
-app_console(pid);
-
-function app_console(_pid) {
-    "use strict";
-
+( ( _pid, _app ) => {
     let prevCommand = "";
     let cmdHistory = [""];
     let cmdFocus = 0;
 
-    $("#winc"+_pid+" .console-exec").on("click", function(){
-        let log = $("#winc"+_pid+" .simple-box").html();
-        let exec = $("#winc"+_pid+" .textbox").val();
-        if( exec ){
+    _app.dom('.console-exec').on( "click", function() {
+        let log = _app.dom(".simple-box").html();
+        let exec = _app.dom(".textbox").val();
+        if( exec ) {
             prevCommand = exec;
             cmdFocus = cmdHistory.length;
-            cmdHistory.shift(exec);
-            Notification.push("debug", cmdHistory)
-            $("#winc"+_pid+" .simple-box").html(exec+"<br><span class='fa fa-arrow-left'></span>");
+            cmdHistory.shift( exec );
+            Notification.push( "debug", cmdHistory )
+            _app.dom('.simple-box').html( exec + "<br><span class='fa fa-arrow-left'></span>" );
             try {
-                $("#winc"+_pid+" .simple-box").append( "<pre>" + JSON.stringify( eval(exec), null, 4 )+"</pre><div class='console-log'>"+log+"</div>");
-            } catch (error) {
-                console.log(error);
-                $("#winc"+_pid+" .simple-box").append( error +"<br><div class='console-log'>"+log+"</div>");
+                _app.dom('.simple-box').append( "<pre>" + JSON.stringify( eval( exec ), null, 4 ) + "</pre><div class='console-log'>" + log + "</div>" );
+            } catch( error ) {
+                _app.dom('.simple-box').append( error + "<div class='console-log'>" + log + "</div>" );
             }
         }
-        $("#winc"+_pid+" .textbox").val("");
-    });
+        _app.dom('.textbox').val('');
+    } );
 
-    $("#winc"+_pid+" .textbox").keypress(function(e){
-        if(e.which == 13){
-            $("#winc"+_pid+" .console-exec").click();
-        }
-      });
+    _app.dom('.textbox').keypress( function( e ) {
+        if( e.which == 13 ) _app.dom(".console-exec").click();
+    } );
 
-      $(document).on("keydown", "#winc"+_pid+" .textbox", function(e){
-        if(e.which == 38){
-            if( cmdHistory[cmdFocus-1] != undefined ) cmdFocus--;
-            $("#winc"+_pid+" .textbox").val(cmdHistory[cmdFocus]);
+    _app.dom('.textbox').on( 'keydown', function( e ) {
+        if( e.which == 38 ) {
+            if( cmdHistory[cmdFocus - 1] != undefined ) cmdFocus--;
+            _app.dom(" .textbox").val( cmdHistory[cmdFocus] );
         }
-        else if(e.which == 40){
-            if( cmdHistory[cmdFocus+1] != undefined ) cmdFocus++;
-            $("#winc"+_pid+" .textbox").val(cmdHistory[cmdFocus]);
+        else if( e.which == 40 ) {
+            if( cmdHistory[cmdFocus + 1] != undefined ) cmdFocus++;
+            _app.dom(".textbox").val( cmdHistory[cmdFocus] );
         }
-      });
-}
+    } );
+} )( pid, app );

@@ -2,12 +2,16 @@
     "id": "settings",
     "name": "設定",
     "icon": "icon.png",
-    "version": "4.0.3",
+    "version": "5.0.1",
     "author": "kit",
 
     "support": {
         "darkmode": true,
         "fullscreen": true
+    },
+
+    "size": {
+        "width": "540px"
     },
 
     "view": "default.html",

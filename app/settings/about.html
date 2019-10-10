@@ -3,23 +3,37 @@
     $( "#settings-license-2" ).load( "./fa/LICENSE.txt" );
     $( "#settings-license-3" ).load( "./system/jquery_LICENSE.txt" );
 </script>
-<kit-btn class="kit-inline" kit-ref="default.html"><span class='fa fa-arrow-circle-left'></span>戻る</kit-btn>
+
+<kit-btn class="kit-inline" kit-ref="default.html">
+    <span class='fa fa-arrow-circle-left'></span>戻る
+</kit-btn>
+
 <h3><span class='fa fa-info-circle'></span> kitについて</h3>
-<div style='font-size:22px'>
+
+<div>
     <img src="system/ico/logo.png" style="max-width: 100%;">
     <h4>
         <span kit-text="System.version"></span>
         <span style="color: #7fffd4"></span>
     </h4>
 </div>
-KWS <span kit-text="KWS.version"></span> / kaf(v1)<br>
-<img src="documents/kaf-logo.png" alt="kit Apps framework" style="height: 50px"><br>
+
+<div>
+    KWS <kit-badge class="silver kit-font-s" kit-text="KWS.version"></kit-badge> / kaf <kit-badge class="limegreen kit-font-s">v2</kit-badge>
+</div>
+
+<img src="documents/kaf-logo.png" alt="kit Apps framework" style="height: 70px">
+<br>
+
 <a class="kit-hyperlink" kit-e="update">kitのアップデートを確認する</a>
-<div class="little">取得には時間がかかる場合があります</div>
-Based on <span class="fab fa-html5"></span>HTML5
+<div class="kit-sub">取得には時間がかかる場合があります</div>
+
+Based on
+<span class="fab fa-html5"></span>HTML5
 <span class="fab fa-css3-alt"></span>CSS3
-<span class="fab fa-js"></span>JavaScript<br>
-[LICENSE]
+<span class="fab fa-js"></span>JavaScript
+
+<h5>[LICENSE]</h5>
 <div class="settings-license-area" data-simplebar>
     jQuery
     <div id="settings-license-3"></div>

@@ -1,6 +1,6 @@
-((_pid) => {
-    App.event( _pid, "ok", ()=>{
+((_pid, _app) => {
+    _app.event('ok', () => {
         System.args[_pid].func();
-        System.close(_pid);
-    } );
-})(pid);
+        _app.close();
+    });
+})(pid, app);

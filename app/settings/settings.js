@@ -1,56 +1,52 @@
-app_settings( pid );
+((_pid, _app) => {
+    App.d[_pid] = {
+        "username": System.username,
+        "usercolor": localStorage.getItem("kit-user-color")
+    }
 
-function app_settings( _pid ) {
-    App.event( _pid, "update", ()=>{
-        $.getJSON("https://api.github.com/repos/mtsgi/kit/tags", function(data){
-            let result = "";
-            for( i in data ){
-                result += "<strong>v" + data[i].name;
-                if( i == 0 ) result += "(最新)";
-                result += "</strong><div class='little'>" + data[i].commit.sha + "</div>";
-            }
-            System.alert("お使いのkitは" +System.version+ "です",result);
-        });
-    } );
-
-    if( System.args[_pid] && System.args[_pid].view ) {
+    if( _app.args && _app.args.view ) {
         App.load( _pid, String( System.args[_pid].view ) + ".html" );
     }
 
-    $( "#winc" + _pid ).resizable( {
-        disabled: "true"
+    _app.event("update", ()=>{
+        $.getJSON("https://api.github.com/repos/mtsgi/kit/tags", (data) => {
+            let result = "";
+            for( let i in data ){
+                result += "<strong>v" + data[i].name;
+                if( i == 0 ) result += "(最新)";
+                result += `</strong><div class='little'>${data[i].commit.sha}</div>`;
+            }
+            System.alert(`お使いのkitは${System.version}です`,result);
+        });
     } );
 
-    var wallpapers = ["Bg_2001.dds.png", "Bg_2004.dds.png", "Bg_2008.dds.png", "Bg_2013.dds.png", "Bg_2010.dds.png", "Bg_2012.dds.png"];
-
-    $( "#winc" + _pid ).css( "width", "540px" );
+    _app.event("username_set", () => {
+        _app.data( "username", _app.dom('#settings-username').val() );
+        localStorage.setItem( "kit-username", _app.d().username );
+        System.username = _app.d().username;
+        _app.load('user.html');
+        $( "#kit-header-username" ).text( localStorage.getItem( "kit-username" ) );
+    });
+    _app.event('usercolor_set', () => {
+        _app.data( 'usercolor', _app.dom('#settings-user-color').val() )
+        localStorage.setItem( "kit-user-color", _app.d().usercolor );
+        _app.load('user.html');
+    });
+    _app.event('userpassword_set', () => {
+        localStorage.setItem( "kit-password", _app.dom('#settings-user-password').val() );
+        _app.load('user.html');
+    });
+    _app.event('startup_set', () => {
+        localStorage.setItem( "kit-startup", _app.dom('#settings-startup').val() );
+    });
+    _app.event('wallpaper_set', () => {
+        System.changeWallpaper( "url(" + _app.dom('#settings-wallpaper-path').val() + ")" );
+    });
+    _app.event('background_set', () => {
+        System.changeWallpaper( _app.dom('#settings-background').val() );
+    });
 
     $( "#winc" + _pid )
-
-        .delegate( ".settings-username-set", "click", function() {
-            localStorage.setItem( "kit-username", $( '#settings-username' ).val() );
-            System.username = $( '#settings-username' ).val();
-            App.load( _pid, "user.html" );
-            $( "#kit-header-username" ).text( localStorage.getItem( "kit-username" ) );
-        } )
-        .delegate( ".settings-user-password-set", "click", function() {
-            localStorage.setItem( "kit-password", $( '#settings-user-password' ).val() );
-            App.load( _pid, "user.html" );
-        } )
-        .delegate( ".settings-user-color-set", "click", function() {
-            localStorage.setItem( "kit-user-color", $( '#settings-user-color' ).val() );
-            App.load( _pid, "user.html" );
-        } )
-        .delegate( ".settings-startup-set", "click", function() {
-            localStorage.setItem( "kit-startup", S.dom( _pid, "#settings-startup" ).val() );
-        } )
-        //壁紙
-        .delegate( ".settings-wallpaper-set", "click", function() {
-            System.changeWallpaper( "url(" + String( $( '#settings-wallpaper-path' ).val() ) + ")" );
-        } )
-        .delegate( ".settings-background-set", "click", function() {
-            System.changeWallpaper( $( '#settings-background' ).val() );
-        } )
         //テーマ
         //高度な設定
         .delegate( ".settings-envar-set", "click", function() {
@@ -65,4 +61,4 @@ function app_settings( _pid ) {
             localStorage.removeItem( $( "#winc" + _pid + " #settings-envar-rem" ).val() );
             App.load( _pid, "advanced.html" );
         } );
-}
+})(pid, app);

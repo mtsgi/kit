@@ -19,13 +19,21 @@
         }
     }
 </script>
-<kit-btn kit-ref="default.html"><span class='fa fa-arrow-circle-left'></span>戻る</kit-btn>
+
+<kit-btn kit-ref="default.html">
+    <span class='fa fa-arrow-circle-left'></span>戻る
+</kit-btn>
+
 <h3><span class='fa fa-sliders-h'></span> 高度な設定</h3>
+
 <h4>システム環境変数</h4>
-<div class="little">不必要に変更を加えるとシステムが破損する可能性があります。</div>
+<div class="kit-sub">[！] 不必要に変更を加えるとシステムが破損する可能性があります。</div>
+
 <input type='text' class='textbox' id='settings-envar-key' placeholder='編集対象'>
 <input type='text' class='textbox' id='settings-envar-val' placeholder='値'>
 <a class="kit-button settings-envar-set">変更</a>
+
 <div class="settings-advanced-envar kit-selectable" data-simplebar></div>
+
 <input type='text' class='textbox' id='settings-envar-rem' placeholder='消去対象'>
 <a class="kit-button settings-envar-remove">削除</a>

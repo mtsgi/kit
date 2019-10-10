@@ -3,46 +3,62 @@
     if( System.bootopt.get("safe") ) $("#settings-issafe").html("<strong>[！]現在セーフモードで起動しています</strong><br>");
     if( System.debugmode ) $("#settings-system-debugmode").prop('checked', true);
     $("#settings-system-debugmode").on("change", function(){
-        if( $("#settings-system-debugmode").is(':checked') ){
-            //localStorage.setItem("kit-debugmode", "true");
-            System.debugmode = true;
-        }
-        else{
-            //localStorage.setItem("kit-debugmode", "false");
-            System.debugmode = false;
-        }
+        if( $("#settings-system-debugmode").is(':checked') ) System.debugmode = true;
+        else System.debugmode = false;
     });
 </script>
-<kit-btn kit-ref="default.html"><span class='fa fa-arrow-circle-left'></span>戻る</kit-btn>
+
+<kit-btn kit-ref="default.html">
+    <span class='fa fa-arrow-circle-left'></span>戻る
+</kit-btn>
+
 <h3>
     <span class='fa fa-cog'></span> システム設定
 </h3>
-<h4><span class='fa fa-running'></span>スタートアップ</h4>
-<div class="little">
-        システムの起動時に自動的に起動するアプリケーションの名前を入力します。複数の場合は半角カンマで区切ります(動作が不安定になる場合があります)。
+
+<h4>
+    <span class='fa fa-running'></span>スタートアップ
+</h4>
+
+<div class="kit-sub">
+    システムの起動時に自動的に起動するアプリケーションの名前を入力します。複数の場合は半角カンマで区切ります(動作が不安定になる場合があります)。
 </div>
+
 <input type='text' class='textbox' id='settings-startup'>
-<a class='kit-button settings-startup-set'>設定</a>
+<a class='kit-button' kit-e='startup_set'>設定</a>
 <br>
 <h4><span class='fa fa-clock'></span>時刻</h4>
 <div class="little">
     時刻はSystem.timeオブジェクトに格納されています。<br>
     設定された時刻：<span class="os-time"></span>
 </div>
-<h4><span class='fa fa-bug'></span>デバッグモード</h4>
+
+<h4>
+    <span class='fa fa-bug'></span>デバッグモード
+</h4>
+
 <div class="little">
     デバッグモードの詳細は<a href="https://kitdevhome.wordpress.com/2019/03/27/system-debugmode/" class="kit-hyperlink">こちら</a>をご確認ください。
 </div>
+
 <div class="kit-toggle">
     <input type="checkbox" id="settings-system-debugmode">
     <label for="settings-system-debugmode"></label>
     <label for="settings-system-debugmode">デバッグモード</label>
 </div>
-<h4><span class='fa fa-window-restore'></span>アプリ管理</h4>
+
+<h4>
+    <span class='fa fa-window-restore'></span>アプリ管理
+</h4>
+
 <div class="little">
     アプリケーションの管理は<a onclick="launch('appman')" class="kit-hyperlink">アプリ管理</a>から実行してください。
 </div>
-<h4><span class='fa fa-shield-alt'></span>セーフブート</h4>
+
+<h4>
+    <span class='fa fa-shield-alt'></span>セーフブート
+</h4>
+
 <div class="little">
     <span id="settings-issafe" style="color: blue;"></span>
     セーフモードで起動する場合は、<a class="kit-hyperlink" onclick="location.href = '?safe=true'">ここをクリック</a>またはkitにパラメータ<strong>safe=true</strong>を付与して再起動します。

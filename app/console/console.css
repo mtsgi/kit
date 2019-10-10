@@ -8,7 +8,7 @@
     background: #000000;
     color: limegreen;
     border-color: limegreen;
-    width: calc( 100% - 45px );
+    width: calc( 100% - 35px );
 }
 .winc-console .textbox::selection{
     background-color: limegreen;
@@ -18,9 +18,10 @@
     cursor: pointer;
     float: right;
     margin: 9px;
-    margin-right: 0px;
+    margin-right: 5px;
 }
 .winc-console .console-wrapper{
+    box-sizing: border-box;
     padding: 2px;
     border : 1px solid gray;
     margin-top : 10px;
