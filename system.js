@@ -138,7 +138,7 @@ function kit() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
         $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
         $( "#kit-wallpaper" ).css( "filter", "blur(5px)" );
-        $( "footer, header, #launcher, #task-ctx, .dropdown, #desktop-" + currentDesktop ).hide();
+        $( "footer, header, #launcher, #task-ctx, #kit-sightre, .dropdown, #desktop-" + currentDesktop ).hide();
         $( "#kit-power" ).show();
     } );
     $( "#kit-power-back" ).click( function() {
@@ -192,39 +192,104 @@ function kit() {
         }
     } );
 
-    //検索バー
-    $( "#milp" ).val( "" ).on( "focus", function() {
-        $( "#kit-milp" ).show();
-    } ).on( "blur", function() {
-        $( "#kit-milp" ).fadeOut( 200 );
-    } ).on( 'keydown keyup keypress change', function() {
-        $( "#kit-milp-text" ).text( $( this ).val() );
-    } ).keypress( function( e ) {
-        if( e.which == 13 ) $( "#kit-milp-launch" ).click();
-    } );
-    $( "#kit-milp-launch" ).click( function() {
-        if( $("#milp").val() == "kit" ){
-            System.alert("", "<div style='text-align:left;'>　＿　　　　＿　＿　<br>｜　｜　＿（＿）　｜＿　<br>｜　｜／　／　｜　＿＿｜<br>｜　　　〈｜　｜　｜＿　<br>｜＿｜＼＿ ＼ ＿＼＿＿｜</div><hr>", S.version);
-            return;
+    //Sightre
+    $('#kit-header-sightre').on('click', () => {
+        if($('#kit-sightre').is( ":visible" )) {
+            $('#kit-sightre').fadeOut(300);
         }
-        let _app = $( "#milp" ).val().split(",")[0];
-        let _args = null;
-        try {
-            if( $( "#milp" ).val().split(",")[1] ){
-                _args = JSON.parse( $( "#milp" ).val().split(",").slice(1).join() );
+        else {
+            $('#kit-sightre-results').html('');
+            $('#kit-sightre').show();
+            $('#kit-sightre-form').val('').focus();
+        }
+    });
+    let sightrePrevWord = '';
+    $('#kit-sightre-form').on('keypress', (e) => {
+        let _word = $('#kit-sightre-form').val();
+        if( e.which == 13 && _word ) {
+            if( _word == "kit" ){
+                S.alert("", "<div style='text-align:left;'>　＿　　　　＿　＿　<br>｜　｜　＿（＿）　｜＿　<br>｜　｜／　／　｜　＿＿｜<br>｜　　　〈｜　｜　｜＿　<br>｜＿｜＼＿ ＼ ＿＼＿＿｜</div><hr>", S.version);
+                return;
             }
+            let _args = null;
+            try {
+                if( _word.split(",")[1] ) _args = JSON.parse( _word.split(",").slice(1).join().trim() );
+            }
+            catch(error) {
+                Notification.push("引数の解釈に失敗", error, "system");
+            }
+            launch( _word.split(",")[0], _args );
+            sightrePrevWord = '';
+            $('#kit-sightre-form').val('');
+            $('#kit-sightre-results').html('');
+            $('#kit-sightre').fadeOut(300);
         }
-        catch(error) {
-            Notification.push("引数の解釈に失敗", error, "system");
+    }).on('keydown keyup change', (e) => {
+        let _word = $('#kit-sightre-form').val();
+        if( e.which == 27 ) $('#kit-sightre').fadeOut(300);
+        else {
+            if( _word == sightrePrevWord ) return;
+            $('#kit-sightre-results').html('');
+            if( !_word ) return;
+            sightrePrevWord = _word;
+            for( let i in System.apps ){
+                if( i.indexOf(_word) == 0 || S.apps[i].name.indexOf(_word) == 0 ){
+                    $(`<div class='kit-sightre-result -app'>
+                            <img class='--icon' src='${S.apps[i].icon}'/>
+                            <div class='--info'>
+                                <div class='--name'>${S.apps[i].name}</div>
+                                <div class='--desc'>kitアプリケーション - ${i}</div>
+                            </div>
+                            <div class='--open fa fa-arrow-right'></div>
+                        </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                        launch(i);
+                        $('#kit-sightre-results').html('');
+                        $('#kit-sightre').fadeOut(300);
+                    });
+                }
+            }
+            for( let i in System.userarea ){
+                if( i.indexOf(_word) == 0 || i.indexOf(_word) == 0 ){
+                    $(`<div class='kit-sightre-result -file'>
+                            <i class="fa fa-file --icon"></i>
+                            <div class='--info'>
+                                <div class='--name'>${i}</div>
+                                <div class='--desc'>ファイル - 種類：${S.userarea[i].type} - ユーザー：${System.username}</div>
+                            </div>
+                            <div class='--open fa fa-arrow-right'></div>
+                        </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                        System.open(i);
+                        $('#kit-sightre-results').html('');
+                        $('#kit-sightre').fadeOut(300);
+                    });
+                }
+            }
+            $(`<div class='kit-sightre-result -link'>
+                    <i class="fa fa-search --icon"></i>
+                    <div class='--info'>
+                        <div class='--name'>${_word}</div>
+                        <div class='--desc'>をWebで検索</div>
+                    </div>
+                    <div class='--open fa fa-arrow-right'></div>
+                </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                launch( 'browser', { 'url' : 'https://www.bing.com/search?q=' + _word } );
+                $('#kit-sightre-results').html('');
+                $('#kit-sightre').fadeOut(300);
+            });
+            $(`<div class='kit-sightre-result -link'>
+                    <i class="fab fa-wikipedia-w --icon"></i>
+                    <div class='--info'>
+                        <div class='--name'>${_word}</div>
+                        <div class='--desc'>wikipediaの記事を表示</div>
+                    </div>
+                    <div class='--open fa fa-arrow-right'></div>
+                </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                launch( 'browser', { 'url' : 'https://ja.wikipedia.org/wiki/' + _word } );
+                $('#kit-sightre-results').html('');
+                $('#kit-sightre').fadeOut(300);
+            });
         }
-        launch( _app, _args );
-    } );
-    $( "#kit-milp-search" ).click( function() {
-        launch( "browser", { "url" : "https://www.bing.com/search?q=" + $( "#milp" ).val() } );
-    } );
-    $( "#kit-milp-wikipedia" ).click( function() {
-        launch( "browser", { "url" : "https://ja.wikipedia.org/wiki/" + $( "#milp" ).val() } );
-    } );
+    });
 
     //サウンドドロップダウン
     $("#dropdown-sound-slider").slider({
@@ -677,6 +742,7 @@ const System = new function() {
         System.alert( _title, _content );
     }
 
+    this.apps = new Object();
     this.installed = new Array();
 
     this.close = function( _str ) {
@@ -820,6 +886,7 @@ const System = new function() {
 
     this.initLauncher = function(data){
         $("#launcher-apps").html("");
+        System.apps = data;
         for( let i in data ){
             $("#launcher-apps").append("<div class='launcher-app' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
         }

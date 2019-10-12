@@ -9,6 +9,7 @@
 	<link href="./system/noto.css" rel="stylesheet">
 	<link rel="stylesheet" href="./system/simplebar.css">
 	<link rel="shortcut icon" href="./system/ico/favicon.ico" type="image/x-icon">
+	<link href="./system/system.css" rel="stylesheet">
 	<!-- kitstrap -->
 	<link href="./system/kitstrap/kitstrap.css" rel="stylesheet">
 	<link href="./system/kitstrap/kitstrap-cursor.css" rel="stylesheet">
@@ -53,11 +54,6 @@
 					<a class="kit-button" onclick="$('#launch').click();launch('install')"><i class="fa fa-download"></i>インストール</a>
 			</div>
 			<div id="launcher-apps"></div>
-	</div>
-
-	<div id="kit-milp">
-		<span id="kit-milp-text"></span>について
-		<a id="kit-milp-launch"></a><a id="kit-milp-search"></a><a id="kit-milp-wikipedia"></a>
 	</div>
 
 	<footer>
@@ -121,7 +117,7 @@
 
 	<header>
 		<a id="desktops"><span class="far fa-clone"></span>Desktop</a>
-		<input type="text" class="kit-selectable" id="milp" placeholder="検索" autocomplete="off">
+		<a id="kit-header-sightre"><span class="fa fa-search"></span>さがす</a>
 		<div id="header-right">
 			<a id="kit-header-fullscreen"><span class="fa fa-window-maximize"></span>最大化を解除</a>
 			<a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
@@ -130,6 +126,11 @@
 			<a class="power-button"><span class="fa fa-power-off"></span>終了</a>
 		</div>
 	</header>
+
+	<div id="kit-sightre">
+		<input id="kit-sightre-form" type="text" placeholder="Sightreで検索" class="kit-selectable">
+		<div id="kit-sightre-results"></div>
+	</div>
 
 	<div id="kit-power">
 		<a id="kit-power-back">もどる</a>
