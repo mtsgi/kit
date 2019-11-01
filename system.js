@@ -211,14 +211,7 @@ function kit() {
                 S.alert("", "<div style='text-align:left;'>　＿　　　　＿　＿　<br>｜　｜　＿（＿）　｜＿　<br>｜　｜／　／　｜　＿＿｜<br>｜　　　〈｜　｜　｜＿　<br>｜＿｜＼＿ ＼ ＿＼＿＿｜</div><hr>", S.version);
                 return;
             }
-            let _args = null;
-            try {
-                if( _word.split(",")[1] ) _args = JSON.parse( _word.split(",").slice(1).join().trim() );
-            }
-            catch(error) {
-                Notification.push("引数の解釈に失敗", error, "system");
-            }
-            launch( _word.split(",")[0], _args );
+            $('.kit-sightre-result.-first').click();
             sightrePrevWord = '';
             $('#kit-sightre-form').val('');
             $('#kit-sightre-results').html('');
@@ -232,6 +225,52 @@ function kit() {
             $('#kit-sightre-results').html('');
             if( !_word ) return;
             sightrePrevWord = _word;
+            if( _word.indexOf('kish ') == 0 || _word.indexOf('🥧 ') == 0 ){
+                let _cmd = _word.substring( _word.indexOf(" ") + 1 );
+                if( _cmd ){
+                    $(`<div class='kit-sightre-result -first'>
+                            <img class='--icon' src='app/kish/icon.png'/>
+                            <div class='--info'>
+                                <div class='--name'>${_cmd}</div>
+                                <div class='--desc'>kishでコマンドを実行</div>
+                            </div>
+                            <div class='--open fa fa-arrow-right'></div>
+                        </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                            launch('kish', { 'rc': [ _cmd ] });
+                    });
+                }
+            }
+            else if( _word.indexOf('http://') == 0 || _word.indexOf('https://') == 0 || _word.indexOf('localhost') == 0 ){
+                $(`<div class='kit-sightre-result -first'>
+                        <img class='--icon' src='app/browser/icon.png'/>
+                        <div class='--info'>
+                            <div class='--name'>${_word}</div>
+                            <div class='--desc'>ブラウザでURLを開く</div>
+                        </div>
+                        <div class='--open fa fa-arrow-right'></div>
+                    </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                        launch( localStorage.getItem( "kit-default-browser" ), { "url" : _word } );
+                });
+            }
+            else {
+                $(`<div class='kit-sightre-result -first'>
+                        <img class='--icon' src='system/icons/q.png'/>
+                        <div class='--info'>
+                            <div class='--name'>${_word}</div>
+                            <div class='--desc'>アプリを起動する</div>
+                        </div>
+                        <div class='--open fa fa-arrow-right'></div>
+                    </div>`).appendTo('#kit-sightre-results').on('click', () => {
+                        let _args = null;
+                        try {
+                            if( _word.split(",")[1] ) _args = JSON.parse( _word.split(",").slice(1).join().trim() );
+                        }
+                        catch(error) {
+                            Notification.push("引数の解釈に失敗", error, "system");
+                        }
+                        launch( _word.split(",")[0], _args );
+                });
+            }
             for( let i in System.apps ){
                 if( i.indexOf(_word) == 0 || S.apps[i].name.indexOf(_word) == 0 ){
                     $(`<div class='kit-sightre-result -app'>

@@ -49,6 +49,10 @@
   border-left: 5px solid dodgerblue;
 }
 
+.kit-sightre-result.-first {
+  border-left: 5px solid crimson;
+}
+
 .kit-sightre-result .--open {
   opacity: 0;
   font-size: 24px;
