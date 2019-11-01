@@ -1,3 +1,177 @@
+/* notifications */
+
+#notifications {
+  z-index: 9994;
+  display: none;
+  box-sizing: border-box;
+  position: fixed;
+  right: 0px;
+  min-height: 100%;
+  max-height: 100%;
+  width: 340px;
+  background: rgba(255, 255, 255, .7);
+  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, .4);
+  padding: 40px 8px 50px 8px;
+  cursor: url(../cursor-1.png), default;
+}
+
+#notifications-show-history {
+  display: block;
+  text-align: right;
+}
+
+.notis {
+  position: relative;
+  overflow: hidden;
+  cursor: url(../cursor-1.png), default;
+  padding: 4px;
+  border-radius: 5px;
+  margin: 10px 4px;
+  background: #ffffff;
+}
+
+.notis .notis_img {
+  float: left;
+  max-height: 64px;
+  max-width: 64px;
+  margin: 2px;
+  border-radius: 3px;
+  z-index: 0;
+}
+
+.notis .notis_close {
+  position: absolute;
+  right: 4px;
+  top: 4px;
+}
+
+.notis .notis_app {
+  margin-bottom: 2px;
+  font-size: 14px;
+  color: #999999;
+}
+
+.notis_app img {
+  height: 18px;
+  vertical-align: top;
+  margin-right: 4px;
+}
+
+.notis>span {
+  display: block;
+  font-weight: 700;
+}
+
+.notis .notis_close {
+  cursor: url(../cursor-2.png), pointer;
+  float: right;
+  background: rgba(255, 100, 100, .8);
+  width: 16px;
+  height: 16px;
+  margin: 2px;
+  border-radius: 99px;
+}
+
+.notis .notis_time {
+  text-align: right;
+  font-size: 12px;
+  color: #c0c0c0;
+}
+
+.notis .notis_buttons {
+  text-align: right;
+}
+
+.notis_buttons a {
+  display: inline-block;
+  color: dodgerblue;
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 2px 3px;
+}
+
+.notis_buttons a:hover {
+  background: #f0f0f0;
+  box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, .3);
+}
+
+
+/* last notification */
+
+#last-notification {
+  max-height: 200px;
+  width: 320px;
+  z-index: 9999;
+  display: none;
+  position: fixed;
+  padding: 4px;
+  bottom: 54px;
+  right: 12px;
+  border-radius: 4px;
+  cursor: url(../cursor-1.png), default;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, .5);
+  overflow: hidden;
+}
+
+#last-notification-close {
+  background: red;
+  width: 15px;
+  height: 15px;
+  display: inline-block;
+  float: right;
+  border-radius: 999px;
+  cursor: url(../cursor-2.png), pointer;
+  opacity: .8;
+}
+
+#last-notification-title {
+  font-weight: 700;
+}
+
+#last-notification-img {
+  float: left;
+  max-height: 64px;
+  max-width: 64px;
+  margin: 2px;
+  margin-right: 10px;
+  border-radius: 3px;
+}
+
+#last-notification-buttons {
+  text-align: right;
+  padding: 6px 0;
+}
+
+#last-notification-buttons a {
+  color: dodgerblue;
+  border: 1px solid transparent
+  font-size: 14px;
+  padding: 2px 6px;
+  border-radius: 3px;
+  cursor: pointer;
+  margin: 0 3px;
+}
+
+#last-notification-buttons a:hover {
+  box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, .3);
+  background: #ffffff;
+}
+
+#last-notification-app {
+  font-size: 12px;
+  color: #a0a0a0;
+}
+
+#last-notification-app img {
+  height: 16px;
+  vertical-align: top;
+  margin-right: 4px;
+}
+
+/* sightre */
+
 #kit-sightre {
   position: fixed;
   top: 0px;
@@ -9,14 +183,14 @@
   margin: 0;
   padding: 0;
   border-radius: 0 0 6px 6px;
-  box-shadow: 0 2px 15px 0 rgba(0,0,0,.3);
+  box-shadow: 0 2px 15px 0 rgba(0, 0, 0, .3);
   display: none;
   z-index: 9995;
 }
 
 #kit-sightre input {
   all: initial;
-	font-family: 'Noto Sans JP', sans-serif;
+  font-family: 'Noto Sans JP', sans-serif;
   background: transparent;
   width: 100%;
   font-size: 20px;
@@ -34,7 +208,7 @@
 .kit-sightre-result:hover {
   transition: .2s all ease;
   background: #ffffff;
-  box-shadow: 0 2px 5px 0 rgba(0,0,0,.1);
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .1);
 }
 
 .kit-sightre-result.-app {
