@@ -1,12 +1,12 @@
-((_pid) => {
+((_pid, _app) => {
 
-    $.getJSON( System.launchpath[_pid] + "kish_config.json", (data) => {
+    $.getJSON(_app.getPath("kish_config.json"), (data) => {
         let props = ["background","font-family","font-size","font-weight","color","text-align","text-shadow","background-size","background-attachment","backdrop-filter"];
         KWS.resize(_pid, data.width || "", data.height || "");
         if( data.styles ) for( let i in data.styles ){
             if( props.includes(i) ){
-                S.dom( _pid, "#kish-wrapper" ).css( i, data.styles[i] );
-                if( i == "backdrop-filter" ) S.dom( _pid ).css( i, data.styles[i] );
+                _app.dom('#kish-wrapper').css( i, data.styles[i] );
+                if( i == "backdrop-filter" ) _app.dom().css( i, data.styles[i] );
             }
         }
     });
@@ -26,7 +26,7 @@
         this.clear = function(arg){
             let args = arg.split(" ");
             let num = Number(args[0]);
-            if( !num ) S.dom(_pid, "#kish-out").html("");
+            if( !num ) _app.dom('#kish-out').html('');
             return false;
         }
     
@@ -44,26 +44,23 @@
             kishHistory.unshift( arg );
             kishCur = -1;
             if( arg.indexOf(" ") != -1 ) args = arg.substring( arg.indexOf(" ") + 1 );
-            S.dom(_pid, "#kish-out").append( "<div class='kish-item'><i class='fa fa-dollar-sign'></i><span class='kish-highlight'>" + cmd + "</span>" + args + "</div>" );
+            _app.dom('#kish-out').append(`<div class='kish-item'><i class='fa fa-dollar-sign'></i><span class='kish-highlight'>${cmd}</span>${args}</div>`);
             if( !Kish[cmd] ){
-                S.dom(_pid, "#kish-out").append( "<div class='kish-item'><i class='fa fa-angle-double-right'></i> kishコマンドは存在しません: " + cmd + "</div>" );
+                _app.dom('#kish-out').append(`<div class='kish-item'><i class='fa fa-angle-double-right'></i> kishコマンドは存在しません：${cmd}</div>`);
                 return false;  
             }
-            let exec = "Kish." + cmd + "('" + args + "')";
+            let exec = `Kish.${cmd}('${args}')`;
             try {
                 let rtn = eval(exec)
                 if( typeof rtn == "object" ) rtn = JSON.stringify(rtn, null, 4);
-                if( rtn ) S.dom(_pid, "#kish-out").append( "<div class='kish-item'><span class='kish-from'>" +cmd+ "</span><i class='fa fa-angle-double-right'></i> " + rtn + "</div>" );            
+                if( rtn ) _app.dom('#kish-out').append(`<div class='kish-item'><span class='kish-from'>${cmd}</span><i class='fa fa-angle-double-right'></i>${rtn}</div>`);            
             }
             catch (error) {
-                S.dom(_pid, "#kish-out").append( "<div class='kish-item'><span class='kish-from'>" +cmd+ "</span><i class='fa fa-exclamation-triangle'></i> " + error + "</div>" );
+                _app.dom('#kish-out').append(`<div class='kish-item'><span class='kish-from'>${cmd}</span><i class='fa fa-exclamation-triangle'></i>${error}</div>`);
             }
-    
         }
 
-        this.exit = function(){
-            System.close(_pid);
-        }
+        this.exit = () => _app.close();
 
         this.install = function(arg){
             let args = arg.split(" ");
@@ -84,15 +81,13 @@
             return "Start installing...";
         }
     
-        this.kish = function(){
-            return "kish v0.3.0";
-        }
+        this.kish = () => 'kish v0.4.0';
 
         this.launch = function(arg){
             args = arg.split(" ");
-            System.launchpath[processID] = System.appdir + args[0];
+            System.launchpath[pid] = System.appdir + args[0];
             $.getJSON( "./app/" + args[0] + "/define.json", appData ).fail( function() {
-                System.launchpath[processID] = args[0];
+                System.launchpath[pid] = args[0];
                 $.getJSON( args[0] + "/define.json", appData ).fail( function() {
                     Kish.print("Faild to launch an App: " + args[0], "launch");
                 } );
@@ -103,10 +98,9 @@
         }
 
         this.ls = function(){
-            let _r = "<i>path ~</i><br>";
-            for( let i in System.userarea ){
-                _r += "- " + i + "<br>";
-            }
+            let _r = "<strong>/</strong><ul>";
+            for( let i in System.userarea ) _r += `<li>${i}</li>`;
+            _r += "</ul>";
             return _r;
         }
 
@@ -136,48 +130,47 @@
             return count + "app(s) was uninstalled from kit.";
         }
 
-        this.ver = function(){
-            return System.version;
-        }
+        this.ver = () => System.version;
     }
 
-    $.getJSON( System.launchpath[_pid] + "kishrc.json", (data) => {
-        for( let i of data.rc ) Kish.exec(i);
-    });
-
-    S.dom(_pid, "#kish-input").on( "keypress keyup keydown", (e) => {
-        let input = S.dom(_pid, "#kish-input").val().split(" ");
-
+    _app.dom('#kish-input').on( "keypress keyup keydown", (e) => {
+        let input = _app.dom('#kish-input').val().split(' ');
         if( typeof Kish[ input[0] ] == "function" ){
-            S.dom(_pid, "#kish-curcmd").show().text( input[0] );
+            _app.dom('#kish-curcmd').show().text( input[0] );
         }
-        else S.dom(_pid, "#kish-curcmd").hide();
-
-        if( e.keyCode == 13 && S.dom(_pid, "#kish-input").val() ){
-            Kish.exec( S.dom(_pid, "#kish-input").val() );
-            S.dom(_pid, "#kish-input").val("");
-        }
+        else _app.dom('#kish-curcmd').hide();
     } );
 
-    S.dom(_pid, "#kish-input").on( "keydown", (e) => {
-        if( e.keyCode == 38 ){
+    _app.dom('#kish-input').on('keydown keypress', (e) => {
+        if( e.keyCode == 13 && _app.dom('#kish-input').val() ){
+            Kish.exec( _app.qs('#kish-input')[0].value );
+            _app.dom('#kish-input').val('');
+        }
+        else if( e.keyCode == 38 ){
             if( kishCur < kishHistory.length - 1 ){
                 kishCur ++;
-                S.dom(_pid, "#kish-input").val( kishHistory[kishCur] );
+                _app.dom('#kish-input').val( kishHistory[kishCur] );
             }
         }
         else if( e.keyCode == 40 ){
             if( kishCur > 0 ){
                 kishCur --;
-                S.dom(_pid, "#kish-input").val( kishHistory[kishCur] );
+                _app.dom('#kish-input').val( kishHistory[kishCur] );
             }
             else if( kishCur == 0 ){
                 kishCur = -1;
-                S.dom(_pid, "#kish-input").val( "" );
+                _app.dom('#kish-input').val('');
             }
         }
     });
 
-    KWS.changeWindowTitle(_pid, "(kish)"+ System.username);
-    App.changeWindowTitle(_pid, "(kish)"+ System.username);
-})(pid);
+    $.getJSON( _app.getPath("kishrc.json"), (data) => {
+        for( let i of data.rc ) Kish.exec(i);
+    });
+
+    if( _app.args && _app.args['rc'] ){
+        for( let i of _app.args['rc'] ) Kish.exec(i);
+    }
+
+    _app.changeWindowTitle(`(kish) ${System.username}`);
+})(pid, app);
