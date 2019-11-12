@@ -1,6 +1,6 @@
 ((_pid) => {
 
-    $.getJSON( System.launchpath[_pid] + "kish_config.json", (data) => {
+    $.getJSON( System.launchpath[_pid] + "/kish_config.json", (data) => {
         let props = ["background","font-family","font-size","font-weight","color","text-align","text-shadow","background-size","background-attachment","backdrop-filter"];
         KWS.resize(_pid, data.width || "", data.height || "");
         if( data.styles ) for( let i in data.styles ){
@@ -141,7 +141,7 @@
         }
     }
 
-    $.getJSON( System.launchpath[_pid] + "kishrc.json", (data) => {
+    $.getJSON( System.launchpath[_pid] + "/kishrc.json", (data) => {
         for( let i of data.rc ) Kish.exec(i);
     });
 

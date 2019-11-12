@@ -320,50 +320,21 @@ footer .task-min:after{
 #footer-tasks:hover{
 	color: dodgerblue;
 }
+
 #notifications{
-	z-index: 9995;
-	display: none;
-	box-sizing: border-box;
-	position: fixed;
-	right: 0px;
-	min-height: 100%;
-	max-height: 100%;
-	width: 250px;
-	background: #e0e0e0;
-	padding: 30px 4px 50px 4px;
+	background: #f0f0f0;
+	box-shadow: none;
 }
-#notifications-show-history{
-	display: block;
-	text-align: right;
-}
+
 #notifications .notis{
-	cursor: url(../cursor-1.png), default;
 	border: 1px solid #a0a0a0;
-	padding: 2px;
-	margin: 6px 4px;
-	background: #ffffff;
-	font-size: 15px;
+	border-radius: 0;
+} 
+
+#notifications .notis_buttons a{
+	border-radius: 0;
 }
-#notifications .notis:hover{
-	border: 1px solid #505050;
-	background: #e0e0e0;
-}
-.notis > span{
-	display: block;
-	font-weight: 700;
-}
-.notis_close{
-	cursor:url(../cursor-2.png), pointer;
-	float: right;
-	background: red;
-	width: 13px;
-	height: 13px;
-	margin: 2px;
-}
-.notis_time{
-	font-size: 13px;
-	color: #909090;
-}
+
 #tasks{
 	padding-left: 28px;
 }
@@ -763,36 +734,20 @@ h3{
 	margin: 0 auto;
 	height: 70px;
 }
+
 #last-notification{
-	z-index: 9996;
-	display: none;
-	position: fixed;
-	background: #e0e0e0;
-	padding: 4px;
-	bottom: 54px;
-	right: 12px;
-	width: 180px;
-	cursor:url(../cursor-1.png), default;
+	background: #f0f0f0;
+	border-radius: 0;
 }
-#last-notification-close{
-	background: red;
-	width: 15px;
-	height: 15px;
-	display: inline-block;
-	float: right;
-	cursor:url(../cursor-2.png), pointer;
-}
-#last-notification-title{
-	font-weight: 700;
-}
+
 #last-notification-content{
 	font-size: 14px;
 }
-#last-notification-app{
-	font-size: 14px;
-	color: #a0a0a0;
-	text-align: right;
+
+#last-notification-buttons a{
+	border-radius: 0;
 }
+
 .kit-fusen{
 	background: rgb(255,250,220);
 	border: 1px solid #909090;
