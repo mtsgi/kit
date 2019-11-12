@@ -1,7 +1,7 @@
 .winc-kish {
   padding: 0;
-  background: transparent;
-	backdrop-filter: blur(10px);
+  background: rgba(0,0,0,.5);
+  backdrop-filter: blur(10px);
 }
 
 #kish-form {
@@ -25,6 +25,7 @@
   text-shadow: 0 1px 3px #202020;
   background: rgba(0, 0, 0, .5);
   box-shadow: inset 0 0 0 0 transparent, inset 0 0 0 0 transparent;
+  z-index: 98;
 }
 
 #kish-input:focus {
@@ -40,10 +41,11 @@
   bottom: 13px;
   left: 10px;
   color: #f0f0f0;
+  z-index: 99;
 }
 
 #kish-wrapper {
-  overflow: scroll;
+  overflow: auto;
   background-image: url(bg.jpg);
   background-size: cover;
   background-attachment: fixed;
