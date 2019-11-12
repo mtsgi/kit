@@ -135,6 +135,7 @@
 
     _app.dom('#kish-input').on( "keypress keyup keydown", (e) => {
         let input = _app.dom('#kish-input').val().split(' ');
+
         if( typeof Kish[ input[0] ] == "function" ){
             _app.dom('#kish-curcmd').show().text( input[0] );
         }

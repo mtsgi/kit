@@ -6,7 +6,7 @@
 //  |   <| | |_ 
 //  |_|\_\_|\__|
 //
-// THIS IS THE KIT KERNEL AND KIT WINDOW SYSTEM
+// THIS IS THE KIT KERNEL, KIT APPS FRAMEWORK AND KIT WINDOW SYSTEM
 // http://web.kitit.ml/
 // https://github.com/mtsgi/kit
 
@@ -63,8 +63,18 @@ function kit() {
     if( System.bootopt.get("safe") ) clockmove = setInterval( System.clock, 1000 );
     else  clockmove = setInterval( System.clock, 10 );
 
-    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system" );
-    //スタートアップ
+    if ( localStorage.getItem("kit-shutted-down") == "false" ) {
+        Notification.push( "お知らせ", "kitは前回終了時、正しくシャットダウンされませんでした。", "system" );
+    }
+    localStorage.setItem("kit-shutted-down", false);
+
+    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system", null, null, 'documents/icon.png', [
+        {
+            label: 'kitについて',
+            func: () => launch( 'settings', {'view': 'about'} )
+        }
+    ]);
+
     if( localStorage.getItem( "kit-startup" ) == undefined ) {
         localStorage.setItem( "kit-startup", new Array( "welcome" ) );
     }
@@ -95,7 +105,18 @@ function kit() {
             $( "#kit-tasks" ).html( $( "#tasks" ).html() ).fadeIn( 300 ).css( "z-index", "9997" );
         }
     } );
-    //デスクトップアイコン
+    $.getJSON("system/testload.json").fail( () => {
+        $('#body').append(`<div id='wcors' class="window windowactive" style="top: 70px; left: 50px; width: calc(100% - 100px)">
+            <div class="wt">問題が発生しました</div>
+            <div class="winc">JSONデータ読み込みに失敗しました。<br>
+            クロスオリジン制約によりkitアプリケーションの動作が制限されている場合があります。<br>
+            詳細は<a class="kit-hyperlink" onclick="location.href = 'https://mtsgi.github.io/kitdocs/#/cors'">こちらの記事</a>をご確認ください。</div>
+        </div>`);
+        $('<kit-button-alt class="kit-block kit-text-c m">閉じる</kit-button-alt>').appendTo('#wcors .winc').on('click', ()=>{
+            $('#wcors').remove();
+        })
+    });
+    
     $.getJSON("config/desktop.json", (data) => {
         for( let i in data ){
             $(".desktop-icons").append("<div class='desktop-icon' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
@@ -106,7 +127,7 @@ function kit() {
     }).fail( function() {
         Notification.push( "読み込みに失敗", "デスクトップ(config/desktop.json)の読み込みに失敗しました。", "system" );
     } );
-    //ランチャー
+    
     $.getJSON("config/apps.json", System.initLauncher).fail( function() {
         Notification.push( "ランチャー初期化失敗", "アプリケーション一覧(config/apps.json)の読み込みに失敗しました。", "system" );
     } );
@@ -114,7 +135,7 @@ function kit() {
         System.close( this.id.slice( 1 ) );
         $( this ).hide();
     } );
-    //通知バー
+    
     $( "#footer-noti" ).click( function() {
         $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
         if( $( "#notifications" ).is( ":visible" ) ) {
@@ -133,7 +154,7 @@ function kit() {
         }
         else Notification.goodnight = false;
     });
-    //電源管理
+    
     $( ".power-button" ).click( function() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
         $( "#last-notification" ).hide( "drop", {direction: "right"}, 300 );
@@ -177,7 +198,7 @@ function kit() {
     }, function() {
         $( "#lock-unl span" ).removeClass( "fa-lock-open" ).addClass( "fa-lock" );
     } );
-    //ランチャー起動
+    
     $( "#launch" ).click( function() {
         $( "#notifications" ).hide( "drop", {direction: "right"}, 300 );
         if( $( "#launcher" ).is( ":visible" ) ) {
@@ -330,7 +351,6 @@ function kit() {
         }
     });
 
-    //サウンドドロップダウン
     $("#dropdown-sound-slider").slider({
         min: 0, max: 100, step: 1, value: 100,
         change: (e, ui) => {
@@ -361,7 +381,6 @@ function kit() {
         launch("user");
     });
 
-    //コンテキストメニュー
     $(":root section:not(#desktop-l)").on("contextmenu", function() {
         let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );
         S.selectedElement = _ptelem;
@@ -479,8 +498,8 @@ function launch( str, args, dir ) {
     }
     else {
         try{
-            $.getJSON( S.launchpath[_pid] + "/define.json", appData ).fail( function() {
-                Notification.push("kitアプリをロードできません", str + "を展開できませんでした。アプリが存在しないか、クロスオリジン要求がブロックされている可能性があります。詳細:https://kitdev.home.blog/", "system");
+            $.getJSON( S.launchpath[_pid] + '/define.json', appData ).fail( () => {
+                Notification.push('kitアプリをロードできません。', `${str}を展開できませんでした。`, 'system');
             } );
         }
         catch(error){
@@ -491,7 +510,6 @@ function launch( str, args, dir ) {
 
 function appData( data ) {
     let _pid = pid;
-    app = new App(_pid);
     process[String( _pid )] = {
         id: data.id,
         time: System.time.obj.toLocaleString(),
@@ -500,6 +518,7 @@ function appData( data ) {
         title: data.name
     };
     System.appCache[data.id] = data;
+    app = new App(_pid);
     let _taskAppend = `<span id='t${_pid}'>`;
     if( data.icon && data.icon != "none" ) _taskAppend += `<img src='${S.launchpath[_pid]}/${data.icon}'>`;
     _taskAppend += `<span id='tname${_pid}'>${data.name}<span></span>`;
@@ -734,6 +753,7 @@ const System = new function() {
         $( "header, footer" ).fadeOut( 300 );
         $( "#kit-wallpaper" ).fadeOut( 1500 );
         if( _opt == "reboot" ) location.href = "autorun.html";
+        localStorage.setItem("kit-shutted-down", true);
     }
 
     this.reboot = function() {
@@ -1121,6 +1141,11 @@ const KWS = new function(){
         KWS.windowIndex = num;
     }
 
+    this.front = function( _pid ) {
+        $(`#w${_pid}`).css("z-index", KWS.windowIndex + 1);
+        KWS.refreshWindowIndex();
+    }
+
     this.resize = function( _pid, _width, _height ){
         if( _width ) $("#winc"+_pid).css("width", _width)
         if( _height ) $("#winc"+_pid).css("height", _height);
@@ -1197,35 +1222,64 @@ const Notification = new function() {
     this.goodnight = false;
     this.sound = null;
 
-    this.push = function( _title, _content, _app ) {
+    this.push = function( _title, _content, _app, _pid, _action, _img, _buttons ) {
+        let _nid = this.nid;
         if( !System.debugmode && ( _title == "debug" || _app == "debug" ) ){
             return false;
         }
-        this.list[this.nid] = {
-            "title" : _title,
-            "content" : _content,
-            "app" : _app,
-            "time" : System.time.obj.toLocaleString()
+        Notification.list[_nid] = {
+            title: _title,
+            content: _content,
+            app: _app,
+            time: System.time.obj.toLocaleString(),
+            pid: _pid,
+            action: () => {
+                if( typeof _action == 'function' ) _action();
+                else if( _pid ) KWS.front(_pid);
+                $('#notifications').hide('drop', {direction: 'right'}, 300);
+            },
+            img: _img
         };
+        if( _pid && System.appCache[_app] ){
+            _app = `<img src='${System.launchpath[_pid]}/${System.appCache[_app].icon}'>${_app}`;
+        }
         if( !this.goodnight ){
             if( this.sound ) System.audio.play( "n" + this.nid, this.sound );
-            $( "#last-notification-title" ).text("").text( _title );
-            $( "#last-notification-content" ).text("").text( _content );
-            $( "#last-notification-app" ).text("").text( _app );
-            $( "#last-notification" ).hide().show( "drop", {direction: "right"}, 300 );
+            $('#last-notification-title').text('').text( _title );
+            $('#last-notification-content').text('').text( _content );
+            $('#last-notification-app').text('').html( _app );
+            $('#last-notification').hide().show('drop', {direction: "right"}, 300).off().on('click', Notification.list[this.nid].action);
+            if( _img ) $('#last-notification-img').attr('src', _img).show();
+            else $('#last-notification-img').attr('src', '').hide();
         }
-        $( "#notifications" ).append( "<div class='notis' id='nt" + this.nid + "'><span class='notis_close' id='nc" + this.nid + "'></span><span><span class='fas fa-comment-alt'></span>" + _title + "</span>" + _content + "<div class='notis_time'>" + System.time.obj.toLocaleString() + "</div></div>" );
-        $("#nc" + this.nid).on("click", function(){
-            let _nid = this.id.slice(2);
-            $("#nt" + _nid).fadeOut(300);
-            return false;
-        } );
-        $("#nt" + this.nid).on("click", function(){
-            let _nid = this.id.slice(2);
-            if( Notification.list[ _nid ].app != "system" ){
-                launch(Notification.list[ _nid ].app);
+        let imgtag = '';
+        if( _img ) imgtag = `<img src='${_img }' alt='' class='notis_img'>`;
+        $(`<div class='notis' id='nt${_nid}'>
+                ${imgtag}
+                <span class='notis_close' id='nc${_nid}'></span>
+                <div class='notis_app'>${_app}</div>
+                <span>${_title}</span>
+                ${_content}
+                <div class='notis_buttons'></div>
+                <div class='notis_time'>${System.time.obj.toTimeString()}</div>
+            </div>`).appendTo('#notifications').on('click', Notification.list[this.nid].action);
+        $(`#nc${_nid}`).on('click', (e) => {
+            e.stopPropagation();
+            $(`#nt${_nid}`).fadeOut(300);
+        });
+        $('#last-notification-buttons').html('');
+        if( _buttons ){
+            for( let b of _buttons ){
+                $(`<a>${b.label}</a>`).appendTo('#last-notification-buttons').on('click', (e) => {
+                    e.stopPropagation();
+                    b.func();
+                });
+                $(`<a>${b.label}</a>`).appendTo(`#nt${_nid} .notis_buttons`).on('click', (e) => {
+                    e.stopPropagation();
+                    b.func();
+                });
             }
-        } );
+        }
         this.nid ++;
         return (this.nid - 1);
     }
@@ -1236,12 +1290,17 @@ class App {
         App.e[_pid] = new Object();
         App.d[_pid] = new Object();
         
+        this.process = process[_pid];
+        this.info = System.appCache[process[_pid].id];
+
         this.args = System.args[_pid];
         this.close = () => System.close(_pid);
-        this.d = () => App.d[_pid];
+        this.d = App.d[_pid];
         this.dom = (..._args) => System.dom(_pid, ..._args);
+        this.e =  App.e[_pid];
+        this.ntf = (_title, _content, _action, _img, _buttons) => Notification.push(_title, _content, this.info.id, _pid, _action, _img, _buttons);
         this.qs = (...args) => System.qs(_pid, ...args);
-        this.e = App.e[_pid];
+        this.front = () => KWS.front(_pid);
 
         this.changeWindowTitle = _t => App.changeWindowTitle( _pid, _t );
         this.data = (_name, _value) => App.data(_pid, _name, _value);
@@ -1380,7 +1439,7 @@ class App {
         return App;
     }
 
-    static preventClose( _pid, _bool ) {
+    static preventClose( _pid, _bool = true ) {
         process[_pid].preventclose = _bool || true;
         return App;
     }
@@ -1388,5 +1447,6 @@ class App {
 
 App.d = new Object();
 App.e = new Object();
+App.version = "2.1.1";
 
 var process = {}, pid = 0, app, currentDesktop = 1, currentCTX = "", prevWindowIndex, S;

@@ -22,14 +22,14 @@
 
     _app.event("username_set", () => {
         _app.data( "username", _app.dom('#settings-username').val() );
-        localStorage.setItem( "kit-username", _app.d().username );
-        System.username = _app.d().username;
+        localStorage.setItem( "kit-username", _app.data().username );
+        System.username = _app.data().username;
         _app.load('user.html');
         $( "#kit-header-username" ).text( localStorage.getItem( "kit-username" ) );
     });
     _app.event('usercolor_set', () => {
         _app.data( 'usercolor', _app.dom('#settings-user-color').val() )
-        localStorage.setItem( "kit-user-color", _app.d().usercolor );
+        localStorage.setItem( "kit-user-color", _app.data().usercolor );
         _app.load('user.html');
     });
     _app.event('userpassword_set', () => {
