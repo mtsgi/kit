@@ -71,7 +71,7 @@ function kit() {
     Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system", null, null, 'documents/icon.png', [
         {
             label: 'kitについて',
-            func: () => launch( 'settings', {'view': 'about'} )
+            func: () => System.launch( 'settings', {'view': 'about'} )
         }
     ]);
 
@@ -83,7 +83,7 @@ function kit() {
         Notification.push( "セーフブート", "現在、kitをセーフモードで起動しています。", "system" );
         System.alert( "セーフブート", "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='System.reboot()'>通常モードで再起動</a>", "system" );
     }
-    else for( let i of System.startup ) if( i != "" ) launch( i );
+    else for( let i of System.startup ) if( i != "" ) System.launch(i);
     
     $("#kit-header-fullscreen").hide();
 
@@ -122,7 +122,7 @@ function kit() {
             $(".desktop-icons").append("<div class='desktop-icon' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
         }
         $(".desktop-icon").on("click", function(){
-            launch( $(this).attr("data-launch") );
+            System.launch( $(this).attr("data-launch") );
         });
     }).fail( function() {
         Notification.push( "読み込みに失敗", "デスクトップ(config/desktop.json)の読み込みに失敗しました。", "system" );
@@ -257,7 +257,7 @@ function kit() {
                             </div>
                             <div class='--open fa fa-arrow-right'></div>
                         </div>`).appendTo('#kit-sightre-results').on('click', () => {
-                            launch('kish', { 'rc': [ _cmd ] });
+                            System.launch('kish', { 'rc': [ _cmd ] });
                     });
                 }
             }
@@ -270,7 +270,7 @@ function kit() {
                         </div>
                         <div class='--open fa fa-arrow-right'></div>
                     </div>`).appendTo('#kit-sightre-results').on('click', () => {
-                        launch( localStorage.getItem( "kit-default-browser" ), { "url" : _word } );
+                        System.launch( localStorage.getItem('kit-default-browser'), { "url" : _word } );
                 });
             }
             else {
@@ -289,7 +289,7 @@ function kit() {
                         catch(error) {
                             Notification.push("引数の解釈に失敗", error, "system");
                         }
-                        launch( _word.split(",")[0], _args );
+                        System.launch( _word.split(",")[0], _args );
                 });
             }
             for( let i in System.apps ){
@@ -302,7 +302,7 @@ function kit() {
                             </div>
                             <div class='--open fa fa-arrow-right'></div>
                         </div>`).appendTo('#kit-sightre-results').on('click', () => {
-                        launch(i);
+                        System.launch(i);
                         $('#kit-sightre-results').html('');
                         $('#kit-sightre').fadeOut(300);
                     });
@@ -332,7 +332,7 @@ function kit() {
                     </div>
                     <div class='--open fa fa-arrow-right'></div>
                 </div>`).appendTo('#kit-sightre-results').on('click', () => {
-                launch( 'browser', { 'url' : 'https://www.bing.com/search?q=' + _word } );
+                System.launch( 'browser', { 'url' : 'https://www.bing.com/search?q=' + _word } );
                 $('#kit-sightre-results').html('');
                 $('#kit-sightre').fadeOut(300);
             });
@@ -344,7 +344,7 @@ function kit() {
                     </div>
                     <div class='--open fa fa-arrow-right'></div>
                 </div>`).appendTo('#kit-sightre-results').on('click', () => {
-                launch( 'browser', { 'url' : 'https://ja.wikipedia.org/wiki/' + _word } );
+                System.launch( 'browser', { 'url' : 'https://ja.wikipedia.org/wiki/' + _word } );
                 $('#kit-sightre-results').html('');
                 $('#kit-sightre').fadeOut(300);
             });
@@ -377,9 +377,7 @@ function kit() {
         }
     });
 
-    $("#kit-header-user").on("click", ()=>{
-        launch("user");
-    });
+    $('#kit-header-user').on('click', () => System.launch('user') );
 
     $(":root section:not(#desktop-l)").on("contextmenu", function() {
         let _ptelem = $( document.elementFromPoint(S.mouseX, S.mouseY) );
@@ -426,7 +424,7 @@ function kit() {
     });
     $( "#kit-context-search" ).on("click", function(){
         $("#kit-context").fadeOut(300);
-        launch( "browser", { "url" : "https://www.bing.com/search?q=" + $( "#kit-context-input" ).val() } );
+        System.launch( 'browser', {'url': `https://www.bing.com/search?q=${$('#kit-context-input').val()}`} );
     });
     $( "#kit-context-input" ).keypress( function( e ) {
         if( e.which == 13 ) $( "#kit-context-search" ).click();
@@ -451,15 +449,15 @@ function kit() {
         $("#kit-context").fadeOut(300);
     })
 
-    $( document ).delegate( "a", "click", function() {
+    $( document ).delegate('a', 'click', function() {
         if( this.href ) {
-            launch( localStorage.getItem( "kit-default-browser" ), { "url" : this.href } );
+            System.launch( localStorage.getItem( "kit-default-browser" ), { "url" : this.href } );
             return false;
         }
-    } ).on("mousemove", function(event){
-        System.mouseX = event.clientX;
-        System.mouseY = event.clientY;
-    }).delegate( ".textbox", "keypress", function( e ) {
+    } ).on("mousemove", function(e){
+        System.mouseX = e.clientX;
+        System.mouseY = e.clientY;
+    }).delegate('.textbox', 'keypress', function(e) {
         if( e.which == 13 && this.id ){
             if( $("#" + this.id + " + .kit-button").length ){
                 Notification.push("debug", this.id, "system");
@@ -490,11 +488,12 @@ function kit() {
 function launch( str, args, dir ) {
     let _pid = pid;
     System.args[_pid] = args;
-    System.launchpath[_pid] = dir || System.appdir + str;
+    let _path = dir || System.appdir + str;
+    System.launchpath[_pid] = _path;
 
-    if( System.appCache[str] ) {
+    if( System.appCache[_path] ) {
         if( KWS.fullscreen.pid ) KWS.unmax(KWS.fullscreen.pid);
-        appData( System.appCache[str] );
+        appData( System.appCache[_path] );
     }
     else {
         try{
@@ -517,7 +516,7 @@ function appData( data ) {
         preventclose: false,
         title: data.name
     };
-    System.appCache[data.id] = data;
+    System.appCache[System.launchpath[pid]] = data;
     app = new App(_pid);
     let _taskAppend = `<span id='t${_pid}'>`;
     if( data.icon && data.icon != "none" ) _taskAppend += `<img src='${S.launchpath[_pid]}/${data.icon}'>`;
@@ -722,11 +721,11 @@ const System = new function() {
     }
 
     this.save = function(data, type){
-        launch("fivr", { "save" : data, "type" : type });
+        System.launch("fivr", { "save" : data, "type" : type });
     }
 
     this.open = function(filename){
-        launch("fivr", { "open" : filename });
+        System.launch("fivr", { "open" : filename });
     }
 
     this.preventClose = function( _pid ){
@@ -740,7 +739,7 @@ const System = new function() {
         $( "#kit-power-back" ).click();
         for( let i in process ) {
             if( process[i].preventclose == true ){
-                S.dialog( "シャットダウンの中断", "pid" + System.appCache[process[i].id].name + "がシャットダウンを妨げています。<br>強制終了してシャットダウンを続行する場合は[OK]を押下してください。", () => {
+                S.dialog( "シャットダウンの中断", "pid" + System.appCache[System.launchpath[i]].name + "がシャットダウンを妨げています。<br>強制終了してシャットダウンを続行する場合は[OK]を押下してください。", () => {
                     process[i].preventclose = false;
                     System.shutdown();
                 } );
@@ -773,21 +772,21 @@ const System = new function() {
         else $( "#lock-password" ).hide();
     }
 
-    this.alert = function( title, content, winname ) {
-        launch( "alert", [title, content, winname] );
+    this.alert = function( title, content, wtitle ) {
+        System.launch("alert", [title, content, wtitle]);
     }
 
     this.dialog = function( title, content, func ){
-        launch("dialog", {
+        System.launch("dialog", {
             "title": title,
             "content": content,
             "func": func
-        })
+        });
     }
 
     this.appInfo = function( _pid ){
         let _title = "", _content = "";
-        let ac = System.appCache[process[_pid].id];
+        let ac = System.appCache[S.launchpath[_pid]];
         let _lp = System.launchpath[_pid];
         if( ac ){
             _title = ac.name + " " + ac.version;
@@ -947,20 +946,46 @@ const System = new function() {
         $("#launcher-apps").html("");
         System.apps = data;
         for( let i in data ){
-            $("#launcher-apps").append("<div class='launcher-app' data-launch='" + i + "'><img src='" + data[i].icon + "'>" + data[i].name + "</div>");
+            $('#launcher-apps').append(`<div class='launcher-app' data-launch='${i}'><img src='${data[i].icon}'>${data[i].name}</div>`);
         }
-        if( !System.bootopt.get("safe") ){
+        if( !System.bootopt.get('safe') ){
             for( let i of System.installed ){
-                $("#launcher-apps").append("<div class='launcher-app' data-define-path='" + i.path + "' data-define-id='" + i.id + "'><img src='" + i.icon + "'>" + i.name + "</div>");
+                $('#launcher-apps').append(`<div class='launcher-app' data-launch='${i.path}' data-define-id='${i.id}'><img src='${i.icon}'>${i.name}</div>`);
             }
         }
-        $(".launcher-app").on("click", function(){
-            $("#launch").click();
-            if( $(this).attr("data-launch") ) launch( $(this).attr("data-launch") );
-            else if( $(this).attr("data-define-path") ){
-                launch( $(this).attr("data-define-id"), null, $(this).attr("data-define-path") );
-            };
+        $('.launcher-app').on('click', function(){
+            $('#launch').click();
+            System.launch( $(this).attr('data-launch') );
         });
+    }
+
+    this.launch = function(path, args) {
+        let _pid = pid;
+        System.args[_pid] = args;
+        let _path = path;
+        if(_path.lastIndexOf('/') == _path.length - 1) {
+            _path = _path.substring(0, _path.length - 1);
+        }
+        else if(_path.indexOf('/') == -1) {
+            _path = System.appdir + _path;
+        }
+
+        System.launchpath[_pid] = _path;
+    
+        if( System.appCache[_path] ) {
+            if( KWS.fullscreen.pid ) KWS.unmax(KWS.fullscreen.pid);
+            appData( System.appCache[_path] );
+        }
+        else {
+            try{
+                $.getJSON( _path + '/define.json', appData ).fail( () => {
+                    Notification.push('kitアプリをロードできません。', `${_path}を展開できませんでした。`, 'system');
+                } );
+            }
+            catch(error){
+                Notification.push( "System Error", error, "system" );
+            }
+        }
     }
 
     this.clip = new function(){
@@ -1240,8 +1265,8 @@ const Notification = new function() {
             },
             img: _img
         };
-        if( _pid && System.appCache[_app] ){
-            _app = `<img src='${System.launchpath[_pid]}/${System.appCache[_app].icon}'>${_app}`;
+        if( _pid && System.appCache[System.launchpath[_pid]] ){
+            _app = `<img src='${System.launchpath[_pid]}/${System.appCache[System.launchpath[_pid]].icon}'>${System.appCache[System.launchpath[_pid]].name}`;
         }
         if( !this.goodnight ){
             if( this.sound ) System.audio.play( "n" + this.nid, this.sound );
@@ -1291,7 +1316,7 @@ class App {
         App.d[_pid] = new Object();
         
         this.process = process[_pid];
-        this.info = System.appCache[process[_pid].id];
+        this.cache = System.appCache[System.launchpath[_pid]];
 
         this.args = System.args[_pid];
         this.close = () => System.close(_pid);
@@ -1381,10 +1406,10 @@ class App {
                 $(i).attr("src", `${System.launchpath[_pid]}/${i.getAttribute("kit-src")}` );
             }
             if( i.hasAttribute("kit-alert") ){
-                $(i).on("click", ()=> System.alert( System.appCache[ process[_pid].id ].name, i.getAttribute("kit-alert") ) );
+                $(i).on("click", ()=> System.alert( System.appCache[System.launchpath[_pid]].name, i.getAttribute("kit-alert") ) );
             }
             if( i.hasAttribute("kit-launch") ){
-                $(i).on("click", ()=> launch( i.getAttribute("kit-launch") ) );
+                $(i).on("click", ()=> System.launch( i.getAttribute("kit-launch") ) );
             }
             if( i.hasAttribute("kit-close") ){
                 $(i).on("click", ()=> System.close( i.getAttribute("kit-close") || _pid ) );
