@@ -487,7 +487,10 @@ function kit() {
     }
 }
 
-function launch( str, args, dir ) {
+async function launch( str, args, dir ) {
+    while(System.launchLock) await System.ajaxWait();
+    System.launchLock = true;
+
     let _pid = pid;
     System.args[_pid] = args;
     System.launchpath[_pid] = dir || System.appdir + str;
@@ -508,7 +511,7 @@ function launch( str, args, dir ) {
     }
 }
 
-function appData( data ) {
+async function appData( data ) {
     let _pid = pid;
     process[String( _pid )] = {
         id: data.id,
@@ -635,6 +638,7 @@ function appData( data ) {
             $( "head" ).append( '<link href="' + System.launchpath[_pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
         }
         localStorage.setItem( "kit-pid", pid );
+        System.launchLock = false;
     } );
 }
 
@@ -689,6 +693,24 @@ const System = new function() {
 
     this.log = new Array();
     this.noop = () => {}
+
+    this.launchLock = false;
+    
+    this.waitLaunchUnlock = (callback) => {
+        setTimeout(()=>{
+            if(this.ajaxLock){
+                this.waitLaunchUnlock(callback);
+            }else{
+                return callback();
+            }
+        }, 100)
+    }
+
+    this.ajaxWait = () =>{
+        return new Promise(resolve =>{
+             System.waitLaunchUnlock(resolve);
+        });
+    }
 
     this.setBattery = function(){
         if( navigator.getBattery ) navigator.getBattery().then((e)=>{
