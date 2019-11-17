@@ -1367,6 +1367,7 @@ class App {
     }
 
     static getPath( _pid, _path ) {
+        if( String(_path)[0] != '/' ) _path = '/' + _path;
         return System.launchpath[_pid] + _path;
     }
 
@@ -1458,7 +1459,9 @@ class App {
     }
 
     static load( _pid, _path ) {
-        S.dom(_pid).load( System.launchpath[_pid] +"/"+ _path, () => {
+        if( String(_path)[0] != '/' ) _path = '/' + _path;
+        _path = System.launchpath[_pid] + _path;
+        S.dom(_pid).load( _path, () => {
             App.kaf(_pid);
         } );
         return App;
