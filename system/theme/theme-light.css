@@ -229,6 +229,10 @@ footer .task-min:after {
 	background: #c7d0ff;
 }
 
+.winc {
+	border-radius: 0;
+}
+
 .wt {
 	border-radius: 0;
 }

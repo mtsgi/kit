@@ -5,6 +5,7 @@
 	<meta charset="UTF8" />
 	<title>ikra beta</title>
 	<script src="jquery.min.js"></script>
+	<link rel="stylesheet" href="../../system/kitstrap/kitstrap.css">
 	<style type="text/css">
 		body {
 			background-color: black;
@@ -12,10 +13,8 @@
 			padding: 10px;
 			text-align: center;
 			background: url("bgp.jpg");
-			text-shadow: 0px 1px 4px rgba(0,0,0,.5);
 		}
 	</style>
-	<link rel="stylesheet" href="../../system/kitstrap/kitstrap.css">
 	<script type="text/javascript">
 		$(document).ready(Load);
 		function Load() {
@@ -38,14 +37,18 @@
 
 <body id="body">
 	<h2 class="kit-font-normal">新しいタブ</h2>
-	<div class="kit-formgroup">
-		<input type="text" id="sw" class="textbox">
-		<a onclick="search()" id="sb" class="kit-button">検索</a>
+	<div class="kit-text-c">
+		<div class="kit-formgroup kit-inline-flex">
+			<input type="text" id="sw" class="textbox">
+			<a onclick="search()" id="sb" class="kit-button-alt">検索</a>
+		</div>
 	</div>
 	<kit-space class="m"></kit-space>
 	<h4>ブックマーク</h4>
-	<a href="bookmark.html" class="kit-hl-alt">ブックマークの一覧および追加</a>
-	<blockquote id="area"></blockquote>
+	<kit-pane class="dark">
+		<a href="bookmark.html" class="kit-hl-alt">＋ ブックマークの一覧／追加</a>
+	</kit-pane>
+	<kit-pane id="area"></kit-pane>
 	<kit-space class="m"></kit-space>
 	<h4>おすすめ</h4>
 	<a class="kit-hl-alt" href="http://tork.webcrow.jp/kakeibo.html">家計簿</a><br>

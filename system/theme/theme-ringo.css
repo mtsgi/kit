@@ -374,7 +374,7 @@ footer .t-active {
 	border-radius: 4px;
 	min-width: 200px;
 	padding: 0px;
-	background: #f0f0f0;
+	background: transparent;
 	cursor: url(../cursor-1.png), default;
 	text-align: center;
 }
@@ -387,8 +387,6 @@ footer .t-active {
 }
 
 .windowactive {
-	background-color: #f0f0f0;
-	background-image: linear-gradient(#F5F5F5 0%, #d9d9d9 30px);
 	box-shadow: 0px 8px 30px 0 rgba(0, 0, 0, .6);
 }
 
@@ -792,6 +790,7 @@ kit-button:hover {
 	width: 120px;
 	font-size: 14px;
 	text-align: center;
+	max-height: 100px;
 }
 
 .launcher-app:hover {

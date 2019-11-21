@@ -1021,7 +1021,7 @@ const System = new function() {
 }
 
 const KWS = new function(){
-    this.version = "3.2.2";
+    this.version = "3.2.3";
     this.active = null;
 
     this.darkmode = false;
@@ -1149,6 +1149,13 @@ const KWS = new function(){
     this.resize = function( _pid, _width, _height ){
         if( _width ) $("#winc"+_pid).css("width", _width)
         if( _height ) $("#winc"+_pid).css("height", _height);
+    }
+
+    this.setTheme = function(_name){
+        localStorage.setItem('kit-theme', _name);
+        if(_name != 'none') $('#kit-theme-file').attr('href', `./system/theme/${localStorage.getItem('kit-theme')}`);
+        else $('#kit-theme-file').attr('href', '');
+        System.moveDesktop(currentDesktop);
     }
 
     this.fusen = new function(){

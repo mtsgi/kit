@@ -46,9 +46,7 @@
         System.changeWallpaper( _app.dom('#settings-background').val() );
     });
 
-    $( "#winc" + _pid )
-        //テーマ
-        //高度な設定
+    _app.dom()
         .delegate( ".settings-envar-set", "click", function() {
             localStorage.setItem( $( "#winc" + _pid + " #settings-envar-key" ).val(), $( "#winc" + _pid + " #settings-envar-val" ).val() );
             App.load( _pid, "advanced.html" );

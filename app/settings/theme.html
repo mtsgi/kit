@@ -14,11 +14,6 @@
             $(".winc-darkmode").removeClass("kit-darkmode");
         }
     });
-    function set_theme( file ){
-        localStorage.setItem("kit-theme", file );
-        $("#kit-theme-file").attr("href", "./system/theme/" + localStorage.getItem("kit-theme") );
-        System.moveDesktop( currentDesktop );
-    }
     $(".settings-theme-path-set").on("click", function(){
         set_theme( $("#settings-theme-path").val() );
     });
@@ -32,14 +27,17 @@
 </h3>
 
 <h4>テーマを選択</h4>
-<div class='btn' onclick="set_theme( 'theme-default.css' )">
+<div class='btn' onclick="KWS.setTheme('theme-default.css')">
     標準のテーマ <span class="little">theme-default.css</span>
 </div>
-<div class='btn' onclick="set_theme( 'theme-light.css' )">
+<div class='btn' onclick="KWS.setTheme('theme-light.css')">
     軽量テーマ <span class="little">theme-light.css</span>
 </div>
-<div class='btn' onclick="set_theme( 'theme-ringo.css' )">
+<div class='btn' onclick="KWS.setTheme('theme-ringo.css')">
     りんごテーマ <span class="little">theme-ringo.css</span>
+</div>
+<div class='btn' onclick="KWS.setTheme('none')">
+    テーマなし
 </div>
 
 または、ファイル名を指定<br>
@@ -52,6 +50,7 @@
 </h4>
 
 <label class="kit-toggle">
-    <input type="checkbox" id="settings-theme-darkmode">ダークモードを有効にする
+    <input type="checkbox" id="settings-theme-darkmode">
+    ダークモードを有効にする
     <label for="settings-theme-darkmode"></label>
 </label>
