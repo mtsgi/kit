@@ -1,8 +1,8 @@
-
 @font-face {
-    font-family: "Noto";
-    src: url("fonts/NotoSansMonoCJKjp-Regular.otf");
+	font-family: "Noto";
+	src: url("fonts/NotoSansMonoCJKjp-Regular.otf");
 }
+
 body {
 	margin: 0px;
 	font-size: 16px;
@@ -10,430 +10,257 @@ body {
 	overscroll-behavior: none;
 	cursor: url(../cursor-1.png), auto;
 }
-*::selection{
-	background: rgba(0,0,0,.0);
-}
-#kit-wallpaper{
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	height: 100%;
-	width: 100%;
-	background: url("../wallpaper/11.jpg");
-	background-size: cover;
-}
+
 section {
-	position: absolute;
-	top : 25px;
-	left: 0px;
-	width: 100%;
-	height: calc(100% - 65px);
-	cursor: url(../cursor-1.png), auto;
+	transition: none;
 }
 
-.selected-section{
-	transform: scale(0.8);
-	background: rgba(0,0,0,.5);
-}
-.selected-section:before{
-	color: #ffffff;
-	top : -40px;
-	font-size: 20px;
-	position: absolute;
-	width: 100%;
-	text-align: center;
-	content:"Desktop"
+.selected-section {
+	box-shadow: none;
 }
 
-#desktop-0 {
-	display: block;
+.selected-section:before {
+	text-shadow: none;
 }
-#desktop-l{
-	padding: 20px 0;
-	font-weight: 100;
-	font-size: 24px;
-	color: white;
-	text-align: center;
-	background: rgba(0,0,0,.5);
-	box-sizing: border-box;
-	top: 0px;
-	height: 100%;
-}
-#lock-unl{
-	display: block;
-	cursor:url(../cursor-2.png), pointer;
-	font-size: 16px;
-	margin: 20px;
-}
-#lock-unl:hover{
-	color: cyan;
-}
-#lock-unl span{
-	display: block;
-	font-size: 32px;
-}
-#lock-username{
-	margin: 10px;
-	font-size: 40px;
-}
-#lock-user-icon{
-	display: inline-block;
-	background : white;
-	width: 100px;
-	height: 100px;
-	margin-top: 15px;
-	border-radius: 999px;
+
+#lock-user-icon {
 	border: 3px solid #ffffff;
+	box-shadow: none;
 }
-#desktop-l .textbox{
+
+#lock-user-icon:after {
+	display: none;
+}
+
+#desktop-l .textbox {
 	border: none;
 	padding: 10px;
 }
-.fas, .fa{
-	font-weight: 100;
-	line-height: 100%;
-}
-.fa:before{
-	font-weight: 700;
-}
-header{
-	z-index: 9996;
-	box-sizing: border-box;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	width: 100%;
+
+header {
 	background: #BEE5F7;
-	font-size: 15px;
-	padding : 1px;
-	color: #000000;
-	box-shadow: 0px 0px 5px rgba(0,0,0,.3);
+	box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
 }
-header #header-right{
-	float: right;
+
+header a {
+	cursor: url(../cursor-2.png), pointer;
+	padding: 3px 4px;
 }
-header a{
-	cursor: url(../cursor-2.png),pointer;
-	padding : 3px 4px;
-}
-header a:hover{
+
+header a:hover {
 	color: dodgerblue;
 }
-#kit-milp{
-	z-index: 9994;
-	display: none;
-	position: fixed;
+
+.dropdown {
 	background: #ffffff;
-	padding-top: 30px;
-	padding-bottom: 4px;
-	left: 94px;
-	width: 206px;
-	border: 1px solid #909090;
+	box-shadow: none;
+	border-radius: 0;
 }
-#kit-milp-text{
-	font-size: 19px;
-	font-weight: 700;
-	padding: 0px 3px;
-	margin-bottom: 4px;
-}
-#kit-milp a{
-	font-size: 15px;
-	padding: 1px 5px;
-	display: block;
-	cursor:url(../cursor-1.png), default;
-	overflow: hidden;
-}
-#kit-milp a:hover{
-	background: skyblue;
-}
-#kit-milp-launch:before{
-	content: "アプリを起動する"
-}
-#kit-milp-search:before{
-	content: "Webで検索する"
-}
-#kit-milp-wikipedia:before{
-	content: "Wikipediaで調べる"
-}
-.dropdown{
-	display: none;
-	position: fixed;
-	top: 23px;
-	right: 0;
-	background: #ffffff;
-	border: 1px solid gray;
-}
-#dropdown-clock{
+
+#dropdown-clock {
 	right: 56px;
 }
-#dropdown-sound{
+
+#dropdown-sound {
 	right: 140px;
 	padding: 6px;
 }
-#dropdown-sound-slider{
+
+#dropdown-sound-slider {
 	margin: 10px;
 	width: 180px;
 }
-.ui-slider-horizontal{
+
+.ui-slider-horizontal {
+	box-shadow: none;
 	border-radius: 0px;
 	background: #e0e0e0;
-	border: 1px solid black !important;
 }
-.ui-slider-handle{
-	outline: none;
-	border-radius: 0px;
-	border: 1px solid black !important;
-	cursor: url(../cursor-1.png), auto !important;
+
+.ui-slider-handle {
+	box-shadow: none;
+	border-radius: 2px;
+	border: 1px solid #3d3d3d !important;
 }
-.desktop-icons{
+
+.desktop-icons {
 	display: flex;
 	flex-wrap: wrap;
 	padding: 4px;
 }
-.desktop-icon{
-	padding: 4px;
-	margin: 4px;
-	width: 100px;
-	text-align: center;
-	overflow: hidden;
-	color: #fff;
+
+.desktop-icon {
+	border-radius: 0;
 }
-.desktop-icon:hover{
+
+.desktop-icon:hover {
 	background: black;
 }
-.desktop-icon img{
+
+.desktop-icon img {
 	display: block;
 	margin: 0 auto;
 	height: 50px;
 }
-.home-icon:before{
+
+.home-icon:before {
 	line-height: 0px;
 	display: block;
 	font-size: 30px;
-	height : 25px;
+	height: 25px;
 }
-.home-icon{
+
+.home-icon {
 	border: 1px solid transparent;
 	font-size: 13px;
 	display: inline-block;
 	color: white;
-	cursor:url(../cursor-1.png), default;
-	margin :  10px 0px;
-	padding : 3px 0px;
+	cursor: url(../cursor-1.png), default;
+	margin: 10px 0px;
+	padding: 3px 0px;
 	text-align: center;
 	width: 100px;
 }
-.home-icon:hover{
+
+.home-icon:hover {
 	border: 1px solid #ffffff;
 	background: black;
 }
-.home-fa{
+
+.home-fa {
 	margin-bottom: 5px;
 	display: block;
 	font-size: 30px;
 }
-footer{
-	z-index: 9998;
+
+footer {
 	background: #c0c0c0;
-	width : 100%;
-	min-height: 45px;
-	position: fixed;
-	left: 0px;
-	bottom: -5px;
-	box-sizing: border-box;
-	border-top : 2px solid #ffffff;
-	padding-left: 48px;
 }
-footer #launch{
-	cursor:url(../cursor-2.png), pointer;
-	position: fixed;
-	bottom: -2px;
-	left: -2px;
-	background: dodgerblue;
-	border: 2px solid white;
-	color: white;
-	padding: 11px;
-}
-footer #launch:hover{
+
+footer #launch:hover {
 	background: #1741FF;
 }
-footer .task{
-	font-size: 15px;
-	cursor:url(../cursor-1.png), default;
-	box-sizing: border-box;
-	display: inline-block;
-	background: #ffffff;
-	border: 1px solid #404040;
-	padding: 3px;
-	width: 175px;
-	margin : 0px 4px;
-	position: relative;
-	top : 3px;
-}
-footer .task:hover{
+
+footer .task:hover {
 	background: #e0e0e0;
 }
-footer .task img{
+
+footer .task img {
 	float: left;
-	height : 24px;
-	width : 24px;
+	height: 24px;
+	width: 24px;
 	margin-right: 4px;
 }
-footer .t-active{
+
+footer .t-active {
 	background: #6060c0;
 	color: #ffffff;
+	box-shadow: none !important;
+	border-top: 5px solid rgb(100, 245, 100) !important;
 }
-footer .t-active:hover{
+
+footer .t-active:hover {
 	background: #9797e9;
 	color: #ffffff;
 }
-footer .task-min{
+
+footer .task-min {
 	font-weight: 900;
 }
-footer .task-min:after{
+
+footer .task-min:after {
 	content: "";
 	display: inline-block;
 	background: limegreen;
 	float: right;
 	margin-top: 6px;
-	width: 10px;
-	height: 10px;
-	border: 2px solid #404040;
+	width: 12px;
+	height: 12px;
+	border: none;
+	border-radius: 0;
 }
-#footer-noti{
-	position: absolute;
-	cursor:url(../cursor-2.png), pointer;
-	padding: 6px;
-	right : 4px;
-	bottom : 5px;
-}
-#footer-noti:hover{
+
+#footer-noti:hover {
 	color: dodgerblue;
+	text-shadow: none;
 }
-#footer-tasks{
-	color: #000000;
-	position: absolute;
-	cursor:url(../cursor-2.png), pointer;
-	font-size: 22px;
-	padding: 6px 0px;
+
+#footer-tasks {
+	color: #ffffff;
+	text-shadow: none;
+	font-size: 15px;
 }
-#footer-tasks:hover{
+
+#footer-tasks:hover {
 	color: dodgerblue;
 }
 
-#notifications{
+#notifications {
 	background: #f0f0f0;
 	box-shadow: none;
 }
 
-#notifications .notis{
+#notifications .notis {
 	border: 1px solid #a0a0a0;
 	border-radius: 0;
-} 
+}
 
-#notifications .notis_buttons a{
+#notifications .notis_buttons a {
 	border-radius: 0;
 }
 
-#tasks{
+#tasks {
 	padding-left: 28px;
 }
-.window{
-	font-size: 15px;
-	position: absolute;
-	min-width : 200px;
-	max-width: 100%;
-	padding : 0px;
-	cursor:url(../cursor-1.png), default;
+
+.window {
+	box-shadow: none;
 	background: #FFF7D4;
-	border: 1px solid #404040;
+	border: 1px solid #909090;
 	transition: none;
+	border-radius: 0;
 }
-.window:after{
-	visibility: hidden;
-	content: "_";
-	position: absolute;
-	height: 44px;
+
+.windowactive {
+	border: 1px solid #3d3d3d;
 }
-section .ui-draggable-dragging{
-	box-shadow: 0px 2px 10px 0px rgba(0,0,0,.5), 0px 0px 0px 8px rgba(30,70,255,.6);
-}
-.win-highlight{
-	background: white;
-}
-.windowactive{
-	border: 1px solid black;
-}
-.windowactive .wt{
+
+.windowactive .wt {
 	background: #c7d0ff;
 }
-.wt{
-	display: block;
-	color: #000000;
-	font-size: 16px;
-	padding-top: 2px;
+
+.wt {
+	border-radius: 0;
 }
-.wt:before{
+
+.wt:before {
 	color: white;
 	text-shadow: 0px 1px 2px black;
 }
-.wt img{
+
+.wt img {
 	width: 18px;
 	height: 18px;
 	float: left;
 	margin: 3px;
 }
-.wtmaximize{
+
+.wtmaximize {
 	display: none;
 }
-.windowactive span{
+
+.windowactive span {
 	opacity: 1.0;
 }
-.wmzx{
-	position: absolute;
-	top: 0px;
-	right: 0px;
-	font-size: 12px;
-	display: flex;
-  justify-content: flex-end;
+
+.wx:hover {
+	border-radius: 0;
 }
-.wm{
-	padding: 8px 8px;
-	opacity: .6;
-}
-.wm:hover{
-	background: dodgerblue;
-	color: #fff;
-}
-.wz{
-	padding: 8px 8px;
-	opacity: .6;
-}
-.wz:hover{
-	background: orange;
-	color: #fff;
-}
-.wx{
-	cursor:url(../cursor-1.png), default;
-	padding: 8px 10px;
-	float: right;
-	opacity: .6;
-}
-.wx:hover{
-	background: #ff0000;
-	color: white;
-}
-.winc{
-	box-sizing: border-box;
-	border-top : 1px solid #757575;
-	color: #000000;
-	background: #ffffff;
-	padding : 5px;
-	overflow : hidden;
-}
-.kit-button, kit-button{
+
+.kit-button,
+kit-button {
 	display: inline-block;
-	cursor:url(../cursor-1.png), default;
+	cursor: url(../cursor-1.png), default;
 	line-height: 200%;
 	background: dodgerblue;
 	color: #ffffff;
@@ -446,81 +273,27 @@ section .ui-draggable-dragging{
 	border-radius: 0;
 	transition: none;
 }
-.kit-button:hover, kit-button:hover{
+
+.kit-button:hover,
+kit-button:hover {
 	box-shadow: none;
 	background: #1875d1;
 }
-.kit-button:active{
+
+.kit-button:active {
 	position: relative;
 	top: 1px;
 }
-.kit-selectable{
-	  cursor:url(../cursor-3.png), text;
-}
-.kit-selectable *::selection, .kit-selectable::selection{
-    background: dodgerblue;
-    color: white;
-}
-#task-ctx{
-	z-index: 9999;
-	display: none;
-	position: absolute;
-	bottom: 0px;
-	background: rgb(222,222,222);
-	width: 175px;
-	left : 74px;
-	box-sizing: border-box;
-	padding : 6px;
-	padding-bottom: 8px;
-	margin-top: 24px;
-	border : 2px solid white;
-	font-size: 15px;
-}
-#task-ctx-name{
-	font-size: 16px;
-}
-#task-ctx-ver{
-	font-size: 12px;
-	padding-bottom : 5px;
-	margin-bottom: 5px;
-	border-bottom: 1px solid gray;
-}
-#task-ctx a{
-	cursor:url(../cursor-1.png), default;
-	display: block;
-	border-bottom : 2px solid transparent;
-}
-#task-ctx a:hover{
-	color: dodgerblue;
-	border-bottom: 2px solid dodgerblue;
-}
-#task-ctx-img{
-	float: left;
-	height : 26px;
-	max-width: 30px;
+
+#task-ctx {
+	box-shadow: none;
+	border-radius: 0;
+	border-color: #909090;
 }
 
-#milp{
-	outline: none;
-	width: 200px;
-	font-family: 'Noto Sans JP', sans-serif;
-	position: absolute;
-	top:0px;
-	border: none;
-	font-size: 15px;
-	padding: 1px 4px;
-	color: #fff;
-	background: #444;
-	margin: 0px 4px;
-	font-weight: 100;
-}
-h3{
-	font-size: 18px;
-	margin: 0px;
-	font-weight: normal;
-}
-.btn, kit-btn{
-	cursor:url(../cursor-2.png), pointer;
+.btn,
+kit-btn {
+	cursor: url(../cursor-2.png), pointer;
 	border: 1px solid gray;
 	margin: 4px 0px;
 	padding: 2px 4px;
@@ -529,16 +302,15 @@ h3{
 	border-radius: 0;
 	transition: none;
 }
-.btn:hover{
+
+.btn:hover {
 	border: 1px solid black;
 	background: #e0e0e0;
 	box-shadow: none;
 }
-.little{
-	font-size: 13px;
-}
-.textbox{
-	cursor:url(../cursor-3.png), text;
+
+.textbox {
+	cursor: url(../cursor-3.png), text;
 	outline: none;
 	border: 1px solid #000000;
 	font-size: 16px;
@@ -547,233 +319,88 @@ h3{
 	border-radius: 0;
 	box-shadow: none;
 }
-.task-name{
-	font-family: 'Noto Sans JP', sans-serif;
+
+#kit-power {
+	background: #202020;
 }
-.kit-hyperlink{
-	color: dodgerblue;
-	text-decoration: underline;
-	cursor:url(../cursor-2.png), pointer;
+
+#kit-power a {
+	text-shadow: none;
 }
-#kit-power{
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	box-sizing: border-box;
-	width: 100%;
-	height: 100%;
-	z-index: 10000;
-	background: #000000;
-	transition: none;
-	text-align: center;
-}
-#kit-power a{
-	cursor:url(../cursor-2.png), pointer!important;
-	display: block;
-	font-size: 20px;
-	font-weight: 100;
-	padding: 5px 0;
-	color: white;
-	transition: .1s all ease;
-}
-#kit-power a:hover{
+
+#kit-power a:hover {
 	color: cyan;
 }
-#kit-power a:after{
-	display: block;
-	font-size: 13px;
-}
-#kit-power-shutdown:after{
-	content: "アプリケーションを全て終了してシステムを終了します";
-}
-#kit-power-reboot:after{
-	content: "シャットダウンし、再びシステムを起動します";
-}
-#kit-power-suspend:after{
-	content: "より高速な再起動をします(試験的な機能)";
-}
-#kit-power-lock:after{
-	content: "ユーザーからログアウトしロック画面を表示します";
+
+
+#kit-context {
+	border-radius: 0;
+	box-shadow: none;
+	border: 2px solid #909090;
 }
 
-#kit-context{
-	cursor:url(../cursor-1.png), default;
-	display: none;
-	z-index: 9994;
-	position: absolute;
-	top: 100px;
-	left: 100px;
-	background: white;
-	border: 1px solid #606060;
-	padding: 0px;
-	padding-bottom: 3px;
-}
-#kit-context input{
-	width: 180px;
-	margin: 5px;
-	padding: 2px 5px;
-	font-size: 14px;
-}
-#kit-context a{
-	display: block;
-	padding: 1px 6px;
-	font-size: 14px;
-}
-#kit-context a:hover{
-	background: dodgerblue;
-	color: white;
-}
-#kit-context-elem{
-	color: #a0a0a0;
-	padding: 0px 5px;
-}
-#kit-context-size{
-	color: #a0a0a0;
-	font-size: 12px;
-	padding: 0px 5px;
-	border-bottom: 1px solid #a0a0a0;
-}
-#kit-context-text, #kit-context-desktop, #kit-context-custom{
-	color: #a0a0a0;
-	font-size: 15px;
-	padding: 4px 5px;
-	border-top: 1px solid #a0a0a0;
-	border-bottom: 1px solid #a0a0a0;
-}
-
-#kit-tasks{
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
+#kit-tasks {
 	background: #000030;
-	padding: 20px;
-	padding-bottom: 120px;
-	overflow: scroll;
 }
-#kit-tasks:before{
+
+#kit-tasks:before {
 	content: "実行中のアプリケーション ( クリックで強制終了 )";
 	display: block;
 	color: #ffffff;
 }
-#kit-tasks .task{
-	cursor:url(../cursor-2.png), pointer;
-	display: inline-block;
-	background: #e0e0e0;
-	padding: 4px 8px;
-	border: 1px solid #000000;
-	width: 150px;
-	margin: 16px 10px;
+
+#kit-tasks .task {
+	border-radius: 0;
 }
-#kit-tasks .task:hover{
-	background: #ffffff;
+
+#kit-tasks .task:hover {
+	background: #f0f0f0;
+	color: #3d3d3d;
 }
-#kit-tasks .task:hover:after{
-	content: "クリックして終了";
-	text-align: center;
-	display: block;
-	position: absolute;
-	color: #e0e0e0;
-	width: 150px;
-	font-size: 12px;
+
+#launcher {
+	background: #3d3d3d;
 }
-#kit-tasks .task-min:before{
-	content: "";
-	display: inline-block;
-	background: limegreen;
-	float: right;
-	margin-top: 5px;
-	width: 12px;
-	height: 12px;
-	border: 2px solid #404040;
+
+.launcher-app {
+	text-shadow: none;
+	border-radius: 0;
 }
-#kit-tasks .task img{
-	float: left;
-	height: 24px;
-}
-#launcher{
-	display: none;
-	position: fixed;
-	top: 0px;
-	left: 0px;
-	width: 100%;
-	height: 100%;
-	box-sizing: border-box;
-	background: rgba(0,0,0,.4);
-	color: white;
-}
-#launcher-header{
-	font-weight: 100;
-	margin-top: 30px;
-	padding: 10px;
-	font-size: 20px;
-}
-#launcher-header .kit-button{
-	font-size: 16px;
-	float: right;
-}
-#launcher-apps{
-	display: flex;
-	flex-wrap: wrap; 
-}
-.launcher-app{
-	padding: 4px;
-	margin: 4px;
-	width: 120px;
-	text-align: center;
-}
-.launcher-app:hover{
+
+.launcher-app:hover {
 	background: black;
 }
-.launcher-app img{
-	display: block;
-	margin: 0 auto;
-	height: 70px;
-}
 
-#last-notification{
+
+#last-notification {
 	background: #f0f0f0;
 	border-radius: 0;
+	box-shadow: none;
+	border: 2px solid #909090;
 }
 
-#last-notification-content{
-	font-size: 14px;
+#last-notification-content {
+	font-size: 13px;
 }
 
-#last-notification-buttons a{
+#last-notification-buttons a {
 	border-radius: 0;
 }
 
-.kit-fusen{
-	background: rgb(255,250,220);
-	border: 1px solid #909090;
-	width: 200px;
-	padding: 4px;
-	margin: 8px;
-	position: absolute;
-	bottom: 20px;
-	height: 55px;
+.kit-fusen {
+	box-shadow: none;
+	border-radius: 0;
+	border: 2px solid #909090;
 }
-.kit-fusen-textarea{
-	cursor:url(../cursor-3.png), text;
-	font-family: 'Noto Sans JP', sans-serif;
-	position: absolute;
-	width: 180px;
-	background: transparent;
-	border: none;
-	resize: none;
-}
-.kit-toggle input+label:after{
+
+.kit-toggle input+label:after {
 	box-shadow: none;
 	border: 1px solid #909090;
 	transition: none;
 }
+
 .kit-toggle input+label:before {
 	transform: scale(.75);
-  border-radius: 0;
-  transition: none;
+	border-radius: 0;
+	transition: none;
 }
