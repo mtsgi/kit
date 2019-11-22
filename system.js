@@ -982,9 +982,9 @@ const System = new function() {
     }
 
     this.launch = async function(path, args) {
-        while(System.launchLock) await System.ajaxWait();
-        System.launchLock = true;
-        
+        while(this.launchLock) await this.ajaxWait();
+        this.launchLock = true;
+
         let _pid = pid;
         System.args[_pid] = args;
         let _path = path;
