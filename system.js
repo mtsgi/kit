@@ -981,7 +981,10 @@ const System = new function() {
         });
     }
 
-    this.launch = function(path, args) {
+    this.launch = async function(path, args) {
+        while(System.launchLock) await System.ajaxWait();
+        System.launchLock = true;
+        
         let _pid = pid;
         System.args[_pid] = args;
         let _path = path;
