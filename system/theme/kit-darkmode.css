@@ -1,83 +1,111 @@
 /* window */
-.winc-darkmode{
+.winc-darkmode {
     background: #181818 !important;
     color: #f0f0f0;
 }
-.wt{
+
+.wt {
     background: #000000;
     color: #f0f0f0;
 }
-.windowactive > .wt{
+
+.windowactive>.wt {
     background: #000000;
     color: limegreen;
 }
-.wmzx span{
+
+.wmzx span {
     color: #f0f0f0;
 }
+
 /* UI */
-header{
+header {
     background: #303030;
     color: #f0f0f0;
 }
-#kit-milp{
+
+#kit-milp {
     background: #303030;
     color: #f0f0f0;
 }
-#kit-context{
+
+#kit-context {
     background: #303030;
     color: #f0f0f0;
 }
-.dropdown{
+
+#kit-context a:hover {
+    background: #707070;
+}
+
+.dropdown {
     background: #303030;
     color: #f0f0f0;
 }
-.dropdown-clock-canvas{
+
+.dropdown-clock-canvas {
     filter: invert(100%);
 }
-footer{
+
+footer {
     background: #303030;
 }
-#footer-noti{
+
+#footer-noti {
     color: #f0f0f0;
 }
-#task-ctx{
+
+#task-ctx {
     background: #303030;
     color: #f0f0f0;
 }
+
 /* system parts */
-.winc-darkmode .btn,.winc-darkmode kit-btn{
+.winc-darkmode .btn,
+.winc-darkmode kit-btn {
     background: #303030;
     color: #f0f0f0;
 }
-.winc-darkmode .btn:hover, .winc-darkmode kit-btn:hover{
+
+.winc-darkmode .btn:hover,
+.winc-darkmode kit-btn:hover {
     background: #505050;
 }
-.winc-darkmode .textbox{
+
+.winc-darkmode .textbox {
     background: #202020;
     color: #f0f0f0;
     border-color: #f0f0f0;
 }
-.winc-darkmode .textbox:focus{
+
+.winc-darkmode .textbox:focus {
     background: #505050;
 }
-.winc-darkmode .kit-toggle:hover, #notifications .kit-toggle:hover, .dropdown .kit-toggle:hover{
+
+.winc-darkmode .kit-toggle:hover,
+#notifications .kit-toggle:hover,
+.dropdown .kit-toggle:hover {
     background: #404040;
 }
+
 /* notification */
-#last-notification{
+#last-notification {
     background: #303030;
     color: #f0f0f0;
 }
-#notifications{
-    background: rgba(0,0,0,.8);
+
+#notifications {
+    background: rgba(0, 0, 0, .8);
     color: #f0f0f0;
 }
-.notis{
+
+.notis {
     background: #303030 !important;
     color: #f0f0f0;
 }
+
 /* for ringo theme */
-#task-ctx:after{
+#task-ctx:after {
     border: 15px solid transparent;
     border-top: 20px solid #303030;
 }

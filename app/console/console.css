@@ -1,54 +1,65 @@
-.winc-console{
+.winc-console {
     padding: 8px;
     color: #ffffff;
     background: #000000;
 }
-.winc-console .textbox{
+
+.winc-console .textbox {
     box-sizing: border-box;
     background: #000000;
     color: limegreen;
     border-color: limegreen;
-    width: calc( 100% - 35px );
+    width: calc(100% - 35px);
 }
-.winc-console .textbox::selection{
+
+.winc-console .textbox::selection {
     background-color: limegreen;
     color: black;
 }
-.winc-console .console-exec{
+
+.winc-console .console-exec {
     cursor: pointer;
     float: right;
     margin: 9px;
     margin-right: 5px;
 }
-.winc-console .console-wrapper{
+
+.winc-console .console-wrapper {
     box-sizing: border-box;
     padding: 2px;
-    border : 1px solid gray;
-    margin-top : 10px;
+    border: 1px solid gray;
+    margin-top: 10px;
     overflow: auto;
     min-height: 200px;
 }
-.winc-console .simple-box{
+
+.winc-console .simple-box {
     font-size: 13px;
     padding: 2px;
 }
 
-.winc-console .simple-box::selection{
+.winc-console .simple-box::selection {
     background-color: limegreen;
     color: black;
 }
-.winc-console .console-log{
+
+.winc-console .console-log {
     color: #a0a0a0;
 }
-.winc-console .console-log::selection{
+
+.winc-console .console-log::selection {
     background-color: limegreen;
     color: black;
 }
-.winc-console pre{
+
+.winc-console pre {
+    font-size: inherit;
+    background: transparent;
     display: inline;
-	font-family: 'Noto Sans JP', sans-serif;
+    font-family: 'Noto Sans JP', sans-serif;
 }
-.winc-console pre::selection{
+
+.winc-console pre::selection {
     user-select: text;
     background: limegreen;
     color: black;

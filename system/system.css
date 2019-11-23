@@ -1,18 +1,381 @@
-/* notifications */
+body {
+  overscroll-behavior: none;
+}
+
+/* Desktop System */
+
+#kit-wallpaper {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  height: 100%;
+  width: 100%;
+  background: url("./wallpaper/11.jpg");
+  background-size: cover;
+  background-position: center;
+}
+
+*::selection {
+  background: rgba(0, 0, 0, .0);
+}
+
+section {
+  position: absolute;
+  top: 30px;
+  left: 0px;
+  min-width: 100%;
+  min-height: calc(100% - 70px);
+  display: none;
+  transition: 1s all ease;
+  cursor: url(./cursor-1.png), auto;
+}
+
+.selected-section {
+  transform: scale(0.8);
+  background: rgba(0, 0, 0, .2);
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+}
+
+.selected-section:before {
+  color: #ffffff;
+  text-shadow: 0px 0px 3px black;
+  top: -40px;
+  font-size: 20px;
+  position: absolute;
+  width: 100%;
+  text-align: center;
+  content: "Desktop";
+}
+
+#desktop-0 {
+  display: block;
+}
+
+.fas,
+.fa {
+  font-weight: 100;
+  line-height: 100%;
+}
+
+.fa:before {
+  font-weight: 700;
+}
+
+/* Lock */
+
+#desktop-l {
+  padding: 20px 0;
+  font-weight: 400;
+  font-size: 24px;
+  color: white;
+  text-align: center;
+  background: rgba(0, 0, 0, .5);
+  box-sizing: border-box;
+  top: 0px;
+  height: 100%;
+}
+
+#desktop-l .window {
+  font-size: 16px;
+  color: white;
+  text-align: left;
+  text-shadow: none;
+  font-weight: 400;
+}
+
+#lock-unl {
+  display: block;
+  cursor: url(./cursor-2.png), pointer;
+  font-size: 16px;
+  margin: 20px;
+}
+
+#lock-unl:hover {
+  color: #99d1ff;
+}
+
+#lock-unl>span {
+  display: block;
+  font-size: 32px;
+}
+
+#lock-username {
+  margin: 10px;
+  font-size: 40px;
+}
+
+#lock-user-icon {
+  display: inline-block;
+  background: white;
+  width: 100px;
+  height: 100px;
+  margin-top: 15px;
+  border-radius: 999px;
+  box-shadow: 0px 1px 10px 0 rgba(0, 0, 0, .5), inset 0px -2px 15px 5px rgba(255, 255, 255, .4);
+  border: 3px solid #ffffff;
+}
+
+#lock-user-icon:after {
+  content: "";
+  display: inline-block;
+  background: rgba(255, 255, 255, .2);
+  box-shadow: 0px 1px 10px 0px rgba(0, 0, 0, .1);
+  width: 100px;
+  height: 50px;
+  border-radius: 999px 999px 0px 0px;
+}
+
+/* Header */
+
+header {
+  cursor: url(./cursor-1.png), default;
+  z-index: 9995;
+  box-sizing: border-box;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  padding: 3px;
+  background: #f0f0f0;
+  color: #3d3d3d;
+  box-shadow: 0px 0px 5px rgba(0, 0, 0, .3);
+}
+
+header a {
+  cursor: url(./cursor-2.png), pointer;
+  padding: 3px 4px;
+}
+
+header a:hover {
+  text-shadow: 0px 1px 3px dodgerblue;
+}
+
+.dropdown {
+  display: none;
+  z-index: 9996;
+  position: fixed;
+  top: 31px;
+  right: 0;
+  background: #f0f0f0;
+  box-shadow: 0 3px 3px 0 rgba(0, 0, 0, .3);
+  border-radius: 0 0 5px 5px;
+}
+
+#dropdown-clock {
+  right: 58px;
+}
+
+#dropdown-sound {
+  right: 152px;
+  padding: 6px;
+}
+
+#dropdown-sound-slider {
+  margin: 10px;
+  width: 180px;
+}
+
+.ui-slider-horizontal {
+  border-radius: 999px;
+  border: 1px solid white !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .4);
+}
+
+.ui-slider-handle {
+  outline: none;
+  border-radius: 999px;
+  border: 1px solid white !important;
+  box-shadow: 0 1px 3px 0 rgba(0, 0, 0, .5);
+  cursor: url(./cursor-1.png), auto !important;
+}
+
+/* Desktop Icons */
+
+.desktop-icons {
+  display: flex;
+  flex-wrap: wrap;
+  padding: 4px;
+}
+
+.desktop-icon {
+  border-radius: 5px;
+  padding: 4px;
+  margin: 4px;
+  width: 100px;
+  text-align: center;
+  overflow: hidden;
+  color: #fff;
+}
+
+.desktop-icon:hover {
+  background: rgba(0, 0, 0, .5);
+}
+
+.desktop-icon img {
+  display: block;
+  margin: 0 auto;
+  height: 50px;
+}
+
+.home-icon:before {
+  line-height: 0px;
+  display: block;
+  font-size: 30px;
+  height: 25px;
+}
+
+.home-icon {
+  font-size: 14px;
+  display: inline-block;
+  color: white;
+  text-shadow: 0px 1px 2px black;
+  cursor: url(./cursor-1.png), default;
+  margin: 10px 0px;
+  padding: 5px;
+  border-radius: 6px;
+  text-align: center;
+  width: 100px;
+}
+
+.home-icon:hover {
+  background: rgba(255, 255, 255, .5);
+}
+
+.home-fa {
+  margin-bottom: 5px;
+  display: block;
+  font-size: 32px;
+}
+
+/* Footer */
+
+footer {
+  cursor: url(./cursor-1.png), default;
+  z-index: 9998;
+  background: #f0f0f0;
+  width: 100%;
+  min-height: 45px;
+  position: fixed;
+  left: 0px;
+  bottom: -5px;
+  box-sizing: border-box;
+  box-shadow: 0px 0px 8px rgba(0, 0, 0, .4);
+  border-top: 5px solid #ffffff;
+  padding-left: 58px;
+}
+
+.footermaximize {
+  transition: .2s all ease;
+}
+
+.footermaximize-hidden {
+  bottom: -39px !important;
+}
+
+footer #launch {
+  cursor: url(./cursor-2.png), pointer;
+  position: fixed;
+  bottom: -2px;
+  left: -2px;
+  background: dodgerblue;
+  border: 2px solid white;
+  color: white;
+  padding: 16px;
+}
+
+footer .task {
+  cursor: url(./cursor-1.png), default;
+  box-sizing: border-box;
+  display: inline-block;
+  background: #ffffff;
+  color: #3d3d3d;
+  padding: 5px 4px;
+  border-top: 5px solid #303030;
+  width: 200px;
+  margin: 0px 0px;
+  overflow: hidden;
+  height: 38px;
+  font-size: 15px;
+  margin-top: -5px;
+}
+
+footer .task:hover {
+  background: #f0f0f0;
+  color: #3d3d3d;
+}
+
+footer .t-active {
+  background: #6060c0;
+  color: #ffffff;
+  box-shadow: none !important;
+  border-top: 5px solid rgb(100, 245, 100) !important;
+}
+
+footer .task img {
+  float: left;
+  height: 24px;
+  width: 24px;
+  margin-right: 4px;
+}
+
+
+footer .task-min {
+  font-weight: 900;
+}
+
+footer .task-min:after {
+  content: "";
+  display: block;
+  background: limegreen;
+  float: right;
+  margin-top: 5px;
+  width: 12px;
+  height: 12px;
+  border: 2px solid #404040;
+  border-radius: 3px;
+}
+
+#footer-noti {
+  position: absolute;
+  cursor: url(./cursor-2.png), pointer;
+  padding: 6px;
+  right: 4px;
+  bottom: 5px;
+}
+
+#footer-noti:hover {
+  text-shadow: 0px 1px 3px dodgerblue;
+}
+
+#footer-tasks {
+  color: white;
+  text-shadow: 0px 1px 3px black;
+  position: absolute;
+  cursor: url(./cursor-2.png), pointer;
+  font-size: 22px;
+  padding: 6px 5px;
+}
+
+#tasks {
+  padding-left: 38px;
+}
+
+/* Notifications */
 
 #notifications {
   z-index: 9994;
   display: none;
   box-sizing: border-box;
   position: fixed;
-  right: 0px;
+  top: 0;
+  right: 0;
   min-height: 100%;
   max-height: 100%;
   width: 340px;
-  background: rgba(255, 255, 255, .7);
-  box-shadow: 0px 0px 60px 0px rgba(0, 0, 0, .4);
+  background: #f0f0f0;
+  box-shadow: 0px 0px 10px 0px rgba(0, 0, 0, .4);
   padding: 40px 8px 50px 8px;
-  cursor: url(../cursor-1.png), default;
+  cursor: url(./cursor-1.png), default;
 }
 
 #notifications-show-history {
@@ -23,7 +386,7 @@
 .notis {
   position: relative;
   overflow: hidden;
-  cursor: url(../cursor-1.png), default;
+  cursor: url(./cursor-1.png), default;
   padding: 4px;
   border-radius: 5px;
   margin: 10px 4px;
@@ -63,7 +426,7 @@
 }
 
 .notis .notis_close {
-  cursor: url(../cursor-2.png), pointer;
+  cursor: url(./cursor-2.png), pointer;
   float: right;
   background: rgba(255, 100, 100, .8);
   width: 16px;
@@ -98,7 +461,7 @@
 }
 
 
-/* last notification */
+/* Last Notification */
 
 #last-notification {
   max-height: 200px;
@@ -110,7 +473,8 @@
   bottom: 54px;
   right: 12px;
   border-radius: 4px;
-  cursor: url(../cursor-1.png), default;
+  cursor: url(./cursor-1.png), default;
+  background: #ffffff;
   box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, .5);
   overflow: hidden;
 }
@@ -122,7 +486,7 @@
   display: inline-block;
   float: right;
   border-radius: 999px;
-  cursor: url(../cursor-2.png), pointer;
+  cursor: url(./cursor-2.png), pointer;
   opacity: .8;
 }
 
@@ -146,7 +510,8 @@
 
 #last-notification-buttons a {
   color: dodgerblue;
-  border: 1px solid transparent
+  border: 1px solid transparent;
+  transition: .2s all ease;
   font-size: 14px;
   padding: 2px 6px;
   border-radius: 3px;
@@ -156,6 +521,12 @@
 
 #last-notification-buttons a:hover {
   box-shadow: 0px 1px 3px 0 rgba(0, 0, 0, .3);
+  background: #ffffff;
+}
+
+#last-notification-buttons a:active {
+  position: relative;
+  top: 2px;
   background: #ffffff;
 }
 
@@ -170,7 +541,7 @@
   margin-right: 4px;
 }
 
-/* sightre */
+/* Sightre */
 
 #kit-sightre {
   position: fixed;
@@ -262,4 +633,462 @@
 .kit-sightre-result .--desc {
   font-size: 14px;
   color: #909090;
+}
+
+/* App Window */
+
+.window {
+  position: absolute;
+  box-shadow: 0px 2px 5px 0px rgba(0, 0, 0, .5);
+  border-radius: 4px;
+  background: transparent;
+  min-width: 200px;
+  padding: 0px;
+  cursor: url(./cursor-1.png), default;
+}
+
+.window:after {
+  visibility: hidden;
+  content: "_";
+  position: absolute;
+  height: 60px;
+}
+
+section .ui-draggable-dragging {
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .5), 0 0 0 8px rgba(30, 70, 255, .6);
+}
+
+.win-highlight {
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .5), 0 0 0 8px rgba(255, 30, 70, .6);
+}
+
+.windowactive {
+  box-shadow: 0 2px 10px 0 rgba(0, 0, 0, .5);
+}
+
+.windowmaximize {
+  position: fixed;
+  border-radius: none;
+  overflow: hidden;
+}
+
+.windowmaximize:after {
+  height: 0px;
+}
+
+.wt {
+  display: block;
+  min-height: 24px;
+  color: #3d3d3d;
+  font-size: 17px;
+  padding: 3px 0;
+  padding-right: 100px;
+  border-radius: 4px 4px 0 0;
+  background: #d0d0d0;
+}
+
+.wt:before {
+  color: white;
+  text-shadow: 0px 1px 2px black;
+}
+
+.wt img {
+  width: 20px;
+  height: 20px;
+  float: left;
+  margin: 3px;
+}
+
+.windowactive>.wt {
+  background: #f0f0f0;
+}
+
+.wtmaximize {
+  display: none;
+}
+
+.windowactive span {
+  opacity: 1.0;
+}
+
+.wmzx {
+  position: absolute;
+  top: 0px;
+  right: 0px;
+  display: flex;
+  justify-content: flex-end;
+}
+
+.wm {
+  padding: 8px 8px;
+  opacity: .6;
+}
+
+.wm:hover {
+  background: dodgerblue;
+  color: #fff;
+}
+
+.wz {
+  padding: 8px 8px;
+  opacity: .6;
+}
+
+.wz:hover {
+  background: orange;
+  color: #fff;
+}
+
+.wx {
+  padding: 8px 10px;
+  opacity: .6;
+}
+
+.wx:hover {
+  background: #ff0000;
+  color: white;
+  border-radius: 0px 4px 0px 0px;
+}
+
+.winc {
+  box-sizing: border-box;
+  border-top: 1px solid #757575;
+  color: #3d3d3d;
+  background: #ffffff;
+  border-radius: 0px 0px 4px 4px;
+  padding: 5px;
+  overflow: hidden !important;
+  max-width: 100%;
+}
+
+/* Utils */
+
+.kit-selectable {
+  cursor: url(./cursor-3.png), text;
+}
+
+.kit-selectable *::selection,
+.kit-selectable::selection {
+  background: #1e90ff;
+  color: white;
+}
+
+.little {
+  font-size: 14px;
+}
+
+h3 {
+  font-size: 18px;
+  margin: 0px;
+  font-weight: normal;
+}
+
+/* Task Context */
+
+#task-ctx {
+  z-index: 9999;
+  display: none;
+  position: fixed;
+  bottom: 0px;
+  background: #ffffff;
+  width: 200px;
+  left: 74px;
+  box-sizing: border-box;
+  padding: 6px;
+  padding-bottom: 10px;
+  border: 2px solid white;
+  border-radius: 5px 5px 0px 0px;
+  border-bottom: none;
+  box-shadow: 0 0 6px 0 rgba(0, 0, 0, .5);
+}
+
+#task-ctx-name {
+  font-size: 18px;
+}
+
+#task-ctx-ver {
+  font-size: 14px;
+  padding-bottom: 5px;
+  margin-bottom: 5px;
+  color: #909090;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+#task-ctx a {
+  cursor: url(./cursor-1.png), default;
+  display: block;
+  border-bottom: 1px solid transparent;
+}
+
+#task-ctx a:hover {
+  color: dodgerblue;
+  border-bottom: 1px solid dodgerblue;
+}
+
+#task-ctx-img {
+  float: left;
+  height: 26px;
+  max-width: 30px;
+}
+
+/* Power Menu */
+
+#kit-power {
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  box-sizing: border-box;
+  width: 100%;
+  height: 100%;
+  z-index: 10000;
+  background: rgba(0, 0, 0, 0.5);
+  text-align: left;
+}
+
+#kit-power a {
+  cursor: url(./cursor-2.png), pointer !important;
+  display: block;
+  font-size: 30px;
+  padding: 10px;
+  color: white;
+  text-shadow: 0 2px 5px #000000;
+}
+
+#kit-power a:hover {
+  text-decoration: underline;
+}
+
+#kit-power a:after {
+  display: block;
+  font-size: 16px;
+}
+
+#kit-power-shutdown:after {
+  content: "アプリケーションを全て終了してシステムを終了します";
+}
+
+#kit-power-reboot:after {
+  content: "シャットダウンし、再びシステムを起動します";
+}
+
+#kit-power-suspend:after {
+  content: "より高速な再起動をします(試験的な機能)";
+}
+
+#kit-power-lock:after {
+  content: "ユーザーからログアウトしロック画面を表示します";
+}
+
+/* Context Menu */
+
+#kit-context {
+  cursor: url(./cursor-1.png), default;
+  display: none;
+  z-index: 9993;
+  position: absolute;
+  top: 100px;
+  left: 100px;
+  background: #f0f0f0;
+  box-shadow: 0 2px 5px 0 rgba(0, 0, 0, .3);
+  border-radius: 6px;
+  padding: 0px;
+  padding-bottom: 4px;
+}
+
+#kit-context input {
+  width: 180px;
+  margin: 5px;
+  padding: 2px 5px;
+  font-size: 15px;
+}
+
+#kit-context a {
+  display: block;
+  padding: 3px 6px;
+  font-size: 15px;
+}
+
+#kit-context a:hover {
+  background: #d0d0d0;
+}
+
+#kit-context-elem {
+  color: #a0a0a0;
+  padding: 0px 5px;
+}
+
+#kit-context-size {
+  color: #a0a0a0;
+  font-size: 12px;
+  padding: 0px 5px;
+  border-bottom: 1px solid #c0c0c0;
+}
+
+#kit-context-text,
+#kit-context-desktop,
+#kit-context-custom {
+  color: #a0a0a0;
+  font-size: 15px;
+  padding: 4px 5px;
+  border-top: 1px solid #c0c0c0;
+  border-bottom: 1px solid transparent;
+}
+
+/* Tasks */
+
+#kit-tasks {
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, .8);
+  backdrop-filter: blur(5px);
+  padding: 20px;
+  padding-bottom: 120px;
+  overflow: scroll;
+}
+
+#kit-tasks:before {
+  content: "実行中のアプリケーション ( クリックで強制終了 )";
+  display: block;
+  color: #ffffff;
+}
+
+#kit-tasks .task {
+  cursor: url(./cursor-2.png), pointer;
+  display: inline-block;
+  color: #f0f0f0;
+  border: 2px solid #909090;
+  padding: 4px 8px;
+  border-radius: 5px;
+  min-width: 150px;
+  box-shadow: 0px 2px 4px 0px rgba(0, 0, 0, .5);
+  margin: 12px 10px;
+  opacity: .8;
+}
+
+#kit-tasks .task:hover {
+  opacity: 1.0;
+  box-shadow: 0px 2px 6px 0px rgba(0, 0, 0, 1);
+  border: 2px solid #f0f0f0;
+}
+
+#kit-tasks .task:hover:after {
+  content: "クリックして終了";
+  display: block;
+  position: absolute;
+  color: #e0e0e0;
+  font-size: 12px;
+  padding: 5px 0;
+}
+
+#kit-tasks .task-min:before {
+  content: "";
+  display: block;
+  background: limegreen;
+  float: right;
+  margin-top: 5px;
+  width: 15px;
+  height: 15px;
+  border-radius: 50%;
+}
+
+#kit-tasks .task img {
+  float: left;
+  height: 24px;
+}
+
+/* Launcher */
+
+#launcher {
+  display: none;
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100%;
+  height: 100%;
+  box-sizing: border-box;
+  background: rgba(0, 0, 0, .5);
+  color: white;
+}
+
+#launcher-header {
+  margin-top: 30px;
+  padding: 10px;
+  font-size: 24px;
+}
+
+#launcher-header .kit-button {
+  font-size: 16px;
+  margin-left: 10px;
+  float: right;
+}
+
+#launcher-apps {
+  padding: 0 10px;
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.launcher-app {
+  border-radius: 5px;
+  padding: 4px;
+  margin: 4px;
+  text-shadow: 0px 0px 3px black;
+  width: 120px;
+  max-height: 95px;
+  overflow: hidden;
+  text-align: center;
+}
+
+.launcher-app:hover {
+  background: rgba(0, 0, 0, .5);
+  opacity: .8;
+  overflow: visible;
+}
+
+.launcher-app:active {
+  filter: brightness(0.6);
+}
+
+.launcher-app img {
+  display: block;
+  margin: 0 auto;
+  height: 70px;
+}
+
+/* Fusen */
+
+.kit-fusen {
+  background: rgb(255, 250, 220);
+  width: 220px;
+  padding: 4px;
+  margin: 8px;
+  border-radius: 6px;
+  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .5);
+  position: absolute;
+  bottom: 20px;
+  height: 100px;
+  color: rgba(0, 0, 0, .75);
+}
+
+.kit-fusen-textarea {
+  scrollbar-color: light;
+  scrollbar-width: thin;
+  outline: none;
+  color: #3d3d3d;
+  cursor: url(./cursor-3.png), text;
+  margin-left: 10px;
+  font-family: 'Noto Sans JP', sans-serif;
+  font-size: 15px;
+  position: absolute;
+  background: transparent;
+  border: none;
+  resize: none;
+  width: 180px;
+  height: 98px;
 }

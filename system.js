@@ -64,11 +64,11 @@ function kit() {
     else  clockmove = setInterval( System.clock, 10 );
 
     if ( localStorage.getItem("kit-shutted-down") == "false" ) {
-        Notification.push( "お知らせ", "kitは前回終了時、正しくシャットダウンされませんでした。", "system" );
+        Notification.push("お知らせ", "kitは前回終了時、正しくシャットダウンされませんでした。", "system");
     }
     localStorage.setItem("kit-shutted-down", false);
 
-    Notification.push( "kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system", null, null, 'documents/icon.png', [
+    Notification.push("kitへようこそ", localStorage["kit-username"] + "さん、こんにちは。", "system", null, null, 'documents/icon.png', [
         {
             label: 'kitについて',
             func: () => System.launch( 'settings', {'view': 'about'} )
@@ -1046,7 +1046,7 @@ const System = new function() {
 }
 
 const KWS = new function(){
-    this.version = "3.2.2";
+    this.version = "3.2.3";
     this.active = null;
 
     this.darkmode = false;
@@ -1080,7 +1080,7 @@ const KWS = new function(){
 
     this.max = function( _pid ){
         if( KWS.fullscreen.pid ){
-            Notification.push("最大化に失敗", "最大化しているウィンドウがあります。");
+            Notification.push("最大化に失敗", "最大化しているウィンドウがあります。", "system");
             return;
         }
         $( "#wt"+_pid ).addClass("wtmaximize");
@@ -1176,6 +1176,13 @@ const KWS = new function(){
         if( _height ) $("#winc"+_pid).css("height", _height);
     }
 
+    this.setTheme = function(_name){
+        localStorage.setItem('kit-theme', _name);
+        if(_name != 'none') $('#kit-theme-file').attr('href', `./system/theme/${localStorage.getItem('kit-theme')}`);
+        else $('#kit-theme-file').attr('href', '');
+        System.moveDesktop(currentDesktop);
+    }
+
     this.fusen = new function(){
         this.fid = 0;
         this.list = new Object();
@@ -1200,7 +1207,6 @@ const KWS = new function(){
                 }
             })
             $(".kit-fusen-textarea").off().on("change",function(){
-                Notification.push($(this).attr("data-fid"), $(this).val(), "debug");
                 KWS.fusen.list[$(this).attr("data-fid")] = $(this).val();
                 localStorage.setItem("kit-fusen", JSON.stringify( KWS.fusen.list ));
             });

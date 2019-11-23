@@ -12,6 +12,7 @@
 	<link href="./system/system.css" rel="stylesheet">
 	<!-- kitstrap -->
 	<link href="./system/kitstrap/kitstrap.css" rel="stylesheet">
+	<link href="./system/kitstrap/kitstrap-font.css" rel="stylesheet">
 	<link href="./system/kitstrap/kitstrap-cursor.css" rel="stylesheet">
 	<!-- Theme -->
 	<link href="./system/theme/theme-default.css" rel="stylesheet" id="kit-theme-file">
@@ -101,28 +102,28 @@
 
 	<div id="notifications">
 		<a id="notifications-show-history" class="kit-hyperlink" onclick="launch('ntflist')">通知の履歴</a>
-		<div class="kit-toggle">
-			<input type="checkbox" id="notifications-dnp">
+		<label class="kit-toggle">
+			<input type="checkbox" id="notifications-dnp">非通知モード
 			<label for="notifications-dnp"></label>
-			<label for="notifications-dnp"><span class="fa fa-bed"></span> 非通知モード</label>
-		</div>
+			<span class="fa fa-bed"></span>
+		</label>
 	</div>
 
 	<div class="dropdown" id="dropdown-clock"><canvas class="dropdown-clock-canvas"></canvas></div>
 	<div class="dropdown" id="dropdown-sound">
 		音量：<span id="dropdown-sound-level">100</span>
-		<div class="kit-toggle">
-				<input type="checkbox" id="dropdown-sound-silent">
-				<label for="dropdown-sound-silent"></label>
-				<label for="dropdown-sound-silent"><span class="fa fa-volume-off"></span> サイレント</label>
-		</div>
+		<label class="kit-toggle">
+			<input type="checkbox" id="dropdown-sound-silent">サイレント
+			<label for="dropdown-sound-silent"></label>
+			<span class="fa fa-volume-off"></span>
+		</label>
 		<div id="dropdown-sound-slider"></div>
 	</div>
 
 	<header>
 		<a id="desktops"><span class="far fa-clone"></span>Desktop</a>
 		<a id="kit-header-sightre"><span class="fa fa-search"></span>さがす</a>
-		<div id="header-right">
+		<div class="kit-right">
 			<a id="kit-header-fullscreen"><span class="fa fa-window-maximize"></span>最大化を解除</a>
 			<a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
 			<a onclick="$('#dropdown-sound').toggle()"><span id="kit-header-sound-icon" class="fa fa-volume-up"></span></a>
