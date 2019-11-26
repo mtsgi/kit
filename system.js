@@ -1079,10 +1079,16 @@ const KWS = new function(){
     }
 
     this.max = function( _pid ){
-        if( KWS.fullscreen.pid ){
-            Notification.push("最大化に失敗", "最大化しているウィンドウがあります。", "system");
+        let _appcache = System.appCache[System.launchpath[_pid]];
+        if( KWS.fullscreen.pid || _appcache.support.fullscreen != true ){
+            Notification.push('最大化に失敗', 'ウィンドウの最大化に失敗しました。', 'system');
             return;
         }
+        KWS.fullscreen.prevWidth = $("#winc"+_pid).outerWidth();
+        KWS.fullscreen.prevHeight = $("#winc"+_pid).outerHeight();
+        KWS.fullscreen.prevTop = $("#w"+_pid).offset().top;
+        KWS.fullscreen.prevLeft = $("#w"+_pid).offset().left;
+        KWS.fullscreen.pid = _pid;
         $( "#wt"+_pid ).addClass("wtmaximize");
         $( "#w"+_pid ).css({
             "top": "0px",
@@ -1091,18 +1097,9 @@ const KWS = new function(){
         .addClass("windowmaximize")
         .css("z-index", KWS.windowIndex + 1);
         KWS.refreshWindowIndex();
-
-        KWS.fullscreen.prevWidth = $("#winc"+_pid).outerWidth();
-        KWS.fullscreen.prevHeight = $("#winc"+_pid).outerHeight();
-        KWS.fullscreen.prevTop = $("#w"+_pid).offset().top;
-        KWS.fullscreen.prevLeft = $("#w"+_pid).offset().left;
-
         KWS.resize( _pid, System.display.width, System.display.height - 30 );
         $("footer").hide();
-        $("#kit-header-fullscreen").show().on("click", () => {
-            KWS.unmax( _pid );
-        });
-        KWS.fullscreen.pid = _pid;
+        $("#kit-header-fullscreen").show().on('click', () => KWS.unmax( _pid ));
     }
 
     this.unmax = function( _pid ){
@@ -1110,8 +1107,8 @@ const KWS = new function(){
             Notification.push("最大化解除に失敗", "対象がフルスクリーンウィンドウではありません。");
             return;
         }
-        $( "#wt"+_pid ).removeClass("wtmaximize");
-        $( "#w"+_pid ).css({
+        $('#wt'+_pid).removeClass("wtmaximize");
+        $('#w'+_pid).css({
             "top": KWS.fullscreen.prevTop,
             "left": KWS.fullscreen.prevLeft
         })
@@ -1124,6 +1121,10 @@ const KWS = new function(){
         KWS.fullscreen.prevHeight = null;
         KWS.fullscreen.prevTop = null;
         KWS.fullscreen.prevLeft = null;
+
+        if( !System.appCache[System.launchpath[_pid]].size.height ) {
+            System.qs(_pid)[0].style.height = "auto";
+        }
     }
 
     this.vacuum = function( _left, _top ){
@@ -1368,7 +1369,8 @@ class App {
 
     static event( _pid, _name, _event ) {
         if( !App.e[_pid] ) App.e[_pid] = new Object();
-        App.e[_pid][_name] = _event;
+        if( !_event && App.e[_pid][_name] ) App.e[_pid][_name].call();
+        else App.e[_pid][_name] = _event;
         return App;
     }
 
@@ -1469,6 +1471,10 @@ class App {
         _path = System.launchpath[_pid] + _path;
         S.dom(_pid).load( _path, () => {
             App.kaf(_pid);
+            let _appcache = System.appCache[System.launchpath[_pid]];
+            if( !KWS.fullscreen.pid && !_appcache.size.height ) {
+                System.qs(_pid)[0].style.height = "auto";
+            }
         } );
         return App;
     }
