@@ -97,16 +97,6 @@ kit-navbar-alt .kit-navitem:hover,
     text-decoration: underline;
 }
 
-#kit-wallpaper {
-    position: fixed;
-    top: 0px;
-    left: 0px;
-    height: 100%;
-    width: 100%;
-    background: url("");
-    background-size: cover;
-}
-
 .kit-d-icon {
     border-radius: 5px;
     padding: 4px;
