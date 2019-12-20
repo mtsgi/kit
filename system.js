@@ -511,6 +511,15 @@ async function launch( str, args, dir ) {
 }
 
 async function appData( data ) {
+    if( data.support && data.support.multiple == false ){
+        for( let p in process ){
+            if( process[p].id === data.id ){
+                Notification.push('多重起動エラー', `アプリケーション「${data.name}」の多重起動は許可されていません。`, 'system');
+                System.launchLock = false;
+                return;
+            }
+        }
+    }
     let _pid = pid;
     process[String( _pid )] = {
         id: data.id,
@@ -527,31 +536,31 @@ async function appData( data ) {
     $( "#tasks" ).append( _taskAppend );
     $( "#t" + _pid ).addClass( "task" ).on({
         click: function() {
-            if( $(this).hasClass("t-active") || $(this).hasClass("task-min") ) KWS.min( _pid );
+            if( process[_pid].isactive || $(this).hasClass("task-min") ) KWS.min( _pid );
             else{
                 $("#w"+_pid).css("z-index", KWS.windowIndex + 1);
                 KWS.refreshWindowIndex();
             }
         },
         mouseenter: function() {
-            $( "#task-ctx-name" ).text( data.name );
-            if( data.icon && data.icon != "none" ) $( "#task-ctx-img" ).attr( "src", System.launchpath[_pid] + "/" + data.icon );
+            $("#task-ctx-name").text(data.name || 'アプリ名なし');
+            if( data.icon && data.icon != "none" ) $("#task-ctx-img").attr( "src", System.launchpath[_pid] + "/" + data.icon );
             else $( "#task-ctx-img" ).hide();
-            $( "#task-ctx-ver" ).text( data.version + "/pid:" + _pid );
-            $( "#task-ctx-info" ).off().on( "click", function() { System.appInfo( _pid )} );
-            $( "#task-ctx-sshot" ).off().on( "click", function() { S.screenshot(_pid, true) } );
-            $( "#task-ctx-min" ).off().on( "click", function() { KWS.min( String(_pid) ) } );
+            $("#task-ctx-ver").text(data.version + "/pid:" + _pid);
+            $("#task-ctx-info").off().on("click", function() { System.appInfo( _pid )});
+            $("#task-ctx-sshot").off().on("click", function() { S.screenshot(_pid, true) });
+            $("#task-ctx-min").off().on("click", function() { KWS.min( String(_pid) ) });
             if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
             else $( "#task-ctx-front" ).show();
-            $( "#task-ctx-front" ).off().on( "click", function() {
+            $("#task-ctx-front").off().on('click', function() {
                 $("#w"+_pid).css("z-index", KWS.windowIndex + 1);
                 KWS.refreshWindowIndex();
-            } );
-            $( "#task-ctx-close" ).off().on("click", () => System.close(_pid));
-            $( "#task-ctx-kill" ).off().on("click", () => System.kill( data.id));
+            });
+            $("#task-ctx-close").off().on("click", () => System.close(_pid));
+            $("#task-ctx-kill").off().on("click", () => System.kill( data.id));
             const _ctxleft = $(this).offset().left, _ctxtop = window.innerHeight - $(this).offset().top;
-            if( _ctxleft != $( "#task-ctx" ).offset().left ) $( "#task-ctx" ).hide();
-            $( "#task-ctx" ).css( "left", _ctxleft ).css( "bottom", _ctxtop ).show();
+            if( _ctxleft != $("#task-ctx").offset().left ) $("#task-ctx").hide();
+            $("#task-ctx").css("left", _ctxleft).css("bottom", _ctxtop).show();
         }
     } );
     $( "section, #kit-tasks" ).on( "mouseenter", function() {
