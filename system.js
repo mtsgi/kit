@@ -52,7 +52,9 @@ function kit() {
     if( !localStorage.getItem( "kit-appdir" ) ) localStorage.setItem( "kit-appdir", "./app/" );
     S.appdir = localStorage.getItem( "kit-appdir" );
 
-    if( localStorage.getItem( "kit-installed" ) ) System.installed = JSON.parse( localStorage.getItem( "kit-installed" ) );
+    if( localStorage.getItem('kit-installed') ) System.installed = JSON.parse( localStorage.getItem('kit-installed') );
+
+    if( localStorage.getItem('kit-screentime') ) KWS.screenTime = JSON.parse( localStorage.getItem('kit-screentime') );
 
     if( localStorage["kit-userarea"] ) System.userarea = JSON.parse(localStorage["kit-userarea"]);
     if( localStorage["kit-recycle"] ) System.recycle = JSON.parse(localStorage["kit-recycle"]);
@@ -1186,16 +1188,26 @@ const KWS = new function(){
         } );
         for( let i in array ){
             document.getElementById(array[i].id).style.zIndex = i;
+            let _pid = String(array[i].id).substring(1);
             if( i == num-1 ){
                 $("#"+array[i].id).addClass("windowactive");
-                $("#t"+String(array[i].id).substring(1)).addClass("t-active");
-                KWS.active = String(array[i].id).substring(1);
-                process[array[i].id.substring(1)].isactive = true;
+                $("#t"+_pid).addClass("t-active");
+                KWS.active = _pid;
+                process[_pid].isactive = true;
+                KWS.screenPrevSwitched = new Date();
+                localStorage.setItem('kit-screentime', JSON.stringify(KWS.screenTime));
             }
             else{
+                console.log(_pid + '外れました');
                 $("#"+array[i].id).removeClass("windowactive");
-                $("#t"+String(array[i].id).substring(1)).removeClass("t-active");
-                process[array[i].id.substring(1)].isactive = false;
+                $("#t"+_pid).removeClass("t-active");
+                process[_pid].isactive = false;
+                if( KWS.active == _pid ){
+                    let _diff = (new Date() - KWS.screenPrevSwitched);
+                    let _appid = process[_pid].id
+                    if( !KWS.screenTime[_appid] ) KWS.screenTime[_appid] = new Number();
+                    KWS.screenTime[_appid] += _diff;
+                }
             }
         }
         KWS.windowIndex = num;
@@ -1217,6 +1229,10 @@ const KWS = new function(){
         else $('#kit-theme-file').attr('href', '');
         System.moveDesktop(currentDesktop);
     }
+
+    this.screenTime = new Object();
+
+    this.screenPrevSwitched = new Date();
 
     this.fusen = new function(){
         this.fid = 0;

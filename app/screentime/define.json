@@ -1,0 +1,20 @@
+{
+    "id": "screentime",
+    "name": "スクリーンタイム",
+    "icon": "icon.png",
+    "version": "1.0.0",
+    "author": "kit",
+    "support": {
+        "darkmode": true,
+        "resize": false,
+        "fullscreen": false,
+        "multiple": true
+    },
+    "size": {
+        "width": "400px",
+        "height": "auto"
+    },
+    "view": "default.html",
+    "script": "screentime.js",
+    "css": "none"
+}

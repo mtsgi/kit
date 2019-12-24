@@ -49,6 +49,11 @@
         "icon": "./app/nqueen/icon.png"
     },
 
+    "screentime": {
+        "name": "スクリーンタイム",
+        "icon": "./app/screentime/icon.png"
+    },
+
     "settings": {
         "name": "設定",
         "icon": "./app/settings/icon.png"
