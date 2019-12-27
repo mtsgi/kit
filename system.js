@@ -1198,7 +1198,6 @@ const KWS = new function(){
                 localStorage.setItem('kit-screentime', JSON.stringify(KWS.screenTime));
             }
             else{
-                console.log(_pid + '外れました');
                 $("#"+array[i].id).removeClass("windowactive");
                 $("#t"+_pid).removeClass("t-active");
                 process[_pid].isactive = false;
@@ -1206,7 +1205,8 @@ const KWS = new function(){
                     let _diff = (new Date() - KWS.screenPrevSwitched);
                     let _appid = process[_pid].id
                     if( !KWS.screenTime[_appid] ) KWS.screenTime[_appid] = new Number();
-                    KWS.screenTime[_appid] += _diff;
+                    if( _diff < 0 ) Notification.push('debug', 'スクリーンタイムの記録に失敗しました。', 'system')
+                    else KWS.screenTime[_appid] += _diff;
                 }
             }
         }
