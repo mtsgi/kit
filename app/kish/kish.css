@@ -19,7 +19,7 @@
   padding: 6px;
   padding-left: 25px;
   font-size: 20px;
-  font-weight: 100;
+  font-weight: 400;
   color: #f0f0f0;
   transition: .3s all ease-out;
   text-shadow: 0 1px 3px #202020;
@@ -64,6 +64,18 @@
   display: flex;
   flex-flow: column nowrap;
   margin-bottom: 44px;
+}
+
+#kish-out h1,
+#kish-out h2,
+#kish-out h3,
+#kish-out h4 {
+  margin: 0;
+  border: none;
+}
+
+#kish-out code {
+  text-shadow: none;
 }
 
 #kish-logo {
@@ -118,6 +130,6 @@
 }
 
 .kish-highlight{
-  padding: 0 5px;
+  padding: 0 0 0 5px;
   color: #ceffb8;
 }
