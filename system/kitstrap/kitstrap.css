@@ -1,4 +1,4 @@
-/* kitstrap v0.3 */
+/* kitstrap v0.4 */
 
 :root {
     font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif, "Apple Color Emoji", "Segoe UI Emoji", "Segoe UI Symbol";
@@ -228,6 +228,7 @@ kit-btn:active,
     border-radius: 5px;
     font-family: 'Noto Sans JP', sans-serif;
     width: auto;
+    box-sizing: border-box;
 }
 
 .textbox:focus {
@@ -320,6 +321,17 @@ kit-button:active,
 
 /* child classes of kit-button */
 
+kit-button.-flat,
+.kit-button.-flat {
+    text-shadow: none;
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .2);
+}
+
+kit-button.-flat:hover,
+.kit-button.-flat:hover {
+    box-shadow: 0px 1px 3px 0px rgba(0, 0, 0, .3), inset 0px 9999px 0px 0px rgba(0, 0, 0, .15);
+}
+
 kit-button.-orange,
 .kit-button.-orange {
     background: #ffa500;
@@ -397,6 +409,18 @@ kit-button-alt:active,
 }
 
 /* child classes of kit-button-alt */
+
+kit-button-alt.-flat,
+.kit-button-alt.-flat {
+    border-width: 1px;
+    border-radius: 3px;
+}
+
+kit-button-alt.-flat:hover,
+.kit-button-alt.-flat:hover {
+    opacity: .9;
+    transition: none;
+}
 
 .kit-button-alt.-orange,
 kit-button-alt.-orange {
@@ -839,6 +863,37 @@ kit-badge.-black,
     background: #353535;
 }
 
+kit-notice,
+.kit-notice {
+    display: block;
+    background: #e0e0ff;
+    padding: 5px 8px;
+    border-radius: 5px;
+    margin: 10px;
+    box-shadow: inset 0 0 0 2px rgba(0, 0, 0, .1);
+}
+
+kit-notice.-green,
+.kit-notice.-green {
+    background: #c0ffc0;
+}
+
+kit-notice.-yellow,
+.kit-notice.-yellow {
+    background: #ffffc0;
+}
+
+kit-notice.-red,
+.kit-notice.-red {
+    background: #ffc0c0;
+}
+
+kit-notice.-black,
+.kit-notice.-black {
+    background: #3d3d3d;
+    color: #f0f0f0;
+}
+
 kit-flash,
 .kit-flash{
     position: fixed;
@@ -1109,6 +1164,10 @@ kit-pane.dark.hover:hover,
     font-size: 13px;
 }
 
+.kit-font-0 {
+    font-size: 0;
+}
+
 .kit-font-bold {
     font-weight: bold;
 }
@@ -1167,6 +1226,10 @@ kit-pane.dark.hover:hover,
     line-height: 1;
 }
 
+.kit-line-0 {
+    line-height: 0;
+}
+
 .kit-text-underline {
     text-decoration: underline;
 }
@@ -1193,25 +1256,42 @@ kit-pane.dark.hover:hover,
     width: auto;
 }
 
+.kit-width-0 {
+    box-sizing: border-box;
+    width: 0%;
+}
+
 .kit-width-25 {
+    box-sizing: border-box;
     width: 25%;
 }
 
 .kit-width-50 {
+    box-sizing: border-box;
     width: 50%;
 }
 
 .kit-width-75 {
+    box-sizing: border-box;
     width: 75%;
 }
 
 .kit-width-100 {
+    box-sizing: border-box;
     width: 100%;
 }
 
 .kit-fit {
     box-sizing: border-box;
     max-width: 100%;
+}
+
+.kit-boxsize-content {
+    box-sizing: content-box;
+}
+
+.kit-boxsize-border {
+    box-sizing: border-box;
 }
 
 .kit-height-auto {
@@ -1223,6 +1303,82 @@ kit-pane.dark.hover:hover,
 }
 
 /* colors */
+
+.kit-clr-orange {
+    color: #ffa500;
+}
+
+.kit-clr-dodgerblue {
+    color: #1e90ff;
+}
+
+.kit-clr-deeppink {
+    color: #ff1493;
+}
+
+.kit-clr-limegreen {
+    color: #32cd32;
+}
+
+.kit-clr-crimson {
+    color: #dc143c;
+}
+
+.kit-clr-green {
+    color: #008000;
+}
+
+.kit-clr-silver {
+    color: #ebebeb;
+}
+
+.kit-clr-black {
+    color: #353535;
+}
+
+.kit-clr-white {
+    color: #ffffff;
+}
+
+/* background colors */
+
+.kit-bgclr-orange {
+    background-color: #ffa500;
+}
+
+.kit-bgclr-dodgerblue {
+    background-color: #1e90ff;
+}
+
+.kit-bgclr-deeppink {
+    background-color: #ff1493;
+}
+
+.kit-bgclr-limegreen {
+    background-color: #32cd32;
+}
+
+.kit-bgclr-crimson {
+    background-color: #dc143c;
+}
+
+.kit-bgclr-green {
+    background-color: #008000;
+}
+
+.kit-bgclr-silver {
+    background-color: #ebebeb;
+}
+
+.kit-bgclr-black {
+    background-color: #353535;
+}
+
+.kit-bgclr-white {
+    background-color: #ffffff;
+}
+
+/* legacy color classes */
 
 .orange,
 .kit-bgcolor-orange {
@@ -1397,8 +1553,16 @@ kit-button-alt.black:hover {
     flex-direction: column-reverse;
 }
 
+.kit-flex-wrap {
+    flex-wrap: wrap;
+}
+
 .kit-flex-nowrap {
     flex-wrap: nowrap;
+}
+
+.kit-flex-wrap-reverse {
+    flex-wrap: wrap-reverse;
 }
 
 .kit-flex-grow {
