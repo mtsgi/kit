@@ -512,14 +512,12 @@ async function launch( str, args, dir ) {
     }
 }
 
-async function appData( data ) {
-    if( data.support && data.support.multiple == false ){
-        for( let p in process ){
-            if( process[p].id === data.id ){
-                Notification.push('多重起動エラー', `アプリケーション「${data.name}」の多重起動は許可されていません。`, 'system');
-                System.launchLock = false;
-                return;
-            }
+async function appData(data) {
+    if(data.support && data.support.multiple == false){
+        if( Object.values(process).map(p => p.id).includes(data.id) ){
+            Notification.push('多重起動エラー', `アプリケーション「${data.name}」の多重起動は許可されていません。`, 'system');
+            System.launchLock = false;
+            return;
         }
     }
     let _pid = pid;
@@ -622,9 +620,10 @@ async function appData( data ) {
         KWS.refreshWindowIndex();
     } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
     KWS.refreshWindowIndex();
-    $( `#wm${_pid}` ).addClass( "wm fa fa-window-minimize" ).on("click", () => KWS.min( _pid ) );
-    $( `#wz${_pid}` ).addClass( "wz fas fa-square" ).on("click", () => KWS.max( _pid ) );
-    $( `#wx${_pid}` ).addClass( "wx fa fa-times" ).on("click", () => System.close( _pid )  );
+    if( data.support && data.support['fullscreen'] == true ) $( `#wt${_pid}` ).on("dblclick", () => KWS.max( _pid ));
+    $( `#wm${_pid}` ).addClass("wm fa fa-window-minimize").on("click", () => KWS.min( _pid ));
+    $( `#wz${_pid}` ).addClass("wz fas fa-square").on("click", () => KWS.max( _pid ));
+    $( `#wx${_pid}` ).addClass("wx fa fa-times").on("click", () => System.close( _pid ));
     $( "#winc" + _pid ).resizable( {
         minWidth: "200"
     } ).load( System.launchpath[_pid] + "/" + data.view, (r, s, x) => {
