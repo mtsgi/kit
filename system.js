@@ -504,6 +504,7 @@ async function launch( str, args, dir ) {
         try{
             $.getJSON( S.launchpath[_pid] + '/define.json', appData ).fail( () => {
                 Notification.push('kitアプリをロードできません。', `${str}を展開できませんでした。`, 'system');
+                System.launchLock = false;
             } );
         }
         catch(error){
@@ -704,20 +705,17 @@ const System = new function() {
     this.noop = () => {}
 
     this.launchLock = false;
-    
-    this.waitLaunchUnlock = (callback) => {
-        setTimeout(()=>{
-            if(this.ajaxLock){
-                this.waitLaunchUnlock(callback);
-            }else{
-                return callback();
-            }
-        }, 100)
-    }
 
     this.ajaxWait = () =>{
         return new Promise(resolve =>{
-             System.waitLaunchUnlock(resolve);
+            let interval = setInterval(()=>{
+                console.log("ajaxWait executed");
+                console.log(interval);
+                if(this.launchLock === false) {
+                    clearInterval(interval);
+                    resolve();
+                }
+            }, 100)
         });
     }
 
@@ -1015,10 +1013,12 @@ const System = new function() {
             try{
                 $.getJSON( _path + '/define.json', appData ).fail( () => {
                     Notification.push('kitアプリをロードできません。', `${_path}を展開できませんでした。`, 'system');
+                    System.launchLock = false;
                 } );
             }
             catch(error){
                 Notification.push( "System Error", error, "system" );
+                System.launchLock = false;
             }
         }
     }
