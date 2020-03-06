@@ -509,6 +509,7 @@ async function launch( str, args, dir ) {
         }
         catch(error){
             Notification.push( "System Error", error, "system" );
+            System.launchLock = false;
         }
     }
 }
