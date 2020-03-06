@@ -709,8 +709,6 @@ const System = new function() {
     this.ajaxWait = () =>{
         return new Promise(resolve =>{
             let interval = setInterval(()=>{
-                console.log("ajaxWait executed");
-                console.log(interval);
                 if(this.launchLock === false) {
                     clearInterval(interval);
                     resolve();
