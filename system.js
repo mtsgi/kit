@@ -505,6 +505,7 @@ async function launch( str, args, dir ) {
             $.getJSON( S.launchpath[_pid] + '/define.json', appData ).fail( () => {
                 Notification.push('kitアプリをロードできません。', `${str}を展開できませんでした。`, 'system');
                 System.launchLock = false;
+                pid++;
             } );
         }
         catch(error){
@@ -515,84 +516,118 @@ async function launch( str, args, dir ) {
 }
 
 async function appData(data) {
-    if(data.support && data.support.multiple == false){
-        if( Object.values(process).map(p => p.id).includes(data.id) ){
-            Notification.push('多重起動エラー', `アプリケーション「${data.name}」の多重起動は許可されていません。`, 'system');
+    let _support = {
+        fullscreen: false,
+        resize: false,
+        darkmode: false,
+        kaf: true,
+        multiple: true
+    }, _size = {}, _resize = false;
+    if (data.support) _support = {
+        fullscreen: typeof data.support.fullscreen == "undefined" ? false : data.support.fullscreen,
+        resize: typeof data.support.resize == "undefined" ? false : data.support.resize,
+        darkmode: typeof data.support.darkmode == "undefined" ? false : data.support.darkmode,
+        kaf: typeof data.support.kaf == "undefined" ? true : data.support.kaf,
+        multiple: typeof data.support.multiple == "undefined" ? true : data.support.multiple
+    }
+    if (data.size) _size = {
+        width: data.size.width || 'auto',
+        height: data.size.height || 'auto'
+    };
+    if (data.resize) _resize = data.resize;
+    const defobj = {
+        id: data.id || null,
+        name: data.name || 'アプリ名なし',
+        icon: data.icon || 'none',
+        version: data.version || null,
+        author: data.author || null,
+        support: _support,
+        size: _size,
+        resize: _resize,
+        view: data.view || 'default.html',
+        script: data.script || 'none',
+        css: data.css || 'none'
+    }
+    if (!data.id || !data.version || !data.author) {
+        Notification.push('起動エラー', '起動に失敗しました。詳細情報を得るためには、デバッグモードを有効化してください。', 'system');
+        Notification.push('debug', '起動エラー：id, version, authorは必須定義項目です。', 'system');
+        System.launchLock = false;
+        return;
+    }
+    if (defobj.support.multiple == false) {
+        if (Object.values(process).map(p => p.id).includes(defobj.id)) {
+            Notification.push('多重起動エラー', `アプリケーション「${defobj.name}」の多重起動は許可されていません。`, 'system');
             System.launchLock = false;
             return;
         }
     }
     let _pid = pid;
-    process[String( _pid )] = {
-        id: data.id,
+    process[String(_pid)] = {
+        id: defobj.id,
         time: System.time.obj.toLocaleString(),
         isactive: false,
         preventclose: false,
-        title: data.name
+        title: defobj.name
     };
     System.appCache[System.launchpath[pid]] = data;
     app = new App(_pid);
     let _taskAppend = `<span id='t${_pid}'>`;
-    if( data.icon && data.icon != "none" ) _taskAppend += `<img src='${S.launchpath[_pid]}/${data.icon}'>`;
-    _taskAppend += `<span id='tname${_pid}'>${data.name}<span></span>`;
-    $( "#tasks" ).append( _taskAppend );
-    $( "#t" + _pid ).addClass( "task" ).on({
+    const _iconPath = app.getPath(defobj.icon).toString();
+    const _viewPath = app.getPath(defobj.view).toString();
+    if(defobj.icon != 'none') _taskAppend += `<img src='${_iconPath}'>`;
+    _taskAppend += `<span id='tname${_pid}'>${defobj.name}<span></span>`;
+    $("#tasks").append(_taskAppend);
+    $("#t" + _pid).addClass("task").on({
         click: function() {
-            if( process[_pid].isactive || $(this).hasClass("task-min") ) KWS.min( _pid );
-            else{
+            if ( process[_pid].isactive || $(this).hasClass("task-min") ) KWS.min(_pid);
+            else {
                 $("#w"+_pid).css("z-index", KWS.windowIndex + 1);
                 KWS.refreshWindowIndex();
             }
         },
         mouseenter: function() {
-            $("#task-ctx-name").text(data.name || 'アプリ名なし');
-            if( data.icon && data.icon != "none" ) $("#task-ctx-img").attr( "src", System.launchpath[_pid] + "/" + data.icon );
-            else $( "#task-ctx-img" ).hide();
-            $("#task-ctx-ver").text(data.version + "/pid:" + _pid);
-            $("#task-ctx-info").off().on("click", function() { System.appInfo( _pid )});
-            $("#task-ctx-sshot").off().on("click", function() { S.screenshot(_pid, true) });
-            $("#task-ctx-min").off().on("click", function() { KWS.min( String(_pid) ) });
-            if( $(this).hasClass("t-active") ) $( "#task-ctx-front" ).hide();
-            else $( "#task-ctx-front" ).show();
+            $("#task-ctx-name").text(defobj.name);
+            if(defobj.icon != "none") $("#task-ctx-img").show().attr("src", _iconPath);
+            else $("#task-ctx-img").hide();
+            $("#task-ctx-ver").text(`v${defobj.version} pid${_pid}`);
+            $("#task-ctx-info").off().on("click", function() { System.appInfo(_pid)});
+            $("#task-ctx-sshot").off().on("click", function() { System.screenshot(_pid, true) });
+            $("#task-ctx-min").off().on("click", function() { KWS.min(String(_pid)) });
+            if($(this).hasClass('t-active')) $('#task-ctx-front').hide();
+            else $('#task-ctx-front').show();
             $("#task-ctx-front").off().on('click', function() {
-                $("#w"+_pid).css("z-index", KWS.windowIndex + 1);
+                $("#w"+_pid).css("z-index", KWS.windowIndex+1);
                 KWS.refreshWindowIndex();
             });
             $("#task-ctx-close").off().on("click", () => System.close(_pid));
-            $("#task-ctx-kill").off().on("click", () => System.kill( data.id));
+            $("#task-ctx-kill").off().on("click", () => System.kill(defobj.id));
             const _ctxleft = $(this).offset().left, _ctxtop = window.innerHeight - $(this).offset().top;
             if( _ctxleft != $("#task-ctx").offset().left ) $("#task-ctx").hide();
             $("#task-ctx").css("left", _ctxleft).css("bottom", _ctxtop).show();
         }
     } );
-    $( "section, #kit-tasks" ).on( "mouseenter", function() {
-        $( "#task-ctx" ).fadeOut( 200 );
-    } );
-    $( "#t" + _pid ).on({
+    $("section, #kit-tasks").on('mouseenter', function() { $('#task-ctx').fadeOut(200) });
+    $("#t" + _pid).on({
         mouseenter: () => {
-            prevWindowIndex = $( "#w" + _pid ).css( "z-index" );
-            $( "#w" + _pid ).addClass( "win-highlight" );
+            prevWindowIndex = $("#w" + _pid).css('z-index');
+            $("#w" + _pid).addClass('win-highlight');
         },
-        mouseleave: () => $( "#w" + _pid ).removeClass( "win-highlight" )
+        mouseleave: () => $("#w" + _pid).removeClass('win-highlight')
     });
-
     let _windowAppend = "<div id='w" + _pid + "'><div id='wt" + _pid + "' class='wt'><i class='wmzx'><span id='wm" + _pid + "'></span>";
-    if( data.support && data.support['fullscreen'] == true ) _windowAppend += "<span id='wz" + _pid + "'></span>";
+    if( defobj.support.fullscreen == true ) _windowAppend += "<span id='wz" + _pid + "'></span>";
     _windowAppend += "<span id='wx" + _pid + "'></span></i>";
-    if( data.icon && data.icon != "none" ) _windowAppend += "<img src='" + S.launchpath[_pid]　+ "/" + data.icon + "'>";
-    _windowAppend += "<span id='wtname" + _pid + "'>" + data.name + "</span></div><div class='winc winc-" + data.id + "' id='winc" + _pid + "'></div></div>";
-    $( "#desktop-" + currentDesktop ).append( _windowAppend );
+    if( defobj.icon != "none" ) _windowAppend += "<img src='" + _iconPath + "'>";
+    _windowAppend += "<span id='wtname" + _pid + "'>" + defobj.name + "</span></div><div class='winc winc-" + defobj.id + "' id='winc" + _pid + "'></div></div>";
+    $("#desktop-" + currentDesktop).append(_windowAppend);
 
-    if( data.support && data.support['darkmode'] == true ) $("#winc"+_pid).addClass("winc-darkmode");
+    if( defobj.support.darkmode == true ) $("#winc"+_pid).addClass('winc-darkmode');
     if( KWS.darkmode ) $("#winc"+_pid).addClass("kit-darkmode");
-
-    if( data.size ){
-        $("#winc"+_pid).css("width", data.size.width).css("height", data.size.height);
-    }
-    if( data.resize ){
-        let _minwidth = 200, _minheight = 40;
-        if( data.resize.minWidth ) _minwidth = data.resize.minWidth;
-        if( data.resize.minHeight ) _minheight = data.resize.minHeight;
+    
+    $("#winc"+_pid).css("width", defobj.size.width).css("height", defobj.size.height);
+    if( defobj.resize ){
+        let _minwidth = defobj.resize.minWidth ? defobj.resize.minWidth : 200;
+        let _minheight = defobj.resize.minHeight ? defobj.resize.minHeight : 40;
         $("#winc"+_pid).windowResizable({
             minWidth: _minwidth,
             minHeight: _minheight
@@ -622,35 +657,35 @@ async function appData(data) {
         KWS.refreshWindowIndex();
     } ).css( "left", windowPos + "px" ).css( "top", windowPos + "px" ).css( "z-index",  KWS.windowIndex );
     KWS.refreshWindowIndex();
-    if( data.support && data.support['fullscreen'] == true ) $( `#wt${_pid}` ).on("dblclick", () => KWS.max( _pid ));
+    if(defobj.support.fullscreen == true) $(`#wt${_pid}`).on("dblclick", () => KWS.max(_pid));
     $( `#wm${_pid}` ).addClass("wm fa fa-window-minimize").on("click", () => KWS.min( _pid ));
     $( `#wz${_pid}` ).addClass("wz fas fa-square").on("click", () => KWS.max( _pid ));
     $( `#wx${_pid}` ).addClass("wx fa fa-times").on("click", () => System.close( _pid ));
-    $( "#winc" + _pid ).resizable( {
-        minWidth: "200"
-    } ).load( System.launchpath[_pid] + "/" + data.view, (r, s, x) => {
-        if( s == "error" ){
-            Notification.push("起動に失敗:" + x.status, x.statusText);
+    $( "#winc" + _pid ).resizable().load(app.getPath(defobj.view), (r, s, x) => {
+        if(s == "error"){
+            Notification.push("起動に失敗しました " + x.status, 'テンプレートにアクセスできません。' + x.statusText, 'system');
+            System.launchLock = false;
+            pid++;
             return false;
         }
-        if( !data.script || data.script != "none" ) $.getScript( System.launchpath[_pid] + "/" + data.script, () => {
-            if( !data.support || data.support['kaf'] != false ) App.kaf(_pid);
+        if( defobj.css != "none" && !document.querySelector(`#kit-style-${defobj.id}`) ){
+            $("head").append('<link href="' + app.getPath(defobj.css) + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>');
+        }
+        if(defobj.script != "none") $.getScript(app.getPath(defobj.script), () => {
+            if( defobj.support.kaf == true ) App.kaf(_pid);
             pid++;
-        }).fail( () => {
-            App.kaf(_pid);
-            pid++;
+        }).fail(() => {
+            if( defobj.support.kaf == true ) App.kaf(_pid)
+            pid ++;
         });
-        else if( !data.support || data.support['kaf'] != false ){
+        else if( defobj.support.kaf == true ){
             App.kaf(_pid);
             pid++;
         }
         else pid++;
-        if( data.css != "none" && $("#kit-style-"+data.id).length == 0 ){
-            $( "head" ).append( '<link href="' + System.launchpath[_pid] + '/' + data.css + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>' );
-        }
         localStorage.setItem( "kit-pid", pid );
         System.launchLock = false;
-    } );
+    });
 }
 
 const System = new function() {
