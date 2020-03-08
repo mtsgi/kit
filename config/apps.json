@@ -19,6 +19,11 @@
         "icon": "./app/document/icon.png"
     },
 
+    "devtools": {
+        "name": "Dev tools",
+        "icon": "./app/devtools/icon.png"
+    },
+
     "fivr": {
         "name": "Fivr",
         "icon": "./app/fivr/icon.png"

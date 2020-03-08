@@ -1,8 +1,8 @@
 <h3 class="kit-text-c">Dev tools for kit</h3>
 <div class="kit-sub kit-text-c">検証するプロセス番号を入力します</div>
 <div class="kit-formgroup m">
-    <input kit:bind="pid" type="text" class="textbox kit-flex-grow">
-    <kit-button class="-flet" kit-e="load">検証を開始</kit-button>
+    <input kit:bind="pid" type="text" class="textbox kit-flex-grow" id="devtools-input">
+    <kit-button kit-e="load">検証を開始／リロード</kit-button>
 </div>
 
 <div kit:if="isopen" class="devtools-panel kit-scroll m-b" data-simplebar>
@@ -49,4 +49,9 @@
             </template>
         </div>
     </kit-container>
+</div>
+<div kit:if="isopen" class="devtools-footer kit-formgroup kit-fit m">
+    <input kit:bind="key" type="text" class="textbox" placeholder="kafデータのキー(プロパティ)">
+    <input kit:bind="value" type="text" class="textbox" placeholder="kafデータの値">
+    <kit-button class="kit-flex-grow" kit-e="set">値をセット</kit-button>
 </div>

@@ -18,4 +18,8 @@
             _app.data('args', System.args[p]);
         }
     });
+    _app.event('set', () => {
+        App.data(_app.data('pid'), _app.data('key'), _app.data('value'));
+        System.alert('値をセット', `プロセス${_app.data('pid')}に "${_app.data('key')}" : "${_app.data('value')}" をセットしました。`);
+    });
 })(pid, app);

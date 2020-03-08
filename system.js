@@ -1559,9 +1559,12 @@ class App {
                 else $(i).hide();
             }
             if( i.hasAttribute("kit:for") ){
-                i.setAttribute('kaf-node-id', _kaf_node_id);
-                App.d[_pid][`__kaf_node_id_${_kaf_node_id}`] = i.innerHTML;
-                i.insertAdjacentHTML('afterend', `<kit-for kaf-node-id="${_kaf_node_id}"></kit-for>`);
+                if ('content' in document.createElement('template')) {
+                    i.setAttribute('kaf-node-id', _kaf_node_id);
+                    App.d[_pid][`__kaf_node_id_${_kaf_node_id}`] = i.innerHTML;
+                    i.insertAdjacentHTML('afterend', `<kit-for kaf-node-id="${_kaf_node_id}"></kit-for>`);
+                }
+                else i.style.display = 'none';
             }
             _kaf_node_id ++;
         }
