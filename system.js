@@ -1442,12 +1442,22 @@ class App {
         if( _value !== undefined ) {
             S.dom(_pid, `[kit\\:bind=${_name}]`).val( _value );
             S.dom(_pid, `[kit\\:observe=${_name}]`).text( _value );
+            S.dom(_pid, `template[kit\\:for=${_name}] + kit-for`).text('');
+            if (typeof _value == 'object'){
+                for(let elem of S.qs(_pid, `template[kit\\:for=${_name}] + kit-for`)){
+                    let _rep = App.d[_pid][`__kaf_node_id_${elem.getAttribute('kaf-node-id')}`], _result = '';
+                    for(let i in _value) {
+                        _result += _rep.replace(/{{\s*key\s*}}/g, i).replace(/{{\s*value\s*}}/g, _value[i]);
+                    }
+                    elem.innerHTML = _result;
+                }
+            }
             if( _value ) S.dom(_pid, `[kit\\:if=${_name}]`).show();
             else S.dom(_pid, `[kit\\:if=${_name}]`).hide();
             return App.d[_pid][_name] = _value;
         }
         else if( _name ) return App.d[_pid][_name];
-        else return App.d[_pid];
+        else return Object.fromEntries( Object.entries(App.d[_pid] || {}).filter(d => d[0].indexOf("__") != 0) );
     }
 
     static event( _pid, _name, _event ) {
@@ -1478,11 +1488,13 @@ class App {
             "[kit-value]",
             "[kit-color]",
             "[kit\\:if]",
-            "[kit-if]"
+            "[kit-if]",
+            "[kit\\:for]"
         ]
         const PID = _pid;
         const DATA = App.data(_pid);
         const ARGS = System.args[_pid];
+        let _kaf_node_id = 0;
         for( let i of S.qs(_pid, ...attrs) ){
             if( i.hasAttribute("kit-ref") ){
                 $(i).on("click", () => App.load(_pid, i.getAttribute("kit-ref")) );
@@ -1546,6 +1558,12 @@ class App {
                 }
                 else $(i).hide();
             }
+            if( i.hasAttribute("kit:for") ){
+                i.setAttribute('kaf-node-id', _kaf_node_id);
+                App.d[_pid][`__kaf_node_id_${_kaf_node_id}`] = i.innerHTML;
+                i.insertAdjacentHTML('afterend', `<kit-for kaf-node-id="${_kaf_node_id}"></kit-for>`);
+            }
+            _kaf_node_id ++;
         }
     }
 

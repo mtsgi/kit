@@ -1,0 +1,52 @@
+<h3 class="kit-text-c">Dev tools for kit</h3>
+<div class="kit-sub kit-text-c">検証するプロセス番号を入力します</div>
+<div class="kit-formgroup m">
+    <input kit:bind="pid" type="text" class="textbox kit-flex-grow">
+    <kit-button class="-flet" kit-e="load">検証を開始</kit-button>
+</div>
+
+<div kit:if="isopen" class="devtools-panel kit-scroll m-b" data-simplebar>
+    <kit-container class="m kit-line-s kit-font-s">
+        <div class="kit-box p-0">
+            <h4>起動パス</h4>
+            <label class="kit-left">launchpath</label>
+            <code kit:observe="launchpath"></code>
+        </div>
+        <div class="kit-box p-0">
+            <h4>定義の一覧</h4>
+            <template kit:for="defobj">
+                <div>
+                    <label class="kit-left">{{ key }}</label>
+                    <code>{{ value }}</code>
+                </div>
+            </template>
+        </div>
+        <div class="kit-box p-0">
+            <h4>サポート項目の一覧</h4>
+            <template kit:for="support">
+                <div>
+                    <label class="kit-left">{{ key }}</label>
+                    <code>{{ value }}</code>
+                </div>
+            </template>
+        </div>
+        <div class="kit-box p-0">
+            <h4>起動時引数</h4>
+            <template kit:for="args">
+                <div>
+                    <label class="kit-left">{{ key }}</label>
+                    <code>{{ value }}</code>
+                </div>
+            </template>
+        </div>
+        <div class="kit-box p-0">
+            <h4>kafデータ</h4>
+            <template kit:for="data">
+                <div>
+                    <label class="kit-left">{{ key }}</label>
+                    <code>{{ value }}</code>
+                </div>
+            </template>
+        </div>
+    </kit-container>
+</div>
