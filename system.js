@@ -1452,8 +1452,14 @@ class App {
                     elem.innerHTML = _result;
                 }
             }
-            if( _value ) S.dom(_pid, `[kit\\:if=${_name}]`).show();
-            else S.dom(_pid, `[kit\\:if=${_name}]`).hide();
+            if( _value ) {
+                S.dom(_pid, `[kit\\:if=${_name}]`).show();
+                S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', true);
+            }
+            else{
+                S.dom(_pid, `[kit\\:if=${_name}]`).hide();
+                S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', false).removeClass('-disabled');
+            }
             return App.d[_pid][_name] = _value;
         }
         else if( _name ) return App.d[_pid][_name];
@@ -1503,7 +1509,9 @@ class App {
                 let _eqs = i.getAttribute("kit-e").split(",");
                 for( let k of _eqs ){
                     let _eq = k.split(" ");
-                    $(i).on( _eq[1]||"click", App.e[_pid][_eq[0]] );
+                    $(i).on( _eq[1]||'click', (e) => {
+                        if(e.target.classList.contains('-disabled') === false) App.e[_pid][_eq[0]]();
+                    } );
                 }
             }
             if( i.hasAttribute("kit-src") ){
@@ -1530,8 +1538,14 @@ class App {
                     let _name = i.getAttribute("kit:bind");
                     App.d[_pid][_name] = i.value;
                     S.dom(_pid, `[kit\\:observe=${_name}]`).text( i.value );
-                    if( i.value ) S.dom(_pid, `[kit\\:if=${_name}]`).show();
-                    else S.dom(_pid, `[kit\\:if=${_name}]`).hide();
+                    if( i.value ){
+                        S.dom(_pid, `[kit\\:if=${_name}]`).show();
+                        S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', true).addClass('-disabled');
+                    }
+                    else{
+                        S.dom(_pid, `[kit\\:if=${_name}]`).hide();
+                        S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', false).removeClass('-disabled');
+                    }
                 } );
             }
             if( i.hasAttribute("kit:observe") ){
@@ -1551,6 +1565,13 @@ class App {
                     $(i).show();
                 }
                 else $(i).hide();
+            }
+            if( i.hasAttribute("kit:disabled") ){
+                if( App.d[_pid][i.getAttribute("kit:if")] ){
+                    i.disabled = true;
+                    i.classList.add('-disabled');
+                }
+                else i.disabled = false;
             }
             if( i.hasAttribute("kit-if") ){
                 if( eval( i.getAttribute("kit-if")) ){
