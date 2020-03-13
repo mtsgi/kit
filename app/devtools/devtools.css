@@ -1,0 +1,7 @@
+.winc-devtools .devtools-panel {
+    max-height: 400px;
+}
+
+.winc-devtools .devtools-footer input {
+    max-width: 40%;
+}

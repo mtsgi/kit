@@ -1,0 +1,19 @@
+{
+    "id": "devtools",
+    "name": "Dev tools",
+    "icon": "icon.png",
+    "version": "0.2",
+    "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
+
+    "size": {
+        "width": "700px"
+    },
+
+    "view": "default.html",
+    "script": "devtools.js",
+    "css": "devtools.css"
+}
