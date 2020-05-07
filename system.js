@@ -1425,14 +1425,14 @@ class App {
         this.close = () => System.close(_pid);
         this.d = App.d[_pid];
         this.dom = (..._args) => System.dom(_pid, ..._args);
-        this.e =  App.e[_pid];
+        this.e = App.e[_pid];
         this.ntf = (_title, _content, _action, _img, _buttons) => Notification.push(_title, _content, this.info.id, _pid, _action, _img, _buttons);
         this.qs = (...args) => System.qs(_pid, ...args);
         this.front = () => KWS.front(_pid);
 
         this.changeWindowTitle = _t => App.changeWindowTitle( _pid, _t );
-        this.data = (_name, _value) => App.data(_pid, _name, _value);
-        this.event = (_name, _event) => App.event(_pid, _name, _event);
+        this.data = (...args) => App.data(_pid, ...args);
+        this.event = (...args) => App.event(_pid, ...args);
         this.getPath = _path => App.getPath(_pid, _path);
         this.kaf = () => App.kaf(_pid);
         this.load = _path => App.load(_pid, _path);
@@ -1452,7 +1452,7 @@ class App {
     }
 
     static data( _pid, _name, _value ) {
-        if( _value !== undefined ) {
+        if ( _value !== undefined ) {
             S.dom(_pid, `[kit\\:bind=${_name}]`).val( _value );
             S.dom(_pid, `[kit\\:observe=${_name}]`).text( _value );
             S.dom(_pid, `template[kit\\:for=${_name}] + kit-for`).text('');
@@ -1467,22 +1467,35 @@ class App {
             }
             if( _value ) {
                 S.dom(_pid, `[kit\\:if=${_name}]`).show();
+                S.dom(_pid, `[kit\\:unless=${_name}]`).hide();
                 S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', true);
             }
             else{
                 S.dom(_pid, `[kit\\:if=${_name}]`).hide();
+                S.dom(_pid, `[kit\\:unless=${_name}]`).show();
                 S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', false).removeClass('-disabled');
             }
             return App.d[_pid][_name] = _value;
+        }
+        else if(typeof _name === 'object'){
+            for (const key in _name) {
+                if (_name.hasOwnProperty(key)) App.data(_pid, key, _name[key]);
+            }
         }
         else if( _name ) return App.d[_pid][_name];
         else return Object.fromEntries( Object.entries(App.d[_pid] || {}).filter(d => d[0].indexOf("__") != 0) );
     }
 
     static event( _pid, _name, _event ) {
-        if( !App.e[_pid] ) App.e[_pid] = new Object();
-        if( !_event && App.e[_pid][_name] ) App.e[_pid][_name].call();
-        else App.e[_pid][_name] = _event;
+        if (!App.e[_pid]) App.e[_pid] = new Object();
+        if (_event !== undefined) App.e[_pid][_name] = _event;
+        else if (typeof _name === 'object') {
+            for (const key in _name) {
+                if (_name.hasOwnProperty(key)) App.event(_pid, key, _name[key]);
+            }
+        }
+        else if (App.e[_pid][_name]) App.e[_pid][_name].call();
+        else if (_name === undefined && _pid) return App.e[_pid];
         return App;
     }
 
@@ -1508,6 +1521,7 @@ class App {
             "[kit-color]",
             "[kit\\:if]",
             "[kit-if]",
+            "[kit\\:unless]",
             "[kit\\:for]"
         ]
         const PID = _pid;
@@ -1523,7 +1537,7 @@ class App {
                 for( let k of _eqs ){
                     let _eq = k.split(" ");
                     $(i).on( _eq[1]||'click', (e) => {
-                        if(e.target.classList.contains('-disabled') === false) App.e[_pid][_eq[0]]();
+                        if(e.target.classList.contains('-disabled') === false) App.e[_pid][_eq[0]].call(this, e);
                     } );
                 }
             }
@@ -1553,10 +1567,12 @@ class App {
                     S.dom(_pid, `[kit\\:observe=${_name}]`).text( i.value );
                     if( i.value ){
                         S.dom(_pid, `[kit\\:if=${_name}]`).show();
+                        S.dom(_pid, `[kit\\:unless=${_name}]`).hide();
                         S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', true).addClass('-disabled');
                     }
                     else{
                         S.dom(_pid, `[kit\\:if=${_name}]`).hide();
+                        S.dom(_pid, `[kit\\:unless=${_name}]`).show();
                         S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', false).removeClass('-disabled');
                     }
                 } );
@@ -1578,6 +1594,12 @@ class App {
                     $(i).show();
                 }
                 else $(i).hide();
+            }
+            if( i.hasAttribute("kit:unless") ){
+                if( App.d[_pid][i.getAttribute("kit:unless")] ){
+                    $(i).hide();
+                }
+                else $(i).show();
             }
             if( i.hasAttribute("kit:disabled") ){
                 if( App.d[_pid][i.getAttribute("kit:if")] ){
