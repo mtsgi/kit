@@ -1036,6 +1036,10 @@ const System = new function() {
         });
     }
 
+    this.eval = function(expr) {
+        return Function(`"use strict"; return(${expr})`)();
+    }
+
     this.launch = async function(path, args) {
         while(this.launchLock) await this.ajaxWait();
         this.launchLock = true;
@@ -1465,13 +1469,17 @@ class App {
                     elem.innerHTML = _result;
                 }
             }
+            System.qs(_pid, '[kit\\:if]').forEach(elem => {
+                App._switchIfElem({
+                    pid: _pid,
+                    elem: elem
+                });
+            });
             if( _value ) {
-                S.dom(_pid, `[kit\\:if=${_name}]`).show();
                 S.dom(_pid, `[kit\\:unless=${_name}]`).hide();
                 S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', true);
             }
             else{
-                S.dom(_pid, `[kit\\:if=${_name}]`).hide();
                 S.dom(_pid, `[kit\\:unless=${_name}]`).show();
                 S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', false).removeClass('-disabled');
             }
@@ -1565,13 +1573,17 @@ class App {
                     let _name = i.getAttribute("kit:bind");
                     App.d[_pid][_name] = i.value;
                     S.dom(_pid, `[kit\\:observe=${_name}]`).text( i.value );
+                    System.qs(_pid, '[kit\\:if]').forEach(elem => {
+                        App._switchIfElem({
+                            pid: _pid,
+                            elem: elem
+                        });
+                    });
                     if( i.value ){
-                        S.dom(_pid, `[kit\\:if=${_name}]`).show();
                         S.dom(_pid, `[kit\\:unless=${_name}]`).hide();
                         S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', true).addClass('-disabled');
                     }
                     else{
-                        S.dom(_pid, `[kit\\:if=${_name}]`).hide();
                         S.dom(_pid, `[kit\\:unless=${_name}]`).show();
                         S.dom(_pid, `[kit\\:disabled=${_name}]`).prop('disabled', false).removeClass('-disabled');
                     }
@@ -1590,10 +1602,10 @@ class App {
                 $(i).css('color', i.getAttribute("kit-color"));
             }
             if( i.hasAttribute("kit:if") ){
-                if( App.d[_pid][i.getAttribute("kit:if")] ){
-                    $(i).show();
-                }
-                else $(i).hide();
+                App._switchIfElem({
+                    pid: _pid,
+                    elem: i
+                })
             }
             if( i.hasAttribute("kit:unless") ){
                 if( App.d[_pid][i.getAttribute("kit:unless")] ){
@@ -1642,6 +1654,40 @@ class App {
     static preventClose( _pid, _bool = true ) {
         process[_pid].preventclose = _bool || true;
         return App;
+    }
+
+    static _switchIfElem(options) {
+        const compArr = options.elem.getAttribute('kit:if').split(/(===|!==|==|!=|\?\?|&&|\|\|)/);
+        const target = App.d[options.pid][compArr[0].trim()];
+        let shouldDisp = false;
+        switch (compArr[1]) {
+            case undefined:
+                if (target) shouldDisp = true;
+                break;
+            case '==':
+                if(target == System.eval(compArr[2])) shouldDisp = true;
+                break;
+            case '!=':
+                if(target != System.eval(compArr[2])) shouldDisp = true;
+                break;
+            case '===':
+                if(target === System.eval(compArr[2])) shouldDisp = true;
+                break;
+            case '!==':
+                if(target !== System.eval(compArr[2])) shouldDisp = true;
+                break;
+            case '??':
+                if(target !== undefined && target !== null) shouldDisp = true;
+                break;
+            case '&&':
+                if(target && App.d[options.pid][compArr[2].trim()]) shouldDisp = true;
+                break;
+            case '||':
+                if(target || App.d[options.pid][compArr[2].trim()]) shouldDisp = true;
+                break;
+        }
+        if (shouldDisp) $(options.elem).show();
+        else $(options.elem).hide();
     }
 }
 
