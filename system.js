@@ -1470,7 +1470,7 @@ class App {
                 }
             }
             System.qs(_pid, '[kit\\:if]').forEach(elem => {
-                App._switchIfElem({
+                App.switchIfElem({
                     pid: _pid,
                     elem: elem
                 });
@@ -1574,7 +1574,7 @@ class App {
                     App.d[_pid][_name] = i.value;
                     S.dom(_pid, `[kit\\:observe=${_name}]`).text( i.value );
                     System.qs(_pid, '[kit\\:if]').forEach(elem => {
-                        App._switchIfElem({
+                        App.switchIfElem({
                             pid: _pid,
                             elem: elem
                         });
@@ -1602,7 +1602,7 @@ class App {
                 $(i).css('color', i.getAttribute("kit-color"));
             }
             if( i.hasAttribute("kit:if") ){
-                App._switchIfElem({
+                App.switchIfElem({
                     pid: _pid,
                     elem: i
                 })
@@ -1656,34 +1656,42 @@ class App {
         return App;
     }
 
-    static _switchIfElem(options) {
+    static switchIfElem(options) {
         const compArr = options.elem.getAttribute('kit:if').split(/(===|!==|==|!=|\?\?|&&|\|\|)/);
         const target = App.d[options.pid][compArr[0].trim()];
+        let right = null;
+        if (compArr[2]) {
+            try {
+                right = System.eval(compArr[2]);
+            } catch (error) {
+                right = App.d[options.pid][compArr[2].trim()];
+            }
+        }
         let shouldDisp = false;
         switch (compArr[1]) {
             case undefined:
                 if (target) shouldDisp = true;
                 break;
             case '==':
-                if(target == System.eval(compArr[2])) shouldDisp = true;
+                if (target == right) shouldDisp = true;
                 break;
             case '!=':
-                if(target != System.eval(compArr[2])) shouldDisp = true;
+                if (target != right) shouldDisp = true;
                 break;
             case '===':
-                if(target === System.eval(compArr[2])) shouldDisp = true;
+                if (target === right) shouldDisp = true;
                 break;
             case '!==':
-                if(target !== System.eval(compArr[2])) shouldDisp = true;
+                if (target !== right) shouldDisp = true;
                 break;
             case '??':
-                if(target !== undefined && target !== null) shouldDisp = true;
+                if (target !== undefined && target !== null) shouldDisp = true;
                 break;
             case '&&':
-                if(target && App.d[options.pid][compArr[2].trim()]) shouldDisp = true;
+                if (target && right) shouldDisp = true;
                 break;
             case '||':
-                if(target || App.d[options.pid][compArr[2].trim()]) shouldDisp = true;
+                if (target || right) shouldDisp = true;
                 break;
         }
         if (shouldDisp) $(options.elem).show();
