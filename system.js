@@ -563,7 +563,7 @@ async function appData(data) {
     }
     if (!data.id || !data.version || !data.author) {
         Notification.push('起動エラー', '起動に失敗しました。詳細情報を得るためには、デバッグモードを有効化してください。', 'system');
-        Notification.push('debug', '起動エラー：id, version, authorは必須定義項目です。', 'system');
+        Notification.push('debug', '起動エラー：define.jsonの形式に問題があります。id, version, authorは必須定義項目です。', 'system');
         System.launchLock = false;
         return;
     }
@@ -681,8 +681,21 @@ async function appData(data) {
             pid++;
             return false;
         }
-        if( defobj.css != "none" && !document.querySelector(`#kit-style-${defobj.id}`) ){
-            $("head").append('<link href="' + app.getPath(defobj.css) + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>');
+        if(defobj.css != 'none') {
+            if(defobj.css.slice(defobj.css.lastIndexOf('.')) == '.json') {
+                $.getJSON(app.getPath(defobj.css), data => {
+                    if (!System.qs(pid)[0]) Notification.push('kafエラー', `「${defobj.name}(${pid})」でスタイルの読み込みに失敗しました。`, 'kaf');
+                    else {
+                        for (const i in data) {
+                            if (typeof data[i] === 'string') System.qs(pid)[0].style[i] = data[i];
+                            else if (typeof data[i] === 'object') App.attachStyles(System.qs(pid)[0], i, data[i]);
+                        }
+                      }
+                });
+            }
+            else if(!document.querySelector(`#kit-style-${defobj.id}`)) {
+                $("head").append('<link href="' + app.getPath(defobj.css) + '" rel="stylesheet" id="kit-style-' + data.id + '"></link>');
+            }
         }
         if(defobj.script != "none") $.getScript(app.getPath(defobj.script), () => {
             if( defobj.support.kaf == true ) App.kaf(_pid);
@@ -1620,6 +1633,25 @@ class App {
     static preventClose( _pid, _bool = true ) {
         process[_pid].preventclose = _bool || true;
         return App;
+    }
+
+    static attachStyles (parent = document, selector, object = {}) {
+        try {
+            const tlist = parent.querySelectorAll(selector)
+            for (const d in object) {
+                if (typeof object[d] === 'string') {
+                    for (const t of tlist) {
+                        t.style[d] = object[d];
+                    }
+                } else if (typeof object[d] === 'object') {
+                    let _j = [selector, d].join(' ');
+                    if (d.indexOf('&') === 0) _j = [selector, d.substr(1)].join('');
+                    App.attachStyles(parent, _j, object[d]);
+                }
+            }
+        } catch (error) {
+            Notification.push('debug', `[styles] Invalid selector: ${selector}`, 'kaf');
+        }
     }
 }
 

@@ -1,0 +1,11 @@
+{
+    "background": "#fffff0",
+
+    ".devtools-panel": {
+        "maxHeight": "400px"
+    },
+
+    ".devtools-footer input": {
+        "maxWidth": "40%"
+    }
+}

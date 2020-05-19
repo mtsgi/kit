@@ -15,5 +15,5 @@
 
     "view": "default.html",
     "script": "devtools.js",
-    "css": "devtools.css"
+    "css": "devtools.css.json"
 }
