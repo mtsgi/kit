@@ -148,7 +148,6 @@
     <p>これはkitMobileベータ版です。</p>
     <p><img src="./documents/mobile-logo-white.png" alt="kitMobile"></p>
     <a id="kit-power-shutdown">シャットダウン</a>
-    <a id="kit-power-reboot">再起動</a>
     <a id="kit-power-suspend">高速な再起動</a>
     <a id="kit-power-lock">ロック</a>
   </div>
@@ -168,7 +167,7 @@
   <script>
     if('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service_worker.js').then(function(registration) {
-        Notification.push('ServiceWorker registration successful with scope: ', registration.scope, 'system');
+        Notification.push('ServiceWorker registration successful with scope: ', registration.scope, 'debug');
       }).catch(function(err) {
         Notification.push('ServiceWorker registration failed: ', err, 'system');
       });

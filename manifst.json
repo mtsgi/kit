@@ -1,7 +1,7 @@
 {
-    "short_name": "kit",
-    "name": "kit",
-    "description": "kit Desktop Environment",
+    "short_name": "kitMobile",
+    "name": "kitMobile",
+    "description": "kit Desktop Environment Mobile(beta)",
     "display": "fullscreen",
     "start_url": "mobile.html",
     "icons": [
