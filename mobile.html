@@ -1,0 +1,179 @@
+<!DOCTYPE html>
+<html lang="ja">
+
+<head>
+  <meta charset="UTF-8">
+  <title>kitMobile beta</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="./system/jquery-ui-1.12.1/jquery-ui.min.css">
+  <link href="./fa/css/all.css" rel="stylesheet">
+  <link href="./system/noto.css" rel="stylesheet">
+  <link rel="stylesheet" href="./system/simplebar.css">
+  <link rel="shortcut icon" href="./system/ico/favicon.ico" type="image/x-icon">
+  <link href="./system/system.css" rel="stylesheet">
+  <link href="./system/kitstrap/kitstrap.css" rel="stylesheet">
+  <link href="./system/kitstrap/kitstrap-font.css" rel="stylesheet">
+  <link href="./system/theme/theme-default.css" rel="stylesheet" id="kit-theme-file">
+  <link rel="stylesheet" id="kit-darkmode">
+  <link href="./system/system-mobile.css" rel="stylesheet">
+  <link rel="manifest" href="./manifst.json">
+</head>
+
+<body id="body" spellcheck="false">
+  <div id="kit-wallpaper"></div>
+
+  <section id="desktop-0">
+    <div>Loading</div>
+  </section>
+
+  <section id="desktop-1">
+    <div class="desktop-icons"></div>
+  </section>
+
+  <section id="desktop-l">ロックされています<br>
+    <div id="lock-user-icon"></div>
+    <div id="lock-username"></div>
+    <input type="password" id="lock-password" class="textbox">
+    <a id="lock-unl"><span class="fa fa-lock"></span>ロック解除</a>
+  </section>
+
+  <div id="launcher">
+    <div id="launcher-header">
+      <a class="kit-button -flat -black" onclick="$('#launch').click();System.launch('appman')"><i class="far fa-window-restore"></i>アプリの管理</a>
+      <a class="kit-button -flat -black" onclick="$('#launch').click();System.launch('install')"><i class="fa fa-download"></i>インストール</a>
+    </div>
+    <div id="launcher-apps"></div>
+  </div>
+
+  <footer>
+    <a class="fa fa-shapes" id="launch"></a>
+    <a id="footer-tasks" class="fa fa-table"></a>
+    <a id="footer-mobile-home" onclick="KWS.minAll()" class="fa fa-home"></a>
+    <a id="footer-mobile-tasks" class="far fa-square" onclick="$('#kit-mobile-tasks').toggle()"></a>
+    <a id="footer-noti"><span class="fas fa-comment-alt"></span> 通知</a>
+  </footer>
+
+  <div id="kit-context">
+    <div id="kit-context-elem">要素</div>
+    <div id="kit-contextgroup-elem">
+      <div id="kit-context-size"></div>
+      <a id="kit-context-open"><span class="fa fa-external-link-alt"></span> 要素を開く</a>
+      <a id="kit-context-save"><span class="fa fa-file-download"></span> 要素を保存</a>
+    </div>
+    <div id="kit-contextgroup-text">
+      <div id="kit-context-text">テキスト</div>
+      <a id="kit-context-copy"><span class="fa fa-copy"></span> コピー</a>
+      <a id="kit-context-search"><span class="fa fa-search"></span> 検索する</a>
+    </div>
+    <input type="text" class="textbox" placeholder="Web検索" id="kit-context-input">
+    <div id="kit-contextgroup-desktop">
+      <div id="kit-context-desktop">デスクトップ</div>
+      <a onclick="launch('settings', {'view': 'wallpaper'})"><span class="fa fa-image"></span> 壁紙の設定</a>
+      <a onclick="launch('pmgr')"><span class="fa fa-tachometer-alt"></span> プロセス管理</a>
+      <a id="kit-context-vacuum"><span class="fa fa-compress"></span> 吸い寄せる</a>
+      <a id="kit-context-fusen"><span class="fa fa-sticky-note"></span> ふせんを追加する</a>
+    </div>
+    <div id="kit-contextgroup-custom">
+      <div id="kit-context-custom"></div>
+    </div>
+  </div>
+
+  <div id="kit-tasks"></div>
+
+  <div id="kit-mobile-tasks">
+    <div id="tasks"></div>
+    <div id="task-ctx">
+      <img src="" id="task-ctx-img">
+      <div id="task-ctx-name">task.name</div>
+      <div id="task-ctx-ver">task.version</div>
+      <div class="kit-flex">
+        <a id="task-ctx-info"><span class="fa fa-info-circle"></span> アプリ情報</a>
+        <a id="task-ctx-sshot"><span class="fa fa-camera"></span> スクリーンショット</a>
+        <a id="task-ctx-min"><span class="fa fa-window-maximize"></span> 最小化／復元</a>
+        <a id="task-ctx-front"><span class="fa fa-layer-group"></span> 窓を一番手前へ</a>
+        <a id="task-ctx-close"><span class="far fa-times-circle"></span> 窓を閉じる</a>
+        <a id="task-ctx-kill"><span class="fa fa-ban"></span> アプリ終了</a>
+      </div>
+    </div>
+  </div>
+
+  <div id="last-notification">
+    <img src="" alt="" id="last-notification-img">
+    <a id="last-notification-close"><i class="fa fa-angle-double-right"></i></a>
+    <div id="last-notification-app"></div>
+    <div id="last-notification-title"></div>
+    <div id="last-notification-content"></div>
+    <div id="last-notification-buttons"></div>
+  </div>
+
+  <div id="notifications">
+    <a id="notifications-show-history" class="kit-hyperlink" onclick="launch('ntflist')">通知の履歴</a>
+    <label class="kit-toggle">
+      <input type="checkbox" id="notifications-dnp">非通知モード
+      <label for="notifications-dnp"></label>
+      <span class="fa fa-bed"></span>
+    </label>
+  </div>
+
+  <div class="dropdown" id="dropdown-clock"><canvas class="dropdown-clock-canvas"></canvas></div>
+  <div class="dropdown" id="dropdown-sound">
+    音量：<span id="dropdown-sound-level">100</span>
+    <label class="kit-toggle">
+      <input type="checkbox" id="dropdown-sound-silent">サイレント
+      <label for="dropdown-sound-silent"></label>
+      <span class="fa fa-volume-off"></span>
+    </label>
+    <div id="dropdown-sound-slider"></div>
+  </div>
+
+  <header>
+    <a id="desktops"><span class="far fa-clone"></span></a>
+    <a id="kit-header-sightre"><span class="fa fa-search"></span></a>
+    <div class="kit-right">
+      <!-- <a id="kit-header-fullscreen"><span class="fa fa-window-maximize"></span>最大化を解除</a> -->
+      <a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
+      <a onclick="$('#dropdown-sound').toggle()"><span id="kit-header-sound-icon" class="fa fa-volume-up"></span></a>
+      <a onclick="$('#dropdown-clock').toggle()"><span class="fas fa-clock"></span><span class="os-time"></span></a>
+      <a class="power-button"><span class="fa fa-power-off"></span></a>
+    </div>
+  </header>
+
+  <div id="kit-sightre">
+    <input id="kit-sightre-form" type="text" placeholder="Sightreで検索" class="kit-selectable">
+    <div id="kit-sightre-results"></div>
+  </div>
+
+  <div id="kit-power">
+    <a id="kit-power-back">もどる</a>
+    <p>これはkitMobileベータ版です。</p>
+    <p><img src="./documents/mobile-logo-white.png" alt="kitMobile"></p>
+    <a id="kit-power-shutdown">シャットダウン</a>
+    <a id="kit-power-reboot">再起動</a>
+    <a id="kit-power-suspend">高速な再起動</a>
+    <a id="kit-power-lock">ロック</a>
+  </div>
+
+  <!-- libs -->
+  <script src="./system/jquery.min.js"></script>
+  <script src="./system/jquery.pep.js"></script>
+  <script src="./system/jquery-ui-1.12.1/jquery-ui.js"></script>
+  <script src="./system/html2canvas.js"></script>
+
+  <script src="./system/simplebar.js"></script>
+  <script src="./system/jquery.windowResizable.js"></script>
+
+  <!-- system -->
+  <script src="./system.js"></script>
+
+  <script>
+    if('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service_worker.js').then(function(registration) {
+        Notification.push('ServiceWorker registration successful with scope: ', registration.scope, 'system');
+      }).catch(function(err) {
+        Notification.push('ServiceWorker registration failed: ', err, 'system');
+      });
+    }
+  </script>
+</body>
+
+</html>

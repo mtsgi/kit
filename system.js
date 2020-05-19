@@ -1142,6 +1142,12 @@ const KWS = new function(){
         $("#wtname"+_pid).text( _str );
     }
 
+    this.minAll = function() {
+        for (const i in process) {
+            if (process.hasOwnProperty(i) && $(`#w${i}`).is(":visible")) KWS.min(i);
+        }
+    }
+
     this.min = function( _str ) {
         let _pid = String( _str );
         if( $( "#w" + _pid ).is( ":visible" ) ) {

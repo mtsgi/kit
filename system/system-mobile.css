@@ -1,0 +1,224 @@
+header {
+  background: linear-gradient(#000000A0 0%, #0000 100%);
+  color: #ffffff;
+  box-shadow: none;
+  text-shadow: 0 2px 4px black;
+  z-index: 9999;
+}
+
+.window {
+  top: 0 !important;
+  left: 0 !important;
+  box-shadow: none;
+  transition: none !important;
+}
+
+.windowactive {
+  animation: none !important;
+}
+
+.wt {
+  display: none;
+}
+
+.winc {
+  width: 100vw !important;
+  height: calc(100vh - 74px) !important;
+  overflow: scroll !important;
+  border-radius: 0;
+  box-shadow: 0 0 20px 20px rgba(0, 0, 0, .5);
+}
+
+/* フッター */
+
+footer {
+  background: linear-gradient(#0000 0%, #000000D0 100%);
+  border: none;
+  box-shadow: none;
+  color: #fff;
+  height: 50px;
+  display: flex;
+  padding: 0;
+  align-items: center;
+  justify-content: space-between;
+}
+
+footer a {
+  text-shadow: 0px 1px 3px black;
+  top: -2px;
+  position: relative !important;
+}
+
+footer #launch {
+  background: rgba(0, 0, 0, .5);
+  border: none;
+  box-shadow: none;
+  border-radius: 0 3px 0 0;
+  padding: 14px !important;
+  margin: 0;
+  top: -2px;
+}
+
+footer #launch:hover {
+  padding: 10px;
+}
+
+footer #footer-mobile-tasks,
+footer #footer-mobile-home {
+  font-size: 22px;
+}
+
+/* モバイル版 タスクビューアー */
+
+#kit-mobile-tasks {
+  position: fixed;
+  top: 0px;
+  left: 0px;
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5);
+  backdrop-filter: blur(8px);
+  height: 100vh;
+  display: none;
+  z-index: 9997;
+}
+
+#kit-mobile-tasks #tasks {
+  display: flex;
+  flex-direction: column;
+  padding: 32px 0 0 0;
+}
+
+#kit-mobile-tasks #tasks .task {
+  background: #f0f0f0;
+  height: 40px;
+  margin: 5px 10px;
+  display: flex;
+  align-items: center;
+  padding: 8px;
+  font-size: 18px;
+  border-radius: 4px;
+  box-shadow: 0px 2px 12px 0px rgba(0, 0, 0, .5);
+}
+
+#kit-mobile-tasks #tasks .task>img {
+  margin-right: 12px;
+  width: 40px;
+  height: 40px;
+}
+
+/* タスクコンテキスト */
+
+#kit-mobile-tasks #task-ctx {
+  left: 15% !important;
+  bottom: 50px !important;
+  width: calc(100vw - 30%);
+  border: none;
+}
+
+#kit-mobile-tasks #task-ctx .kit-flex a {
+  display: flex;
+  flex-direction: column;
+  text-align: center;
+  width: 80px;
+  overflow: hidden;
+  height: 60px;
+  font-size: 12px;
+}
+
+#kit-mobile-tasks #task-ctx .kit-flex a span {
+  font-size: 30px;
+  margin: 4px 0;
+}
+
+/* 通知 */
+
+#last-notification {
+  top: 38px;
+  left: 8px;
+  width: calc(100vw - 24px);
+  height: auto;
+  max-height: 120px;
+  overflow: hidden;
+  border-radius: 0;
+  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, .5);
+  backdrop-filter: blur(8px);
+}
+
+#last-notification-close {
+  background: transparent;
+  font-size: 24px;
+  margin-right: 20px;
+}
+
+#notifications {
+  width: 100vw;
+  background: rgba(0, 0, 0, 0.5) none repeat scroll 0% 0%;
+  backdrop-filter: blur(8px);
+  max-height: 100vh;
+  overflow: scroll;
+}
+
+#notifications .kit-toggle {
+  background: #ffffff;
+  line-height: 2;
+  border-radius: 4px;
+  margin: 10px 5px;
+}
+
+/* アプリランチャー */
+
+#launcher-header .kit-button {
+  float: none;
+}
+
+#launcher-apps {
+  height: calc(100vh - 140px);
+  overflow: scroll;
+  justify-content: space-around;
+}
+
+.launcher-app {
+  width: 90px;
+max-height: 90px;
+font-size: 15px;
+}
+
+/* ロック画面 */
+
+#desktop-l>.textbox {
+  border-radius: 0;
+  margin: 40px 0;
+  background: rgba(255, 255, 255, 0.75);
+}
+
+#kit-power {
+  color: #ffffff;
+}
+
+#kit-power img {
+  max-width: 90%;
+}
+
+#kit-power a {
+  font-size: 20px;
+  font-weight: 700;
+}
+
+#kit-power a::after {
+  font-size: 14px;
+  font-weight: normal;
+}
+
+/* Alert */
+
+.winc.winc-alert {
+  height: auto !important;
+  left: 10px;
+  width: calc(100vw - 20px) !important;
+  border-radius: 0 0 8px 8px;
+  top: 1px;
+  box-shadow: 0 4px 10px 0 rgba(0, 0, 0, .25);
+  border: none;
+  padding-bottom: 12px;
+  background: #f0f0f0;
+}
