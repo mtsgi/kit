@@ -70,7 +70,6 @@
       <div id="kit-context-desktop">デスクトップ</div>
       <a onclick="launch('settings', {'view': 'wallpaper'})"><span class="fa fa-image"></span> 壁紙の設定</a>
       <a onclick="launch('pmgr')"><span class="fa fa-tachometer-alt"></span> プロセス管理</a>
-      <a id="kit-context-vacuum"><span class="fa fa-compress"></span> 吸い寄せる</a>
       <a id="kit-context-fusen"><span class="fa fa-sticky-note"></span> ふせんを追加する</a>
     </div>
     <div id="kit-contextgroup-custom">
@@ -165,8 +164,10 @@
   <script src="./system.js"></script>
 
   <script>
+    let sw;
     if('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service_worker.js').then(function(registration) {
+        sw = registration;
         Notification.push('ServiceWorker registration successful with scope: ', registration.scope, 'debug');
       }).catch(function(err) {
         Notification.push('ServiceWorker registration failed: ', err, 'system');

@@ -1,0 +1,20 @@
+{
+    "id": "mobile",
+    "name": "kitモバイル",
+    "description": "App for kitMobile Experience",
+    "icon": "icon.png",
+    "version": "1.0.0",
+    "author": "kit",
+
+    "support": {
+        "darkmode": true
+    },
+
+    "size": {
+        "width": "400px"
+    },
+
+    "view": "default.html",
+    "script": "mobile.js",
+    "css": "none"
+}
