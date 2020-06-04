@@ -747,6 +747,8 @@ const System = new function() {
 
     this.support = $.support;
     this.debugmode = false;
+    this.isMobile = false;
+    this.serviceWorker = null;
 
     this.battery = null;
 

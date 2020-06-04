@@ -6,6 +6,21 @@ header {
   z-index: 9999;
 }
 
+.dropdown {
+  text-align: center;
+  border-radius: 0;
+  color: #ffffff;
+  background: rgba(20, 20, 20, .9);
+  left: 12px;
+  top: 40px;
+  box-sizing: border-box;
+  width: calc(100vw - 24px);
+}
+
+.dropdown-clock-canvas {
+  filter: brightness(900%);
+}
+
 #kit-sightre {
   left: 32px;
   width: calc(-64px + 100vw);
@@ -83,7 +98,7 @@ footer #launch:hover {
   padding: 10px;
 }
 
-footer #footer-tasks,
+footer #footer-mobile-close,
 footer #footer-mobile-tasks,
 footer #footer-mobile-home {
   font-size: 22px;

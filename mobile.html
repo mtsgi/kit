@@ -47,7 +47,7 @@
 
   <footer>
     <a class="fa fa-shapes" id="launch"></a>
-    <a id="footer-tasks" class="fa fa-table"></a>
+    <a id="footer-mobile-close" class="fa fa-times" onclick="System.close(KWS.active)"></a>
     <a id="footer-mobile-home" onclick="KWS.minAll()" class="fa fa-home"></a>
     <a id="footer-mobile-tasks" class="far fa-square" onclick="$('#kit-mobile-tasks').toggle()"></a>
     <a id="footer-noti"><span class="fas fa-comment-alt"></span> 通知</a>
@@ -164,10 +164,10 @@
   <script src="./system.js"></script>
 
   <script>
-    let sw;
+    System.isMobile = true;
     if('serviceWorker' in navigator) {
       navigator.serviceWorker.register('service_worker.js').then(function(registration) {
-        sw = registration;
+        System.serviceWorker = registration;
         Notification.push('ServiceWorker registration successful with scope: ', registration.scope, 'debug');
       }).catch(function(err) {
         Notification.push('ServiceWorker registration failed: ', err, 'system');
