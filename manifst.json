@@ -1,0 +1,15 @@
+{
+    "short_name": "kitMobile",
+    "name": "kitMobile",
+    "description": "kit Desktop Environment Mobile(beta)",
+    "display": "fullscreen",
+    "start_url": "mobile.html",
+    "icons": [
+        {
+            "src": "documents/icon.png",
+            "sizes": "192x192",
+            "type": "image/png"
+        }
+    ],
+    "theme_color": "#1e90ff"
+}

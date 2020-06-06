@@ -747,6 +747,8 @@ const System = new function() {
 
     this.support = $.support;
     this.debugmode = false;
+    this.isMobile = false;
+    this.serviceWorker = null;
 
     this.battery = null;
 
@@ -1140,6 +1142,12 @@ const KWS = new function(){
     this.changeWindowTitle = function( _pid, _str ){
         $("#tname"+_pid).text( _str );
         $("#wtname"+_pid).text( _str );
+    }
+
+    this.minAll = function() {
+        for (const i in process) {
+            if (process.hasOwnProperty(i) && $(`#w${i}`).is(":visible")) KWS.min(i);
+        }
     }
 
     this.min = function( _str ) {

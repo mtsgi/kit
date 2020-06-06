@@ -44,6 +44,11 @@
         "icon": "./app/kish/icon.png"
     },
 
+    "mobile": {
+        "name": "kitモバイル",
+        "icon": "./app/mobile/icon.png"
+    },
+
     "ntflist": {
         "name": "通知履歴",
         "icon": "./app/ntflist/icon.png"
