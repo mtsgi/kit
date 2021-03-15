@@ -39,8 +39,10 @@
 
   <div id="launcher">
     <div id="launcher-header">
-      <a class="kit-button -flat -black" onclick="$('#launch').click();System.launch('appman')"><i class="far fa-window-restore"></i>アプリの管理</a>
-      <a class="kit-button -flat -black" onclick="$('#launch').click();System.launch('install')"><i class="fa fa-download"></i>インストール</a>
+      <a class="kit-button -flat -black" onclick="$('#launch').click();System.launch('appman')"><i
+          class="far fa-window-restore"></i>アプリの管理</a>
+      <a class="kit-button -flat -black" onclick="$('#launch').click();System.launch('install')"><i
+          class="fa fa-download"></i>インストール</a>
     </div>
     <div id="launcher-apps"></div>
   </div>
@@ -165,11 +167,11 @@
 
   <script>
     System.isMobile = true;
-    if('serviceWorker' in navigator) {
-      navigator.serviceWorker.register('service_worker.js').then(function(registration) {
+    if ('serviceWorker' in navigator) {
+      navigator.serviceWorker.register('service_worker.js').then(function (registration) {
         System.serviceWorker = registration;
         Notification.push('ServiceWorker registration successful with scope: ', registration.scope, 'debug');
-      }).catch(function(err) {
+      }).catch(function (err) {
         Notification.push('ServiceWorker registration failed: ', err, 'system');
       });
     }
