@@ -483,7 +483,6 @@ footer .task-min:after {
   background: red;
   width: 15px;
   height: 15px;
-  display: inline-block;
   float: right;
   border-radius: 999px;
   cursor: url(./cursor-2.png), pointer;

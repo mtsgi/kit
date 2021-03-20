@@ -35,14 +35,4 @@ kitアプリケーションはすぐに、簡単に作成できます。[→ kit
 - [kitHub(beta)](https://kithub-beta.herokuapp.com/) - kit用のアプリケーションストア
 - [defgen](https://mtsgi.github.io/defgen/) - 便利なdefine.json自動生成ツール
 
-## libraries
-
-- jQuery
-- SimpleBar.js
-- jQuery UI
-- Icons8
-- Font Awesome
-- jquery.pep.js
-- html2canvas
-
 > Licenses are able to view on app/settings.
