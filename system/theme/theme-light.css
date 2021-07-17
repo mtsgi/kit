@@ -57,12 +57,8 @@ header a:hover {
 	border-radius: 0;
 }
 
-#dropdown-clock {
-	right: 56px;
-}
-
 #dropdown-sound {
-	right: 140px;
+	right: 58px;
 	padding: 6px;
 }
 

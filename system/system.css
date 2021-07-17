@@ -161,18 +161,9 @@ header a:hover {
   border-radius: 0 0 5px 5px;
 }
 
-#dropdown-clock {
-  right: 58px;
-}
-
 #dropdown-sound {
-  right: 152px;
+  right: 58px;
   padding: 6px;
-}
-
-#dropdown-sound-slider {
-  margin: 10px;
-  width: 180px;
 }
 
 .ui-slider-horizontal {

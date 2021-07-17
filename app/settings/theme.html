@@ -2,17 +2,9 @@
     if( KWS.darkmode ) $("#settings-theme-darkmode").prop('checked', true);
     $("#settings-theme-darkmode").on("change", function(){
         if( $("#settings-theme-darkmode").is(':checked') ){
-            localStorage.setItem("kit-darkmode", "true");
             KWS.darkmode = true;
-            $("#kit-darkmode").attr("href", "system/theme/kit-darkmode.css");
-            $(".winc-darkmode").addClass("kit-darkmode");
         }
-        else{
-            localStorage.setItem("kit-darkmode", "false");
-            KWS.darkmode = false;
-            $("#kit-darkmode").attr("href", null);
-            $(".winc-darkmode").removeClass("kit-darkmode");
-        }
+        else KWS.darkmode = false;
     });
     $(".settings-theme-path-set").on("click", function(){
         set_theme( $("#settings-theme-path").val() );

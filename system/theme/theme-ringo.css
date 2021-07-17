@@ -96,19 +96,15 @@ header a:hover {
 .dropdown {
 	display: none;
 	position: fixed;
-	top: 25px;
+	top: 27px;
 	right: 0;
 	background: rgba(245, 245, 245, .95);
 	box-shadow: 0 2px 8px 0 rgba(0, 0, 0, .3);
 	border-radius: 0 0 5px 5px;
 }
 
-#dropdown-clock {
-	right: 60px;
-}
-
 #dropdown-sound {
-	right: 146px;
+	right: 59px;
 	padding: 6px;
 }
 

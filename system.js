@@ -105,7 +105,6 @@ class System {
     System.UI.Header.sightre = document.querySelector("#kit-header-sightre");
     System.UI.Header.username = document.querySelector("#kit-header-username");
     System.UI.Header.fullscreen = document.querySelector("#kit-header-fullscreen");
-    System.UI.Header.Dropdown.clock = document.querySelector("#dropdown-clock");
     System.UI.Header.Dropdown.sound = document.querySelector("#dropdown-sound");
     System.UI.Header.powerButton = document.querySelector(".power-button");
     System.UI.wallpaper = document.querySelector("#kit-wallpaper");
@@ -137,15 +136,7 @@ class System {
       }
     }
 
-    if (localStorage.getItem("kit-darkmode") == "true") {
-      KWS.darkmode = true;
-      document
-        .querySelector("#kit-darkmode")
-        .setAttribute("href", "system/theme/kit-darkmode.css");
-      // document
-      //   .querySelector(".winc-darkmode")
-      //   .classList.add("kit-darkmode");
-    }
+    if (localStorage.getItem("kit-darkmode") == "true") KWS.darkmode = true;
 
     if (System.bootopt.get("safe")) {
       document
@@ -176,10 +167,6 @@ class System {
       System.recycle = JSON.parse(localStorage["kit-recycle"]);
 
     System.moveDesktop("1");
-
-    let clockmove;
-    if (System.bootopt.get("safe")) clockmove = setInterval(System.clock, 1000);
-    else clockmove = setInterval(System.clock, 10);
 
     if (localStorage.getItem("kit-shutted-down") == "false") {
       Notification.push(
@@ -216,16 +203,16 @@ class System {
         "現在、kitをセーフモードで起動しています。",
         "system"
       );
-      System.alert(
-        "セーフブート",
-        "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='System.reboot()'>通常モードで再起動</a>",
-        "system"
-      );
+      System.alert({
+        title: "セーフブート",
+        content: "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='System.reboot()'>通常モードで再起動</a>",
+        windowTitle: "system"
+      });
     } else for (let i of System.startup) if (i != "") System.launch(i);
 
     System.UI.Header.fullscreen.style.display = "none";
 
-    //イベントハンドラ
+    // Event handlers
     $("#desktops")
       .click(function () {
         $("#desktop-" + currentDesktop).toggleClass("selected-section");
@@ -838,8 +825,18 @@ class System {
     else $("#lock-password").hide();
   };
 
-  static alert = (title, content, wtitle) => {
-    System.launch("alert", [title, content, wtitle]);
+  static alert = (options, content, windowTitle) => {
+    if (typeof options === "object") {
+      System.launch("alert", [
+        options.title,
+        options.content,
+        options.windowTitle || options.title
+      ]);
+    }
+    else {
+      const title = String(options);
+      System.launch("alert", [title, content, windowTitle])
+    };
   };
 
   static dialog = (title, content, func) => {
@@ -851,30 +848,23 @@ class System {
   };
 
   static appInfo = (_pid) => {
-    let _title = "",
-      _content = "";
-    let ac = System.appCache[S.launchpath[_pid]];
-    let _lp = System.launchpath[_pid];
-    if (ac) {
-      _title = ac.name + " " + ac.version;
-      if (ac.icon && ac.icon != "none")
-        _content =
-          "<img style='height: 96px' src='" + _lp + "/" + ac.icon + "'><br>";
-      for (let i in ac) {
-        if (typeof ac[i] != "object")
-          _content +=
-            "<div><span style='font-weight: 100'>" +
-            i +
-            " </span>" +
-            ac[i] +
-            "</div>";
+    let title = "",
+      content = "";
+    let chache = System.appCache[System.launchpath[_pid]];
+    let launchpath = System.launchpath[_pid];
+    if (chache) {
+      title = chache.name + " " + chache.version;
+      if (chache.icon && chache.icon != "none")
+        content =
+          `<img style='height: 96px' src='${launchpath}/${chache.icon}'><br>`;
+      for (let i in chache) {
+        if (typeof chache[i] != "object")
+          content += `<div><span class='kit-font-thin'>"${i} </span>${chache[i]}</div>`;
       }
-      _content +=
-        "<br><span style='font-weight: 100'>起動パス " +
-        _lp +
-        "</span><br><br>";
-    } else _title = "取得に失敗しました";
-    System.alert(_title, _content);
+      content +=
+        `<br><span class='kit-font-thin'>起動パス ${launchpath}</span><br><br>`;
+    } else title = "取得に失敗しました";
+    System.alert({ title, content });
   };
 
   static apps = new Object();
@@ -908,147 +898,6 @@ class System {
     i: "00",
     s: "00",
     ms: "0"
-  };
-
-  static clock = function () {
-    let DD = new Date();
-    S.time.obj = DD;
-    let Year = DD.getFullYear();
-    S.time.day = DD.getDay();
-    S.time.y = Year;
-    let Month = ("00" + Number(DD.getMonth() + 1)).slice(-2);
-    S.time.m = Month;
-    let DateN = ("00" + DD.getDate()).slice(-2);
-    S.time.d = DateN;
-    let Hour = ("00" + DD.getHours()).slice(-2);
-    S.time.h = Hour;
-    let Min = ("00" + DD.getMinutes()).slice(-2);
-    S.time.i = Min;
-    let Sec = ("00" + DD.getSeconds()).slice(-2);
-    S.time.s = Sec;
-    $(".os-time").text(Hour + ":" + Min + ":" + Sec);
-    let MS = DD.getMilliseconds();
-    S.time.ms = MS;
-    let circle = {
-      outer: { radius: 0.9, color: "transparent" },
-      inner: { radius: 0.85, color: "transparent" }
-    };
-    let lines = {
-      long: { from: 0.8, to: 0.7, width: 2, color: "#303030" },
-      short: { from: 0.8, to: 0.75, width: 1, color: "#a0a0a0" }
-    };
-    let hands = {
-      hour: {
-        length: 0.4,
-        width: 3,
-        cap: "butt",
-        color: "#303030",
-        ratio: 0.2
-      },
-      minute: {
-        length: 0.67,
-        width: 2,
-        cap: "butt",
-        color: "#303030",
-        ratio: 0.2
-      },
-      second: {
-        length: 0.67,
-        width: 1,
-        cap: "butt",
-        color: "dodgerblue",
-        ratio: 0.2
-      }
-    };
-    let canvas = $(".dropdown-clock-canvas")[0];
-    (canvas.width = "200"), (canvas.height = "200");
-    let context = canvas.getContext("2d");
-    let center = {
-      x: Math.floor(canvas.width / 2),
-      y: Math.floor(canvas.height / 2)
-    };
-    let radius = Math.min(center.x, center.y),
-      angle,
-      len;
-    context.beginPath();
-    context.fillStyle = circle.outer.color;
-    context.arc(
-      center.x,
-      center.y,
-      radius * circle.outer.radius,
-      0,
-      Math.PI * 2,
-      false
-    );
-    context.fill();
-    context.beginPath();
-    context.fillStyle = circle.inner.color;
-    context.arc(
-      center.x,
-      center.y,
-      radius * circle.inner.radius,
-      0,
-      Math.PI * 2,
-      false
-    );
-    context.fill();
-    for (let i = 0; i < 60; i++) {
-      angle = (Math.PI * i) / 30;
-      context.beginPath();
-      let line = i % 5 == 0 ? lines.long : lines.short;
-      (context.lineWidth = line.width), (context.strokeStyle = line.color);
-      context.moveTo(
-        center.x + Math.sin(angle) * radius * line.from,
-        center.y - Math.cos(angle) * radius * line.from
-      );
-      context.lineTo(
-        center.x + Math.sin(angle) * radius * line.to,
-        center.y - Math.cos(angle) * radius * line.to
-      );
-      context.stroke();
-    }
-    (angle = (Math.PI * (Number(Hour) + Number(Min) / 60)) / 6),
-      (len = radius * hands.hour.length);
-    context.beginPath(), (context.lineWidth = hands.hour.width);
-    (context.lineCap = hands.hour.cap),
-      (context.strokeStyle = hands.hour.color);
-    context.moveTo(
-      center.x - Math.sin(angle) * len * hands.hour.ratio,
-      center.y + Math.cos(angle) * len * hands.hour.ratio
-    );
-    context.lineTo(
-      center.x + Math.sin(angle) * len,
-      center.y - Math.cos(angle) * len
-    ),
-      context.stroke();
-    (angle = (Math.PI * (Number(Min) + Number(Sec) / 60)) / 30),
-      (len = radius * hands.minute.length);
-    context.beginPath(), (context.lineWidth = hands.minute.width);
-    (context.lineCap = hands.minute.cap),
-      (context.strokeStyle = hands.minute.color);
-    context.moveTo(
-      center.x - Math.sin(angle) * len * hands.minute.ratio,
-      center.y + Math.cos(angle) * len * hands.minute.ratio
-    );
-    context.lineTo(
-      center.x + Math.sin(angle) * len,
-      center.y - Math.cos(angle) * len
-    ),
-      context.stroke();
-    (angle = (Math.PI * Number(Sec)) / 30),
-      (len = radius * hands.second.length);
-    context.beginPath(), (context.lineWidth = hands.second.width);
-    (context.lineCap = hands.second.cap),
-      (context.strokeStyle = hands.second.color);
-    context.moveTo(
-      center.x - Math.sin(angle) * len * hands.second.ratio,
-      center.y + Math.cos(angle) * len * hands.second.ratio
-    );
-    context.lineTo(
-      center.x + Math.sin(angle) * len,
-      center.y - Math.cos(angle) * len
-    ),
-      context.stroke();
   };
 
   static changeWallpaper = (str) => {
@@ -1217,13 +1066,29 @@ class System {
 }
 
 class KWS {
-  static version = "3.2.3";
+  static version = "3.2.4";
   static active = null;
 
-  static darkmode = false;
-  set darkmode(value) {
-    if (calue) alert("darkmode!");
-    else alert("undark!");
+  // Darkmode feature | getter/setter
+  static get darkmode() {
+    return localStorage.getItem('kit-darkmode') === 'true';
+  }
+  static set darkmode(value) {
+    localStorage.setItem('kit-darkmode', String(value));
+    if (value) {
+      document
+        .querySelector('#kit-darkmode')
+        .setAttribute('href', 'system/theme/kit-darkmode.css');
+        document.querySelectorAll('.winc-darkmode')
+        .forEach(el => el.classList.add('kit-darkmode'));
+    }
+    else {
+      document
+        .querySelector('#kit-darkmode')
+        .setAttribute('href', null);
+      document.querySelectorAll('.winc-darkmode')
+        .forEach(el => el.classList.remove('kit-darkmode'));
+    }
   }
 
   static changeWindowTitle = (_pid, _str) => {
@@ -1714,10 +1579,10 @@ class App {
       }
       if (i.hasAttribute("kit-alert")) {
         $(i).on("click", () =>
-          System.alert(
-            System.appCache[System.launchpath[_pid]].name,
-            i.getAttribute("kit-alert")
-          )
+          System.alert({
+            title: System.appCache[System.launchpath[_pid]].name,
+            content: i.getAttribute("kit-alert")
+          })
         );
       }
       if (i.hasAttribute("kit-launch")) {
