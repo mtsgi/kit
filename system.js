@@ -90,6 +90,7 @@ class System {
     Footer: {},
     Launcher: {},
     Sightre: {},
+    ContextMenu: {},
 
     // Methods
     getWindow: (pid) => document.querySelector(`#w${pid}`),
@@ -107,6 +108,14 @@ class System {
     System.UI.Header.fullscreen = document.querySelector("#kit-header-fullscreen");
     System.UI.Header.Dropdown.sound = document.querySelector("#dropdown-sound");
     System.UI.Header.powerButton = document.querySelector(".power-button");
+    System.UI.ContextMenu.contextMenu = document.querySelector("#kit-context");
+    System.UI.ContextMenu.input = document.querySelector("#kit-context-input");
+    System.UI.ContextMenu.elem = document.querySelector("#kit-context-elem");
+    System.UI.ContextMenu.elemGroup = document.querySelector("#kit-contextgroup-elem");
+    System.UI.ContextMenu.textGroup = document.querySelector("#kit-contextgroup-text");
+    System.UI.ContextMenu.desktopGroup = document.querySelector("#kit-contextgroup-desktop");
+    System.UI.ContextMenu.customGroup = document.querySelector("#kit-contextgroup-custom");
+    System.UI.desktopSelector = document.querySelector("#kit-desktop-selector");
     System.UI.wallpaper = document.querySelector("#kit-wallpaper");
 
     if (localStorage.getItem("kit-pid")) pid = localStorage.getItem("kit-pid");
@@ -128,13 +137,6 @@ class System {
 
     if (!localStorage.getItem("kit-default-browser"))
       localStorage.setItem("kit-default-browser", "browser");
-
-    if (localStorage.getItem("kit-fusen")) {
-      this.list = JSON.parse(localStorage.getItem("kit-fusen"));
-      for (let i in this.list) {
-        KWS.fusen.add(this.list[i]);
-      }
-    }
 
     if (localStorage.getItem("kit-darkmode") == "true") KWS.darkmode = true;
 
@@ -165,8 +167,6 @@ class System {
       System.userarea = JSON.parse(localStorage["kit-userarea"]);
     if (localStorage["kit-recycle"])
       System.recycle = JSON.parse(localStorage["kit-recycle"]);
-
-    System.moveDesktop("1");
 
     if (localStorage.getItem("kit-shutted-down") == "false") {
       Notification.push(
@@ -203,27 +203,63 @@ class System {
         "現在、kitをセーフモードで起動しています。",
         "system"
       );
-      System.alert({
-        title: "セーフブート",
-        content: "現在、kitをセーフモードで起動しています。<br><a class='kit-hyperlink' onclick='System.reboot()'>通常モードで再起動</a>",
-        windowTitle: "system"
-      });
-    } else for (let i of System.startup) if (i != "") System.launch(i);
+    };
 
-    System.UI.Header.fullscreen.style.display = "none";
+    KWS.Util.hide(System.UI.Header.fullscreen);
 
     // Event handlers
-    $("#desktops")
-      .click(function () {
-        $("#desktop-" + currentDesktop).toggleClass("selected-section");
-      })
-      .mousedown(function () {
-        $(".window").css("opacity", "0.6");
-      })
-      .mouseup(function () {
-        $(".window").css("opacity", "1.0");
-      });
-    //タスク一覧
+
+    // Virtual Desktops
+    System.UI.Header.desktops.addEventListener('click', () => {
+      const closeFunc = () => {
+        KWS.currentDesktop.elem.classList.remove('selected-section');
+        System.UI.desktopSelector.classList.remove('-is-open');
+      };
+      if (System.UI.desktopSelector.classList.contains('-is-open')) {
+        closeFunc();
+      }
+      else {
+        KWS.currentDesktop.elem.classList.add('selected-section');
+        System.UI.desktopSelector.classList.add('-is-open');
+        System.UI.desktopSelector.innerHTML = '';
+        KWS.desktops.forEach(desktop => {
+          const elem = document.createElement('div');
+          elem.dataset.index = desktop.index;
+          if (localStorage.getItem("kit-wallpaper")) {
+            elem.style.background = localStorage.getItem("kit-wallpaper");
+            elem.style.backgroundSize = "cover";
+            elem.style.backgroundPosition = "center center";
+          }
+          if (KWS.currentDesktopIndex === desktop.index) {
+            elem.classList.add('-active');
+          }
+          elem.addEventListener('click', () => {
+            if (KWS.currentDesktopIndex === desktop.index) closeFunc();
+            else KWS.currentDesktop = desktop.index;
+          });
+          const input = document.createElement('input');
+          input.type = 'text';
+          input.value = desktop.name;
+          input.addEventListener('click', (e) => e.stopPropagation());
+          input.addEventListener('blur', () => {
+            desktop.name = input.value;
+            desktop.elem.dataset.name = input.value;
+          });
+          elem.appendChild(input);
+          System.UI.desktopSelector.appendChild(elem);
+        });
+
+        const addButton = document.createElement('div');
+        addButton.classList.add("-add-button");
+        addButton.innerHTML = '<strong>+</strong><span>追加する</span>';
+        addButton.addEventListener('click', () => {
+          new Desktop(`Desktop ${KWS.desktops.length}`);
+          closeFunc();
+        });
+        System.UI.desktopSelector.appendChild(addButton);
+      }
+    });
+    // Task List
     $("#footer-tasks").click(function () {
       if ($("#kit-tasks").is(":visible")) {
         $("#kit-tasks").html("").fadeOut(300);
@@ -253,26 +289,38 @@ class System {
     });
 
     $.getJSON("config/desktop.json", (data) => {
-      for (let i in data) {
-        $(".desktop-icons").append(
-          "<div class='desktop-icon' data-launch='" +
-            i +
-            "'><img src='" +
-            data[i].icon +
-            "'>" +
-            data[i].name +
-            "</div>"
-        );
+      Desktop.icons = data;
+      new Desktop('Desktop');
+      if (!System.bootopt.get('safe')) {
+        for (let i of System.startup) {
+          if (i != "") System.launch(i);
+        }
       }
-      $(".desktop-icon").on("click", function () {
-        System.launch($(this).attr("data-launch"));
-      });
+      if (localStorage.getItem("kit-fusen")) {
+        KWS.fusen.list = JSON.parse(localStorage.getItem("kit-fusen"));
+        for (let key in KWS.fusen.list) {
+          KWS.fusen.add(KWS.fusen.list[key]);
+        }
+      }
+      if (System.bootopt.get('safe') === 'true') {
+        System.alert({
+          title: "セーフブート",
+          content: 
+            `現在、kitをセーフモードで起動しています。<br />
+            <a class='kit-hyperlink' onclick='System.reboot()'>通常モードで再起動</a>`,
+          windowTitle: "system"
+        });
+      }
+      if (localStorage.getItem("kit-lock") === "true") {
+        System.lock();
+      }
     }).fail(function () {
       Notification.push(
         "読み込みに失敗",
         "デスクトップ(config/desktop.json)の読み込みに失敗しました。",
         "system"
       );
+      new Desktop('Desktop');
     });
 
     $.getJSON("config/apps.json", System.initLauncher).fail(function () {
@@ -310,9 +358,9 @@ class System {
       $("#notifications").hide("drop", { direction: "right" }, 300);
       $("#last-notification").hide("drop", { direction: "right" }, 300);
       $("#kit-wallpaper").css("filter", "blur(5px)");
+      KWS.Util.hide(KWS.currentDesktop.elem);
       $(
-        "footer, header, #launcher, #task-ctx, #kit-sightre, .dropdown, #desktop-" +
-          currentDesktop
+        "footer, header, #launcher, #task-ctx, #kit-sightre, .dropdown"
       ).hide();
       $("#kit-power").show();
     });
@@ -321,7 +369,8 @@ class System {
         "filter",
         "none"
       );
-      $("footer, header, #desktop-" + currentDesktop).show();
+      KWS.Util.show(KWS.currentDesktop.elem);
+      $("footer, header").show();
       $("#kit-power").hide();
     });
     $("#kit-power-shutdown").click(function () {
@@ -354,7 +403,8 @@ class System {
           $("header, footer").show();
           $("section, header, footer, #kit-wallpaper").css("filter", "none");
           $("#lock-password").val("");
-          System.moveDesktop(1);
+          KWS.Util.show(KWS.currentDesktop.elem);
+          KWS.Util.hide(document.querySelector('#desktop-l'));
         } else $("#lock-password").effect("bounce", { distance: 12, times: 4 }, 500);
       })
       .hover(
@@ -370,11 +420,12 @@ class System {
       $("#notifications").hide("drop", { direction: "right" }, 300);
       if ($("#launcher").is(":visible")) {
         $("#kit-wallpaper").css("filter", "none");
-        $("#desktop-" + currentDesktop).show();
+        KWS.currentDesktop.elem.removeAttribute('hidden');
         $("#launcher").hide();
       } else {
+        KWS.currentDesktop.elem.setAttribute('hidden', '');
         $("#kit-wallpaper").css("filter", "blur(5px)");
-        $("section, #task-ctx").hide();
+        $("#task-ctx").hide();
         $("#launcher").show();
       }
     });
@@ -587,68 +638,11 @@ class System {
 
     $("#kit-header-user").on("click", () => System.launch("user"));
 
-    $(":root section:not(#desktop-l)").on("contextmenu", function () {
-      let _ptelem = $(document.elementFromPoint(S.mouseX, S.mouseY));
-      S.selectedElement = _ptelem;
-      S.selectedText = window.getSelection();
-      $("#kit-context-input").val(S.selectedText);
-      if ($("#kit-context-input").val() == "")
-        $("#kit-contextgroup-text").hide();
-      else $("#kit-contextgroup-text").show();
-      if (_ptelem[0].id == "desktop-" + currentDesktop) {
-        $("#kit-contextgroup-desktop").show();
-        $("#kit-contextgroup-elem").hide();
-      } else {
-        $("#kit-contextgroup-desktop").hide();
-        $("#kit-contextgroup-elem").show();
-      }
-      $("#kit-context-elem").text(
-        _ptelem.prop("tagName").toLowerCase() + "要素"
-      );
-      $("#kit-contextgroup-custom").hide();
-
-      let _ctxid =
-        _ptelem.attr("data-kit-contextid") || _ptelem.attr("kit-context");
-      if (_ctxid) {
-        $("#kit-contextgroup-custom")
-          .show()
-          .html('<div id="kit-context-custom"></div>');
-        let _ctxname = KWS.context[_ctxid].name || _ctxid;
-        $("#kit-context-custom").text(_ctxname);
-        for (let i in KWS.context[_ctxid]) {
-          if (i == "name") continue;
-          $("#kit-contextgroup-custom").append(
-            "<a id='kit-context-" +
-              _ctxid +
-              "-" +
-              i +
-              "'><span class='fa " +
-              KWS.context[_ctxid][i].icon +
-              "'></span> " +
-              KWS.context[_ctxid][i].label +
-              "</a>"
-          );
-          $("#kit-context-" + _ctxid + "-" + i).on("click", () => {
-            KWS.context[_ctxid][i].function();
-            $("#kit-context").fadeOut(300);
-          });
-        }
-      }
-      if (_ptelem[0].id) $("#kit-context-elem").append("#" + _ptelem[0].id);
-      $("#kit-context-size").text(
-        _ptelem[0].clientWidth + "✕" + _ptelem[0].clientHeight
-      );
-      $("#kit-context").toggle().css("left", S.mouseX).css("top", S.mouseY);
-      return false;
-    });
     $("#kit-context-open").on("click", function () {
-      S.alert("要素", S.selectedElement.clone());
-    });
-    $("#kit-context-save").on("click", function () {
-      S.obj2img(S.selectedElement, true);
+      System.alert("選択された要素", System.selectedElement.cloneNode(true));
     });
     $("#kit-context-search").on("click", function () {
-      $("#kit-context").fadeOut(300);
+      KWS.Util.hide(System.UI.ContextMenu.contextMenu, { duration: 300 });
       System.launch("browser", {
         url: `https://www.bing.com/search?q=${$("#kit-context-input").val()}`
       });
@@ -657,7 +651,7 @@ class System {
       if (e.which == 13) $("#kit-context-search").click();
     });
     $("#kit-context a").on("click", function () {
-      $("#kit-context").fadeOut(300);
+      KWS.Util.hide(System.UI.ContextMenu.contextMenu, { duration: 300 });
     });
     $("#kit-context-vacuum").on("click", function () {
       for (let i in process) {
@@ -669,10 +663,6 @@ class System {
     });
     $("#kit-context-fusen").on("click", function () {
       KWS.fusen.add("");
-    });
-
-    $("section").on("click", function () {
-      $("#kit-context").fadeOut(300);
     });
 
     $(document)
@@ -712,11 +702,6 @@ class System {
         );
       }
     };
-
-    if (localStorage.getItem("kit-lock") == "true") {
-      $("section").hide();
-      setTimeout(() => System.lock(), 100);
-    }
   };
 
   static ajaxWait = () => {
@@ -810,7 +795,8 @@ class System {
   static reboot = () => System.shutdown("reboot");
 
   static lock = () => {
-    System.moveDesktop("l");
+    KWS.Util.hide(KWS.currentDesktop.elem);
+    KWS.Util.show(document.querySelector('#desktop-l'));
 
     $("#lock-user-icon").css(
       "background",
@@ -905,12 +891,11 @@ class System {
     localStorage.setItem("kit-wallpaper", str);
   };
 
+  // [Deprecated] Use KWS.currentDesktop
   static moveDesktop = (id) => {
-    const str = String(id);
-    $("section").hide();
-    $("#desktop-" + str).show();
-    $("#desktops").html("<span class='far fa-clone'></span>Desktop" + str);
-    currentDesktop = str;
+    KWS.Util.hide(KWS.currentDesktop.elem);
+    KWS.Util.show(document.querySelector(`#desktop-${id}`));
+    $("#desktops").html("<span class='far fa-clone'></span>Desktop" + id);
   };
 
   static avoidMultiple = (_pid, _alert) => {
@@ -1065,9 +1050,116 @@ class System {
   })();
 }
 
+class Desktop {
+  constructor(name) {
+    const elem = document.createElement('section');
+    elem.id = `desktop-${KWS.desktops.length}`;
+    elem.dataset.name = name;
+
+    // Place icons on the desktop
+    const iconWrapper = document.createElement('div');
+    iconWrapper.className = 'desktop-icons';
+
+    for (let key in Desktop.icons) {
+      const iconElem = document.createElement('div');
+      iconElem.classList.add('desktop-icon');
+      iconElem.addEventListener('click', () => System.launch(key));
+      iconElem.innerHTML = `<img src='${Desktop.icons[key].icon}'>${Desktop.icons[key].name}`;
+      iconWrapper.appendChild(iconElem);
+    }
+
+    elem.appendChild(iconWrapper);
+
+    // Context Menu
+    elem.addEventListener('mousedown', () => {
+      KWS.Util.hide(System.UI.ContextMenu.contextMenu);
+    });
+    elem.addEventListener('contextmenu', (event) => {
+      event.preventDefault();
+      const pointElem = document.elementFromPoint(S.mouseX, S.mouseY);
+      System.selectedElement = pointElem;
+      System.selectedText = window.getSelection();
+      System.UI.ContextMenu.input.value = System.selectedText;
+      if (System.UI.ContextMenu.input.value !== '') {
+        KWS.Util.show(System.UI.ContextMenu.textGroup);
+      }
+      else KWS.Util.hide(System.UI.ContextMenu.textGroup);;
+      if (pointElem === KWS.currentDesktop.elem) {
+        KWS.Util.show(System.UI.ContextMenu.desktopGroup);
+        KWS.Util.hide(System.UI.ContextMenu.elemGroup);
+      } else {
+        KWS.Util.show(System.UI.ContextMenu.elemGroup);
+        KWS.Util.hide(System.UI.ContextMenu.desktopGroup);
+      }
+      System.UI.ContextMenu.elem.innerText =
+        pointElem.tagName.toLowerCase() + (pointElem.id ? `#${pointElem.id}` : '');
+      
+      KWS.Util.hide(System.UI.ContextMenu.customGroup);
+  
+      const contextId =
+        pointElem.getAttribute('data-kit-contextid') || pointElem.getAttribute('kit-context');
+      if (contextId) {
+        KWS.Util.show(System.UI.ContextMenu.customGroup);
+        System.UI.ContextMenu.customGroup.innerHTML = '<div id="kit-context-custom"></div>';
+        const contextGroupLabel = KWS.context[contextId].name || contextId;
+        document.querySelector("#kit-context-custom").innerText = contextGroupLabel;
+        for (let i in KWS.context[contextId]) {
+          if (i == "name") continue;
+          System.UI.ContextMenu.customGroup.insertAdjacentHTML('beforeend', `
+            <a id='kit-context-${contextId}-${i}'>
+              <span class='fa ${KWS.context[contextId][i].icon}'></span>
+              ${KWS.context[contextId][i].label}
+            </a>
+          `);
+          document
+            .querySelector(`#kit-context-${contextId}-${i}`)
+            .addEventListener('click', () => {
+              KWS.context[contextId][i].function.apply();
+              KWS.Util.hide(System.UI.ContextMenu.contextMenu);
+            });
+        }
+      }
+      $("#kit-context-size").text(
+        pointElem.clientWidth + "✕" + pointElem.clientHeight
+      );
+
+      System.UI.ContextMenu.contextMenu.style.left = `${System.mouseX}px`;
+      System.UI.ContextMenu.contextMenu.style.top = `${System.mouseY}px`;
+      KWS.Util.show(System.UI.ContextMenu.contextMenu);
+    });
+
+    document.body.appendChild(elem);
+
+    KWS.desktops.push({ name, elem, index: KWS.desktops.length });
+    KWS.currentDesktop = KWS.desktops.length - 1;
+  }
+
+  // Load from system
+  static icons = {};
+}
+
 class KWS {
-  static version = "3.2.4";
+  static version = "4.0.0";
   static active = null;
+
+  // Virtual Desktops
+  static desktops = [];
+  static currentDesktopIndex = null;
+  static get currentDesktop() {
+    return KWS.desktops[KWS.currentDesktopIndex] || {};
+  }
+  static set currentDesktop(index) {
+    if (KWS.desktops[KWS.currentDesktopIndex]) {
+      KWS.Util.hide(KWS.desktops[KWS.currentDesktopIndex].elem);
+    }
+    KWS.currentDesktopIndex = index;
+    KWS.Util.show(KWS.desktops[KWS.currentDesktopIndex].elem);
+
+    System.UI.desktopSelector.childNodes.forEach((el) => {
+      if (el.dataset.index === String(index)) el.classList.add('-active');
+      else el.classList.remove('-active');
+    });
+  }
 
   // Darkmode feature | getter/setter
   static get darkmode() {
@@ -1252,14 +1344,16 @@ class KWS {
     if (_height) $("#winc" + _pid).css("height", _height);
   };
 
-  static setTheme = (_name) => {
-    localStorage.setItem("kit-theme", _name);
-    if (_name != "none")
-      $("#kit-theme-file").attr(
-        "href",
-        `./system/theme/${localStorage.getItem("kit-theme")}`
-      );
-    else $("#kit-theme-file").attr("href", "");
+  static setTheme = (name) => {
+    localStorage.setItem("kit-theme", name);
+    if (name !== "none")
+      document
+        .querySelector('#kit-theme-file')
+        .setAttribute('href', `./system/theme/${localStorage.getItem("kit-theme")}`);
+    else
+      document
+        .querySelector('#kit-theme-file')
+        .setAttribute('href', '');
     System.moveDesktop(currentDesktop);
   };
 
@@ -1273,7 +1367,7 @@ class KWS {
 
     this.add = function (_text) {
       KWS.fusen.list[KWS.fusen.fid] = String(_text);
-      $("#desktop-" + currentDesktop).append(
+      $(KWS.currentDesktop.elem).append(
         "<div class='kit-fusen' id='kit-f" +
           KWS.fusen.fid +
           "'><i class='fa fa-quote-left'></i><textarea class='kit-fusen-textarea kit-selectable' data-fid='" +
@@ -1328,18 +1422,27 @@ class KWS {
         label: "ふせんを削除",
         icon: "fa-trash-alt",
         function: () => {
-          KWS.fusen.remove(S.selectedElement.attr("data-fid"));
+          KWS.fusen.remove(S.selectedElement.dataset.fid);
         }
       },
       copy: {
         label: "ふせんを複製",
         icon: "fa-copy",
         function: () => {
-          KWS.fusen.add(KWS.fusen.list[S.selectedElement.attr("data-fid")]);
+          KWS.fusen.add(KWS.fusen.list[S.selectedElement.dataset.fid]);
         }
       }
     }
   };
+
+  static Util = {
+    hide(elem, options) {
+      if (elem) elem.setAttribute('hidden', '');
+    },
+    show(elem, options) {
+      if (elem) elem.removeAttribute('hidden');
+    }
+  }
 }
 
 const Notification = new (function () {
@@ -1944,7 +2047,7 @@ async function appData(data) {
     "' id='winc" +
     _pid +
     "'></div></div>";
-  $("#desktop-" + currentDesktop).append(_windowAppend);
+  KWS.currentDesktop.elem.insertAdjacentHTML('beforeend', _windowAppend);
 
   if (defobj.support.darkmode == true)
     $("#winc" + _pid).addClass("winc-darkmode");
@@ -2052,6 +2155,5 @@ App.version = "2.1.1";
 var process = {},
   pid = 0,
   app,
-  currentDesktop = 1,
   currentCTX = "",
   prevWindowIndex;
