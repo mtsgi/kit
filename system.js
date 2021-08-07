@@ -1273,6 +1273,7 @@ class KWS {
   };
 
   static max = (_pid) => {
+    if (!_pid) return false;
     const cache = System.appCache[System.launchpath[_pid]];
     if (KWS.currentDesktop.maximized.pid || cache.support.fullscreen !== true) {
       Notification.push(
