@@ -105,9 +105,13 @@ class System {
     System.UI.Header.desktops = document.querySelector("#desktops");
     System.UI.Header.sightre = document.querySelector("#kit-header-sightre");
     System.UI.Header.username = document.querySelector("#kit-header-username");
-    System.UI.Header.fullscreen = document.querySelector("#kit-header-fullscreen");
+    System.UI.Header.unmax = document.querySelector("#kit-header-unmax");
     System.UI.Header.Dropdown.sound = document.querySelector("#dropdown-sound");
+    System.UI.Header.time = document.querySelector("#kit-header-time");
     System.UI.Header.powerButton = document.querySelector(".power-button");
+
+    System.UI.Footer.footer = document.querySelector("footer");
+
     System.UI.ContextMenu.contextMenu = document.querySelector("#kit-context");
     System.UI.ContextMenu.input = document.querySelector("#kit-context-input");
     System.UI.ContextMenu.elem = document.querySelector("#kit-context-elem");
@@ -115,6 +119,7 @@ class System {
     System.UI.ContextMenu.textGroup = document.querySelector("#kit-contextgroup-text");
     System.UI.ContextMenu.desktopGroup = document.querySelector("#kit-contextgroup-desktop");
     System.UI.ContextMenu.customGroup = document.querySelector("#kit-contextgroup-custom");
+
     System.UI.desktopSelector = document.querySelector("#kit-desktop-selector");
     System.UI.wallpaper = document.querySelector("#kit-wallpaper");
 
@@ -205,7 +210,10 @@ class System {
       );
     };
 
-    KWS.Util.hide(System.UI.Header.fullscreen);
+    KWS.Util.hide(System.UI.Header.unmax);
+
+    if (System.bootopt.get('safe')) setInterval(System.updateTime, 1000);
+    else setInterval(System.updateTime, 100);
 
     // Event handlers
 
@@ -235,7 +243,18 @@ class System {
           }
           elem.addEventListener('click', () => {
             if (KWS.currentDesktopIndex === desktop.index) closeFunc();
-            else KWS.currentDesktop = desktop.index;
+            else {
+              KWS.currentDesktop = desktop.index;
+              // Switch unmax button and the footer
+              if (KWS.currentDesktop.maximized.pid === null) {
+                KWS.Util.show(System.UI.Footer.footer);
+                KWS.Util.hide(System.UI.Header.unmax);
+              } 
+              else {
+                KWS.Util.hide(System.UI.Footer.footer);
+                KWS.Util.show(System.UI.Header.unmax);
+              } 
+            }
           });
           const input = document.createElement('input');
           input.type = 'text';
@@ -255,9 +274,15 @@ class System {
         addButton.addEventListener('click', () => {
           new Desktop(`Desktop ${KWS.desktops.length}`);
           closeFunc();
+          KWS.Util.show(System.UI.Footer.footer);
+          KWS.Util.hide(System.UI.Header.unmax);
         });
         System.UI.desktopSelector.appendChild(addButton);
       }
+    });
+    // Unmax
+    System.UI.Header.unmax.addEventListener('click', () => {
+      KWS.unmax(KWS.currentDesktop.maximized.pid);
     });
     // Task List
     $("#footer-tasks").click(function () {
@@ -359,6 +384,8 @@ class System {
       $("#last-notification").hide("drop", { direction: "right" }, 300);
       $("#kit-wallpaper").css("filter", "blur(5px)");
       KWS.Util.hide(KWS.currentDesktop.elem);
+      KWS.currentDesktop.elem.classList.remove('selected-section');
+      System.UI.desktopSelector.classList.remove('-is-open');
       $(
         "footer, header, #launcher, #task-ctx, #kit-sightre, .dropdown"
       ).hide();
@@ -692,11 +719,11 @@ class System {
 
     window.onresize = () => {
       System.display.width = window.innerWidth;
-      System.display.height = window.innerWidth;
+      System.display.height = window.innerHeight;
 
-      if (KWS.fullscreen.pid) {
+      if (KWS.currentDesktop.maximized.pid) {
         KWS.resize(
-          KWS.fullscreen.pid,
+          KWS.currentDesktop.maximized.pid,
           System.display.width,
           System.display.height - 30
         );
@@ -715,6 +742,28 @@ class System {
     });
   };
 
+  static updateTime = () => {
+    const now = new Date();
+    System.time.obj = now;
+    let day = now.getDay();
+    let y = now.getFullYear();
+    let m = ('00' + (now.getMonth() + 1)).slice(-2);
+    let d = ('00' + now.getDate()).slice(-2);
+    let h = ('00' + now.getHours()).slice(-2);
+    let i = ('00' + now.getMinutes()).slice(-2);
+    let s = ('00' + now.getSeconds()).slice(-2);
+    System.time = {
+      obj: now,
+      day,
+      y,
+      m,
+      d,
+      h,
+      i,
+      s
+    }
+    System.UI.Header.time.innerText = `${h}:${i}:${s}`;
+  }
   static setBattery = function () {
     if (navigator.getBattery)
       navigator.getBattery().then((e) => {
@@ -972,7 +1021,9 @@ class System {
     System.launchpath[_pid] = _path;
 
     if (System.appCache[_path]) {
-      if (KWS.fullscreen.pid) KWS.unmax(KWS.fullscreen.pid);
+      if (KWS.currentDesktop.maximized.pid !== null) {
+        KWS.unmax(KWS.currentDesktop.maximized.pid);
+      }
       appData(System.appCache[_path]);
     } else {
       try {
@@ -1130,12 +1181,24 @@ class Desktop {
 
     document.body.appendChild(elem);
 
-    KWS.desktops.push({ name, elem, index: KWS.desktops.length });
+    this.name = name;
+    this.elem = elem;
+    this.index = KWS.desktops.length;
+    KWS.desktops.push(this);
     KWS.currentDesktop = KWS.desktops.length - 1;
   }
 
   // Load from system
   static icons = {};
+
+  wallpaper = null;
+  maximized = {
+    pid: null,
+    prevWidth: null,
+    prevHeight: null,
+    prevTop: 0,
+    prevLeft: 0
+  };
 }
 
 class KWS {
@@ -1209,29 +1272,21 @@ class KWS {
     }
   };
 
-  static fullscreen = {
-    pid: null,
-    prevWidth: null,
-    prevHeight: null,
-    prevTop: 0,
-    prevLeft: 0
-  };
-
   static max = (_pid) => {
     const cache = System.appCache[System.launchpath[_pid]];
-    if (KWS.fullscreen.pid || cache.support.fullscreen != true) {
+    if (KWS.currentDesktop.maximized.pid || cache.support.fullscreen !== true) {
       Notification.push(
         "最大化に失敗",
         "ウィンドウの最大化に失敗しました。",
         "system"
       );
-      return;
+      return false;
     }
-    KWS.fullscreen.prevWidth = $("#winc" + _pid).outerWidth();
-    KWS.fullscreen.prevHeight = $("#winc" + _pid).outerHeight();
-    KWS.fullscreen.prevTop = $("#w" + _pid).offset().top;
-    KWS.fullscreen.prevLeft = $("#w" + _pid).offset().left;
-    KWS.fullscreen.pid = _pid;
+    KWS.currentDesktop.maximized.prevWidth = $("#winc" + _pid).outerWidth();
+    KWS.currentDesktop.maximized.prevHeight = $("#winc" + _pid).outerHeight();
+    KWS.currentDesktop.maximized.prevTop = $("#w" + _pid).offset().top;
+    KWS.currentDesktop.maximized.prevLeft = $("#w" + _pid).offset().left;
+    KWS.currentDesktop.maximized.pid = _pid;
     $("#wt" + _pid).addClass("wtmaximize");
     $("#w" + _pid)
       .css({
@@ -1242,35 +1297,40 @@ class KWS {
       .css("z-index", KWS.windowIndex + 1);
     KWS.refreshWindowIndex();
     KWS.resize(_pid, System.display.width, System.display.height - 30);
-    $("footer").hide();
-    $("#kit-header-fullscreen")
-      .show()
-      .on("click", () => KWS.unmax(_pid));
+
+    KWS.Util.show(System.UI.Header.unmax);
+    KWS.Util.hide(System.UI.Footer.footer);
+    return true;
   };
 
   static unmax = (_pid) => {
-    if (_pid != KWS.fullscreen.pid) {
+    if (_pid !== KWS.currentDesktop.maximized.pid) {
       Notification.push(
         "最大化解除に失敗",
         "対象がフルスクリーンウィンドウではありません。"
       );
-      return;
+      return false;
     }
     $("#wt" + _pid).removeClass("wtmaximize");
     $("#w" + _pid)
       .css({
-        top: KWS.fullscreen.prevTop,
-        left: KWS.fullscreen.prevLeft
+        top: KWS.currentDesktop.maximized.prevTop,
+        left: KWS.currentDesktop.maximized.prevLeft
       })
       .removeClass("windowmaximize");
-    $("footer").show();
-    $("#kit-header-fullscreen").hide().off();
-    KWS.resize(_pid, KWS.fullscreen.prevWidth, KWS.fullscreen.prevHeight);
-    KWS.fullscreen.pid = null;
-    KWS.fullscreen.prevWidth = null;
-    KWS.fullscreen.prevHeight = null;
-    KWS.fullscreen.prevTop = null;
-    KWS.fullscreen.prevLeft = null;
+    KWS.Util.show(System.UI.Footer.footer);
+    KWS.Util.hide(System.UI.Header.unmax);
+    KWS.resize(
+      _pid,
+      KWS.currentDesktop.maximized.prevWidth,
+      KWS.currentDesktop.maximized.prevHeight);
+    KWS.currentDesktop.maximized = {
+      pid: null,
+      prevWidth: null,
+      prevHeight: null,
+      prevTop: 0,
+      prevLeft: 0
+    };
 
     if (!System.appCache[System.launchpath[_pid]].size.height) {
       System.qs(_pid)[0].style.height = "auto";
@@ -1784,7 +1844,7 @@ class App {
     S.dom(_pid).load(_path, () => {
       App.kaf(_pid);
       let _appcache = System.appCache[System.launchpath[_pid]];
-      if (!KWS.fullscreen.pid && !_appcache.size.height) {
+      if (!KWS.currentDesktop.maximized.pid && !_appcache.size.height) {
         System.qs(_pid)[0].style.height = "auto";
       }
     });
@@ -1851,7 +1911,9 @@ async function launch(str, args, dir) {
   System.launchpath[_pid] = _path;
 
   if (System.appCache[_path]) {
-    if (KWS.fullscreen.pid) KWS.unmax(KWS.fullscreen.pid);
+    if (KWS.currentDesktop.maximized.pid !== null) {
+      KWS.unmax(KWS.currentDesktop.maximized.pid);
+    }
     appData(System.appCache[_path]);
   } else {
     try {

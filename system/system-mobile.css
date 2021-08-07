@@ -65,6 +65,18 @@ header {
 }
 
 .ui-resizable-handle {
+  display: none !important;
+}
+
+/* Desktop Selector */
+#kit-desktop-selector > div {
+  margin: 0 16px;
+}
+#kit-desktop-selector > div > strong {
+  margin-top: calc(4vh - 32px);
+}
+#kit-desktop-selector > div > input,
+#kit-desktop-selector > div > span {
   display: none;
 }
 
@@ -114,13 +126,14 @@ footer #footer-noti {
   padding: 8px 0;
   width: 45px;
   text-align: center;
+  right: 0;
 }
 
 #kit-tasks {
   padding-top: 40px;
 }
 
-/* モバイル版 タスクビューアー */
+/* Task viewer */
 
 #kit-mobile-tasks {
   position: fixed;
@@ -159,7 +172,7 @@ footer #footer-noti {
   height: 40px;
 }
 
-/* タスクコンテキスト */
+/* Task context menu */
 
 #kit-mobile-tasks #task-ctx {
   left: 15% !important;
@@ -189,7 +202,7 @@ footer #footer-noti {
   margin: 4px 0;
 }
 
-/* 通知 */
+/* Notifications */
 
 #last-notification {
   top: 38px;
@@ -224,7 +237,7 @@ footer #footer-noti {
   margin: 10px 5px;
 }
 
-/* アプリランチャー */
+/* Launcher */
 
 #launcher-header .kit-button {
   float: none;
@@ -242,7 +255,7 @@ max-height: 90px;
 font-size: 15px;
 }
 
-/* ロック画面 */
+/* Lock Screen */
 
 #desktop-l {
   padding-top: 100px !important;
