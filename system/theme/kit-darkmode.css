@@ -88,10 +88,22 @@ footer {
     background: #404040;
 }
 
+#kit-desktop-selector {
+    background: rgba(50, 50, 50, .75);
+}
+
+#kit-desktop-selector > div > input,
+#kit-desktop-selector > div > span {
+    color: #ffffff;
+}
+
 /* notification */
 #last-notification {
     background: #303030;
     color: #f0f0f0;
+}
+#last-notification:hover {
+    background: #505050;
 }
 
 #notifications {

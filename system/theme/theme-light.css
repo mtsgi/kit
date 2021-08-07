@@ -199,7 +199,6 @@ footer .task-min:after {
 	content: "";
 	display: inline-block;
 	background: limegreen;
-	float: right;
 	margin-top: 6px;
 	width: 12px;
 	height: 12px;

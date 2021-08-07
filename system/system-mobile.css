@@ -64,6 +64,10 @@ header {
   box-shadow: none;
 }
 
+.ui-resizable-handle {
+  display: none;
+}
+
 /* フッター */
 
 footer {
@@ -88,7 +92,7 @@ footer #launch {
   background: rgba(0, 0, 0, .5);
   border: none;
   box-shadow: none;
-  border-radius: 0 3px 0 0;
+  border-radius: 0 10px 0 0;
   padding: 14px !important;
   margin: 0;
   top: -2px;
@@ -102,6 +106,14 @@ footer #footer-mobile-close,
 footer #footer-mobile-tasks,
 footer #footer-mobile-home {
   font-size: 22px;
+  padding: 8px 16px;
+  margin: 0 -16px;
+}
+
+footer #footer-noti {
+  padding: 8px 0;
+  width: 45px;
+  text-align: center;
 }
 
 #kit-tasks {
@@ -206,7 +218,7 @@ footer #footer-mobile-home {
 }
 
 #notifications .kit-toggle {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.25);
   line-height: 2;
   border-radius: 4px;
   margin: 10px 5px;
