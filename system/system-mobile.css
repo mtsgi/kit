@@ -69,6 +69,9 @@ header {
 }
 
 /* Desktop Selector */
+#kit-desktop-selector {
+  max-width: 100%;
+}
 #kit-desktop-selector > div {
   margin: 0 16px;
 }
@@ -205,14 +208,15 @@ footer #footer-noti {
 /* Notifications */
 
 #last-notification {
-  top: 38px;
-  left: 8px;
-  width: calc(100vw - 24px);
+  top: 40px;
+  left: 16px;
+  width: calc(100vw - 40px);
   height: auto;
   max-height: 120px;
   overflow: hidden;
-  border-radius: 2px;
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, .5);
+  border-radius: 12px;
+  box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, .25);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(8px);
 }
 
@@ -293,7 +297,7 @@ font-size: 15px;
   width: calc(100vw - 40px) !important;
   border-radius: 0 0 8px 8px;
   top: 1px;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .5);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .25);
   border: none;
   padding-bottom: 12px;
   background: #f0f0f0;

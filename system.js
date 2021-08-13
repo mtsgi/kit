@@ -400,12 +400,8 @@ class System {
       $("footer, header").show();
       $("#kit-power").hide();
     });
-    $("#kit-power-shutdown").click(function () {
-      System.shutdown();
-    });
-    $("#kit-power-reboot").click(function () {
-      System.reboot();
-    });
+    $("#kit-power-shutdown").click(System.shutdown);
+    $("#kit-power-reboot").click(System.reboot);
     $("#kit-power-suspend").click(function () {
       location.reload();
       $("section, header, footer, #kit-wallpaper").css("filter", "none");
@@ -815,16 +811,16 @@ class System {
     return true;
   };
 
-  static shutdown = (_opt) => {
+  static shutdown = (option = {reboot: false}) => {
     $("#last-notification-close").click();
     $("#kit-power-back").click();
     for (let i in process) {
       if (process[i].preventclose == true) {
         S.dialog(
           "シャットダウンの中断",
-          "pid" +
-            System.appCache[System.launchpath[i]].name +
-            "がシャットダウンを妨げています。<br>強制終了してシャットダウンを続行する場合は[OK]を押下してください。",
+          `${System.appCache[System.launchpath[i]].name}がシャットダウンを妨げています。
+            <br>
+            強制終了してシャットダウンを続行する場合は[OK]を押してください。`,
           () => {
             process[i].preventclose = false;
             System.shutdown();
@@ -837,11 +833,14 @@ class System {
     $("body").css("background-color", "black");
     $("header, footer").fadeOut(300);
     $("#kit-wallpaper").fadeOut(1500);
-    if (_opt == "reboot") location.href = "autorun.html";
     localStorage.setItem("kit-shutted-down", true);
+    if (option.reboot) {
+      const path = "autorun.html" + (System.isMobile ? "?mobile" : "");
+      location.href = path;
+    }
   };
 
-  static reboot = () => System.shutdown("reboot");
+  static reboot = () => System.shutdown({ reboot: true });
 
   static lock = () => {
     KWS.Util.hide(KWS.currentDesktop.elem);
