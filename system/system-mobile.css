@@ -64,6 +64,25 @@ header {
   box-shadow: none;
 }
 
+.ui-resizable-handle {
+  display: none !important;
+}
+
+/* Desktop Selector */
+#kit-desktop-selector {
+  max-width: 100%;
+}
+#kit-desktop-selector > div {
+  margin: 0 16px;
+}
+#kit-desktop-selector > div > strong {
+  margin-top: calc(4vh - 32px);
+}
+#kit-desktop-selector > div > input,
+#kit-desktop-selector > div > span {
+  display: none;
+}
+
 /* フッター */
 
 footer {
@@ -88,7 +107,7 @@ footer #launch {
   background: rgba(0, 0, 0, .5);
   border: none;
   box-shadow: none;
-  border-radius: 0 3px 0 0;
+  border-radius: 0 10px 0 0;
   padding: 14px !important;
   margin: 0;
   top: -2px;
@@ -102,13 +121,22 @@ footer #footer-mobile-close,
 footer #footer-mobile-tasks,
 footer #footer-mobile-home {
   font-size: 22px;
+  padding: 8px 16px;
+  margin: 0 -16px;
+}
+
+footer #footer-noti {
+  padding: 8px 0;
+  width: 45px;
+  text-align: center;
+  right: 0;
 }
 
 #kit-tasks {
   padding-top: 40px;
 }
 
-/* モバイル版 タスクビューアー */
+/* Task viewer */
 
 #kit-mobile-tasks {
   position: fixed;
@@ -147,7 +175,7 @@ footer #footer-mobile-home {
   height: 40px;
 }
 
-/* タスクコンテキスト */
+/* Task context menu */
 
 #kit-mobile-tasks #task-ctx {
   left: 15% !important;
@@ -177,17 +205,18 @@ footer #footer-mobile-home {
   margin: 4px 0;
 }
 
-/* 通知 */
+/* Notifications */
 
 #last-notification {
-  top: 38px;
-  left: 8px;
-  width: calc(100vw - 24px);
+  top: 40px;
+  left: 16px;
+  width: calc(100vw - 40px);
   height: auto;
   max-height: 120px;
   overflow: hidden;
-  border-radius: 2px;
-  box-shadow: 0px 1px 4px 0px rgba(0, 0, 0, .5);
+  border-radius: 12px;
+  box-shadow: 0px 2px 16px 0px rgba(0, 0, 0, .25);
+  background: rgba(255, 255, 255, 0.75);
   backdrop-filter: blur(8px);
 }
 
@@ -206,13 +235,13 @@ footer #footer-mobile-home {
 }
 
 #notifications .kit-toggle {
-  background: #ffffff;
+  background: rgba(255, 255, 255, 0.25);
   line-height: 2;
   border-radius: 4px;
   margin: 10px 5px;
 }
 
-/* アプリランチャー */
+/* Launcher */
 
 #launcher-header .kit-button {
   float: none;
@@ -230,7 +259,7 @@ max-height: 90px;
 font-size: 15px;
 }
 
-/* ロック画面 */
+/* Lock Screen */
 
 #desktop-l {
   padding-top: 100px !important;
@@ -268,7 +297,7 @@ font-size: 15px;
   width: calc(100vw - 40px) !important;
   border-radius: 0 0 8px 8px;
   top: 1px;
-  box-shadow: 0 1px 4px 0 rgba(0, 0, 0, .5);
+  box-shadow: 0 2px 12px 0 rgba(0, 0, 0, .25);
   border: none;
   padding-bottom: 12px;
   background: #f0f0f0;

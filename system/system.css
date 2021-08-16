@@ -2,6 +2,10 @@ body {
   overscroll-behavior: none;
 }
 
+[hidden] {
+  display: none;
+}
+
 /* Desktop System */
 
 #kit-wallpaper {
@@ -16,7 +20,7 @@ body {
 }
 
 *::selection {
-  background: rgba(0, 0, 0, .0);
+  background: rgba(145, 193, 255, 0.5);
 }
 
 section {
@@ -25,30 +29,102 @@ section {
   left: 0px;
   min-width: 100%;
   min-height: calc(100% - 70px);
-  display: none;
-  transition: 1s all ease;
+  transition: 0.75s all cubic-bezier(.17,.84,.44,1);
   cursor: url(./cursor-1.png), auto;
 }
 
 .selected-section {
-  transform: scale(0.8);
-  background: rgba(0, 0, 0, .2);
-  box-shadow: 0px 0px 5px rgba(0, 0, 0, .5);
+  transform: scale(0.7) translate(0, 15vh);
+  background: rgba(0, 0, 0, .4);
+  box-shadow: 0px 0px 12px 0 rgba(0, 0, 0, .5);
+  border-radius: 12px;
 }
 
 .selected-section:before {
-  color: #ffffff;
-  text-shadow: 0px 0px 3px black;
-  top: -40px;
-  font-size: 20px;
   position: absolute;
   width: 100%;
   text-align: center;
-  content: "Desktop";
+  content: attr(data-name);
+  color: #ffffff;
+  text-shadow: 0px 1px 4px #000000;
+  top: -52px;
+  font-size: 24px;
 }
 
-#desktop-0 {
+/* Desktop Selector */
+#kit-desktop-selector {
+  display: flex;
+  justify-content: center;
+  position: absolute;
+  top: -180px;
+  left: 0px;
+  min-width: 100%;
+  padding: 20px 0;
+  transition: 0.5s all ease;
+  background: rgba(255, 255, 255, 0.25);
+  backdrop-filter: blur(10px);
+  box-shadow: 0 4px 32px 0 rgba(0, 0, 0, 0.25);
+  z-index: 1;
+  cursor: url(./cursor-1.png), auto;
+}
+
+#kit-desktop-selector.-is-open {
+  top: 28px;
+}
+
+#kit-desktop-selector > div {
+  position: relative;
+  background: url("./wallpaper/11.jpg");
+  background-size: cover;
+  background-position: center;
+  width: 10vw;
+  height: 10vh;
+  margin: 0 16px 28px;
+  box-shadow: 0 4px 8px 0 rgba(0, 0, 0, 0.25);
+  border-radius: 6px;
+  cursor: url(./cursor-2.png), pointer;
+}
+
+#kit-desktop-selector > div.-active {
+  box-shadow:
+    0 0 0 4px rgba(255, 255, 255, 0.75),
+    0 4px 8px 0 rgba(0, 0, 0, 0.5);
+}
+
+#kit-desktop-selector > div.-add-button {
+  background: #3d3d3d;
+}
+
+#kit-desktop-selector > div > input,
+#kit-desktop-selector > div > span {
+  font: inherit;
+  position: absolute;
+  top: 100%;
+  left: 0;
+  margin-top: 12px;
+  padding: 0px 0;
+  box-sizing: border-box;
+  width: 100%;
+  background: transparent;
+  border: none;
+  outline: none;
+  text-align: center;
+  color: #3d3d3d;
+}
+
+#kit-desktop-selector > div > input:focus {
+  background: rgba(255, 255, 255, 0.5);
+  border-radius: 999px;
+  box-shadow: 0 2px 4px 0 rgba(0, 0, 0, 0.25);
+}
+
+#kit-desktop-selector > div > strong {
   display: block;
+  font-weight: lighter;
+  text-align: center;
+  margin-top: calc(4vh - 24px);
+  font-size: 48px;
+  color: #f0f0f0;
 }
 
 .fas,
@@ -874,7 +950,6 @@ h3 {
 
 #kit-context {
   cursor: url(./cursor-1.png), default;
-  display: none;
   z-index: 9993;
   position: absolute;
   top: 100px;

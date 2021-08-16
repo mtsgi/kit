@@ -17,21 +17,13 @@
   <!-- Theme -->
   <link href="./system/theme/theme-default.css" rel="stylesheet" id="kit-theme-file">
   <link rel="stylesheet" id="kit-darkmode">
-  <!-- アプリ固有CSS -->
+  <!-- Application Styles -->
 </head>
 
 <body id="body" spellcheck="false">
   <div id="kit-wallpaper"></div>
 
-  <section id="desktop-0">
-    <div>Loading</div>
-  </section>
-
-  <section id="desktop-1">
-    <div class="desktop-icons"></div>
-  </section>
-
-  <section id="desktop-l">ロックされています<br>
+  <section id="desktop-l" hidden>ロックされています<br>
     <div id="lock-user-icon"></div>
     <div id="lock-username"></div>
     <input type="password" id="lock-password" class="textbox">
@@ -64,12 +56,11 @@
     <a id="footer-noti"><span class="fas fa-comment-alt"></span> 通知</a>
   </footer>
 
-  <div id="kit-context">
+  <div id="kit-context" hidden>
     <div id="kit-context-elem">要素</div>
     <div id="kit-contextgroup-elem">
       <div id="kit-context-size"></div>
       <a id="kit-context-open"><span class="fa fa-external-link-alt"></span> 要素を開く</a>
-      <a id="kit-context-save"><span class="fa fa-file-download"></span> 要素を保存</a>
     </div>
     <div id="kit-contextgroup-text">
       <div id="kit-context-text">テキスト</div>
@@ -123,9 +114,10 @@
     <a id="desktops"><span class="far fa-clone"></span>Desktop</a>
     <a id="kit-header-sightre"><span class="fa fa-search"></span>さがす</a>
     <div class="kit-right">
-      <a id="kit-header-fullscreen"><span class="fa fa-window-maximize"></span>最大化を解除</a>
+      <a id="kit-header-unmax"><span class="fa fa-window-maximize"></span>最大化を解除</a>
       <a id="kit-header-user"><span class="fa fa-user"></span><span id="kit-header-username"></span></a>
       <a onclick="$('#dropdown-sound').toggle()"><span id="kit-header-sound-icon" class="fa fa-volume-up"></span></a>
+      <a id="kit-header-time"></a>
       <a class="power-button"><span class="fa fa-power-off"></span>終了</a>
     </div>
   </header>
@@ -134,6 +126,8 @@
     <input id="kit-sightre-form" type="text" placeholder="Sightreで検索" class="kit-selectable">
     <div id="kit-sightre-results"></div>
   </div>
+
+  <div id="kit-desktop-selector" hidden></div>
 
   <div id="kit-power">
     <a id="kit-power-back">もどる</a>

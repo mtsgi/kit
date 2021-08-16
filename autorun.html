@@ -1,24 +1,33 @@
 <!DOCTYPE html>
-<html lang="ja">
+<html lang="en">
 <head>
   <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>kit-autorun</title>
   <script type="text/javascript">
+    const params = new URLSearchParams(location.search);
+    const isMobile = params.has("mobile");
     setTimeout(() => {
-      let flag = localStorage.getItem("kit-setup-flag");
-      if( flag ) location.href = "index.html";
-      else location.href = "setup.html";
+      const flag = localStorage.getItem("kit-setup-flag");
+      if (flag) {
+        if (isMobile) location.href = "mobile.html";
+        else location.href = "index.html";
+      } else location.href = "setup.html" + (isMobile ? "?mobile" : "");
     }, 400);
-    window.addEventListener("keydown", (e)=>{
-      if(e.shiftKey) location.href = "index.html?safe=true"
-    })
+    window.addEventListener("keydown", (e) => {
+      if (e.shiftKey) {
+        if (isMobile) location.href = "mobile.html?safe=true";
+        else location.href = "index.html?safe=true";
+      }
+    });
   </script>
 </head>
 
 <body style="background: #222; color: #eee">
-  Booting kit...
-  <br>
-  press 'shift' to safe boot
+  Booting kit
+  <br />
+  <br />
+  Press [shift] to safe boot
 </body>
 
 </html>
